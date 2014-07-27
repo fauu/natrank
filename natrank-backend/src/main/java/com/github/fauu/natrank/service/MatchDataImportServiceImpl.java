@@ -131,10 +131,23 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
   }
 
   @Override
-  public List<NamedTeam> findAllNamedTeams() throws DataAccessException {
-    List<NamedTeam> namedTeams = teamRepository.findAllNamedTeams();
+  public List<Team> findAllTeams() throws DataAccessException {
+    List<Team> teams = teamRepository.findAll();
 
-    return namedTeams;
+    return teams;
+  }
+
+  @Override
+  public void addCountries(List<Country> countries) throws DataAccessException {
+    for (Country country : countries) {
+      countryRepository.save(country);
+    }
+  }
+
+  @Override
+  public Team findTeamById(Integer id) throws DataAccessException {
+    System.out.println("pls");
+    return teamRepository.findOne(id);
   }
 
 }

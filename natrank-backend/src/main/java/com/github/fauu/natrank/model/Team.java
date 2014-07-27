@@ -80,4 +80,25 @@ public class Team extends BaseEntity {
   public void setMatchesWon(Set<Match> matchesWon) {
     this.matchesWon = matchesWon;
   }
+
+  public String getCurrentName() {
+    Country currentCountry =  getCurrentCountry();
+
+    if (currentCountry != null) {
+      return currentCountry.getName();
+    } else {
+      return "UNNAMED";
+    }
+  }
+
+  public Country getCurrentCountry() {
+    for (Country country : countries) {
+      if (country.getToDate() == null) {
+        return country;
+      }
+    }
+
+    return null;
+  }
+
 }

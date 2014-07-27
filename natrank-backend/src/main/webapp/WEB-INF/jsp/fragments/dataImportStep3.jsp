@@ -11,16 +11,9 @@
   --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ page pageEncoding="utf-8" %>
+<%@ taglib uri="http://www.joda.org/joda/time/tags" prefix="joda" %>
 
-<!DOCTYPE html>
-<html lang="en">
-  <jsp:include page="fragments/headTag.jsp" />
-  <body>
-    <jsp:include page="fragments/topBar.jsp" />
-    <div class="container">
-      <h3>Match data import <small>Step <c:out value="${step}" /></small></h3>
-      <jsp:include page="fragments/dataImportStep${step}.jsp" />
-    </div>
-  </body>
-</html>
+<c:forEach var="country" items="${matchData.countries}">
+  Name: <c:out value="${country.name}" />
+  TeamName: <c:out value="${country.team.currentName}" />
+</c:forEach>

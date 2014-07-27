@@ -1,5 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%--
   ~ Copyright (C) 2014 natrank Developers (http://github.com/fauu/natrank)
   ~
@@ -11,6 +9,8 @@
   ~
   ~ Authored by: Piotr Grabowski <fau999@gmail.com>
   --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <div class="top-bar">
   <div class="container">

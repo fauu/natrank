@@ -46,8 +46,6 @@ public class Country extends NamedEntity {
   @JsonManagedReference
   private Set<Flag> flags;
 
-  //public void addCity(City city, ...) { }
-
   public DateTime getFromDate() {
     return fromDate;
   }
@@ -68,7 +66,7 @@ public class Country extends NamedEntity {
     return team;
   }
 
-  protected void setTeam(Team team) {
+  public void setTeam(Team team) {
     this.team = team;
   }
 

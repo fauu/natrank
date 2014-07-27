@@ -12,7 +12,7 @@
 
 package com.github.fauu.natrank.model.form;
 
-public class MatchDataForm {
+public class RawMatchDataForm {
 
   private String rawData;
 

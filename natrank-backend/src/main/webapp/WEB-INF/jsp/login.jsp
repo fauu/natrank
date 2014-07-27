@@ -1,7 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page pageEncoding="utf-8" import="javax.servlet.jsp.PageContext" %>
-
-<!DOCTYPE html>
 <%--
   ~ Copyright (C) 2014 natrank Developers (http://github.com/fauu/natrank)
   ~
@@ -13,7 +9,10 @@
   ~
   ~ Authored by: Piotr Grabowski <fau999@gmail.com>
   --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page pageEncoding="utf-8" import="javax.servlet.jsp.PageContext" %>
 
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">

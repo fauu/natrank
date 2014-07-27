@@ -12,8 +12,9 @@
 
 package com.github.fauu.natrank.service;
 
-import com.github.fauu.natrank.model.NamedTeam;
+import com.github.fauu.natrank.model.Country;
 import com.github.fauu.natrank.model.ProcessedMatchData;
+import com.github.fauu.natrank.model.Team;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
@@ -22,6 +23,10 @@ public interface MatchDataImportService {
 
   ProcessedMatchData processMatchData(String rawMatchData);
 
-  List<NamedTeam> findAllNamedTeams() throws DataAccessException;
+  List<Team> findAllTeams() throws DataAccessException;
+
+  void addCountries(List<Country> countries) throws DataAccessException;
+
+  Team findTeamById(Integer id) throws DataAccessException;
 
 }

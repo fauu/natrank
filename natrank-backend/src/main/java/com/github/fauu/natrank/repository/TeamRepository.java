@@ -12,7 +12,6 @@
 
 package com.github.fauu.natrank.repository;
 
-import com.github.fauu.natrank.model.NamedTeam;
 import com.github.fauu.natrank.model.Team;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
@@ -22,12 +21,8 @@ import java.util.List;
 
 public interface TeamRepository extends Repository<Team, Integer> {
 
-  @Query("SELECT NEW com.github.fauu.natrank.model.NamedTeam" +
-         "(tco.name, t) " +
-         "FROM Team t " +
-         "JOIN t.countries tco " +
-         "WHERE tco.toDate IS NULL " +
-         "ORDER BY tco.name")
-  List<NamedTeam> findAllNamedTeams() throws DataAccessException;
+  Team findOne(Integer id) throws DataAccessException;
+
+  List<Team> findAll() throws DataAccessException;
 
 }

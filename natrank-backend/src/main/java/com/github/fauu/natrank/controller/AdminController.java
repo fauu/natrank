@@ -12,27 +12,41 @@
 
 package com.github.fauu.natrank.controller;
 
-import com.github.fauu.natrank.model.NamedTeam;
-import com.github.fauu.natrank.model.ProcessedMatchData;
-import com.github.fauu.natrank.model.form.MatchDataForm;
+import com.github.fauu.natrank.model.*;
+import com.github.fauu.natrank.model.form.RawMatchDataForm;
 import com.github.fauu.natrank.service.MatchDataImportService;
+import com.github.fauu.natrank.util.TeamEditor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
+@SessionAttributes("matchData")
 public class AdminController {
 
   @Autowired
-  MatchDataImportService matchDataImportService;
+  private MatchDataImportService matchDataImportService;
+
+  @Autowired
+  private TeamEditor teamEditor;
+
+  @ModelAttribute("matchData")
+  public ProcessedMatchData getMatchData() {
+    return new ProcessedMatchData();
+  }
+
+  @InitBinder
+  public void initBinder(WebDataBinder binder) {
+    binder.registerCustomEditor(Team.class, teamEditor);
+  }
 
   @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
   public String main() {
@@ -46,30 +60,46 @@ public class AdminController {
 
   @RequestMapping(value = "/import-data/steps/1", method = RequestMethod.GET)
   public String importMatchData(Model model) {
-    MatchDataForm matchDataForm = new MatchDataForm();
-    model.addAttribute(matchDataForm);
+    RawMatchDataForm rawMatchDataForm = new RawMatchDataForm();
+    model.addAttribute(rawMatchDataForm);
 
     model.addAttribute("step", 1);
+
     return "dataImport";
   }
 
   @RequestMapping(value = "/import-data/steps/2", method = RequestMethod.POST)
-  public String processRawMatchData(@ModelAttribute("matchDataForm") MatchDataForm matchDataForm,
+  public String processRawMatchData(@ModelAttribute("matchDataForm") RawMatchDataForm rawMatchDataForm,
                                     Model model) {
     ProcessedMatchData matchData =
-        matchDataImportService.processMatchData(matchDataForm.getRawData());
+        matchDataImportService.processMatchData(rawMatchDataForm.getRawData());
 
     model.addAttribute("step", 2);
 
     model.addAttribute("matchData", matchData);
 
     if (matchData.getErrors().size() == 0) {
-      List<NamedTeam> namedTeams = matchDataImportService.findAllNamedTeams();
+      List<Team> teams = matchDataImportService.findAllTeams();
 
-      model.addAttribute("namedTeams", namedTeams);
+      model.addAttribute("teams", teams);
     } else {
       model.addAttribute("step", 1);
     }
+
+    return "dataImport";
+  }
+
+  @RequestMapping(value = "/import-data/steps/3", method = RequestMethod.POST)
+  public String processNewCountries(@ModelAttribute("matchData") ProcessedMatchData matchData,
+                                    BindingResult result, Model model) {
+
+    model.addAttribute("step", 3);
+
+    model.addAttribute("matchData", matchData);
+
+    // TODO: Country assigned to an exisitng team -> set previous country's toDate
+
+    matchDataImportService.addCountries(matchData.getCountries());
 
     return "dataImport";
   }
