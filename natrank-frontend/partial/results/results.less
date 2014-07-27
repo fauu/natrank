@@ -1,0 +1,77 @@
+/*
+ * Copyright (C) 2014 natrank Developers (http://github.com/fauu/natrank)
+ *
+ * This software is licensed under the GNU General Public License
+ * (version 3 or later). See the COPYING file in this distribution.
+ *
+ * You should have received a copy of the GNU Library General Public License
+ * along with this software. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authored by: Piotr Grabowski <fau999@gmail.com>
+ */
+
+#results-container {
+  .make-md-column(12);
+
+  > #results {
+    .list-unstyled;
+
+    > .result:not(:last-of-type) {
+      margin-bottom: 7px;
+      border-bottom: 1px solid @gray-lighter;
+    }
+
+    > .result {
+      .container;
+      padding-bottom: 7px;
+
+      > .main-data {
+        .make-row();
+
+        > .team1-name {
+          .make-md-column(4);
+          .make-xs-column(4);
+        }
+
+        > .result {
+          .make-md-column(4);
+          .make-xs-column(4);
+          .text-center;
+        }
+
+        > .team2-name {
+          .make-md-column(4);
+          .make-xs-column(4);
+          .text-right;
+        }
+
+        > .winner {
+          font-weight: bold;
+        }
+      }
+
+      > .additional-data {
+        .make-row();
+        .small;
+        color: @gray-light;
+
+        > .date {
+          .make-md-column(4);
+          .make-xs-column(4);
+        }
+
+        > .venue {
+          .make-md-column(4);
+          .make-xs-column(4);
+          .text-center;
+        }
+
+        > .type {
+          .make-md-column(4);
+          .make-xs-column(4);
+          .text-right;
+        }
+      }
+    }
+  }
+}

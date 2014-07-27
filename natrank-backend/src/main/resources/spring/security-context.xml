@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2014 natrank Developers (http://github.com/fauu/natrank)
+  ~
+  ~ This software is licensed under the GNU General Public License
+  ~ (version 3 or later). See the COPYING file in this distribution.
+  ~
+  ~ You should have received a copy of the GNU Library General Public License
+  ~ along with this software. If not, see <http://www.gnu.org/licenses/>.
+  ~
+  ~ Authored by: Piotr Grabowski <fau999@gmail.com>
+  -->
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xsi:schemaLocation="http://www.springframework.org/schema/security
+                                 http://www.springframework.org/schema/security/spring-security.xsd
+                                 http://www.springframework.org/schema/beans
+                                 http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <global-method-security pre-post-annotations="enabled" />
+
+    <http use-expressions="true">
+        <intercept-url pattern="/admin/login" access="permitAll" />
+        <!--<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />-->
+
+        <form-login login-page="/admin/login" login-processing-url="/admin/login/process"
+                    default-target-url="${defaultTargetUrl}" authentication-failure-url="/admin/login?error=1"
+                    username-parameter="username" password-parameter="password" />
+
+        <logout logout-url="/admin/logout" logout-success-url="/admin/login?out=1"
+                delete-cookies="JSESSIONID" invalidate-session="true" />
+    </http>
+
+    <beans:bean id="defaultTargetUrl" class="java.lang.String">
+        <beans:constructor-arg value="${defaultTargetUrl}" />
+    </beans:bean>
+
+    <beans:bean id="authenticationTrustResolver"
+                class="org.springframework.security.authentication.AuthenticationTrustResolverImpl" />
+
+    <authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="admin" password="password" authorities="ROLE_ADMIN" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>

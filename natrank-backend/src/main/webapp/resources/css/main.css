@@ -1,0 +1,77 @@
+/*
+ * Copyright (C) 2014 natrank Developers (http://github.com/fauu/natrank)
+ *
+ * This software is licensed under the GNU General Public License
+ * (version 3 or later). See the COPYING file in this distribution.
+ *
+ * You should have received a copy of the GNU Library General Public License
+ * along with this software. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authored by: Piotr Grabowski <fau999@gmail.com>
+ */
+
+body {
+    background-color: #22313F;
+    color: #FFFFFF;
+}
+
+.top-bar {
+    background-color: #FFFFFF;
+    margin-bottom: 15px;
+}
+
+header {
+    font-weight: bold !important;
+}
+
+header > a {
+    color: #22313F;
+}
+
+nav li.active {
+    font-weight: bold;
+}
+
+textarea, input, select {
+    color: #000000;
+}
+
+textarea {
+    max-width: 600px;
+}
+
+ul {
+    margin-bottom: 0;
+}
+
+.bg-danger {
+    color: #A94442;
+    line-height: 23px;
+    padding: 6px 10px;
+    width: 600px;
+}
+
+.bg-success {
+    color: #3C763D;
+}
+
+form {
+    margin-bottom: 15px;
+}
+
+.error-header {
+    display: block;
+}
+
+.table {
+    width: 600px;
+}
+
+h3 {
+    margin-top: 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #AAAAAA;
+    width: 600px;
+    font-weight: bold;
+}
+

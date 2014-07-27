@@ -1,0 +1,40 @@
+<!--
+  ~ Copyright (C) 2014 natrank Developers (http://github.com/fauu/natrank)
+  ~
+  ~ This software is licensed under the GNU General Public License
+  ~ (version 3 or later). See the COPYING file in this distribution.
+  ~
+  ~ You should have received a copy of the GNU Library General Public License
+  ~ along with this software. If not, see <http://www.gnu.org/licenses/>.
+  ~
+  ~ Authored by: Piotr Grabowski <fau999@gmail.com>
+  -->
+
+<div id="results-container">
+  <ul id="results">
+    <li class="result" data-ng-repeat="result in results">
+      <div class="main-data">
+        <div class="team1-name" data-ng-class="{'winner': result.team1.name == result.winnerTeamName}">
+          <img src="img/flag/{{result.team1.flagCode}}.png" class="flag" /> {{result.team1.name}}
+        </div>
+        <div class="result">
+          {{result.fullResult}}
+        </div>
+        <div class="team2-name" data-ng-class="{'winner': result.team2.name == result.winnerTeamName}">
+          {{result.team2.name}} <img src="img/flag/{{result.team2.flagCode}}.png" class="flag" />
+        </div>
+      </div>
+      <div class="additional-data">
+        <div class="date">
+          {{result.date | date: 'd/M/yyyy'}}
+        </div>
+        <div class="venue">
+          {{result.city}}, {{result.country}} <img src="img/flag/{{result.countryFlagCode}}.png" class="flag smaller" />
+        </div>
+        <div class="type">
+          {{result.type}}
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

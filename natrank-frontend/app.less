@@ -1,0 +1,62 @@
+/*
+ * Copyright (C) 2014 natrank Developers (http://github.com/fauu/natrank)
+ *
+ * This software is licensed under the GNU General Public License
+ * (version 3 or later). See the COPYING file in this distribution.
+ *
+ * You should have received a copy of the GNU Library General Public License
+ * along with this software. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authored by: Piotr Grabowski <fau999@gmail.com>
+ */
+
+@import "bower_components/bootstrap/less/bootstrap.less";
+//@import "bower_components/bootstrap/less/theme.less";
+@import "bower_components/font-awesome/less/font-awesome.less";
+@fa-font-path: "bower_components/font-awesome/fonts";
+
+/* Component LESS */
+@import "partial/results/results.less";
+/* Add Component LESS Above */
+
+/* Required for Angular UI Bootstrap */
+.nav, .pagination, .carousel a { cursor: pointer; }
+
+.top-bar {
+  .navbar;
+  .navbar-default;
+  .navbar-static-top;
+
+  header {
+    .navbar-header;
+  }
+}
+
+#main-container {
+  .container;
+
+  > .view-container {
+    .make-row();
+  }
+}
+
+.flag {
+  border: 1px solid @gray-lighter;
+}
+
+.flag.smaller {
+  width: 18px;
+}
+
+/* Personal preference for BS modal.  The LESS below makes the backdrop white and
+   causes the modal to fade in rather than slide in. */
+//@modal-backdrop-bg: white;
+//.modal {
+//	&.fade {
+//		.transition(opacity .3s);
+//	}
+//	&.fade .modal-dialog {
+//		.translate(0,0);
+//	}
+//}
+
