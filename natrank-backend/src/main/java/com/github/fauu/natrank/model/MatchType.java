@@ -18,6 +18,17 @@ import javax.persistence.*;
 @Table(name = "MatchType")
 public class MatchType extends NamedEntity {
 
+  @Column(name = "fifa_name")
+  private String fifaName;
+
+  public String getFifaName() {
+    return fifaName;
+  }
+
+  public void setFifaName(String fifaName) {
+    this.fifaName = fifaName;
+  }
+
   /*
   @OneToMany(mappedBy = "type", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Set<Match> matches;

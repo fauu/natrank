@@ -12,10 +12,7 @@
 
 package com.github.fauu.natrank.service;
 
-import com.github.fauu.natrank.model.City;
-import com.github.fauu.natrank.model.Country;
-import com.github.fauu.natrank.model.ProcessedMatchData;
-import com.github.fauu.natrank.model.Team;
+import com.github.fauu.natrank.model.*;
 import org.springframework.dao.DataAccessException;
 
 import javax.xml.crypto.Data;
@@ -36,5 +33,9 @@ public interface MatchDataImportService {
   List<Team> findAllTeams() throws DataAccessException;
 
   void addCities(List<City> cities) throws DataAccessException;
+
+  void addMatchTypes(List<MatchType> types) throws DataAccessException;
+
+  List<Match> createMatches(ProcessedMatchData matchData) throws DataAccessException;
 
 }

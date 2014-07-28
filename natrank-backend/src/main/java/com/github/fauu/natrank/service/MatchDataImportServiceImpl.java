@@ -15,6 +15,7 @@ package com.github.fauu.natrank.service;
 import com.github.fauu.natrank.model.*;
 import com.github.fauu.natrank.repository.CityRepository;
 import com.github.fauu.natrank.repository.CountryRepository;
+import com.github.fauu.natrank.repository.MatchTypeRepository;
 import com.github.fauu.natrank.repository.TeamRepository;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -40,6 +41,9 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
 
   @Autowired
   private CityRepository cityRepository;
+
+  @Autowired
+  private MatchTypeRepository matchTypeRepository;
 
   @Override
   public ProcessedMatchData processMatchData(String rawMatchData) {
@@ -109,9 +113,19 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
       Set<String> processedNewCountryNames = new HashSet<>();
       List<String> existingCityNames = cityRepository.findAllNames();
       Set<String> processedNewCityNames = new HashSet<>();
+      List<String> existingMatchTypesFifaNames = matchTypeRepository.findAllFifaNames();
+      Set<String> processedNewMatchTypeFifaNames = new HashSet<>();
 
       for (ParsedRawMatchDatum parsedRawMatchDatum : matchData.getMatches()) {
-        matchData.getTypes().add(parsedRawMatchDatum.getType());
+        String matchTypeFifaName = parsedRawMatchDatum.getType();
+        if (!processedNewMatchTypeFifaNames.contains(matchTypeFifaName) &&
+            !existingMatchTypesFifaNames.contains(matchTypeFifaName)) {
+          MatchType newType = new MatchType();
+          newType.setFifaName(matchTypeFifaName);
+
+          processedNewMatchTypeFifaNames.add(matchTypeFifaName);
+          matchData.getTypes().add(newType);
+        }
 
         List<String> countryNamesTemp = new LinkedList<>();
         countryNamesTemp.add(parsedRawMatchDatum.getTeam1());
@@ -192,6 +206,60 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
     for (City city : cities) {
       cityRepository.save(city);
     }
+  }
+
+  @Override
+  public void addMatchTypes(List<MatchType> types) throws DataAccessException {
+    for (MatchType type : types) {
+      matchTypeRepository.save(type);
+    }
+  }
+
+  @Override
+  public List<Match> createMatches(ProcessedMatchData matchData) throws DataAccessException {
+    List<Match> newMatches = new LinkedList<>();
+
+    List<MatchType> types = matchTypeRepository.findAll();
+    List<City> cities = cityRepository.findAll();
+    List<Country> countries = countryRepository.findAll();
+
+    for (ParsedRawMatchDatum intMatch : matchData.getMatches()) {
+      // TODO: Discard matches already present in the database
+
+      Match newMatch = new Match();
+
+      newMatch.setDate(intMatch.getDate());
+
+      for (MatchType type : types) {
+        if (type.getFifaName().equals(intMatch.getType())) {
+          newMatch.setType(type);
+          break;
+        }
+      }
+
+      for (City city : cities) {
+        if (city.getName().equals(intMatch.getCity())) {
+          newMatch.setCity(city);
+          break;
+        }
+      }
+
+      for (Country country : countries) {
+        if (country.getName().equals(intMatch.getTeam1())) {
+          newMatch.setTeam1(country.getTeam());
+        } else if (country.getName().equals(intMatch.getTeam2())) {
+          newMatch.setTeam2(country.getTeam());
+        }
+
+        if ((newMatch.getTeam1() != null) && (newMatch.getTeam2() != null)) {
+          break;
+        }
+      }
+
+      // TODO: Parse result, ...
+    }
+
+    return newMatches;
   }
 
 }

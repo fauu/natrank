@@ -24,9 +24,12 @@ import java.util.List;
 public interface CountryRepository extends PagingAndSortingRepository<Country, Integer> {
 
   @Override
+  List<Country> findAll() throws DataAccessException;
+
+  @Override
   List<Country> findAll(Sort sort) throws DataAccessException;
 
-  @Query("SELECT c.name FROM Country c")
+  @Query("SELECT name FROM Country")
   List<String> findAllNames() throws DataAccessException;
 
   Country findById(Integer id) throws DataAccessException;

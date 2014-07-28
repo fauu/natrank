@@ -73,8 +73,8 @@ public class AdminController {
   }
 
   @RequestMapping(value = "/import-data/steps/1", method = RequestMethod.POST)
-  public String processRawMatchData(@ModelAttribute("rawMatchDataForm") RawMatchDataForm rawMatchDataForm,
-                                    Model model) {
+  public String processRawMatchData(
+      @ModelAttribute("rawMatchDataForm") RawMatchDataForm rawMatchDataForm, Model model) {
     ProcessedMatchData matchData =
         matchDataImportService.processMatchData(rawMatchDataForm.getRawData());
 
@@ -132,9 +132,32 @@ public class AdminController {
   }
 
   @RequestMapping(value = "/import-data/steps/4", method = RequestMethod.GET)
-  public String editSOMETHING(@ModelAttribute("matchData") ProcessedMatchData matchData, Model model) {
+  public String editMatchTypes(@ModelAttribute("matchData") ProcessedMatchData matchData,
+                               Model model) {
     model.addAttribute("step", 4);
     model.addAttribute("matchData", matchData);
+
+    return "dataImport";
+  }
+
+  @RequestMapping(value = "/import-data/steps/4", method = RequestMethod.POST)
+  public String saveMatchTypes(@ModelAttribute("matchData") ProcessedMatchData matchData,
+                               BindingResult result, Model model) {
+    model.addAttribute("step", 4);
+    model.addAttribute("matchData", matchData);
+
+    matchDataImportService.addMatchTypes(matchData.getTypes());
+
+    return "redirect:/admin/import-data/steps/5";
+  }
+
+  @RequestMapping(value = "/import-data/steps/5", method = RequestMethod.GET)
+  public String reviewMatches(@ModelAttribute("matchData") ProcessedMatchData matchData,
+                              Model model) {
+    model.addAttribute("step", 5);
+    model.addAttribute("matchData", matchData);
+
+    List<Match> newMatches = matchDataImportService.createMatches(matchData);
 
     return "dataImport";
   }

@@ -17,11 +17,10 @@ import java.util.*;
 public class ProcessedMatchData {
 
   private List<ParsedRawMatchDatum> matches = new LinkedList<>();
-  private Set<String> types = new HashSet<>();
+  private List<MatchType> types = new ArrayList<>();
   private List<City> cities = new ArrayList<>();
   private List<String> citiesInferredCountryNames = new ArrayList<>();
   private List<Country> countries = new ArrayList<>();
-  private Set<String> newTypes = new HashSet<>();
   private List<MatchDataError> errors = new ArrayList<>();
 
   public List<ParsedRawMatchDatum> getMatches() {
@@ -32,11 +31,11 @@ public class ProcessedMatchData {
     this.matches = matches;
   }
 
-  public Set<String> getTypes() {
+  public List<MatchType> getTypes() {
     return types;
   }
 
-  public void setTypes(Set<String> types) {
+  public void setTypes(List<MatchType> types) {
     this.types = types;
   }
 
@@ -62,14 +61,6 @@ public class ProcessedMatchData {
 
   public void setErrors(List<MatchDataError> errors) {
     this.errors = errors;
-  }
-
-  public Set<String> getNewTypes() {
-    return newTypes;
-  }
-
-  public void setNewTypes(Set<String> newTypes) {
-    this.newTypes = newTypes;
   }
 
   public List<Country> getCountries() {

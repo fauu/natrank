@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/admin")
-public class LoginController {
+public class AdminLoginController {
 
   @Autowired
   SecurityContextAccessor securityContextAccessor;
