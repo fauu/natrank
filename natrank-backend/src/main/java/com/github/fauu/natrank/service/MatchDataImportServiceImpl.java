@@ -16,9 +16,6 @@ import com.github.fauu.natrank.model.*;
 import com.github.fauu.natrank.repository.CityRepository;
 import com.github.fauu.natrank.repository.CountryRepository;
 import com.github.fauu.natrank.repository.TeamRepository;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-import org.hibernate.criterion.Order;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -47,35 +44,33 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
   @Override
   public ProcessedMatchData processMatchData(String rawMatchData) {
     ProcessedMatchData matchData = new ProcessedMatchData();
-    BufferedReader reader = new BufferedReader(new StringReader(rawMatchData));
-    String line;
-    String[] splitLine;
-    int numFields;
-    ParsedMatch match;
-    MatchDataError error;
-    int lineNo = 1;
     DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
-    DateTime matchDate;
 
+    int lineNo = 1;
+    BufferedReader reader = new BufferedReader(new StringReader(rawMatchData));
     try {
+      String line;
       while ((line = reader.readLine()) != null) {
-        splitLine = line.split(";");
-        numFields = splitLine.length;
+        String[] splitLine = line.split(";");
+        int numFields = splitLine.length;
 
         if (numFields == 6) {
           for (int i = 0; i < numFields; i++) {
             if (splitLine[i] == null || splitLine[i].trim().length() == 0) {
-              error = new MatchDataError(lineNo, line, MatchDataErrorType.ERROR_MISSING_FIELD);
+              MatchDataError error =
+                  new MatchDataError(lineNo, line, MatchDataErrorType.ERROR_MISSING_FIELD);
 
               matchData.getErrors().add(error);
             }
           }
 
-          match = new ParsedMatch();
+          ParsedRawMatchDatum match = new ParsedRawMatchDatum();
+          DateTime matchDate;
           try {
             matchDate = formatter.parseDateTime(splitLine[0]);
           } catch (IllegalArgumentException e) {
-            error = new MatchDataError(lineNo, line, MatchDataErrorType.ERROR_INCORRECT_DATE_FORMAT);
+            MatchDataError error =
+                new MatchDataError(lineNo, line, MatchDataErrorType.ERROR_INCORRECT_DATE_FORMAT);
             matchData.getErrors().add(error);
 
             matchDate = null;
@@ -89,7 +84,8 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
 
           matchData.getMatches().add(match);
         } else {
-          error = new MatchDataError(lineNo, line, MatchDataErrorType.ERROR_INCORRECT_LINE_FORMAT);
+          MatchDataError error =
+              new MatchDataError(lineNo, line, MatchDataErrorType.ERROR_INCORRECT_LINE_FORMAT);
 
           matchData.getErrors().add(error);
         }
@@ -111,29 +107,28 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
     if (matchData.getErrors().size() == 0) {
       List<String> existingCountryNames = countryRepository.findAllNames();
       Set<String> processedNewCountryNames = new HashSet<>();
-      List<String> countryNamesTemp = new LinkedList<>();
       List<String> existingCityNames = cityRepository.findAllNames();
       Set<String> processedNewCityNames = new HashSet<>();
 
-      for (ParsedMatch parsedMatch : matchData.getMatches()) {
-        matchData.getTypes().add(parsedMatch.getType());
+      for (ParsedRawMatchDatum parsedRawMatchDatum : matchData.getMatches()) {
+        matchData.getTypes().add(parsedRawMatchDatum.getType());
 
-        countryNamesTemp.clear();
-        countryNamesTemp.add(parsedMatch.getTeam1());
-        countryNamesTemp.add(parsedMatch.getTeam2());
+        List<String> countryNamesTemp = new LinkedList<>();
+        countryNamesTemp.add(parsedRawMatchDatum.getTeam1());
+        countryNamesTemp.add(parsedRawMatchDatum.getTeam2());
         for (String countryName : countryNamesTemp) {
           if (!processedNewCountryNames.contains(countryName) &&
               !existingCountryNames.contains(countryName)) {
             Country newCountry = new Country();
             newCountry.setName(countryName);
-            newCountry.setFromDate(parsedMatch.getDate());
+            newCountry.setFromDate(parsedRawMatchDatum.getDate());
 
             processedNewCountryNames.add(countryName);
             matchData.getCountries().add(newCountry);
           }
         }
 
-        String cityName = parsedMatch.getCity();
+        String cityName = parsedRawMatchDatum.getCity();
         if (!processedNewCityNames.contains(cityName) &&
             !existingCityNames.contains(cityName)) {
           City newCity = new City();
@@ -141,13 +136,13 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
 
           CityCountryAssoc cityCountryAssoc = new CityCountryAssoc();
           cityCountryAssoc.setCity(newCity);
-          cityCountryAssoc.setFromDate(parsedMatch.getDate());
+          cityCountryAssoc.setFromDate(parsedRawMatchDatum.getDate());
 
           newCity.getCityCountryAssocs().add(cityCountryAssoc);
 
           processedNewCityNames.add(cityName);
           matchData.getCities().add(newCity);
-          matchData.getCitiesInferredCountryNames().add(parsedMatch.getTeam1());
+          matchData.getCitiesInferredCountryNames().add(parsedRawMatchDatum.getTeam1());
         }
 
       }

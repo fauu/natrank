@@ -10,7 +10,7 @@
  * Authored by: Piotr Grabowski <fau999@gmail.com>
  */
 
-package com.github.fauu.natrank.filter;
+package com.github.fauu.natrank.web.filter;
 
 import org.springframework.web.filter.OncePerRequestFilter;
 

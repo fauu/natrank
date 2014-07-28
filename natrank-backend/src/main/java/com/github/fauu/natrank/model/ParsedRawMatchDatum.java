@@ -14,7 +14,7 @@ package com.github.fauu.natrank.model;
 
 import org.joda.time.DateTime;
 
-public class ParsedMatch {
+public class ParsedRawMatchDatum {
 
   private DateTime date;
   private String type;

@@ -10,7 +10,7 @@
  * Authored by: Piotr Grabowski <fau999@gmail.com>
  */
 
-package com.github.fauu.natrank.controller;
+package com.github.fauu.natrank.web.controller;
 
 import com.github.fauu.natrank.security.SecurityContextAccessor;
 import org.springframework.beans.factory.annotation.Autowired;

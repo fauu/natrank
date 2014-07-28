@@ -16,7 +16,7 @@ import java.util.*;
 
 public class ProcessedMatchData {
 
-  private List<ParsedMatch> matches = new LinkedList<>();
+  private List<ParsedRawMatchDatum> matches = new LinkedList<>();
   private Set<String> types = new HashSet<>();
   private List<City> cities = new ArrayList<>();
   private List<String> citiesInferredCountryNames = new ArrayList<>();
@@ -24,11 +24,11 @@ public class ProcessedMatchData {
   private Set<String> newTypes = new HashSet<>();
   private List<MatchDataError> errors = new ArrayList<>();
 
-  public List<ParsedMatch> getMatches() {
+  public List<ParsedRawMatchDatum> getMatches() {
     return matches;
   }
 
-  public void setMatches(List<ParsedMatch> matches) {
+  public void setMatches(List<ParsedRawMatchDatum> matches) {
     this.matches = matches;
   }
 

@@ -10,13 +10,13 @@
  * Authored by: Piotr Grabowski <fau999@gmail.com>
  */
 
-package com.github.fauu.natrank.controller;
+package com.github.fauu.natrank.web.controller;
 
-import com.github.fauu.natrank.editorsupport.CountryEditorSupport;
+import com.github.fauu.natrank.web.converter.CountryPropertyEditor;
 import com.github.fauu.natrank.model.*;
 import com.github.fauu.natrank.model.form.RawMatchDataForm;
 import com.github.fauu.natrank.service.MatchDataImportService;
-import com.github.fauu.natrank.editorsupport.TeamEditorSupport;
+import com.github.fauu.natrank.web.converter.TeamPropertyEditor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -36,12 +36,6 @@ public class AdminController {
   @Autowired
   private MatchDataImportService matchDataImportService;
 
-  @Autowired
-  private TeamEditorSupport teamEditorSupport;
-
-  @Autowired
-  private CountryEditorSupport countryEditorSupport;
-
   @ModelAttribute("rawMatchDataForm")
   public RawMatchDataForm getRawMatchDataFrom() {
     return new RawMatchDataForm();
@@ -54,8 +48,8 @@ public class AdminController {
 
   @InitBinder
   public void initBinder(WebDataBinder binder) {
-    binder.registerCustomEditor(Team.class, teamEditorSupport);
-    binder.registerCustomEditor(Country.class, countryEditorSupport);
+    binder.registerCustomEditor(Team.class, new TeamPropertyEditor());
+    binder.registerCustomEditor(Country.class, new CountryPropertyEditor());
   }
 
   @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
@@ -101,7 +95,7 @@ public class AdminController {
 
     model.addAttribute("step", 2);
     model.addAttribute("matchData", matchData);
-    model.addAttribute("teams", teams);
+    model.addAttribute(teams);
 
     return "dataImport";
   }

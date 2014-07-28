@@ -10,7 +10,7 @@
  * Authored by: Piotr Grabowski <fau999@gmail.com>
  */
 
-package com.github.fauu.natrank.controller;
+package com.github.fauu.natrank.web.controller;
 
 import com.github.fauu.natrank.model.report.MatchReport;
 import com.github.fauu.natrank.service.MatchService;

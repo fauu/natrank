@@ -10,10 +10,9 @@
  * Authored by: Piotr Grabowski <fau999@gmail.com>
  */
 
-package com.github.fauu.natrank.editorsupport;
+package com.github.fauu.natrank.web.converter;
 
-import com.github.fauu.natrank.model.CityCountryAssoc;
-import com.github.fauu.natrank.model.Country;
+import com.github.fauu.natrank.model.Team;
 import com.github.fauu.natrank.service.MatchDataImportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,16 +20,22 @@ import org.springframework.stereotype.Component;
 import java.beans.PropertyEditorSupport;
 
 @Component
-public class CountryEditorSupport extends PropertyEditorSupport {
+public class TeamPropertyEditor extends PropertyEditorSupport {
 
     @Autowired
     private MatchDataImportService matchDataImportService;
 
     @Override
     public void setAsText(String text) {
-      Country country = matchDataImportService.findCountryById(Integer.parseInt(text));
+      Team team;
 
-      setValue(country);
+      if (!text.equals("0")) {
+        team = matchDataImportService.findTeamById(Integer.parseInt(text));
+      } else {
+        team = new Team();
+      }
+
+      setValue(team);
     }
 
 }

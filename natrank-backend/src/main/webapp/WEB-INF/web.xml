@@ -58,7 +58,7 @@
 
     <filter>
         <filter-name>CORSFilter</filter-name>
-        <filter-class>com.github.fauu.natrank.filter.CORSFilter</filter-class>
+        <filter-class>com.github.fauu.natrank.web.filter.CORSFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>CORSFilter</filter-name>
