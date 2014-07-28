@@ -12,10 +12,11 @@
 
 package com.github.fauu.natrank.controller;
 
+import com.github.fauu.natrank.editorsupport.CountryEditorSupport;
 import com.github.fauu.natrank.model.*;
 import com.github.fauu.natrank.model.form.RawMatchDataForm;
 import com.github.fauu.natrank.service.MatchDataImportService;
-import com.github.fauu.natrank.util.TeamEditor;
+import com.github.fauu.natrank.editorsupport.TeamEditorSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -36,7 +37,15 @@ public class AdminController {
   private MatchDataImportService matchDataImportService;
 
   @Autowired
-  private TeamEditor teamEditor;
+  private TeamEditorSupport teamEditorSupport;
+
+  @Autowired
+  private CountryEditorSupport countryEditorSupport;
+
+  @ModelAttribute("rawMatchDataForm")
+  public RawMatchDataForm getRawMatchDataFrom() {
+    return new RawMatchDataForm();
+  }
 
   @ModelAttribute("matchData")
   public ProcessedMatchData getMatchData() {
@@ -45,7 +54,8 @@ public class AdminController {
 
   @InitBinder
   public void initBinder(WebDataBinder binder) {
-    binder.registerCustomEditor(Team.class, teamEditor);
+    binder.registerCustomEditor(Team.class, teamEditorSupport);
+    binder.registerCustomEditor(Country.class, countryEditorSupport);
   }
 
   @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
@@ -54,54 +64,85 @@ public class AdminController {
   }
 
   @RequestMapping(value = "/import-data", method = RequestMethod.GET)
-  public String importMatchDataMain() {
+  public String importRawMatchDataMain() {
     return "redirect:/admin/import-data/steps/1";
   }
 
   @RequestMapping(value = "/import-data/steps/1", method = RequestMethod.GET)
-  public String importMatchData(Model model) {
+  public String importRawMatchData(Model model) {
     RawMatchDataForm rawMatchDataForm = new RawMatchDataForm();
-    model.addAttribute(rawMatchDataForm);
 
+    model.addAttribute(rawMatchDataForm);
     model.addAttribute("step", 1);
 
     return "dataImport";
   }
 
-  @RequestMapping(value = "/import-data/steps/2", method = RequestMethod.POST)
-  public String processRawMatchData(@ModelAttribute("matchDataForm") RawMatchDataForm rawMatchDataForm,
+  @RequestMapping(value = "/import-data/steps/1", method = RequestMethod.POST)
+  public String processRawMatchData(@ModelAttribute("rawMatchDataForm") RawMatchDataForm rawMatchDataForm,
                                     Model model) {
     ProcessedMatchData matchData =
         matchDataImportService.processMatchData(rawMatchDataForm.getRawData());
 
-    model.addAttribute("step", 2);
     model.addAttribute("matchData", matchData);
 
     if (matchData.getErrors().size() == 0) {
-      List<Team> teams = matchDataImportService.findAllTeams();
-
-      model.addAttribute("teams", teams);
+      return "redirect:/admin/import-data/steps/2";
     } else {
       model.addAttribute("step", 1);
+
+      return "dataImport";
     }
+  }
+
+  @RequestMapping(value = "/import-data/steps/2", method = RequestMethod.GET)
+  public String editCountries(@ModelAttribute("matchData") ProcessedMatchData matchData, Model model) {
+    List<Team> teams = matchDataImportService.findAllTeams();
+
+    model.addAttribute("step", 2);
+    model.addAttribute("matchData", matchData);
+    model.addAttribute("teams", teams);
+
+    return "dataImport";
+  }
+
+  @RequestMapping(value = "/import-data/steps/2", method = RequestMethod.POST)
+  public String saveCountries(@ModelAttribute("matchData") ProcessedMatchData matchData,
+                              BindingResult result, Model model) {
+    matchDataImportService.addCountries(matchData.getCountries());
+
+    return "redirect:/admin/import-data/steps/3";
+  }
+
+  @RequestMapping(value = "/import-data/steps/3", method = RequestMethod.GET)
+  public String editCities(@ModelAttribute("matchData") ProcessedMatchData matchData,
+                                    Model model) {
+    List<Country> allCountries = matchDataImportService.findAllCountriesSorted();
+
+    model.addAttribute("step", 3);
+    model.addAttribute("matchData", matchData);
+    model.addAttribute("allCountries", allCountries);
 
     return "dataImport";
   }
 
   @RequestMapping(value = "/import-data/steps/3", method = RequestMethod.POST)
-  public String processNewCountries(@ModelAttribute("matchData") ProcessedMatchData matchData,
-                                    BindingResult result, Model model) {
+  public String saveCities(@ModelAttribute("matchData") ProcessedMatchData matchData,
+                           BindingResult result, Model model) {
     model.addAttribute("step", 3);
     model.addAttribute("matchData", matchData);
 
-    matchDataImportService.addCountries(matchData.getCountries());
+    matchDataImportService.addCities(matchData.getCities());
 
-    return "dataImport";
+    return "redirect:/admin/import-data/steps/4";
   }
 
-  @RequestMapping(value = "/import-data/steps/*", method = RequestMethod.GET)
-  public String redirectToFirstStep() {
-    return "redirect:/admin/import-data/steps/1";
+  @RequestMapping(value = "/import-data/steps/4", method = RequestMethod.GET)
+  public String editSOMETHING(@ModelAttribute("matchData") ProcessedMatchData matchData, Model model) {
+    model.addAttribute("step", 4);
+    model.addAttribute("matchData", matchData);
+
+    return "dataImport";
   }
 
 }

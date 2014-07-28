@@ -13,13 +13,18 @@
 package com.github.fauu.natrank.service;
 
 import com.github.fauu.natrank.model.*;
+import com.github.fauu.natrank.repository.CityRepository;
 import com.github.fauu.natrank.repository.CountryRepository;
 import com.github.fauu.natrank.repository.TeamRepository;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import org.hibernate.criterion.Order;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -36,6 +41,9 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
   @Autowired
   private TeamRepository teamRepository;
 
+  @Autowired
+  private CityRepository cityRepository;
+
   @Override
   public ProcessedMatchData processMatchData(String rawMatchData) {
     ProcessedMatchData matchData = new ProcessedMatchData();
@@ -47,7 +55,7 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
     MatchDataError error;
     int lineNo = 1;
     DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
-    DateTime matchDate = null;
+    DateTime matchDate;
 
     try {
       while ((line = reader.readLine()) != null) {
@@ -101,29 +109,47 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
     // TODO: filter matches that are already present in the database
 
     if (matchData.getErrors().size() == 0) {
-      List<String> existingCountriesNames = countryRepository.findAllNames();
-      Set<String> processedNewCountriesNames = new HashSet<>();
+      List<String> existingCountryNames = countryRepository.findAllNames();
+      Set<String> processedNewCountryNames = new HashSet<>();
       List<String> countryNamesTemp = new LinkedList<>();
+      List<String> existingCityNames = cityRepository.findAllNames();
+      Set<String> processedNewCityNames = new HashSet<>();
 
       for (ParsedMatch parsedMatch : matchData.getMatches()) {
         matchData.getTypes().add(parsedMatch.getType());
-        matchData.getCities().add(parsedMatch.getCity());
 
         countryNamesTemp.clear();
         countryNamesTemp.add(parsedMatch.getTeam1());
         countryNamesTemp.add(parsedMatch.getTeam2());
-
         for (String countryName : countryNamesTemp) {
-          if (!processedNewCountriesNames.contains(countryName) &&
-              !existingCountriesNames.contains(countryName)) {
+          if (!processedNewCountryNames.contains(countryName) &&
+              !existingCountryNames.contains(countryName)) {
             Country newCountry = new Country();
             newCountry.setName(countryName);
             newCountry.setFromDate(parsedMatch.getDate());
 
-            processedNewCountriesNames.add(countryName);
+            processedNewCountryNames.add(countryName);
             matchData.getCountries().add(newCountry);
           }
         }
+
+        String cityName = parsedMatch.getCity();
+        if (!processedNewCityNames.contains(cityName) &&
+            !existingCityNames.contains(cityName)) {
+          City newCity = new City();
+          newCity.setName(cityName);
+
+          CityCountryAssoc cityCountryAssoc = new CityCountryAssoc();
+          cityCountryAssoc.setCity(newCity);
+          cityCountryAssoc.setFromDate(parsedMatch.getDate());
+
+          newCity.getCityCountryAssocs().add(cityCountryAssoc);
+
+          processedNewCityNames.add(cityName);
+          matchData.getCities().add(newCity);
+          matchData.getCitiesInferredCountryNames().add(parsedMatch.getTeam1());
+        }
+
       }
     }
 
@@ -132,14 +158,28 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
 
   @Override
   public List<Team> findAllTeams() throws DataAccessException {
-    List<Team> teams = teamRepository.findAll();
+    return teamRepository.findAll();
+  }
 
-    return teams;
+  @Override
+  public Team findTeamById(Integer id) throws DataAccessException {
+    return teamRepository.findOne(id);
+  }
+
+  @Override
+  public List<Country> findAllCountriesSorted() throws DataAccessException {
+    return countryRepository.findAll(new Sort(Sort.Direction.ASC, "name"));
+  }
+
+  @Override
+  public Country findCountryById(Integer id) throws DataAccessException {
+    return countryRepository.findById(id);
   }
 
   @Override
   public void addCountries(List<Country> countries) throws DataAccessException {
     for (Country country : countries) {
+      // TODO: Perhaps do this in a DB trigger/JPA event listener?
       String oldTeamName = country.getTeam().getCurrentName();
 
       if (oldTeamName != null) {
@@ -153,8 +193,10 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
   }
 
   @Override
-  public Team findTeamById(Integer id) throws DataAccessException {
-    return teamRepository.findOne(id);
+  public void addCities(List<City> cities) throws DataAccessException {
+    for (City city : cities) {
+      cityRepository.save(city);
+    }
   }
 
 }

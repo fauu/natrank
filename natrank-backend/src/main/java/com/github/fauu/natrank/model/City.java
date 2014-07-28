@@ -15,7 +15,9 @@ package com.github.fauu.natrank.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,13 +26,13 @@ public class City extends NamedEntity {
 
   @OneToMany(mappedBy = "city", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonManagedReference
-  private Set<CityCountryAssoc> cityCountryAssocs = new HashSet<>();
+  private List<CityCountryAssoc> cityCountryAssocs = new ArrayList<>();
 
-  public Set<CityCountryAssoc> getCityCountryAssocs() {
+  public List<CityCountryAssoc> getCityCountryAssocs() {
     return cityCountryAssocs;
   }
 
-  public void setCityCountryAssocs(Set<CityCountryAssoc> cityCountryAssocs) {
+  public void setCityCountryAssocs(List<CityCountryAssoc> cityCountryAssocs) {
     this.cityCountryAssocs = cityCountryAssocs;
   }
 

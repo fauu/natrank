@@ -16,19 +16,20 @@
 <c:choose>
   <c:when test="${not empty matchData.countries}">
     <h4>New countries found:</h4>
-    <form:form action="/admin/import-data/steps/3" commandName="matchData" method="POST">
+    <form:form action="/admin/import-data/steps/${step}" commandName="matchData" method="POST">
       <table class="table">
         <thead>
-        <th>Country</th>
-        <th>From date</th>
-        <th>Team to inherit</th>
+          <tr>
+            <th>Country</th>
+            <th>From date</th>
+            <th>Team to inherit</th>
+          </tr>
         </thead>
         <tbody>
         <c:forEach var="country" items="${matchData.countries}" varStatus="cStatus">
           <tr>
             <td>
-              <%--<c:out value="${country.name}" />--%>
-              <form:input path="countries[${cStatus.index}].name" />
+              <c:out value="${country.name}" />
             </td>
             <td>
               <joda:format value="${country.fromDate}" style="S-" />
@@ -47,6 +48,7 @@
     </form:form>
   </c:when>
   <c:otherwise>
-    <h4>No new countries found.</h4>
+    <h4>No new countries found</h4>
+    <a href="<c:url value="/admin/import-data/steps/${step + 1}" />" class="btn btn-default">Continue</a>
   </c:otherwise>
 </c:choose>

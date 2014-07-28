@@ -18,10 +18,10 @@ public class ProcessedMatchData {
 
   private List<ParsedMatch> matches = new LinkedList<>();
   private Set<String> types = new HashSet<>();
-  private Set<String> cities = new HashSet<>();
+  private List<City> cities = new ArrayList<>();
+  private List<String> citiesInferredCountryNames = new ArrayList<>();
   private List<Country> countries = new ArrayList<>();
   private Set<String> newTypes = new HashSet<>();
-  private Set<String> newCities = new HashSet<>();
   private List<MatchDataError> errors = new ArrayList<>();
 
   public List<ParsedMatch> getMatches() {
@@ -40,12 +40,20 @@ public class ProcessedMatchData {
     this.types = types;
   }
 
-  public Set<String> getCities() {
+  public List<City> getCities() {
     return cities;
   }
 
-  public void setCities(Set<String> cities) {
+  public void setCities(List<City> cities) {
     this.cities = cities;
+  }
+
+  public List<String> getCitiesInferredCountryNames() {
+    return citiesInferredCountryNames;
+  }
+
+  public void setCitiesInferredCountryNames(List<String> citiesInferredCountryNames) {
+    this.citiesInferredCountryNames = citiesInferredCountryNames;
   }
 
   public List<MatchDataError> getErrors() {
@@ -62,14 +70,6 @@ public class ProcessedMatchData {
 
   public void setNewTypes(Set<String> newTypes) {
     this.newTypes = newTypes;
-  }
-
-  public Set<String> getNewCities() {
-    return newCities;
-  }
-
-  public void setNewCities(Set<String> newCities) {
-    this.newCities = newCities;
   }
 
   public List<Country> getCountries() {

@@ -24,12 +24,12 @@ import javax.persistence.*;
 public class CityCountryAssoc extends BaseEntity {
 
   @ManyToOne
-  @JoinColumn(name = "city_id", insertable = false, updatable = false)
+  @JoinColumn(name = "city_id")
   @JsonBackReference
   private City city;
 
   @ManyToOne
-  @JoinColumn(name = "country_id", insertable = false, updatable = false)
+  @JoinColumn(name = "country_id")
   @JsonManagedReference
   private Country country;
 

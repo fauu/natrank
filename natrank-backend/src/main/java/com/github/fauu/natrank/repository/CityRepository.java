@@ -14,10 +14,18 @@ package com.github.fauu.natrank.repository;
 
 import com.github.fauu.natrank.model.City;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+
+import java.util.List;
 
 public interface CityRepository extends Repository<City, Integer> {
 
+  @Query("SELECT c.name FROM City c")
+  List<String> findAllNames() throws DataAccessException;
+
   City findById(int id) throws DataAccessException;
+
+  City save(City city) throws DataAccessException;
 
 }

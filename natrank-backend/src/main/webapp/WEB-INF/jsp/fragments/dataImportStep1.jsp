@@ -12,7 +12,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-<form:form action="/admin/import-data/steps/2" commandName="rawMatchDataForm" method="POST">
+<form:form action="/admin/import-data/steps/${step}" commandName="rawMatchDataForm" method="POST">
   <div class="form-group">
     <form:label path="rawData">Enter raw match data:</form:label>
     <form:textarea class="form-control" path="rawData" rows="5"

@@ -10,7 +10,7 @@
  * Authored by: Piotr Grabowski <fau999@gmail.com>
  */
 
-package com.github.fauu.natrank.util;
+package com.github.fauu.natrank.editorsupport;
 
 import com.github.fauu.natrank.model.Team;
 import com.github.fauu.natrank.service.MatchDataImportService;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 import java.beans.PropertyEditorSupport;
 
 @Component
-public class TeamEditor extends PropertyEditorSupport {
+public class TeamEditorSupport extends PropertyEditorSupport {
 
     @Autowired
     private MatchDataImportService matchDataImportService;

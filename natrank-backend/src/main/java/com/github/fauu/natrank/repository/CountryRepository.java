@@ -14,18 +14,26 @@ package com.github.fauu.natrank.repository;
 
 import com.github.fauu.natrank.model.Country;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;
 
-public interface CountryRepository extends Repository<Country, Integer> {
+public interface CountryRepository extends PagingAndSortingRepository<Country, Integer> {
+
+  @Override
+  List<Country> findAll(Sort sort) throws DataAccessException;
 
   @Query("SELECT c.name FROM Country c")
   List<String> findAllNames() throws DataAccessException;
 
+  Country findById(Integer id) throws DataAccessException;
+
   Country findByName(String name) throws DataAccessException;
 
-  void save(Country country) throws DataAccessException;
+  @Override
+  Country save(Country country) throws DataAccessException;
 
 }
