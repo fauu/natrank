@@ -33,7 +33,7 @@ public class Country extends NamedEntity {
   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
   private DateTime toDate;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "team_id")
   @JsonManagedReference
   private Team team;

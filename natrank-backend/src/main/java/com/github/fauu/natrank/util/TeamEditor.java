@@ -12,6 +12,7 @@
 
 package com.github.fauu.natrank.util;
 
+import com.github.fauu.natrank.model.Team;
 import com.github.fauu.natrank.service.MatchDataImportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,15 @@ public class TeamEditor extends PropertyEditorSupport {
 
     @Override
     public void setAsText(String text) {
-      setValue(matchDataImportService.findTeamById(Integer.parseInt(text)));
+      Team team;
+
+      if (!text.equals("0")) {
+        team = matchDataImportService.findTeamById(Integer.parseInt(text));
+      } else {
+        team = new Team();
+      }
+
+      setValue(team);
     }
 
 }

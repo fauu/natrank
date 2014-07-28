@@ -140,13 +140,20 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
   @Override
   public void addCountries(List<Country> countries) throws DataAccessException {
     for (Country country : countries) {
+      String oldTeamName = country.getTeam().getCurrentName();
+
+      if (oldTeamName != null) {
+        Country oldTeamCountry = countryRepository.findByName(oldTeamName);
+        oldTeamCountry.setToDate(country.getFromDate());
+        countryRepository.save(oldTeamCountry);
+      }
+
       countryRepository.save(country);
     }
   }
 
   @Override
   public Team findTeamById(Integer id) throws DataAccessException {
-    System.out.println("pls");
     return teamRepository.findOne(id);
   }
 

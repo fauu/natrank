@@ -24,6 +24,8 @@ public interface CountryRepository extends Repository<Country, Integer> {
   @Query("SELECT c.name FROM Country c")
   List<String> findAllNames() throws DataAccessException;
 
+  Country findByName(String name) throws DataAccessException;
+
   void save(Country country) throws DataAccessException;
 
 }

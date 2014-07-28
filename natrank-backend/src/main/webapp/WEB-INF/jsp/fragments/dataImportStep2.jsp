@@ -35,7 +35,7 @@
             </td>
             <td>
               <form:select path="countries[${cStatus.index}].team">
-                <form:option label="New Team" value="0" />
+                <form:option label="- Create new team -" value="0" />
                 <form:options items="${teams}" itemLabel="currentName" itemValue="id" />
               </form:select>
             </td>

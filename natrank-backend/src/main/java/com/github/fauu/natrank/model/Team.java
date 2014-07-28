@@ -87,14 +87,16 @@ public class Team extends BaseEntity {
     if (currentCountry != null) {
       return currentCountry.getName();
     } else {
-      return "UNNAMED";
+      return null;
     }
   }
 
   public Country getCurrentCountry() {
-    for (Country country : countries) {
-      if (country.getToDate() == null) {
-        return country;
+    if (countries != null) {
+      for (Country country : countries) {
+        if (country.getToDate() == null) {
+          return country;
+        }
       }
     }
 

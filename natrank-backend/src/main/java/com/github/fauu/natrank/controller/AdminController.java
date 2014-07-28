@@ -75,7 +75,6 @@ public class AdminController {
         matchDataImportService.processMatchData(rawMatchDataForm.getRawData());
 
     model.addAttribute("step", 2);
-
     model.addAttribute("matchData", matchData);
 
     if (matchData.getErrors().size() == 0) {
@@ -92,16 +91,17 @@ public class AdminController {
   @RequestMapping(value = "/import-data/steps/3", method = RequestMethod.POST)
   public String processNewCountries(@ModelAttribute("matchData") ProcessedMatchData matchData,
                                     BindingResult result, Model model) {
-
     model.addAttribute("step", 3);
-
     model.addAttribute("matchData", matchData);
-
-    // TODO: Country assigned to an exisitng team -> set previous country's toDate
 
     matchDataImportService.addCountries(matchData.getCountries());
 
     return "dataImport";
+  }
+
+  @RequestMapping(value = "/import-data/steps/*", method = RequestMethod.GET)
+  public String redirectToFirstStep() {
+    return "redirect:/admin/import-data/steps/1";
   }
 
 }

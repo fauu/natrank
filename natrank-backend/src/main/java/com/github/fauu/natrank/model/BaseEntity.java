@@ -32,10 +32,8 @@ public abstract class BaseEntity {
     this.id = id;
   }
 
-  /*
   public boolean isNew() {
     return (this.id == null);
   }
-  */
 
 }
