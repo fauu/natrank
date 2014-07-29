@@ -29,6 +29,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class MatchDataImportServiceImpl implements MatchDataImportService {
@@ -116,6 +118,8 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
       List<String> existingMatchTypesFifaNames = matchTypeRepository.findAllFifaNames();
       Set<String> processedNewMatchTypeFifaNames = new HashSet<>();
 
+      List<String> countryNamesTemp = new LinkedList<>();
+
       for (ParsedRawMatchDatum parsedRawMatchDatum : matchData.getMatches()) {
         String matchTypeFifaName = parsedRawMatchDatum.getType();
         if (!processedNewMatchTypeFifaNames.contains(matchTypeFifaName) &&
@@ -127,7 +131,6 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
           matchData.getTypes().add(newType);
         }
 
-        List<String> countryNamesTemp = new LinkedList<>();
         countryNamesTemp.add(parsedRawMatchDatum.getTeam1());
         countryNamesTemp.add(parsedRawMatchDatum.getTeam2());
         for (String countryName : countryNamesTemp) {
@@ -141,6 +144,7 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
             matchData.getCountries().add(newCountry);
           }
         }
+        countryNamesTemp.clear();
 
         String cityName = parsedRawMatchDatum.getCity();
         if (!processedNewCityNames.contains(cityName) &&
@@ -223,6 +227,8 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
     List<City> cities = cityRepository.findAll();
     List<Country> countries = countryRepository.findAll();
 
+    StringBuilder resultExtraBuilder = new StringBuilder(50);
+
     for (ParsedRawMatchDatum intMatch : matchData.getMatches()) {
       // TODO: Discard matches already present in the database
 
@@ -256,7 +262,66 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
         }
       }
 
-      // TODO: Parse result, ...
+      String fullResult = intMatch.getResult();
+      Pattern resultPattern = Pattern.compile(
+          "(\\d+):(\\d+)(?:\\s(a\\.e\\.t\\.))?(?:\\s(\\(\\d+:\\d+(?:,\\s\\d+:\\d+)?\\)))?(?:\\s(\\d+):(\\d+)\\sPSO)?");
+      Matcher resultMatcher = resultPattern.matcher(fullResult);
+      int team1Goals = 0;
+      int team2Goals = 0;
+      boolean extraTime = false;
+      String resultsOnGameBreaks = null;
+      int penTeam1Goals = 0;
+      int penTeam2Goals = 0;
+      if (resultMatcher.matches()) {
+        if ((resultMatcher.group(1) != null) && (resultMatcher.group(2) != null)) {
+          team1Goals = Integer.parseInt(resultMatcher.group(1));
+          team2Goals = Integer.parseInt(resultMatcher.group(2));
+        } else {
+          // exception
+        }
+        extraTime = (resultMatcher.group(3) != null) ? true : false;
+        resultsOnGameBreaks = resultMatcher.group(4);
+        if ((resultMatcher.group(5) != null) && (resultMatcher.group(6) != null)) {
+          penTeam1Goals = Integer.parseInt(resultMatcher.group(5));
+          penTeam2Goals = Integer.parseInt(resultMatcher.group(6));
+        }
+      } else {
+        // exception
+        System.out.println("no match");
+      }
+
+      newMatch.setTeam1Goals(team1Goals);
+      newMatch.setTeam2Goals(team2Goals);
+      if (team1Goals > team2Goals) {
+        newMatch.setWinnerTeam(newMatch.getTeam1());
+      } else if (team1Goals < team2Goals) {
+        newMatch.setWinnerTeam(newMatch.getTeam2());
+      } else {
+        newMatch.setWinnerTeam(null);
+      }
+
+      // TODO: Set home team
+
+      // TODO: Set resultExtra
+      resultExtraBuilder.delete(0, resultExtraBuilder.length());
+      if (extraTime) {
+        resultExtraBuilder.append("AET");
+      }
+      if (resultsOnGameBreaks != null) {
+        resultExtraBuilder.append(' ');
+        resultExtraBuilder.append(resultsOnGameBreaks);
+      }
+      if (penTeam1Goals > 0 || penTeam2Goals > 0) {
+        resultExtraBuilder.append(' ');
+        resultExtraBuilder.append(penTeam1Goals);
+        resultExtraBuilder.append(':');
+        resultExtraBuilder.append(penTeam2Goals);
+        resultExtraBuilder.append(" PEN");
+      }
+
+      newMatch.setResultExtra(resultExtraBuilder.toString());
+
+      newMatches.add(newMatch);
     }
 
     return newMatches;

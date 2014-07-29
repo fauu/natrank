@@ -47,8 +47,8 @@ public class Match extends BaseEntity {
   @Column(name = "team2_goals")
   private int team2Goals;
 
-  @Column(name = "full_result")
-  private String fullResult;
+  @Column(name = "result_extra")
+  private String resultExtra;
 
   @ManyToOne
   @JoinColumn(name = "home_team_id")
@@ -120,12 +120,12 @@ public class Match extends BaseEntity {
     this.team2Goals = team2Goals;
   }
 
-  public String getFullResult() {
-    return fullResult;
+  public String getResultExtra() {
+    return resultExtra;
   }
 
-  public void setFullResult(String fullResult) {
-    this.fullResult = fullResult;
+  public void setResultExtra(String resultExtra) {
+    this.resultExtra = resultExtra;
   }
 
   public Team getHomeTeam() {

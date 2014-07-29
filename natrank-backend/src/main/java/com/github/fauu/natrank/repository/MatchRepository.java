@@ -26,7 +26,7 @@ public interface MatchRepository extends Repository<Match, Integer> {
 
   @Query("SELECT NEW com.github.fauu.natrank.model.report.MatchReport" +
          "(m.date, ty.name, ci.name, co.name, cof.code, " +
-         "t1co.name, m.team1Goals, t1cof.code, t2co.name, m.team2Goals, t2cof.code, m.fullResult, m.penaltyShootout, " +
+         "t1co.name, m.team1Goals, t1cof.code, t2co.name, m.team2Goals, t2cof.code, m.resultExtra, m.penaltyShootout, " +
          "CASE WHEN (m.homeTeam.id = t1.id) THEN t1co.name WHEN (m.homeTeam.id = t2.id) THEN t2co.name ELSE NULL END, " +
          "CASE WHEN (m.winnerTeam.id = t1.id) THEN t1co.name WHEN (m.winnerTeam.id = t2.id) THEN t2co.name ELSE NULL END) " +
          "FROM Match m " +
