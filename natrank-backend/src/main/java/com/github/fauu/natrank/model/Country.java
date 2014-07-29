@@ -26,6 +26,9 @@ import java.util.Set;
 @Table(name = "Country")
 public class Country extends NamedEntity {
 
+  @Column(name = "code")
+  private String code;
+
   @Column(name = "date_from")
   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
   private LocalDate fromDate;
@@ -45,7 +48,15 @@ public class Country extends NamedEntity {
 
   @OneToMany(mappedBy = "country", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonManagedReference
-  private Set<Flag> flags;
+  private Set<Flag> flags = new HashSet<>();
+
+  public String getCode() {
+    return code;
+  }
+
+  public void setCode(String code) {
+    this.code = code;
+  }
 
   public LocalDate getFromDate() {
     return fromDate;

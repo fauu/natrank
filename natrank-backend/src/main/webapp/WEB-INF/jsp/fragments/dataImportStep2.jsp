@@ -21,6 +21,7 @@
         <thead>
           <tr>
             <th>Country</th>
+            <th>Code</th>
             <th>From date</th>
             <th>Team to inherit</th>
           </tr>
@@ -30,6 +31,9 @@
           <tr>
             <td>
               <c:out value="${country.name}" />
+            </td>
+            <td>
+              <form:input path="countries[${cStatus.index}].code" />
             </td>
             <td>
               <joda:format value="${country.fromDate}" style="M-" />
