@@ -47,10 +47,17 @@ ul {
     color: #A94442;
     line-height: 23px;
     padding: 6px 10px;
+    margin-bottom: 8px;
 }
 
 .bg-success {
     color: #3C763D;
+}
+
+.bg-info {
+    color: #31708F;
+    line-height: 23px;
+    padding: 6px 10px;
 }
 
 form {

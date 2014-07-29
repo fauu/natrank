@@ -32,7 +32,7 @@
   <tbody>
 <c:forEach var="match" items="${newMatches}">
     <tr>
-      <td><joda:format value="${match.date}" style="S-" /></td>
+      <td><joda:format value="${match.date}" style="M-" /></td>
       <td>${match.type.name}</td>
       <td>${match.city.name}</td>
       <td>${match.team1.id}</td>
@@ -56,4 +56,4 @@
 </c:forEach>
   </tbody>
 </table>
-<a href="<c:url value="/admin/import-data/steps/${step + 1}" />" class="btn btn-default">Continue</a>
+<a href="<c:url value="/admin/import-data/steps/${step + 1}" />" class="btn btn-default">Finish</a>

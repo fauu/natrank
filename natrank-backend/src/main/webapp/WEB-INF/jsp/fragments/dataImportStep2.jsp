@@ -32,7 +32,7 @@
               <c:out value="${country.name}" />
             </td>
             <td>
-              <joda:format value="${country.fromDate}" style="S-" />
+              <joda:format value="${country.fromDate}" style="M-" />
             </td>
             <td>
               <form:select path="countries[${cStatus.index}].team">

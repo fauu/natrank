@@ -46,3 +46,8 @@
     </ul>
   </div>
 </c:if>
+<c:if test="${noMatches}">
+  <div class="bg-info">
+    No new matches found
+  </div>
+</c:if>

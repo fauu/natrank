@@ -13,7 +13,7 @@
 package com.github.fauu.natrank.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -104,7 +104,7 @@ public class Team extends BaseEntity {
     return null;
   }
 
-  public boolean isCityHomeForDate(City city, DateTime date) {
+  public boolean isCityHomeForDate(City city, LocalDate date) {
     if (countries != null) {
       for (Country country : countries) {
         if (!country.getFromDate().isAfter(date) &&

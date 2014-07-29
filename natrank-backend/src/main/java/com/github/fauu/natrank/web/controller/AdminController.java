@@ -80,10 +80,11 @@ public class AdminController {
 
     model.addAttribute("matchData", matchData);
 
-    if (matchData.getErrors().size() == 0) {
+    if ((matchData.getErrors().size() == 0) && (matchData.getMatches().size() > 0)) {
       return "redirect:/admin/import-data/steps/2";
     } else {
       model.addAttribute("step", 1);
+      model.addAttribute("noMatches", true);
 
       return "dataImport";
     }
@@ -95,7 +96,7 @@ public class AdminController {
 
     model.addAttribute("step", 2);
     model.addAttribute("matchData", matchData);
-    model.addAttribute(teams);
+    model.addAttribute("teams", teams);
 
     return "dataImport";
   }

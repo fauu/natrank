@@ -15,7 +15,7 @@ package com.github.fauu.natrank.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 
@@ -34,16 +34,16 @@ public class CityCountryAssoc extends BaseEntity {
   private Country country;
 
   @Column(name = "date_from")
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-  private DateTime fromDate;
+  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+  private LocalDate fromDate;
 
   @Column(name = "date_to")
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-  private DateTime toDate;
+  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+  private LocalDate toDate;
 
   public CityCountryAssoc() {}
 
-  public CityCountryAssoc(City city, Country country, DateTime fromDate, DateTime toDate) {
+  public CityCountryAssoc(City city, Country country, LocalDate fromDate, LocalDate toDate) {
     this.setCity(city);
     this.setCountry(country);
     this.setFromDate(fromDate);
@@ -66,19 +66,19 @@ public class CityCountryAssoc extends BaseEntity {
     this.country = country;
   }
 
-  public DateTime getFromDate() {
+  public LocalDate getFromDate() {
     return fromDate;
   }
 
-  public void setFromDate(DateTime fromDate) {
+  public void setFromDate(LocalDate fromDate) {
     this.fromDate = fromDate;
   }
 
-  public DateTime getToDate() {
+  public LocalDate getToDate() {
     return toDate;
   }
 
-  public void setToDate(DateTime toDate) {
+  public void setToDate(LocalDate toDate) {
     this.toDate = toDate;
   }
 

@@ -12,22 +12,22 @@
 
 package com.github.fauu.natrank.model;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 public class ParsedRawMatchDatum {
 
-  private DateTime date;
+  private LocalDate date;
   private String type;
   private String city;
   private String team1;
   private String team2;
   private String result;
 
-  public DateTime getDate() {
+  public LocalDate getDate() {
     return date;
   }
 
-  public void setDate(DateTime date) {
+  public void setDate(LocalDate date) {
     this.date = date;
   }
 

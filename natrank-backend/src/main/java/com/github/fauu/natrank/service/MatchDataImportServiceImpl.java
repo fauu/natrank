@@ -16,6 +16,7 @@ import com.github.fauu.natrank.model.*;
 import com.github.fauu.natrank.model.report.MatchReport;
 import com.github.fauu.natrank.repository.*;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,7 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
   @Override
   public ProcessedMatchData processMatchData(String rawMatchData) {
     ProcessedMatchData matchData = new ProcessedMatchData();
-    DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+    DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd/MM/yyyy");
 
     int lineNo = 1;
     BufferedReader reader = new BufferedReader(new StringReader(rawMatchData));
@@ -73,22 +74,40 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
           }
 
           ParsedRawMatchDatum match = new ParsedRawMatchDatum();
-          DateTime matchDate;
+          LocalDate matchDate;
           try {
-            matchDate = formatter.parseDateTime(splitLine[0]);
+            matchDate = dateTimeFormatter.parseLocalDate(splitLine[0]);
           } catch (IllegalArgumentException e) {
             MatchDataError error =
                 new MatchDataError(lineNo, line, MatchDataErrorType.ERROR_INCORRECT_DATE_FORMAT);
             matchData.getErrors().add(error);
+            e.printStackTrace();
 
             matchDate = null;
           }
+
+          String matchType = splitLine[1];
+          String matchCity = splitLine[2];
+          String matchTeam1 = splitLine[3];
+          String matchTeam2 = splitLine[4];
+          String matchResult = splitLine[5];
+
+          Country team1Country = countryRepository.findByName(matchTeam1);
+          Country team2Country = countryRepository.findByName(matchTeam2);
+          if ((team1Country != null) && (team2Country != null)) {
+            List<Match> duplicates = matchRepository.findByDateAndTeam1AndTeam2(matchDate,
+                team1Country.getTeam(), team2Country.getTeam());
+            if (duplicates.size() > 0) {
+              continue;
+            }
+          }
+
           match.setDate(matchDate);
-          match.setType(splitLine[1]);
-          match.setCity(splitLine[2]);
-          match.setTeam1(splitLine[3]);
-          match.setTeam2(splitLine[4]);
-          match.setResult(splitLine[5]);
+          match.setType(matchType);
+          match.setCity(matchCity);
+          match.setTeam1(matchTeam1);
+          match.setTeam2(matchTeam2);
+          match.setResult(matchResult);
 
           matchData.getMatches().add(match);
         } else {
@@ -109,8 +128,6 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
         e.printStackTrace();
       }
     }
-
-    // TODO: filter matches that are already present in the database
 
     if (matchData.getErrors().size() == 0) {
       List<String> existingCountryNames = countryRepository.findAllNames();
@@ -260,12 +277,6 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
         if ((newMatch.getTeam1() != null) && (newMatch.getTeam2() != null)) {
           break;
         }
-      }
-
-      List<Match> duplicates = matchRepository.findByDateAndTeam1AndTeam2(
-          newMatch.getDate(), newMatch.getTeam1(), newMatch.getTeam2());
-      if (duplicates.size() > 0) {
-        continue;
       }
 
       String fullResult = intMatch.getResult();

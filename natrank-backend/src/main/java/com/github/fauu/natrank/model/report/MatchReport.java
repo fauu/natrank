@@ -12,11 +12,11 @@
 
 package com.github.fauu.natrank.model.report;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 public class MatchReport {
 
-  private DateTime date;
+  private LocalDate date;
   private String type;
   private String city;
   private String country;
@@ -28,7 +28,7 @@ public class MatchReport {
   private String homeTeamName;
   private String winnerTeamName;
 
-  public MatchReport(DateTime date, String type, String city, String country, String countryFlagCode,
+  public MatchReport(LocalDate date, String type, String city, String country, String countryFlagCode,
                      String team1Name, int team1GoalsScored, String team1FlagCode,
                      String team2Name, int team2GoalsScored, String team2FlagCode, String fullResult,
                      boolean penaltyShootout, String homeTeamName, String winnerTeamName) {
@@ -46,11 +46,11 @@ public class MatchReport {
     this.winnerTeamName = winnerTeamName;
   }
 
-  public DateTime getDate() {
+  public LocalDate getDate() {
     return date;
   }
 
-  public void setDate(DateTime date) {
+  public void setDate(LocalDate date) {
     this.date = date;
   }
 

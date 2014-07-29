@@ -13,7 +13,7 @@
 package com.github.fauu.natrank.model;
 
 import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 
@@ -22,8 +22,8 @@ import javax.persistence.*;
 public class Match extends BaseEntity {
 
   @Column(name = "date")
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-  private DateTime date;
+  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+  private LocalDate date;
 
   @ManyToOne
   @JoinColumn(name = "type_id")
@@ -61,11 +61,11 @@ public class Match extends BaseEntity {
   @Column(name = "penalty_shootout")
   private boolean penaltyShootout;
 
-  public DateTime getDate() {
+  public LocalDate getDate() {
     return date;
   }
 
-  public void setDate(DateTime date) {
+  public void setDate(LocalDate date) {
     this.date = date;
   }
 
