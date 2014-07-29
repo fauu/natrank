@@ -58,9 +58,6 @@ public class Match extends BaseEntity {
   @JoinColumn(name = "winner_team_id")
   private Team winnerTeam;
 
-  @Column(name = "hash")
-  private String hash;
-
   @Column(name = "penalty_shootout")
   private boolean penaltyShootout;
 
@@ -142,14 +139,6 @@ public class Match extends BaseEntity {
 
   public void setWinnerTeam(Team winnerTeam) {
     this.winnerTeam = winnerTeam;
-  }
-
-  public String getHash() {
-    return hash;
-  }
-
-  public void setHash(String hash) {
-    this.hash = hash;
   }
 
   public boolean isPenaltyShootout() {

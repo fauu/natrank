@@ -13,6 +13,7 @@
 package com.github.fauu.natrank.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -34,6 +35,17 @@ public class City extends NamedEntity {
 
   public void setCityCountryAssocs(List<CityCountryAssoc> cityCountryAssocs) {
     this.cityCountryAssocs = cityCountryAssocs;
+  }
+
+  public Country getCountryByDate(DateTime date) {
+    for (CityCountryAssoc ccAssoc : cityCountryAssocs) {
+      if (!ccAssoc.getFromDate().isAfter(date) &&
+          ((ccAssoc.getToDate() == null) || ccAssoc.getToDate().isAfter(date))) {
+        return  ccAssoc.getCountry();
+      }
+    }
+
+    return null;
   }
 
   /*

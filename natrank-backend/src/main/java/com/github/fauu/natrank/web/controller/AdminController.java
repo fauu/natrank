@@ -154,10 +154,10 @@ public class AdminController {
   @RequestMapping(value = "/import-data/steps/5", method = RequestMethod.GET)
   public String reviewMatches(@ModelAttribute("matchData") ProcessedMatchData matchData,
                               Model model) {
-    model.addAttribute("step", 5);
-    model.addAttribute("matchData", matchData);
-
     List<Match> newMatches = matchDataImportService.createMatches(matchData);
+
+    model.addAttribute("step", 5);
+    model.addAttribute("newMatches", newMatches);
 
     return "dataImport";
   }

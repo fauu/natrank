@@ -13,7 +13,9 @@
 package com.github.fauu.natrank.repository;
 
 import com.github.fauu.natrank.model.Match;
+import com.github.fauu.natrank.model.Team;
 import com.github.fauu.natrank.model.report.MatchReport;
+import org.joda.time.DateTime;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
@@ -21,6 +23,8 @@ import org.springframework.data.repository.Repository;
 import java.util.List;
 
 public interface MatchRepository extends Repository<Match, Integer> {
+
+  List<Match> findByDateAndTeam1AndTeam2(DateTime date, Team team1, Team team2);
 
   List<Match> findAll() throws DataAccessException;
 

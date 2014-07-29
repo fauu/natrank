@@ -13,10 +13,8 @@
 package com.github.fauu.natrank.service;
 
 import com.github.fauu.natrank.model.*;
-import com.github.fauu.natrank.repository.CityRepository;
-import com.github.fauu.natrank.repository.CountryRepository;
-import com.github.fauu.natrank.repository.MatchTypeRepository;
-import com.github.fauu.natrank.repository.TeamRepository;
+import com.github.fauu.natrank.model.report.MatchReport;
+import com.github.fauu.natrank.repository.*;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -36,16 +34,20 @@ import java.util.regex.Pattern;
 public class MatchDataImportServiceImpl implements MatchDataImportService {
 
   @Autowired
+  private CityRepository cityRepository;
+
+  @Autowired
   private CountryRepository countryRepository;
+
+  @Autowired
+  private MatchRepository matchRepository;
+
+  @Autowired
+  private MatchTypeRepository matchTypeRepository;
 
   @Autowired
   private TeamRepository teamRepository;
 
-  @Autowired
-  private CityRepository cityRepository;
-
-  @Autowired
-  private MatchTypeRepository matchTypeRepository;
 
   @Override
   public ProcessedMatchData processMatchData(String rawMatchData) {
@@ -230,8 +232,6 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
     StringBuilder resultExtraBuilder = new StringBuilder(50);
 
     for (ParsedRawMatchDatum intMatch : matchData.getMatches()) {
-      // TODO: Discard matches already present in the database
-
       Match newMatch = new Match();
 
       newMatch.setDate(intMatch.getDate());
@@ -262,9 +262,16 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
         }
       }
 
+      List<Match> duplicates = matchRepository.findByDateAndTeam1AndTeam2(
+          newMatch.getDate(), newMatch.getTeam1(), newMatch.getTeam2());
+      if (duplicates.size() > 0) {
+        continue;
+      }
+
       String fullResult = intMatch.getResult();
       Pattern resultPattern = Pattern.compile(
-          "(\\d+):(\\d+)(?:\\s(a\\.e\\.t\\.))?(?:\\s(\\(\\d+:\\d+(?:,\\s\\d+:\\d+)?\\)))?(?:\\s(\\d+):(\\d+)\\sPSO)?");
+          "(\\d+):(\\d+)(?:\\s(a\\.e\\.t\\.))?(?:\\s(\\(\\d+:\\d+(?:,\\s\\d+:\\d+)?\\)))?" +
+          "(?:\\s(\\d+):(\\d+)\\sPSO)?");
       Matcher resultMatcher = resultPattern.matcher(fullResult);
       int team1Goals = 0;
       int team2Goals = 0;
@@ -292,17 +299,15 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
 
       newMatch.setTeam1Goals(team1Goals);
       newMatch.setTeam2Goals(team2Goals);
-      if (team1Goals > team2Goals) {
-        newMatch.setWinnerTeam(newMatch.getTeam1());
-      } else if (team1Goals < team2Goals) {
-        newMatch.setWinnerTeam(newMatch.getTeam2());
+
+      if (newMatch.getTeam1().isCityHomeForDate(newMatch.getCity(), newMatch.getDate())) {
+        newMatch.setHomeTeam(newMatch.getTeam1());
+      } else if(newMatch.getTeam2().isCityHomeForDate(newMatch.getCity(), newMatch.getDate())) {
+        newMatch.setHomeTeam(newMatch.getTeam2());
       } else {
-        newMatch.setWinnerTeam(null);
+        // exception
       }
 
-      // TODO: Set home team
-
-      // TODO: Set resultExtra
       resultExtraBuilder.delete(0, resultExtraBuilder.length());
       if (extraTime) {
         resultExtraBuilder.append("AET");
@@ -317,6 +322,25 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
         resultExtraBuilder.append(':');
         resultExtraBuilder.append(penTeam2Goals);
         resultExtraBuilder.append(" PEN");
+        newMatch.setPenaltyShootout(true);
+      } else {
+        newMatch.setPenaltyShootout(false);
+      }
+
+      if (!newMatch.isPenaltyShootout()) {
+        if (team1Goals > team2Goals) {
+          newMatch.setWinnerTeam(newMatch.getTeam1());
+        } else if (team1Goals < team2Goals) {
+          newMatch.setWinnerTeam(newMatch.getTeam2());
+        } else {
+          newMatch.setWinnerTeam(null);
+        }
+      } else {
+        if(penTeam1Goals > penTeam2Goals) {
+          newMatch.setWinnerTeam(newMatch.getTeam1());
+        } else {
+          newMatch.setWinnerTeam(newMatch.getTeam2());
+        }
       }
 
       newMatch.setResultExtra(resultExtraBuilder.toString());
