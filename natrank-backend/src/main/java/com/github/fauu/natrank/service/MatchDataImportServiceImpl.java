@@ -50,7 +50,6 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
   @Autowired
   private TeamRepository teamRepository;
 
-
   @Override
   public ProcessedMatchData processMatchData(String rawMatchData) {
     ProcessedMatchData matchData = new ProcessedMatchData();
@@ -159,8 +158,14 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
             Country newCountry = new Country();
             newCountry.setName(countryName);
             newCountry.setFromDate(parsedRawMatchDatum.getDate());
-            newCountry.setCode(
-                countryCodeRepository.findByCountryName(newCountry.getName()).get(0).getCode());
+            List<CountryCode> matchingCountryCodes
+                = countryCodeRepository.findByCountryName(newCountry.getName());
+            String inferredCountryCode = "";
+            if (matchingCountryCodes.size() > 0) {
+              inferredCountryCode = matchingCountryCodes.get(0).getCode();
+            }
+            newCountry.setCode(inferredCountryCode);
+
 
             processedNewCountryNames.add(newCountry.getName());
             matchData.getCountries().add(newCountry);
@@ -213,7 +218,6 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
 
   @Override
   public void addCountries(List<Country> countries) throws DataAccessException {
-    //09/09/1992;Testń→;Warsaw;Poland;England;10:10 a.e.t. (2:2, 4:4) 11:10 PSO
     for (Country country : countries) {
       // TODO: Perhaps do this in a DB trigger/JPA event listener?
       String oldTeamName = country.getTeam().getCurrentName();
@@ -304,7 +308,7 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
           team1Goals = Integer.parseInt(resultMatcher.group(1));
           team2Goals = Integer.parseInt(resultMatcher.group(2));
         } else {
-          // exception
+          // TODO: Should not happen, log this
         }
         extraTime = (resultMatcher.group(3) != null) ? true : false;
         resultsOnGameBreaks = resultMatcher.group(4);
@@ -313,7 +317,7 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
           penTeam2Goals = Integer.parseInt(resultMatcher.group(6));
         }
       } else {
-        // exception
+        // TODO: Should not happen, log this
         System.out.println("no match");
       }
 
@@ -325,7 +329,7 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
       } else if(newMatch.getTeam2().isCityHomeForDate(newMatch.getCity(), newMatch.getDate())) {
         newMatch.setHomeTeam(newMatch.getTeam2());
       } else {
-        // exception
+        // TODO: Should not happen, log this
       }
 
       resultExtraBuilder.delete(0, resultExtraBuilder.length());
@@ -372,10 +376,34 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
     return newMatches;
   }
 
+  @Override
   public void addMatches(List<Match> matches) {
     for (Match match : matches) {
       matchRepository.save(match);
     }
+  }
+
+  @Override
+  public String getWikiCountryFlagMarkup(List<Country> countries) throws DataAccessException {
+    StringBuilder flagMarkupBuilder = new StringBuilder();
+
+    for (Country country : countries) {
+      flagMarkupBuilder.append("{{flagicon|");
+      flagMarkupBuilder.append(country.getCode());
+      flagMarkupBuilder.append("|");
+      flagMarkupBuilder.append(country.getFromDate().toString("yyyy"));
+      flagMarkupBuilder.append("|size=150px}}");
+      flagMarkupBuilder.append("{{flagicon|");
+      flagMarkupBuilder.append(country.getCode());
+      flagMarkupBuilder.append("|");
+      flagMarkupBuilder.append(country.getFromDate().toString("yyyy"));
+      flagMarkupBuilder.append("}}");
+      flagMarkupBuilder.append(country.getCode());
+      flagMarkupBuilder.append("1");
+      flagMarkupBuilder.append('\n');
+    }
+
+    return flagMarkupBuilder.toString();
   }
 
 }

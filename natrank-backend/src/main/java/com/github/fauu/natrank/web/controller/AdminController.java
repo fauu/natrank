@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -98,6 +99,10 @@ public class AdminController {
 
   @RequestMapping(value = "/import-data/steps/2", method = RequestMethod.GET)
   public String editCountries(@ModelAttribute("matchData") ProcessedMatchData matchData, Model model) {
+    if (matchData.getMatches().size() == 0) {
+      return "redirect:/admin/import-data";
+    }
+
     List<Team> teams = matchDataImportService.findAllTeams();
 
     model.addAttribute("step", 2);
@@ -108,16 +113,18 @@ public class AdminController {
   }
 
   @RequestMapping(value = "/import-data/steps/2", method = RequestMethod.POST)
-  public String saveCountries(@ModelAttribute("matchData") ProcessedMatchData matchData,
-                              BindingResult result, Model model) {
+  public String saveCountries(@ModelAttribute("matchData") ProcessedMatchData matchData) {
     matchDataImportService.addCountries(matchData.getCountries());
 
     return "redirect:/admin/import-data/steps/3";
   }
 
   @RequestMapping(value = "/import-data/steps/3", method = RequestMethod.GET)
-  public String editCities(@ModelAttribute("matchData") ProcessedMatchData matchData,
-                                    Model model) {
+  public String editCities(@ModelAttribute("matchData") ProcessedMatchData matchData, Model model) {
+    if (matchData.getMatches().size() == 0) {
+      return "redirect:/admin/import-data";
+    }
+
     List<Country> allCountries = matchDataImportService.findAllCountriesSorted();
 
     model.addAttribute("step", 3);
@@ -128,8 +135,7 @@ public class AdminController {
   }
 
   @RequestMapping(value = "/import-data/steps/3", method = RequestMethod.POST)
-  public String saveCities(@ModelAttribute("matchData") ProcessedMatchData matchData,
-                           BindingResult result, Model model) {
+  public String saveCities(@ModelAttribute("matchData") ProcessedMatchData matchData, Model model) {
     model.addAttribute("step", 3);
     model.addAttribute("matchData", matchData);
 
@@ -141,6 +147,10 @@ public class AdminController {
   @RequestMapping(value = "/import-data/steps/4", method = RequestMethod.GET)
   public String editMatchTypes(@ModelAttribute("matchData") ProcessedMatchData matchData,
                                Model model) {
+    if (matchData.getMatches().size() == 0) {
+      return "redirect:/admin/import-data";
+    }
+
     model.addAttribute("step", 4);
     model.addAttribute("matchData", matchData);
 
@@ -148,8 +158,7 @@ public class AdminController {
   }
 
   @RequestMapping(value = "/import-data/steps/4", method = RequestMethod.POST)
-  public String saveMatchTypes(@ModelAttribute("matchData") ProcessedMatchData matchData,
-                               BindingResult result, Model model) {
+  public String saveMatchTypes(@ModelAttribute("matchData") ProcessedMatchData matchData, Model model) {
     model.addAttribute("step", 4);
     model.addAttribute("matchData", matchData);
 
@@ -161,6 +170,10 @@ public class AdminController {
   @RequestMapping(value = "/import-data/steps/5", method = RequestMethod.GET)
   public String reviewMatches(@ModelAttribute("matchData") ProcessedMatchData matchData,
                               Model model) {
+    if (matchData.getMatches().size() == 0) {
+      return "redirect:/admin/import-data";
+    }
+
     List<Match> newMatches = matchDataImportService.createMatches(matchData);
 
     model.addAttribute("step", 5);
@@ -171,9 +184,17 @@ public class AdminController {
 
   @RequestMapping(value = "/import-data/steps/6", method = RequestMethod.GET)
   public String saveMatchesAndGetWikiFlagMarkup(@ModelAttribute("newMatches") List<Match> newMatches,
-                                                Model model) {
+                                                @ModelAttribute("matchData") ProcessedMatchData matchData,
+                                                SessionStatus sessionStatus, Model model) {
+    if (newMatches.size() == 0) {
+      return "redirect:/admin/import-data";
+    }
+
+    sessionStatus.setComplete();
     matchDataImportService.addMatches(newMatches);
 
+    String flagMarkup = matchDataImportService.getWikiCountryFlagMarkup(matchData.getCountries());
+    model.addAttribute("flagMarkup", flagMarkup);
     model.addAttribute("step", 6);
 
     return "dataImport";

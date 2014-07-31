@@ -98,4 +98,14 @@ public class Country extends NamedEntity {
     this.flags = flags;
   }
 
+  public Flag getCurrentFlag() {
+    for (Flag flag : flags) {
+      if (flag.getToDate() == null) {
+        return flag;
+      }
+    }
+
+    return null;
+  }
+
 }

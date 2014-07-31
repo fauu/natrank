@@ -33,7 +33,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <a href="<c:url value='/admin/logout' />">Log out</a>
+          <a href="<c:url value='/admin/logout' />" class="logout">Log out</a>
         </li>
       </ul>
     </nav>

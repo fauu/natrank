@@ -40,4 +40,6 @@ public interface MatchDataImportService {
 
   void addMatches(List<Match> matches) throws DataAccessException;
 
+  String getWikiCountryFlagMarkup(List<Country> countries) throws DataAccessException;
+
 }

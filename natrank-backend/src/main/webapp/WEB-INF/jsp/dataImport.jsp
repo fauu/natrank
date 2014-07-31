@@ -32,7 +32,9 @@
           </c:choose>
         </small>
       </h3>
-      <jsp:include page="fragments/dataImportStep${step}.jsp" />
+      <div class="content">
+        <jsp:include page="fragments/dataImportStep${step}.jsp" />
+      </div>
     </div>
   </body>
 </html>

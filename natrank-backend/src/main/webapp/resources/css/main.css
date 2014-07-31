@@ -17,7 +17,6 @@ body {
 
 .top-bar {
     background-color: #FFFFFF;
-    margin-bottom: 15px;
 }
 
 header {
@@ -41,6 +40,10 @@ textarea {
 
 ul {
     margin-bottom: 0;
+}
+
+.logout {
+    color: #A94442;
 }
 
 .bg-danger {
@@ -73,9 +76,21 @@ form {
 
 h3 {
     margin-top: 0;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     padding-bottom: 5px;
-    border-bottom: 1px solid #AAAAAA;
     font-weight: bold;
+    background-color: #182030;
+    padding: 10px;
 }
 
+td {
+    vertical-align: middle;
+}
+
+.content {
+    padding: 0 10px;
+}
+
+.btn-lg {
+    margin-right: 8px;
+}

@@ -120,7 +120,10 @@ public class Team extends BaseEntity {
       for (Country country : countries) {
         if (!country.getFromDate().isAfter(date) &&
             ((country.getToDate() == null) || country.getToDate().isAfter(date))) {
-          return city.getCountryByDate(date).equals(country);
+          Country countryByDate = city.getCountryByDate(date);
+          if (countryByDate != null) {
+            return countryByDate.equals(country);
+          }
         }
       }
     }

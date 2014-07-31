@@ -23,7 +23,7 @@ public interface MatchTypeRepository extends Repository<MatchType, Integer> {
 
   List<MatchType> findAll();
 
-  @Query("SELECT name FROM MatchType")
+  @Query("SELECT fifaName FROM MatchType")
   List<String> findAllFifaNames() throws DataAccessException;
 
   MatchType save(MatchType type) throws DataAccessException;

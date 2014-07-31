@@ -58,4 +58,5 @@
 </c:forEach>
   </tbody>
 </table>
-<a href="<c:url value="/admin/import-data/steps/${step + 1}" />" class="btn btn-default">Finish</a>
+<a href="<c:url value="/admin/import-data/steps/${step + 1}" />" class="btn btn-default btn-lg">Finish</a>
+<a href="<c:url value="/admin/import-data" />" class="btn btn-default">Cancel</a>
