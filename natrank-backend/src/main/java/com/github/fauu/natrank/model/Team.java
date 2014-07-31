@@ -92,6 +92,17 @@ public class Team extends BaseEntity {
     }
   }
 
+  public Country getCountryByDate(LocalDate date) {
+    for (Country country : countries) {
+      if (!country.getFromDate().isAfter(date) &&
+          ((country.getToDate() == null) || country.getToDate().isAfter(date))) {
+        return country;
+      }
+    }
+
+    return null;
+  }
+
   public Country getCurrentCountry() {
     if (countries != null) {
       for (Country country : countries) {

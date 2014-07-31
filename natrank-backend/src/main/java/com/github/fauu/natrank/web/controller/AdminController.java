@@ -25,12 +25,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
-@SessionAttributes("matchData")
+@SessionAttributes({"matchData", "newMatches"})
 public class AdminController {
 
   @Autowired
@@ -46,10 +47,15 @@ public class AdminController {
     return new ProcessedMatchData();
   }
 
+  @ModelAttribute("newMatches")
+  public List<Match> getNewMatches() {
+    return new LinkedList<>();
+  }
+
   @InitBinder
   public void initBinder(WebDataBinder binder) {
-    binder.registerCustomEditor(Team.class, new TeamPropertyEditor());
-    binder.registerCustomEditor(Country.class, new CountryPropertyEditor());
+    binder.registerCustomEditor(Team.class, new TeamPropertyEditor(matchDataImportService));
+    binder.registerCustomEditor(Country.class, new CountryPropertyEditor(matchDataImportService));
   }
 
   @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
@@ -159,6 +165,16 @@ public class AdminController {
 
     model.addAttribute("step", 5);
     model.addAttribute("newMatches", newMatches);
+
+    return "dataImport";
+  }
+
+  @RequestMapping(value = "/import-data/steps/6", method = RequestMethod.GET)
+  public String saveMatchesAndGetWikiFlagMarkup(@ModelAttribute("newMatches") List<Match> newMatches,
+                                                Model model) {
+    matchDataImportService.addMatches(newMatches);
+
+    model.addAttribute("step", 6);
 
     return "dataImport";
   }

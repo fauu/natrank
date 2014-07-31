@@ -14,6 +14,7 @@ package com.github.fauu.natrank.model.report;
 
 import org.joda.time.LocalDate;
 
+// TODO: Replace this with ResponseView: http://martypitt.wordpress.com/2012/11/05/custom-json-views-with-spring-mvc-and-jackson/
 public class MatchReport {
 
   private LocalDate date;

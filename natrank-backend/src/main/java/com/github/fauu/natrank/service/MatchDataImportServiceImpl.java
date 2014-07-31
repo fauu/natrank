@@ -219,11 +219,12 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
       String oldTeamName = country.getTeam().getCurrentName();
       if (oldTeamName != null) {
         Country oldTeamCountry = countryRepository.findByName(oldTeamName);
-        oldTeamCountry.setToDate(country.getFromDate());
+        oldTeamCountry.setToDate(country.getFromDate().minusDays(1));
         countryRepository.save(oldTeamCountry);
       }
 
       Flag countryFlag = new Flag();
+      countryFlag.setCountry(country);
       countryFlag.setCode(country.getCode() + "1");
       countryFlag.setFromDate(country.getFromDate());
       country.getFlags().add(countryFlag);
@@ -330,10 +331,11 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
       resultExtraBuilder.delete(0, resultExtraBuilder.length());
       if (extraTime) {
         resultExtraBuilder.append("AET");
+        resultExtraBuilder.append(' ');
       }
       if (resultsOnGameBreaks != null) {
-        resultExtraBuilder.append(' ');
         resultExtraBuilder.append(resultsOnGameBreaks);
+        resultExtraBuilder.append(' ');
       }
       if (penTeam1Goals > 0 || penTeam2Goals > 0) {
         resultExtraBuilder.append(' ');
@@ -368,6 +370,12 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
     }
 
     return newMatches;
+  }
+
+  public void addMatches(List<Match> matches) {
+    for (Match match : matches) {
+      matchRepository.save(match);
+    }
   }
 
 }

@@ -15,24 +15,12 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <jsp:include page="fragments/headTag.jsp" />
-  <body>
-    <jsp:include page="fragments/topBar.jsp" />
-    <div class="container">
-      <h3>
-        Match data import
-        <small>
-          <c:choose>
-            <c:when test="${step < 6}">
-              Step <c:out value="${step}" />/5
-            </c:when>
-            <c:otherwise>
-              Finish
-            </c:otherwise>
-          </c:choose>
-        </small>
-      </h3>
-      <jsp:include page="fragments/dataImportStep${step}.jsp" />
-    </div>
-  </body>
+<jsp:include page="fragments/headTag.jsp" />
+<body>
+<jsp:include page="fragments/topBar.jsp" />
+<div class="container">
+  <h3>Orphan cities<h3>
+
+</div>
+</body>
 </html>

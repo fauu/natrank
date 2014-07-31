@@ -11,6 +11,7 @@
   --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ page pageEncoding="utf-8" %>
 
 <form:form action="/admin/import-data/steps/${step}" commandName="rawMatchDataForm" method="POST">
   <div class="form-group">

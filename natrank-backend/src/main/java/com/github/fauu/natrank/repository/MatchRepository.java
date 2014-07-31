@@ -24,9 +24,8 @@ import java.util.List;
 
 public interface MatchRepository extends Repository<Match, Integer> {
 
-  List<Match> findByDateAndTeam1AndTeam2(LocalDate date, Team team1, Team team2);
-
-  List<Match> findByTeam1AndTeam2(Team team1, Team team2);
+  List<Match> findByDateAndTeam1AndTeam2(LocalDate date, Team team1, Team team2)
+      throws DataAccessException;
 
   List<Match> findAll() throws DataAccessException;
 
@@ -55,5 +54,10 @@ public interface MatchRepository extends Repository<Match, Integer> {
          "AND (m.date >= cof.fromDate) AND (cof.toDate IS NULL OR m.date < cof.toDate) " +
          "ORDER BY m.date")
   List<MatchReport> findAllMatchReports() throws DataAccessException;
+
+  Match save(Match match) throws DataAccessException;
+
+  // Why doesn't this work?
+  //List<Match> save(List<Match> matches) throws DataAccessException;
 
 }

@@ -13,26 +13,9 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page pageEncoding="utf-8" %>
 
-<!DOCTYPE html>
-<html lang="en">
-  <jsp:include page="fragments/headTag.jsp" />
-  <body>
-    <jsp:include page="fragments/topBar.jsp" />
-    <div class="container">
-      <h3>
-        Match data import
-        <small>
-          <c:choose>
-            <c:when test="${step < 6}">
-              Step <c:out value="${step}" />/5
-            </c:when>
-            <c:otherwise>
-              Finish
-            </c:otherwise>
-          </c:choose>
-        </small>
-      </h3>
-      <jsp:include page="fragments/dataImportStep${step}.jsp" />
-    </div>
-  </body>
-</html>
+<h4>It's done!</h4>
+<%--<form:form>--%>
+  <%--<form:label path="">Wikipedia markup for missing flags:</form:label>--%>
+  <%--<form:textarea class="form-control" path="" rows="5" />--%>
+<%--</form:form>--%>
+

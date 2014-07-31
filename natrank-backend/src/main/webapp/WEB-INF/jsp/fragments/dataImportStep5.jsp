@@ -11,48 +11,50 @@
   --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.joda.org/joda/time/tags" prefix="joda" %>
+<%@ page pageEncoding="utf-8" %>
 
-<h4>List of matches to be added:</h4>
+<h4>Matches to be added:</h4>
 <table class="table">
   <thead>
     <tr>
       <th>Date</th>
       <th>Type</th>
-      <th>City</th>
+      <th>Venue</th>
       <th>Team 1</th>
       <th>Team 2</th>
-      <th>Team 1 goals</th>
-      <th>Team 2 goals</th>
-      <th>Result extra</th>
-      <th>Home team</th>
+      <th class="text-center">Result</th>
+      <th>Home advantage</th>
       <th>Winner</th>
-      <th>Penalty shootout</th>
+      <th class="text-center">Penalty shootout</th>
     </tr>
   </thead>
   <tbody>
 <c:forEach var="match" items="${newMatches}">
-    <tr>
-      <td><joda:format value="${match.date}" style="M-" /></td>
-      <td>${match.type.name}</td>
-      <td>${match.city.name}</td>
-      <td>${match.team1.id}</td>
-      <td>${match.team2.id}</td>
-      <td>${match.team1Goals}</td>
-      <td>${match.team2Goals}</td>
-      <td>${match.resultExtra}</td>
-      <td>${match.homeTeam.id}</td>
-      <td>${match.winnerTeam.id}</td>
-      <td>
-        <c:choose>
-          <c:when test="${match.penaltyShootout}">
-            Yes
-          </c:when>
-          <c:otherwise>
-            No
-          </c:otherwise>
-        </c:choose>
-      </td>
-    </tr>
+  <tr>
+    <td><joda:format value="${match.date}" style="M-" /></td>
+    <td>${match.type.name}</td>
+    <td>${match.city.name}, ${match.city.getCountryByDate(match.date).name}</td>
+    <td>${match.team1.getCountryByDate(match.date).name}</td>
+    <td>${match.team2.getCountryByDate(match.date).name}</td>
+    <td class="text-center">
+      ${match.team1Goals}:${match.team2Goals}
+      <c:if test="${match.resultExtra != ''}">
+        <small>${match.resultExtra}</small>
+      </c:if>
+    </td>
+    <td><c:out value="${match.homeTeam.getCountryByDate(match.date).name}" default="Neither" /></td>
+    <td><c:out value="${match.winnerTeam.getCountryByDate(match.date).name}" default="Tie"/></td>
+    <td class="text-center">
+      <c:choose>
+        <c:when test="${match.penaltyShootout}">
+          Yes
+        </c:when>
+        <c:otherwise>
+          No
+        </c:otherwise>
+      </c:choose>
+    </td>
+  </tr>
 </c:forEach>
   </tbody>
 </table>

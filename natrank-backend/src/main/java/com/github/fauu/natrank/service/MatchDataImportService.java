@@ -38,4 +38,6 @@ public interface MatchDataImportService {
 
   List<Match> createMatches(ProcessedMatchData matchData) throws DataAccessException;
 
+  void addMatches(List<Match> matches) throws DataAccessException;
+
 }

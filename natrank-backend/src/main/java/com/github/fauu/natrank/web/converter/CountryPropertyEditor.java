@@ -19,11 +19,13 @@ import org.springframework.stereotype.Component;
 
 import java.beans.PropertyEditorSupport;
 
-@Component
 public class CountryPropertyEditor extends PropertyEditorSupport {
 
-    @Autowired
     private MatchDataImportService matchDataImportService;
+
+    public CountryPropertyEditor(MatchDataImportService matchDataImportService) {
+      this.matchDataImportService = matchDataImportService;
+    }
 
     @Override
     public void setAsText(String text) {

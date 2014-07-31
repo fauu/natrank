@@ -19,11 +19,13 @@ import org.springframework.stereotype.Component;
 
 import java.beans.PropertyEditorSupport;
 
-@Component
 public class TeamPropertyEditor extends PropertyEditorSupport {
 
-    @Autowired
     private MatchDataImportService matchDataImportService;
+
+    public TeamPropertyEditor(MatchDataImportService matchDataImportService) {
+      this.matchDataImportService = matchDataImportService;
+    }
 
     @Override
     public void setAsText(String text) {

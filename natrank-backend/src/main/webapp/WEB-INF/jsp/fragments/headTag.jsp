@@ -10,6 +10,7 @@
   ~ Authored by: Piotr Grabowski <fau999@gmail.com>
   --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page pageEncoding="utf-8" %>
 
 <head>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
