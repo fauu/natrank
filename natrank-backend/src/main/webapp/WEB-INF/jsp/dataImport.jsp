@@ -33,7 +33,7 @@
         </small>
       </h3>
       <div class="content">
-        <jsp:include page="fragments/dataImportStep${step}.jsp" />
+        <jsp:include page="fragments/dataImport/step${step}.jsp" />
       </div>
     </div>
   </body>
