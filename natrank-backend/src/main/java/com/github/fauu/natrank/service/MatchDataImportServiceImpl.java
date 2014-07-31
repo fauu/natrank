@@ -399,7 +399,9 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
       flagMarkupBuilder.append(country.getFromDate().toString("yyyy"));
       flagMarkupBuilder.append("}}");
       flagMarkupBuilder.append(country.getCode());
-      flagMarkupBuilder.append("1");
+      flagMarkupBuilder.append("1 ");
+      flagMarkupBuilder.append("http://en.wikipedia.org/wiki/Template:Country_data_");
+      flagMarkupBuilder.append(country.getName());
       flagMarkupBuilder.append('\n');
     }
 
