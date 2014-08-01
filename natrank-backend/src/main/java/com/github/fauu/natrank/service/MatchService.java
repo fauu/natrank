@@ -21,9 +21,10 @@ import java.util.List;
 
 public interface MatchService {
 
+
   City findCityById(int id) throws DataAccessException;
 
-  List<Match> findAllMatches() throws DataAccessException;
+  List<Match> findAll() throws DataAccessException;
 
   List<MatchReport> findAllMatchReports() throws DataAccessException;
 

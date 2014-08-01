@@ -12,19 +12,26 @@
 
 package com.github.fauu.natrank.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "Team")
 public class Team extends BaseEntity {
 
   @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonBackReference
-  private Set<Country> countries;
+  private List<Country> countries;
 
   @OneToMany(mappedBy = "team1", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonBackReference
@@ -42,48 +49,9 @@ public class Team extends BaseEntity {
   @JsonBackReference
   private Set<Match> matchesWon;
 
-  public Set<Country> getCountries() {
-    return countries;
-  }
-
-  public void setCountries(Set<Country> countries) {
-    this.countries = countries;
-  }
-
-  public Set<Match> getMatchesAsTeam1() {
-    return matchesAsTeam1;
-  }
-
-  public void setMatchesAsTeam1(Set<Match> matchesAsTeam1) {
-    this.matchesAsTeam1 = matchesAsTeam1;
-  }
-
-  public Set<Match> getMatchesAsTeam2() {
-    return matchesAsTeam2;
-  }
-
-  public void setMatchesAsTeam2(Set<Match> matchesAsTeam2) {
-    this.matchesAsTeam2 = matchesAsTeam2;
-  }
-
-  public Set<Match> getMatchesHome() {
-    return matchesHome;
-  }
-
-  public void setMatchesHome(Set<Match> matchesHome) {
-    this.matchesHome = matchesHome;
-  }
-
-  public Set<Match> getMatchesWon() {
-    return matchesWon;
-  }
-
-  public void setMatchesWon(Set<Match> matchesWon) {
-    this.matchesWon = matchesWon;
-  }
-
+  @JsonBackReference
   public String getCurrentName() {
-    Country currentCountry =  getCurrentCountry();
+    Country currentCountry = getCurrentCountry();
 
     if (currentCountry != null) {
       return currentCountry.getName();
@@ -92,23 +60,24 @@ public class Team extends BaseEntity {
     }
   }
 
-  public Country getCountryByDate(LocalDate date) {
-    for (Country country : countries) {
-      if (!country.getFromDate().isAfter(date) &&
-          ((country.getToDate() == null) || country.getToDate().isAfter(date))) {
-        return country;
-      }
-    }
-
-    return null;
-  }
-
+  @JsonBackReference
   public Country getCurrentCountry() {
     if (countries != null) {
       for (Country country : countries) {
         if (country.getToDate() == null) {
           return country;
         }
+      }
+    }
+
+    return null;
+  }
+
+  public Country getCountryByDate(LocalDate date) {
+    for (Country country : countries) {
+      if (!country.getFromDate().isAfter(date) &&
+          ((country.getToDate() == null) || country.getToDate().isAfter(date))) {
+        return country;
       }
     }
 

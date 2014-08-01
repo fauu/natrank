@@ -12,9 +12,6 @@
 
 angular.module('natrank')
   .controller('ResultsCtrl', ['$scope', 'matchService', function($scope, matchService) {
-  $scope.status;
-  $scope.results;
-
   function init() {
     findAllResults();
   }
@@ -23,6 +20,7 @@ angular.module('natrank')
     matchService.findAll()
       .success(function(matches) {
         $scope.results = matches;
+        console.log(matches);
       })
       .error(function(error) {
         $scope.results = 'Unable to load match data:' + error.message;

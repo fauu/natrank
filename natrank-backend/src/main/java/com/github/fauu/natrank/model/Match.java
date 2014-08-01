@@ -12,11 +12,19 @@
 
 package com.github.fauu.natrank.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.github.fauu.natrank.web.jsonview.BaseView;
+import com.github.fauu.natrank.web.jsonview.MatchListView;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "Match")
 public class Match extends BaseEntity {
@@ -27,18 +35,22 @@ public class Match extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "type_id")
+  @JsonManagedReference
   private MatchType type;
 
   @ManyToOne
   @JoinColumn(name = "city_id")
+  @JsonManagedReference
   private City city;
 
   @ManyToOne
   @JoinColumn(name = "team1_id")
+  @JsonManagedReference
   private Team team1;
 
   @ManyToOne
   @JoinColumn(name = "team2_id")
+  @JsonManagedReference
   private Team team2;
 
   @Column(name = "team1_goals")
@@ -52,101 +64,45 @@ public class Match extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "home_team_id")
+  @JsonManagedReference
   private Team homeTeam;
 
   @ManyToOne
   @JoinColumn(name = "winner_team_id")
+  @JsonManagedReference
   private Team winnerTeam;
 
   @Column(name = "penalty_shootout")
   private boolean penaltyShootout;
 
-  public LocalDate getDate() {
-    return date;
+  @JsonManagedReference
+  public Country getCountry() {
+    return city.getCountryByDate(date);
   }
 
-  public void setDate(LocalDate date) {
-    this.date = date;
+  @JsonManagedReference
+  public Country getTeam1Country() {
+    return team1.getCountryByDate(date);
   }
 
-  public MatchType getType() {
-    return type;
+  @JsonManagedReference
+  public Country getTeam2Country() {
+    return team2.getCountryByDate(date);
   }
 
-  public void setType(MatchType type) {
-    this.type = type;
+  @JsonManagedReference
+  public Flag getCountryFlag() {
+    return getCountry().getFlagByDate(date);
   }
 
-  public City getCity() {
-    return city;
+  @JsonManagedReference
+  public Flag getTeam1CountryFlag() {
+    return getTeam1Country().getFlagByDate(date);
   }
 
-  public void setCity(City city) {
-    this.city = city;
-  }
-
-  public Team getTeam1() {
-    return team1;
-  }
-
-  public void setTeam1(Team team1) {
-    this.team1 = team1;
-  }
-
-  public Team getTeam2() {
-    return team2;
-  }
-
-  public void setTeam2(Team team2) {
-    this.team2 = team2;
-  }
-
-  public int getTeam1Goals() {
-    return team1Goals;
-  }
-
-  public void setTeam1Goals(int team1Goals) {
-    this.team1Goals = team1Goals;
-  }
-
-  public int getTeam2Goals() {
-    return team2Goals;
-  }
-
-  public void setTeam2Goals(int team2Goals) {
-    this.team2Goals = team2Goals;
-  }
-
-  public String getResultExtra() {
-    return resultExtra;
-  }
-
-  public void setResultExtra(String resultExtra) {
-    this.resultExtra = resultExtra;
-  }
-
-  public Team getHomeTeam() {
-    return homeTeam;
-  }
-
-  public void setHomeTeam(Team homeTeam) {
-    this.homeTeam = homeTeam;
-  }
-
-  public Team getWinnerTeam() {
-    return winnerTeam;
-  }
-
-  public void setWinnerTeam(Team winnerTeam) {
-    this.winnerTeam = winnerTeam;
-  }
-
-  public boolean isPenaltyShootout() {
-    return penaltyShootout;
-  }
-
-  public void setPenaltyShootout(boolean penaltyShootout) {
-    this.penaltyShootout = penaltyShootout;
+  @JsonManagedReference
+  public Flag getTeam2CountryFlag() {
+    return getTeam2Country().getFlagByDate(date);
   }
 
 }

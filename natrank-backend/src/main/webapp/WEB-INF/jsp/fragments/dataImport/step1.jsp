@@ -32,7 +32,7 @@
               Incorrect line format
             </c:when>
             <c:when test="${error.getType() == 'ERROR_MISSING_FIELD'}">
-              Missing field value
+              Missing field
             </c:when>
             <c:when test="${error.getType() == 'ERROR_INCORRECT_DATE_FORMAT'}">
               Incorrect date format
@@ -47,7 +47,7 @@
     </ul>
   </div>
 </c:if>
-<c:if test="${noMatches}">
+<c:if test="${empty matchData.errors && noMatches}">
   <div class="bg-info">
     No new matches found
   </div>

@@ -14,14 +14,14 @@
   <ul id="results">
     <li class="result" data-ng-repeat="result in results">
       <div class="main-data">
-        <div class="team1-name" data-ng-class="{'winner': result.team1.name == result.winnerTeamName}">
-          <img src="img/flag/{{result.team1.flagCode}}.png" class="flag" /> {{result.team1.name}}
+        <div class="team1-name" data-ng-class="{'winner': result.team1.id == result.winnerTeam.id}">
+          <img src="img/flags/{{result.team1CountryFlag.code}}.png" class="flag" /> {{result.team1Country.name}}
         </div>
         <div class="result">
-          {{result.fullResult}}
+          {{result.team1Goals}}:{{result.team2Goals}} <small>{{result.resultExtra}}</small>
         </div>
-        <div class="team2-name" data-ng-class="{'winner': result.team2.name == result.winnerTeamName}">
-          {{result.team2.name}} <img src="img/flag/{{result.team2.flagCode}}.png" class="flag" />
+        <div class="team2-name" data-ng-class="{'winner': result.team2.id == result.winnerTeam.id}">
+          {{result.team2Country.name}} <img src="img/flags/{{result.team2CountryFlag.code}}.png" class="flag" />
         </div>
       </div>
       <div class="additional-data">
@@ -29,10 +29,10 @@
           {{result.date | date: 'd/M/yyyy'}}
         </div>
         <div class="venue">
-          {{result.city}}, {{result.country}} <img src="img/flag/{{result.countryFlagCode}}.png" class="flag smaller" />
+          {{result.city.name}}, {{result.country.name}} <img src="img/flags/{{result.countryFlag.code}}.png" class="flag smaller" />
         </div>
         <div class="type">
-          {{result.type}}
+          {{result.type.name}}
         </div>
       </div>
     </li>

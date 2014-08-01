@@ -13,7 +13,11 @@
 package com.github.fauu.natrank.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
@@ -22,6 +26,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "Country")
 public class Country extends NamedEntity {
@@ -39,7 +45,7 @@ public class Country extends NamedEntity {
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "team_id")
-  @JsonManagedReference
+  @JsonBackReference
   private Team team;
 
   @OneToMany(mappedBy = "city", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -47,60 +53,24 @@ public class Country extends NamedEntity {
   private Set<CityCountryAssoc> cityCountryAssocs = new HashSet<>();
 
   @OneToMany(mappedBy = "country", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JsonManagedReference
+  @JsonBackReference
   private Set<Flag> flags = new HashSet<>();
 
-  public String getCode() {
-    return code;
-  }
-
-  public void setCode(String code) {
-    this.code = code;
-  }
-
-  public LocalDate getFromDate() {
-    return fromDate;
-  }
-
-  public void setFromDate(LocalDate fromDate) {
-    this.fromDate = fromDate;
-  }
-
-  public LocalDate getToDate() {
-    return toDate;
-  }
-
-  public void setToDate(LocalDate toDate) {
-    this.toDate = toDate;
-  }
-
-  public Team getTeam() {
-    return team;
-  }
-
-  public void setTeam(Team team) {
-    this.team = team;
-  }
-
-  public Set<CityCountryAssoc> getCityCountryAssocs() {
-    return cityCountryAssocs;
-  }
-
-  public void setCityCountryAssocs(Set<CityCountryAssoc> cityCountryAssocs) {
-    this.cityCountryAssocs = cityCountryAssocs;
-  }
-
-  public Set<Flag> getFlags() {
-    return flags;
-  }
-
-  public void setFlags(Set<Flag> flags) {
-    this.flags = flags;
-  }
-
+  @JsonBackReference
   public Flag getCurrentFlag() {
     for (Flag flag : flags) {
       if (flag.getToDate() == null) {
+        return flag;
+      }
+    }
+
+    return null;
+  }
+
+  public Flag getFlagByDate(LocalDate date) {
+    for (Flag flag : flags) {
+      if (!flag.getFromDate().isAfter(date) &&
+          ((flag.getToDate() == null) || flag.getToDate().isAfter(date))) {
         return flag;
       }
     }

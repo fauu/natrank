@@ -41,7 +41,7 @@ public class MatchServiceImpl implements MatchService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<Match> findAllMatches() throws DataAccessException {
+  public List<Match> findAll() throws DataAccessException {
     return matchRepository.findAll();
   }
 

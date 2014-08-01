@@ -12,34 +12,26 @@
 
 package com.github.fauu.natrank.model;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "MatchType")
 public class MatchType extends NamedEntity {
 
   @Column(name = "fifa_name")
+  @JsonIgnore
   private String fifaName;
 
-  public String getFifaName() {
-    return fifaName;
-  }
-
-  public void setFifaName(String fifaName) {
-    this.fifaName = fifaName;
-  }
-
-  /*
   @OneToMany(mappedBy = "type", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  private Set<Match> matches;
-
-  public Set<Match> getMatches() {
-    return matches;
-  }
-
-  public void setMatches(Set<Match> matches) {
-    this.matches = matches;
-  }
-  */
+  @JsonBackReference
+  private List<Match> matches;
 
 }

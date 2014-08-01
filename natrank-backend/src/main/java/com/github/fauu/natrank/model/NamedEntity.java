@@ -12,26 +12,21 @@
 
 package com.github.fauu.natrank.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.github.fauu.natrank.web.jsonview.BaseView;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
 public abstract class NamedEntity extends BaseEntity {
 
   @Column(name = "name")
+  @JsonView(BaseView.class)
   private String name;
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  @Override
-  public String toString() {
-    return getName();
-  }
 
 }

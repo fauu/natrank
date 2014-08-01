@@ -10,10 +10,9 @@
  * Authored by: Piotr Grabowski <fau999@gmail.com>
  */
 
-angular.module('natrank').service('matchService', ['$http', function($http) {
-  var urlBase = "http://localhost:8080/matches";
+package com.github.fauu.natrank.web.jsonview;
 
-  this.findAll = function() {
-    return $http.get(urlBase);
-  };
-}]);
+public interface MatchListView extends BaseView {
+
+
+}

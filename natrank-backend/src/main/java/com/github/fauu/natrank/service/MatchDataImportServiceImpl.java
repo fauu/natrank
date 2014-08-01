@@ -390,8 +390,6 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
     for (Country country : countries) {
       flagMarkupBuilder.append("{{flagicon|");
       flagMarkupBuilder.append(country.getCode());
-      flagMarkupBuilder.append("|");
-      flagMarkupBuilder.append(country.getFromDate().toString("yyyy"));
       flagMarkupBuilder.append("|size=150px}}");
       flagMarkupBuilder.append("{{flagicon|");
       flagMarkupBuilder.append(country.getCode());
