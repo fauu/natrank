@@ -12,16 +12,17 @@
 
 package com.github.fauu.natrank.model.form;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class RawMatchDataForm {
 
   private String rawData;
-
-  public String getRawData() {
-    return rawData;
-  }
-
-  public void setRawData(String rawData) {
-    this.rawData = rawData;
-  }
 
 }

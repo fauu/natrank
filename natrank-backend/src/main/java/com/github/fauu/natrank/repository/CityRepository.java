@@ -12,7 +12,7 @@
 
 package com.github.fauu.natrank.repository;
 
-import com.github.fauu.natrank.model.City;
+import com.github.fauu.natrank.model.entity.City;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;

@@ -22,7 +22,7 @@
 
     <http use-expressions="true">
         <intercept-url pattern="/admin/login" access="permitAll" />
-        <!--<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />-->
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
 
         <form-login login-page="/admin/login" login-processing-url="/admin/login/process"
                     default-target-url="${defaultTargetUrl}" authentication-failure-url="/admin/login?error=1"

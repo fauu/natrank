@@ -12,7 +12,10 @@
 
 package com.github.fauu.natrank.service;
 
-import com.github.fauu.natrank.model.*;
+import com.github.fauu.natrank.model.MatchDataError;
+import com.github.fauu.natrank.model.ParsedRawMatchDatum;
+import com.github.fauu.natrank.model.ProcessedMatchData;
+import com.github.fauu.natrank.model.entity.*;
 import com.github.fauu.natrank.repository.*;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -25,7 +28,10 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -67,7 +73,7 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
           for (int i = 0; i < numFields; i++) {
             if (splitLine[i] == null || splitLine[i].trim().length() == 0) {
               MatchDataError error =
-                  new MatchDataError(lineNo, line, MatchDataErrorType.ERROR_MISSING_FIELD);
+                  new MatchDataError(lineNo, line, MatchDataError.Type.ERROR_MISSING_FIELD);
 
               matchData.getErrors().add(error);
             }
@@ -79,7 +85,7 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
             matchDate = dateTimeFormatter.parseLocalDate(splitLine[0]);
           } catch (IllegalArgumentException e) {
             MatchDataError error =
-                new MatchDataError(lineNo, line, MatchDataErrorType.ERROR_INCORRECT_DATE_FORMAT);
+                new MatchDataError(lineNo, line, MatchDataError.Type.ERROR_INCORRECT_DATE_FORMAT);
             matchData.getErrors().add(error);
             e.printStackTrace();
 
@@ -112,7 +118,7 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
           matchData.getMatches().add(match);
         } else {
           MatchDataError error =
-              new MatchDataError(lineNo, line, MatchDataErrorType.ERROR_INCORRECT_LINE_FORMAT);
+              new MatchDataError(lineNo, line, MatchDataError.Type.ERROR_INCORRECT_LINE_FORMAT);
 
           matchData.getErrors().add(error);
         }

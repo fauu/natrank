@@ -12,40 +12,21 @@
 
 package com.github.fauu.natrank.model;
 
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class MatchDataError {
 
   private int lineNo;
   private String line;
-  private MatchDataErrorType type;
+  private Type type;
 
-  public MatchDataError(int lineNo, String line, MatchDataErrorType type) {
-    this.lineNo = lineNo;
-    this.line = line;
-    this.type = type;
-  }
-
-  public int getLineNo() {
-    return lineNo;
-  }
-
-  public void setLineNo(int lineNo) {
-    this.lineNo = lineNo;
-  }
-
-  public String getLine() {
-    return line;
-  }
-
-  public void setLine(String line) {
-    this.line = line;
-  }
-
-  public MatchDataErrorType getType() {
-    return type;
-  }
-
-  public void setType(MatchDataErrorType type) {
-    this.type = type;
+  public enum Type {
+    ERROR_INCORRECT_LINE_FORMAT, ERROR_MISSING_FIELD, ERROR_INCORRECT_DATE_FORMAT;
   }
 
 }

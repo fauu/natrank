@@ -12,16 +12,18 @@
 
 package com.github.fauu.natrank.web.controller;
 
-import com.github.fauu.natrank.web.converter.CountryPropertyEditor;
-import com.github.fauu.natrank.model.*;
+import com.github.fauu.natrank.model.ProcessedMatchData;
+import com.github.fauu.natrank.model.entity.Country;
+import com.github.fauu.natrank.model.entity.Match;
+import com.github.fauu.natrank.model.entity.Team;
 import com.github.fauu.natrank.model.form.RawMatchDataForm;
 import com.github.fauu.natrank.service.MatchDataImportService;
+import com.github.fauu.natrank.web.converter.CountryPropertyEditor;
 import com.github.fauu.natrank.web.converter.TeamPropertyEditor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;

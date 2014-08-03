@@ -12,12 +12,11 @@
 
 package com.github.fauu.natrank.repository;
 
-import com.github.fauu.natrank.model.Country;
+import com.github.fauu.natrank.model.entity.Country;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.Repository;
 
 import java.util.List;
 

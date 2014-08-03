@@ -12,10 +12,7 @@
 
 package com.github.fauu.natrank.service;
 
-import com.github.fauu.natrank.model.City;
-import com.github.fauu.natrank.model.Match;
-import com.github.fauu.natrank.model.report.MatchReport;
-import com.github.fauu.natrank.repository.CityRepository;
+import com.github.fauu.natrank.model.entity.Match;
 import com.github.fauu.natrank.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -28,35 +25,12 @@ import java.util.List;
 public class MatchServiceImpl implements MatchService {
 
   @Autowired
-  private CityRepository cityRepository;
-
-  @Autowired
   private MatchRepository matchRepository;
-
-  @Override
-  @Transactional(readOnly = true)
-  public City findCityById(int id) throws DataAccessException {
-    return cityRepository.findById(id);
-  }
 
   @Override
   @Transactional(readOnly = true)
   public List<Match> findAll() throws DataAccessException {
     return matchRepository.findAll();
-  }
-
-  @Override
-  @Transactional(readOnly = true)
-  public List<MatchReport> findAllMatchReports() throws DataAccessException {
-    return matchRepository.findAllMatchReports();
-  }
-
-  public void setCityRepository(CityRepository cityRepository) {
-    this.cityRepository = cityRepository;
-  }
-
-  public void setMatchRepository(MatchRepository matchRepository) {
-    this.matchRepository = matchRepository;
   }
 
 }

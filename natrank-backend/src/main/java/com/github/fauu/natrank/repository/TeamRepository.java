@@ -12,7 +12,7 @@
 
 package com.github.fauu.natrank.repository;
 
-import com.github.fauu.natrank.model.Team;
+import com.github.fauu.natrank.model.entity.Team;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.Repository;
 
@@ -20,8 +20,8 @@ import java.util.List;
 
 public interface TeamRepository extends Repository<Team, Integer> {
 
-  Team findOne(Integer id) throws DataAccessException;
-
   List<Team> findAll() throws DataAccessException;
+
+  Team findOne(Integer id) throws DataAccessException;
 
 }

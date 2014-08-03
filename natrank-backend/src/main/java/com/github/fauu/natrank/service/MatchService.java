@@ -12,20 +12,13 @@
 
 package com.github.fauu.natrank.service;
 
-import com.github.fauu.natrank.model.City;
-import com.github.fauu.natrank.model.Match;
-import com.github.fauu.natrank.model.report.MatchReport;
+import com.github.fauu.natrank.model.entity.Match;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
 
 public interface MatchService {
 
-
-  City findCityById(int id) throws DataAccessException;
-
   List<Match> findAll() throws DataAccessException;
-
-  List<MatchReport> findAllMatchReports() throws DataAccessException;
 
 }

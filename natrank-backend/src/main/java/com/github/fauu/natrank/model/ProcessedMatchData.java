@@ -12,8 +12,20 @@
 
 package com.github.fauu.natrank.model;
 
-import java.util.*;
+import com.github.fauu.natrank.model.entity.City;
+import com.github.fauu.natrank.model.entity.Country;
+import com.github.fauu.natrank.model.entity.MatchType;
+import lombok.*;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class ProcessedMatchData {
 
   private List<ParsedRawMatchDatum> matches = new LinkedList<>();
@@ -22,53 +34,5 @@ public class ProcessedMatchData {
   private List<String> citiesInferredCountryNames = new ArrayList<>();
   private List<Country> countries = new ArrayList<>();
   private List<MatchDataError> errors = new ArrayList<>();
-
-  public List<ParsedRawMatchDatum> getMatches() {
-    return matches;
-  }
-
-  public void setMatches(List<ParsedRawMatchDatum> matches) {
-    this.matches = matches;
-  }
-
-  public List<MatchType> getTypes() {
-    return types;
-  }
-
-  public void setTypes(List<MatchType> types) {
-    this.types = types;
-  }
-
-  public List<City> getCities() {
-    return cities;
-  }
-
-  public void setCities(List<City> cities) {
-    this.cities = cities;
-  }
-
-  public List<String> getCitiesInferredCountryNames() {
-    return citiesInferredCountryNames;
-  }
-
-  public void setCitiesInferredCountryNames(List<String> citiesInferredCountryNames) {
-    this.citiesInferredCountryNames = citiesInferredCountryNames;
-  }
-
-  public List<MatchDataError> getErrors() {
-    return errors;
-  }
-
-  public void setErrors(List<MatchDataError> errors) {
-    this.errors = errors;
-  }
-
-  public List<Country> getCountries() {
-    return countries;
-  }
-
-  public void setCountries(List<Country> countries) {
-    this.countries = countries;
-  }
 
 }

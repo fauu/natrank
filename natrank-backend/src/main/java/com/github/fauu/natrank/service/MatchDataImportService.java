@@ -12,10 +12,10 @@
 
 package com.github.fauu.natrank.service;
 
-import com.github.fauu.natrank.model.*;
+import com.github.fauu.natrank.model.ProcessedMatchData;
+import com.github.fauu.natrank.model.entity.*;
 import org.springframework.dao.DataAccessException;
 
-import javax.xml.crypto.Data;
 import java.util.List;
 
 public interface MatchDataImportService {
@@ -24,13 +24,13 @@ public interface MatchDataImportService {
 
   List<Country> findAllCountriesSorted() throws DataAccessException;
 
-  Country findCountryById(Integer id) throws DataAccessException;
-
-  void addCountries(List<Country> countries) throws DataAccessException;
-
   Team findTeamById(Integer id) throws DataAccessException;
 
   List<Team> findAllTeams() throws DataAccessException;
+
+  Country findCountryById(Integer id) throws DataAccessException;
+
+  void addCountries(List<Country> countries) throws DataAccessException;
 
   void addCities(List<City> cities) throws DataAccessException;
 

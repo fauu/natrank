@@ -66,10 +66,10 @@
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="objectMapper" ref="jacksonObjectMapper" />
             </bean>
-            <!--<bean class="com.github.fauu.natrank.web.jsonview.ViewAwareJsonMessageConverter" />-->
+            <!--<bean class="com.github.fauu.natrank.web.jsonwAwareJsonMessageConverter" />-->
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-    <bean class="com.github.fauu.natrank.web.jsonview.JsonViewSupportFactoryBean" />
+    <bean class="com.github.fauu.natrank.web.json.view.support.JsonViewSupportFactoryBean" />
 
 </beans>

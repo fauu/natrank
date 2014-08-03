@@ -12,10 +12,8 @@
 
 package com.github.fauu.natrank.web.converter;
 
-import com.github.fauu.natrank.model.Team;
+import com.github.fauu.natrank.model.entity.Team;
 import com.github.fauu.natrank.service.MatchDataImportService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.beans.PropertyEditorSupport;
 
