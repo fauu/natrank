@@ -13,6 +13,7 @@
 package com.github.fauu.natrank.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +31,10 @@ import java.util.Set;
 @ToString
 @Table(name = "Team")
 public class Team extends BaseEntity {
+
+  @Column(name = "home_advantage_coefficient")
+  @JsonIgnore
+  private double homeAdvantageCoefficient;
 
   @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonBackReference

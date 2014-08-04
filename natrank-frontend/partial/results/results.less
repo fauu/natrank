@@ -29,24 +29,69 @@
         .make-row();
 
         > .team1-name {
-          .make-md-column(4);
-          .make-xs-column(4);
+          .make-md-column(3);
+          .make-xs-column(3);
         }
 
-        > .result {
-          .make-md-column(4);
-          .make-xs-column(4);
-          .text-center;
-        }
-
-        > .team2-name {
-          .make-md-column(4);
-          .make-xs-column(4);
+        > .team1-rating {
+          .make-md-column(1);
+          .make-xs-column(1);
           .text-right;
         }
 
-        > .winner {
+        > .team1-rating-change {
+          .make-md-column(1);
+          .make-xs-column(1);
+          .text-right;
+        }
+
+        > .result {
+          .make-md-column(2);
+          .make-xs-column(2);
+          .text-center;
+        }
+
+        > .team2-rating-change {
+          .make-md-column(1);
+          .make-xs-column(1);
+        }
+
+        > .team2-rating {
+          .make-md-column(1);
+          .make-xs-column(1);
+        }
+
+        > .team2-name {
+          .make-md-column(3);
+          .make-xs-column(3);
+          .text-right;
+        }
+
+        .winner {
           font-weight: bold;
+        }
+
+        > .rating {
+          .small;
+          color: @gray-light;
+        }
+
+        > .rating-change {
+          font-size: 11px;
+          font-weight: bold;
+          line-height: 20px;
+        }
+
+        > .rating-change.up {
+          color: #3C763D;
+        }
+
+        > .rating-change.down {
+          color: #A94442;
+        }
+
+        > .result-extra {
+          .small;
         }
       }
 

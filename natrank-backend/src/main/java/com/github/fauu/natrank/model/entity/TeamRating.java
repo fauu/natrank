@@ -7,7 +7,7 @@
  * You should have received a copy of the GNU Library General Public License
  * along with this software. If not, see <http://www.gnu.org/licenses/>.
  *
- * Authored by: Piotr Grabowski <fau999@gmail.com>
+ * Authored by: Piotr Grabowski <fau999(at)gmail.com>
  */
 
 package com.github.fauu.natrank.model.entity;
@@ -28,25 +28,28 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @ToString
-@Table(name = "Flag")
-public class Flag extends BaseEntity {
+@Table(name = "TeamRating")
+public class TeamRating extends BaseEntity {
 
-  @Column(name = "code")
-  private String code;
-
-  @Column(name = "date_from")
+  @Column(name = "date")
   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
   @JsonIgnore
-  private LocalDate fromDate;
-
-  @Column(name = "date_to")
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-  @JsonIgnore
-  private LocalDate toDate;
+  private LocalDate date;
 
   @ManyToOne
-  @JoinColumn(name = "country_id")
+  @JoinColumn(name = "team_id")
   @JsonBackReference
-  private Country country;
+  private Team team;
+
+  @ManyToOne
+  @JoinColumn(name = "match_id")
+  @JsonBackReference
+  private Match match;
+
+  @Column(name = "rating")
+  private int rating;
+
+  @Column(name = "change")
+  private int change;
 
 }

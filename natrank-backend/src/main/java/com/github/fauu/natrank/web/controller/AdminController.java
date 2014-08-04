@@ -18,6 +18,7 @@ import com.github.fauu.natrank.model.entity.Match;
 import com.github.fauu.natrank.model.entity.Team;
 import com.github.fauu.natrank.model.form.RawMatchDataForm;
 import com.github.fauu.natrank.service.MatchDataImportService;
+import com.github.fauu.natrank.service.RankingService;
 import com.github.fauu.natrank.web.converter.CountryPropertyEditor;
 import com.github.fauu.natrank.web.converter.TeamPropertyEditor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,9 @@ public class AdminController {
 
   @Autowired
   private MatchDataImportService matchDataImportService;
+
+  @Autowired
+  private RankingService rankingService;
 
   @ModelAttribute("rawMatchDataForm")
   public RawMatchDataForm getRawMatchDataFrom() {
@@ -200,6 +204,13 @@ public class AdminController {
     model.addAttribute("step", 6);
 
     return "dataImport";
+  }
+
+  @RequestMapping(value = "/calculate-ranking", method = RequestMethod.GET)
+  public String calculateRanking() {
+    rankingService.calculateRanking();
+
+    return "redirect:/admin";
   }
 
 }

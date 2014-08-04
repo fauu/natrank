@@ -12,6 +12,7 @@
 
 package com.github.fauu.natrank.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -76,6 +78,10 @@ public class Match extends BaseEntity {
   @Column(name = "penalty_shootout")
   private boolean penaltyShootout;
 
+  @OneToMany(mappedBy = "match", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JsonIgnore
+  private List<TeamRating> teamRatings;
+
   @JsonManagedReference
   public Country getCountry() {
     return city.getCountryByDate(date);
@@ -104,6 +110,16 @@ public class Match extends BaseEntity {
   @JsonManagedReference
   public Flag getTeam2CountryFlag() {
     return getTeam2Country().getFlagByDate(date);
+  }
+
+  @JsonManagedReference
+  public TeamRating getTeam1Rating() {
+    return teamRatings.get(0);
+  }
+
+  @JsonManagedReference
+  public TeamRating getTeam2Rating() {
+    return teamRatings.get(1);
   }
 
 }

@@ -30,6 +30,10 @@ public class MatchType extends NamedEntity {
   @JsonIgnore
   private String fifaName;
 
+  @Column(name = "weight")
+  @JsonIgnore
+  private Integer weight;
+
   @OneToMany(mappedBy = "type", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonBackReference
   private List<Match> matches;

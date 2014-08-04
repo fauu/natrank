@@ -17,8 +17,22 @@
         <div class="team1-name" data-ng-class="{'winner': result.team1.id == result.winnerTeam.id}">
           <img src="img/flags/{{result.team1CountryFlag.code}}.png" class="flag" /> {{result.team1Country.name}}
         </div>
+        <div class="team1-rating rating">
+          {{result.team1Rating.rating}}
+        </div>
+        <div class="team1-rating-change rating-change" data-ng-class="{'up': result.team1Rating.change > 0,
+            'down': result.team1Rating.change < 0}">
+          {{result.team1Rating.change > 0 ? '+' : ''}}{{result.team1Rating.change}}
+        </div>
         <div class="result">
-          {{result.team1Goals}}:{{result.team2Goals}} <small>{{result.resultExtra}}</small>
+          {{result.team1Goals}}:{{result.team2Goals}} <span class="result-extra">{{result.resultExtra}}</span>
+        </div>
+        <div class="team2-rating-change rating-change" data-ng-class="{'up': result.team2Rating.change > 0,
+          'down': result.team2Rating.change < 0}">
+          {{result.team2Rating.change > 0 ? '+' : ''}}{{result.team2Rating.change}}
+        </div>
+        <div class="team2-rating rating">
+          {{result.team2Rating.rating}}
         </div>
         <div class="team2-name" data-ng-class="{'winner': result.team2.id == result.winnerTeam.id}">
           {{result.team2Country.name}} <img src="img/flags/{{result.team2CountryFlag.code}}.png" class="flag" />

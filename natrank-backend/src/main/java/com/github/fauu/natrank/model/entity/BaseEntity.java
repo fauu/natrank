@@ -35,6 +35,7 @@ public abstract class BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonView(BaseView.class)
+  @JsonIgnore
   protected Integer id;
 
   @JsonIgnore
