@@ -13,12 +13,9 @@
 package com.github.fauu.natrank.service;
 
 import com.github.fauu.natrank.model.RatedTeam;
-import com.github.fauu.natrank.model.entity.Match;
-import com.github.fauu.natrank.model.entity.Team;
-import com.github.fauu.natrank.model.entity.TeamRating;
-import com.github.fauu.natrank.repository.MatchRepository;
-import com.github.fauu.natrank.repository.TeamRatingRepository;
-import com.github.fauu.natrank.repository.TeamRepository;
+import com.github.fauu.natrank.model.entity.*;
+import com.github.fauu.natrank.repository.*;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -32,6 +29,12 @@ public class RankingServiceImpl implements RankingService {
   MatchRepository matchRepository;
 
   @Autowired
+  RankingEntryRepository rankingEntryRepository;
+
+  @Autowired
+  RankingRepository rankingRepository;
+
+  @Autowired
   TeamRatingRepository teamRatingRepository;
 
   @Autowired
@@ -40,7 +43,6 @@ public class RankingServiceImpl implements RankingService {
   @Override
   public void calculateRanking() throws DataAccessException {
     teamRatingRepository.deleteAll();
-    // TODO: Set team home advantage coefficients to default
 
     List<Match> matches = matchRepository.findAll();
     List<TeamRating> ratings = new LinkedList<>();
@@ -53,6 +55,7 @@ public class RankingServiceImpl implements RankingService {
 
       for (Team team : matchTeams) {
         if (!ratedTeams.containsKey(team.getId())) {
+          team.setHomeAdvantageCoefficient(250);
           TeamRating rating = new TeamRating();
           rating.setDate(match.getDate());
           rating.setTeam(team);
@@ -126,6 +129,86 @@ public class RankingServiceImpl implements RankingService {
 
     teamRatingRepository.save(ratings);
     matchRepository.save(matches);
+
+    // TODO: Factor this out
+    rankingEntryRepository.deleteAll(); // doesn't the line below take care of that?
+    rankingRepository.deleteAll();
+
+    Ranking ranking = new Ranking();
+    ranking.setDate(new LocalDate(1930, 7, 7));
+    Map<Integer, RankingEntry> entryMap = new HashMap<>();
+
+    for (Match match : matches) {
+      List<Team> matchTeams = new ArrayList<>();
+      matchTeams.add(match.getTeam1());
+      matchTeams.add(match.getTeam2());
+
+      for (Team team : matchTeams) {
+        if (!entryMap.containsKey(team.getId())) {
+          RankingEntry newEntry = new RankingEntry();
+          newEntry.setRanking(ranking);
+          newEntry.setTeam(team);
+
+          entryMap.put(team.getId(), newEntry);
+        }
+      }
+
+      List<RankingEntry> matchTeamEntries = new ArrayList<>();
+      matchTeamEntries.add(entryMap.get(matchTeams.get(0).getId()));
+      matchTeamEntries.add(entryMap.get(matchTeams.get(1).getId()));
+
+      matchTeamEntries.get(0).incrementMatchesTotal();
+      matchTeamEntries.get(1).incrementMatchesTotal();
+
+      if (match.getHomeTeam() == null) {
+        matchTeamEntries.get(0).incrementMatchesOnNeutralGround();
+        matchTeamEntries.get(1).incrementMatchesOnNeutralGround();
+      } else if (match.getHomeTeam() == matchTeams.get(0)) {
+        matchTeamEntries.get(0).incrementMatchesHome();
+        matchTeamEntries.get(1).incrementMatchesAway();
+      } else if (match.getHomeTeam() == matchTeams.get(1)) {
+        matchTeamEntries.get(0).incrementMatchesAway();
+        matchTeamEntries.get(1).incrementMatchesHome();
+      }
+
+      if (match.getWinnerTeam() == null) {
+        matchTeamEntries.get(0).incrementDraws();
+        matchTeamEntries.get(1).incrementDraws();
+      } else if (match.getWinnerTeam() == matchTeams.get(0)) {
+        matchTeamEntries.get(0).incrementWins();
+        matchTeamEntries.get(1).incrementLosses();
+      } else if (match.getWinnerTeam() == matchTeams.get(1)) {
+        matchTeamEntries.get(0).incrementLosses();
+        matchTeamEntries.get(1).incrementWins();
+      }
+
+      matchTeamEntries.get(0).addGoalsFor(match.getTeam1Goals());
+      matchTeamEntries.get(0).addGoalsAgainst(match.getTeam2Goals());
+      matchTeamEntries.get(1).addGoalsFor(match.getTeam2Goals());
+      matchTeamEntries.get(1).addGoalsAgainst(match.getTeam1Goals());
+    }
+
+    // TODO: replace with latestTeamRatingsForEachTeamForDate
+    List<TeamRating> latestTeamRatings = teamRatingRepository.findLatestForEachTeam();
+
+    for (TeamRating rating : latestTeamRatings) {
+      RankingEntry entry = entryMap.get(rating.getTeam().getId());
+      entry.setRating(rating.getRating());
+    }
+
+    List<RankingEntry> entries = new LinkedList<>(entryMap.values());
+    Collections.sort(entries);
+
+    int currentRank = 1;
+    for (RankingEntry entry : entries) {
+      entry.setRank(currentRank);
+
+      currentRank++;
+    }
+
+    ranking.setEntries(entries);
+
+    rankingRepository.save(ranking);
   }
 
 }

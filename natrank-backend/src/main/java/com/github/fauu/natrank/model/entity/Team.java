@@ -104,6 +104,10 @@ public class Team extends BaseEntity {
       }
     }
 
+    return getCountryByDateNotTournamentLimited(date);
+  }
+
+  public Country getCountryByDateNotTournamentLimited(LocalDate date) {
     for (Country country : countries) {
       if (!country.getFromDate().isAfter(date) &&
           ((country.getToDate() == null) || country.getToDate().isAfter(date))) {
