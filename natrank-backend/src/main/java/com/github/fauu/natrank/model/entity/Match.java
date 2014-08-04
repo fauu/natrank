@@ -83,12 +83,12 @@ public class Match extends BaseEntity {
 
   @JsonManagedReference
   public Country getTeam1Country() {
-    return team1.getCountryByDate(date);
+    return team1.getCountryByDate(date, type);
   }
 
   @JsonManagedReference
   public Country getTeam2Country() {
-    return team2.getCountryByDate(date);
+    return team2.getCountryByDate(date, type);
   }
 
   @JsonManagedReference

@@ -56,6 +56,18 @@ public class Country extends NamedEntity {
   @JsonBackReference
   private List<Flag> flags = new LinkedList<>();
 
+  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinTable(name = "MatchTypeCountry", joinColumns = {
+      @JoinColumn(name = "country_id", nullable = false)},
+      inverseJoinColumns = { @JoinColumn(name = "match_type_id", nullable = false)})
+  @JsonBackReference
+  private List<MatchType> matchTypesLimited = new LinkedList<>();
+
+  @JsonBackReference
+  public boolean isTournamentLimited() {
+    return matchTypesLimited.size() > 0;
+  }
+
   @JsonBackReference
   public Flag getCurrentFlag() {
     for (Flag flag : flags) {

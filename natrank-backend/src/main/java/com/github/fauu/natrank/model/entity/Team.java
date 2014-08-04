@@ -66,7 +66,7 @@ public class Team extends BaseEntity {
   public Country getCurrentCountry() {
     if (countries != null) {
       for (Country country : countries) {
-        if (country.getToDate() == null) {
+        if (country.getToDate() == null && !country.isTournamentLimited()) {
           return country;
         }
       }
@@ -75,7 +75,30 @@ public class Team extends BaseEntity {
     return null;
   }
 
-  public Country getCountryByDate(LocalDate date) {
+  @JsonBackReference
+  public boolean isRepresentedByTournamentLimitedCountry() {
+    if (countries != null) {
+      for (Country country : countries) {
+        if (country.isTournamentLimited()) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  public Country getCountryByDate(LocalDate date, MatchType matchType) {
+    if (isRepresentedByTournamentLimitedCountry()) {
+      for (Country country : countries) {
+          if (country.isTournamentLimited() && country.getMatchTypesLimited().contains(matchType)
+              && !country.getFromDate().isAfter(date) &&
+              ((country.getToDate() == null) || country.getToDate().isAfter(date))) {
+            return country;
+          }
+      }
+    }
+
     for (Country country : countries) {
       if (!country.getFromDate().isAfter(date) &&
           ((country.getToDate() == null) || country.getToDate().isAfter(date))) {
