@@ -211,4 +211,8 @@ public class RankingServiceImpl implements RankingService {
     rankingRepository.save(ranking);
   }
 
+  @Override
+  public Ranking find() throws DataAccessException {
+    return rankingRepository.findOne(6);
+  }
 }

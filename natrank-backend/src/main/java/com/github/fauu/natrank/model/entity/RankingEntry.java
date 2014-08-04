@@ -13,7 +13,6 @@
 package com.github.fauu.natrank.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -73,7 +72,6 @@ public class RankingEntry extends BaseEntity implements Comparable<RankingEntry>
   @Column(name = "goals_against")
   private int goalsAgainst = 0;
 
-  @JsonIgnore
   public int getGoalDifference() {
     return goalsFor - goalsAgainst;
   }
@@ -83,10 +81,10 @@ public class RankingEntry extends BaseEntity implements Comparable<RankingEntry>
     return team.getCountryByDateNotTournamentLimited(ranking.getDate());
   }
 
-//  @JsonManagedReference
-//  public Flag getTeamCountryFlag() {
-//    return getTeamCountry().getFlagByDate(date);
-//  }
+  @JsonManagedReference
+  public Flag getTeamCountryFlag() {
+    return getTeamCountry().getFlagByDate(ranking.getDate());
+  }
 
   public void incrementMatchesTotal() {
     matchesTotal++;
