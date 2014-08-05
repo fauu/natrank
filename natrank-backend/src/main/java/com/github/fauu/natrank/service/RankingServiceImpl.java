@@ -24,13 +24,13 @@ import java.util.*;
 @Service
 public class RankingServiceImpl implements RankingService {
 
-  public static final int NUM_TRIAL_PASSES = 100;
-
-  public static final int INITIAL_RATING = 1500;
+  public static final int AVERAGE_RATING = 1500;
 
   public static final int INITIAL_HOME_ADVANTAGE_COEFFICIENT = 250;
 
-  public static final int NUM_TRIAL_MATCHES = 29;
+  public static final int NUM_TRIAL_MATCHES = 30;
+
+  public static final int TRIAL_RATING_MODIFIER = 10;
 
   @Autowired
   private MatchRepository matchRepository;
@@ -55,12 +55,14 @@ public class RankingServiceImpl implements RankingService {
     List<TeamRating> ratings = new LinkedList<>();
     List<Team> teams = teamRepository.findAll();
     Map<Integer, Integer> initialRatings = new HashMap<>();
-    int initialRatingsFirstSum = 0;
+    int numPointsToInject = 0;
 
-    for (int passNo = 0; passNo < NUM_TRIAL_PASSES; passNo++) {
-      ratings.clear();
-      for (Team team : teams) {
-        team.getRatings().clear();
+    for (int passNo = 0; passNo < 2; passNo++) {
+      if (passNo == 1) {
+        ratings.clear();
+        for (Team team : teams) {
+          team.getRatings().clear();
+        }
       }
 
       for (Match match : matches) {
@@ -77,7 +79,7 @@ public class RankingServiceImpl implements RankingService {
             rating.setChange(0);
 
             if (!initialRatings.containsKey(team.getId())) {
-              initialRatings.put(team.getId(), INITIAL_RATING);
+              initialRatings.put(team.getId(), AVERAGE_RATING);
             }
 
             rating.setValue(initialRatings.get(team.getId()));
@@ -118,7 +120,7 @@ public class RankingServiceImpl implements RankingService {
         }
 
         double exponent = (-1 * (matchTeamRatingsAdjusted.get(0) - matchTeamRatingsAdjusted.get(1)))
-            / 400.0;
+            / 444.0;
         double expectedMatchResultCoefficient = 1 / (Math.pow(10, exponent) + 1);
 
         double team1RatingChange = match.getType().getWeight() * marginOfVictoryCoefficient *
@@ -130,7 +132,12 @@ public class RankingServiceImpl implements RankingService {
         matchTeamRatingChanges.add(-1 * (int) team1RatingChangeRounded);
 
         for (int i = 0; i < 2; i++) {
-          matchTeamRatings.set(i, matchTeamRatings.get(i) + matchTeamRatingChanges.get(i));
+          int ratingChangeModifier = 1;
+          if (passNo == 0 && matchTeams.get(i).getRatings().size() - 1 < NUM_TRIAL_MATCHES) {
+            ratingChangeModifier = TRIAL_RATING_MODIFIER;
+            numPointsToInject -= (TRIAL_RATING_MODIFIER - 1) * matchTeamRatingChanges.get(i);
+          }
+          matchTeamRatings.set(i, matchTeamRatings.get(i) + ratingChangeModifier * matchTeamRatingChanges.get(i));
 
           TeamRating newRating = new TeamRating();
           newRating.setDate(match.getDate().plusDays(1));
@@ -146,30 +153,26 @@ public class RankingServiceImpl implements RankingService {
 
           matchTeams.get(i).getRatings().add(newRating);
 
-          if (passNo < NUM_TRIAL_PASSES - 1
-              && matchTeams.get(i).getRatings().size() == NUM_TRIAL_MATCHES) {
-            initialRatings.put(matchTeams.get(i).getId(),
-                matchTeams.get(i).getCurrentRating().getValue());
+          if (passNo == 0) {
+            initialRatings.put(matchTeams.get(i).getId(), newRating.getValue());
           }
         }
       }
 
       if (passNo == 0) {
-        initialRatingsFirstSum = initialRatings.size() * INITIAL_RATING;
-      }
+        // TODO: Optimize this
+        while (Math.abs(numPointsToInject) > 0) {
+          for (Map.Entry<Integer, Integer> initialRating : initialRatings.entrySet()) {
+            if (numPointsToInject > 0) {
+              initialRating.setValue(initialRating.getValue() + 1);
 
-      if (passNo < NUM_TRIAL_PASSES - 1) {
-        int sumInitialRatings = 0;
-        for (Integer initialRating : initialRatings.values()) {
-          sumInitialRatings += initialRating;
-        }
+              numPointsToInject--;
+            } else {
+              initialRating.setValue(initialRating.getValue() - 1);
 
-        int initialRatingsSumDifference = sumInitialRatings - initialRatingsFirstSum;
-        int initialRatingCorrection
-            = Math.round(initialRatingsSumDifference / (float) initialRatings.size());
-
-        for (Map.Entry<Integer, Integer> initialRating : initialRatings.entrySet()) {
-          initialRating.setValue(initialRating.getValue() - initialRatingCorrection);
+              numPointsToInject++;
+            }
+          }
         }
       }
     }
@@ -239,7 +242,7 @@ public class RankingServiceImpl implements RankingService {
     List<TeamRating> latestTeamRatings = teamRatingRepository.findLatestForEachTeam();
 
     for (TeamRating rating : latestTeamRatings) {
-      if (rating.getTeam().getRatings().size() >= NUM_TRIAL_MATCHES + 1) {
+      if (rating.getTeam().getRatings().size() - 1 >= NUM_TRIAL_MATCHES) {
         RankingEntry entry = entryMap.get(rating.getTeam().getId());
         entry.setRating(rating.getValue());
       }
@@ -264,6 +267,6 @@ public class RankingServiceImpl implements RankingService {
 
   @Override
   public Ranking find() throws DataAccessException {
-    return rankingRepository.findOne(11);
+    return rankingRepository.findOne(21);
   }
 }
