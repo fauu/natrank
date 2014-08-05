@@ -21,7 +21,7 @@
     <nav class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
         <c:choose>
-          <c:when test="${fn:contains(requestScope['javax.servlet.forward.servlet_path'], 'dataimport')}">
+          <c:when test="${fn:contains(requestScope['javax.servlet.forward.servlet_path'], 'import-data')}">
             <li class="active">
           </c:when>
           <c:otherwise>
@@ -29,6 +29,16 @@
           </c:otherwise>
         </c:choose>
           <a href="<c:url value="/admin/import-data" />">Import match data</a>
+        </li>
+        <c:choose>
+        <c:when test="${fn:contains(requestScope['javax.servlet.forward.servlet_path'], 'calculate-ranking')}">
+        <li class="active">
+          </c:when>
+          <c:otherwise>
+        <li>
+          </c:otherwise>
+          </c:choose>
+          <a href="<c:url value="/admin/calculate-ranking" />">Calculate ranking</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">

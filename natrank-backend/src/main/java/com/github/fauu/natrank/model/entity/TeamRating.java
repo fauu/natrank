@@ -47,7 +47,7 @@ public class TeamRating extends BaseEntity {
   private Match match;
 
   @Column(name = "rating")
-  private int rating;
+  private int value;
 
   @Column(name = "change")
   private int change;

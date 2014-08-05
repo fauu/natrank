@@ -56,6 +56,10 @@ public class Team extends BaseEntity {
   @JsonBackReference
   private Set<Match> matchesWon;
 
+  @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JsonBackReference
+  private List<TeamRating> ratings;
+
   @JsonBackReference
   public String getCurrentName() {
     Country currentCountry = getCurrentCountry();
@@ -91,6 +95,15 @@ public class Team extends BaseEntity {
     }
 
     return false;
+  }
+
+  @JsonBackReference
+  public TeamRating getCurrentRating() {
+    if (!ratings.isEmpty()) {
+      return ratings.get(ratings.size() - 1); // not safe, assumes that ratings are added in order
+    }
+
+    return null;
   }
 
   public Country getCountryByDate(LocalDate date, MatchType matchType) {
