@@ -10,20 +10,29 @@
  * Authored by: Piotr Grabowski <fau999@gmail.com>
  */
 
-angular.module('natrank')
-  .controller('ResultsCtrl', ['$scope', 'matchService', function($scope, matchService) {
+angular.module('natrank').controller('ResultsCtrl',
+['$scope', '$location', 'matchService',
+function($scope, $location, matchService) {
+  var attrs = $location.search();
+  var pageNo = attrs.page || 0;
+
   function init() {
-    findAllResults();
+    findResultsPage(pageNo);
   }
 
-  function findAllResults() {
-    matchService.findAll()
-      .success(function(matches) {
-        $scope.results = matches;
+  function findResultsPage(pageNo) {
+    matchService.findPage(pageNo)
+      .success(function(matchPage) {
+        matchPage.number += 1; // zero-based -> one-based
+        $scope.resultsPage = matchPage;
       })
       .error(function(error) {
-        $scope.results = 'Unable to load match data:' + error.message;
+        $scope.error = 'Unable to load match data:' + error.message;
       });
+  }
+
+  $scope.changePage = function(page) {
+    findResultsPage(page - 1); // one based -> zero-based
   }
 
   init();

@@ -13,7 +13,7 @@
 angular.module('natrank').service('matchService', ['$http', function($http) {
   var urlBase = "http://localhost:8080/matches";
 
-  this.findAll = function() {
-    return $http.get(urlBase);
+  this.findPage = function(pageNo) {
+    return $http.get(urlBase + '?page=' + pageNo);
   };
 }]);

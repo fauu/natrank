@@ -12,7 +12,7 @@
 
 angular.module('natrank', ['ui.bootstrap', 'ui.utils', 'ngRoute', 'ngAnimate']);
 
-angular.module('natrank').config(function($routeProvider) {
+angular.module('natrank').config(function($routeProvider, $locationProvider) {
   $routeProvider
     /* Add New Routes Above */
     .when('/results', {
@@ -24,6 +24,7 @@ angular.module('natrank').config(function($routeProvider) {
       controller: 'RankingsCtrl'
     })
     .otherwise({redirectTo: '/'});
+  $locationProvider.html5Mode(true);
 });
 
 angular.module('natrank').run(function($rootScope) {

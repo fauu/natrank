@@ -16,10 +16,9 @@ import com.github.fauu.natrank.model.entity.Match;
 import com.github.fauu.natrank.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class MatchServiceImpl implements MatchService {
@@ -28,9 +27,8 @@ public class MatchServiceImpl implements MatchService {
   private MatchRepository matchRepository;
 
   @Override
-  @Transactional(readOnly = true)
-  public List<Match> findAll() throws DataAccessException {
-    return matchRepository.findAll();
+  public Page<Match> findAll(Pageable pageable) throws DataAccessException {
+    return matchRepository.findAll(pageable);
   }
 
 }

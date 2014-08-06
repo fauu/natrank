@@ -11,8 +11,10 @@
   -->
 
 <div id="results-container" data-ng-controller="ResultsCtrl">
+  <pagination class="pagination-sm" on-select-page="changePage(page)" data-page="resultsPage.number" data-total-items="resultsPage.totalElements"
+      data-items-per-page="50" data-boundary-links="true" data-rotate="false" data-max-size="5"></pagination>
   <ul id="results">
-    <li class="result" data-ng-repeat="result in results">
+    <li class="result" data-ng-repeat="result in resultsPage.content">
       <div class="main-data">
         <div class="team1-name" data-ng-class="{'winner': result.team1.id == result.winnerTeam.id}">
           <img src="img/flags/{{result.team1CountryFlag.code}}.png" class="flag" /> {{result.team1Country.name}}

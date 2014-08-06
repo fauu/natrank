@@ -52,7 +52,13 @@ module.exports = function (grunt) {
     connect: {
       main: {
         options: {
-          port: 9001
+          port: 9001,
+          middleware: function(connect, options) {
+            var optBase = (typeof options.base === 'string') ? [options.base] : options.base;
+
+            return [require('connect-modrewrite')(['!(\\..+)$ / [L]'])].concat(
+              optBase.map(function(path) { return connect.static(path); }));
+          }
         }
       }
     },

@@ -68,6 +68,9 @@
             </bean>
             <!--<bean class="com.github.fauu.natrank.web.jsonwAwareJsonMessageConverter" />-->
         </mvc:message-converters>
+        <mvc:argument-resolvers>
+            <bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver"/>
+        </mvc:argument-resolvers>
     </mvc:annotation-driven>
 
     <bean class="com.github.fauu.natrank.web.json.view.support.JsonViewSupportFactoryBean" />

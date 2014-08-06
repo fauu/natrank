@@ -16,11 +16,11 @@ import com.github.fauu.natrank.model.entity.Match;
 import com.github.fauu.natrank.model.entity.Team;
 import org.joda.time.LocalDate;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
-public interface MatchRepository extends JpaRepository<Match, Integer> {
+public interface MatchRepository extends PagingAndSortingRepository<Match, Integer> {
 
   List<Match> findByDateAndTeam1AndTeam2(LocalDate date, Team team1, Team team2)
       throws DataAccessException;

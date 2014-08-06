@@ -14,11 +14,11 @@ package com.github.fauu.natrank.service;
 
 import com.github.fauu.natrank.model.entity.Match;
 import org.springframework.dao.DataAccessException;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface MatchService {
 
-  List<Match> findAll() throws DataAccessException;
+  Page<Match> findAll(Pageable pageable) throws DataAccessException;
 
 }

@@ -15,11 +15,12 @@ package com.github.fauu.natrank.web.controller;
 import com.github.fauu.natrank.model.entity.Match;
 import com.github.fauu.natrank.service.MatchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/matches")
@@ -29,8 +30,8 @@ public class MatchController {
   private MatchService matchService;
 
   @RequestMapping(method = RequestMethod.GET)
-  public List<Match> findAll() {
-    return matchService.findAll();
+  public Page<Match> findAll(@PageableDefault(size = 50) Pageable pageable) {
+    return matchService.findAll(pageable);
   }
 
 }

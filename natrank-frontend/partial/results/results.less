@@ -12,9 +12,15 @@
 
 #results-container {
   .make-md-column(12);
+  .text-center;
+
+  > :first-child {
+    margin-top: 0;
+  }
 
   > #results {
     .list-unstyled;
+    .text-left;
 
     > .result:not(:last-of-type) {
       margin-bottom: 7px;

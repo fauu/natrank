@@ -51,7 +51,7 @@ public class RankingServiceImpl implements RankingService {
   public void calculateRanking() throws DataAccessException {
     teamRatingRepository.deleteAll();
 
-    List<Match> matches = matchRepository.findAll();
+    List<Match> matches = (List<Match>)matchRepository.findAll();
     List<TeamRating> ratings = new LinkedList<>();
     List<Team> teams = teamRepository.findAll();
     Map<Integer, Integer> initialRatings = new HashMap<>();
