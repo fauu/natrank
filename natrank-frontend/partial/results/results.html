@@ -11,8 +11,7 @@
   -->
 
 <div id="results-container" data-ng-controller="ResultsCtrl">
-  <pagination class="pagination-sm" on-select-page="changePage(page)" data-page="resultsPage.number" data-total-items="resultsPage.totalElements"
-      data-items-per-page="50" data-boundary-links="true" data-rotate="false" data-max-size="5"></pagination>
+  <div data-ng-include src="'partial/results/pagination.html'"></div>
   <ul id="results">
     <li class="result" data-ng-repeat="result in resultsPage.content">
       <div class="main-data">
@@ -53,4 +52,5 @@
       </div>
     </li>
   </ul>
+  <div data-ng-include src="'partial/results/pagination.html'"></div>
 </div>
