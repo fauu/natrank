@@ -14,7 +14,10 @@ package com.github.fauu.natrank.web.controller;
 
 import com.github.fauu.natrank.model.entity.Ranking;
 import com.github.fauu.natrank.service.RankingService;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,9 +30,15 @@ public class RankingController {
   private RankingService rankingService;
 
   // FIXME: Replace this with findByDate
-  @RequestMapping(method = RequestMethod.GET)
-  public Ranking find() {
-    return rankingService.find();
+  @RequestMapping(value = {"", "/latest"}, method = RequestMethod.GET)
+  public Ranking findLatest() {
+    return rankingService.findLatest();
+  }
+
+  @RequestMapping(value = "/{date}", method = RequestMethod.GET)
+  public Ranking findByDate(
+      @PathVariable(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    return rankingService.findByDate(date);
   }
 
 }

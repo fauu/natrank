@@ -13,10 +13,10 @@
 angular.module('natrank').controller('ResultsCtrl',
 ['$scope', '$location', 'matchService',
 function($scope, $location, matchService) {
-  var attrs = $location.search();
-  var pageNo = attrs.page || 0;
-
   function init() {
+    var attrs = $location.search();
+    var pageNo = attrs.page || 0;
+
     findResultsPage(pageNo);
   }
 
@@ -31,9 +31,9 @@ function($scope, $location, matchService) {
       });
   }
 
-  $scope.changePage = function(page) {
-    findResultsPage(page - 1); // one based -> zero-based
-  }
+  $scope.changePage = function(newPageNo) {
+    findResultsPage(newPageNo - 1); // one based -> zero-based
+  };
 
   init();
 }]);

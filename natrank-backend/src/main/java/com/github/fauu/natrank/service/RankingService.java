@@ -13,12 +13,14 @@
 package com.github.fauu.natrank.service;
 
 import com.github.fauu.natrank.model.entity.Ranking;
+import org.joda.time.LocalDate;
 import org.springframework.dao.DataAccessException;
 
 public interface RankingService {
 
-  // FIXME: Replace this with findByDate
-  Ranking find() throws DataAccessException;
+  Ranking findLatest() throws DataAccessException;
+
+  Ranking findByDate(LocalDate date) throws DataAccessException;
 
   void calculateRanking() throws DataAccessException;
 

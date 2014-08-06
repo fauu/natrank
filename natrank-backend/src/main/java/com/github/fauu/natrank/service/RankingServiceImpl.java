@@ -266,7 +266,13 @@ public class RankingServiceImpl implements RankingService {
   }
 
   @Override
-  public Ranking find() throws DataAccessException {
-    return rankingRepository.findOne(21);
+  public Ranking findLatest() throws DataAccessException {
+    return rankingRepository.findLatest();
   }
+
+  @Override
+  public Ranking findByDate(LocalDate date) throws DataAccessException {
+    return rankingRepository.findByDate(date);
+  }
+
 }

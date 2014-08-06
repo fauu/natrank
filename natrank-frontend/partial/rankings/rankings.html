@@ -1,0 +1,66 @@
+<!--
+  ~ Copyright (C) 2014 natrank Developers (http://github.com/fauu/natrank)
+  ~
+  ~ This software is licensed under the GNU General Public License
+  ~ (version 3 or later). See the COPYING file in this distribution.
+  ~
+  ~ You should have received a copy of the GNU Library General Public License
+  ~ along with this software. If not, see <http://www.gnu.org/licenses/>.
+  ~
+  ~ Authored by: Piotr Grabowski <fau999@gmail.com>
+  -->
+
+<div id="ranking-container" data-ng-controller="RankingsCtrl">
+  <h3 id="header">World ranking for {{ranking.date | date: 'MMMM d, yyyy'}}</h3>
+  <table id="ranking">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Team</th>
+        <th>Rating</th>
+        <th>P</th>
+        <th>W</th>
+        <th>D</th>
+        <th>L</th>
+        <th>GF</th>
+        <th>GA</th>
+        <th>GD</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-ng-repeat="entry in ranking.entries">
+        <td>
+          {{entry.rank > 0 ? entry.rank : '*'}}
+        </td>
+        <td>
+          <img src="img/flags/{{entry.teamCountryFlag.code}}.png" class="flag" />
+           {{entry.teamCountry.name}}
+        </td>
+        <td>
+          {{entry.rating > 0 ? entry.rating : '—'}}
+        </td>
+        <td>{{entry.matchesTotal}}</td>
+        <td>{{entry.wins}}</td>
+        <td>{{entry.draws}}</td>
+        <td>{{entry.losses}}</td>
+        <td>{{entry.goalsFor}}</td>
+        <td>{{entry.goalsAgainst}}</td>
+        <td>{{entry.goalDifference > 0 ? '+' : ''}}{{entry.goalDifference}}</td>
+      </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <th>Rank</th>
+      <th>Team</th>
+      <th>Rating</th>
+      <th>P</th>
+      <th>W</th>
+      <th>D</th>
+      <th>L</th>
+      <th>GF</th>
+      <th>GA</th>
+      <th>GD</th>
+    </tr>
+    </tfoot>
+  </table>
+</div>

@@ -20,6 +20,9 @@ angular.module('natrank').config(function($routeProvider, $locationProvider) {
       controller: 'ResultsCtrl'
     })
     .when('/rankings', {
+      redirectTo: '/rankings/latest'
+    })
+    .when('/rankings/:selector', {
       templateUrl: 'partial/rankings/rankings.html',
       controller: 'RankingsCtrl'
     })
