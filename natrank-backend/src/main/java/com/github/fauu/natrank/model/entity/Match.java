@@ -83,6 +83,10 @@ public class Match extends BaseEntity {
   @JsonIgnore
   private List<TeamRating> teamRatings;
 
+  @OneToMany(mappedBy = "match", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JsonIgnore
+  private List<TeamRank> teamRanks;
+
   @JsonManagedReference
   public Country getCountry() {
     return city.getCountryByDate(date);

@@ -20,9 +20,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class RatedTeam {
+public class RankedTeam {
 
   private Team team;
+  private int rank;
   private int rating;
 
 }
