@@ -86,6 +86,22 @@ public class RankingEntry extends BaseEntity implements Comparable<RankingEntry>
     return getTeamCountry().getFlagByDate(ranking.getDate());
   }
 
+  public RankingEntry(RankingEntry other) {
+    this.ranking = other.ranking;
+    this.rank = other.rank;
+    this.rating = other.rating;
+    this.team = other.team;
+    this.matchesTotal = other.matchesTotal;
+    this.matchesHome = other.matchesHome;
+    this.matchesAway = other.matchesAway;
+    this.matchesOnNeutralGround = other.matchesOnNeutralGround;
+    this.wins = other.wins;
+    this.losses = other.losses;
+    this.draws = other.draws;
+    this.goalsFor = other.goalsFor;
+    this.goalsAgainst = other.goalsAgainst;
+  }
+
   public void incrementMatchesTotal() {
     matchesTotal++;
   }

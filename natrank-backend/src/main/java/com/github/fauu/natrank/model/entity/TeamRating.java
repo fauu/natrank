@@ -36,7 +36,7 @@ public class TeamRating extends BaseEntity {
   @JsonIgnore
   private LocalDate date;
 
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinColumn(name = "team_id")
   @JsonBackReference
   private Team team;

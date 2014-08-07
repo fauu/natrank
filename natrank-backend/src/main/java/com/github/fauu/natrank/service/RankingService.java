@@ -22,6 +22,6 @@ public interface RankingService {
 
   Ranking findByDate(LocalDate date) throws DataAccessException;
 
-  void calculateRanking() throws DataAccessException;
+  void createRankings() throws DataAccessException;
 
 }

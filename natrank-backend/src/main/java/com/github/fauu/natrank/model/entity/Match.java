@@ -22,6 +22,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -114,12 +115,21 @@ public class Match extends BaseEntity {
 
   @JsonManagedReference
   public TeamRating getTeam1Rating() {
-    return teamRatings.get(0);
+    return fixTeamRatingsOrder(teamRatings).get(0);
   }
 
   @JsonManagedReference
   public TeamRating getTeam2Rating() {
-    return teamRatings.get(1);
+    return fixTeamRatingsOrder(teamRatings).get(1);
+  }
+
+  // Ugly hack, but overriding setter doesn't seem to work
+  private List<TeamRating> fixTeamRatingsOrder(List<TeamRating> teamRatings) {
+    if (teamRatings.get(0).getTeam() != team1) {
+      Collections.reverse(teamRatings);
+    }
+
+    return teamRatings;
   }
 
 }

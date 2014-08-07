@@ -19,7 +19,7 @@
           <img src="img/flags/{{result.team1CountryFlag.code}}.png" class="flag" /> {{result.team1Country.name}}
         </div>
         <div class="team1-rating rating">
-          {{result.team1Rating.rating}}
+          {{result.team1Rating.value}}
         </div>
         <div class="team1-rating-change rating-change" data-ng-class="{'up': result.team1Rating.change > 0,
             'down': result.team1Rating.change < 0}">
@@ -33,7 +33,7 @@
           {{result.team2Rating.change > 0 ? '+' : ''}}{{result.team2Rating.change}}
         </div>
         <div class="team2-rating rating">
-          {{result.team2Rating.rating}}
+          {{result.team2Rating.value}}
         </div>
         <div class="team2-name" data-ng-class="{'winner': result.team2.id == result.winnerTeam.id}">
           {{result.team2Country.name}} <img src="img/flags/{{result.team2CountryFlag.code}}.png" class="flag" />

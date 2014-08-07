@@ -16,7 +16,7 @@ function($rootScope, $scope, $routeParams, rankingService) {
   function init() {
     var selector = $routeParams.selector;
 
-    if (selector.toLowerCase() == 'latest') {
+    if (selector.toLowerCase() === 'latest') {
       findLatestRanking();
     } else {
       var date = new Date(selector);
@@ -31,11 +31,11 @@ function($rootScope, $scope, $routeParams, rankingService) {
 
   var findRankingSuccess = function(ranking) {
     $scope.ranking = ranking;
-  }
+  };
 
   var findRankingError = function(error) {
     $scope.ranking = 'Unable to load ranking data:' + error.message;
-  }
+  };
 
   function findLatestRanking() {
     rankingService.findLatest()

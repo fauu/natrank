@@ -38,7 +38,7 @@
         <li>
           </c:otherwise>
           </c:choose>
-          <a href="<c:url value="/admin/calculate-ranking" />">Calculate ranking</a>
+          <a href="<c:url value="/admin/calculate-rankings" />">Calculate rankings</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">

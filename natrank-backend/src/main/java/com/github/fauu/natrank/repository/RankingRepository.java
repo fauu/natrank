@@ -15,10 +15,10 @@ package com.github.fauu.natrank.repository;
 import com.github.fauu.natrank.model.entity.Ranking;
 import org.joda.time.LocalDate;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 
-public interface RankingRepository extends CrudRepository<Ranking, Integer> {
+public interface RankingRepository extends JpaRepository<Ranking, Integer> {
 
   @Query("FROM Ranking r WHERE r.date = (SELECT MAX(r.date) FROM Ranking r)")
   Ranking findLatest() throws DataAccessException;

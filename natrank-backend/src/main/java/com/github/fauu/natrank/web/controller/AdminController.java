@@ -206,11 +206,11 @@ public class AdminController {
     return "dataImport";
   }
 
-  @RequestMapping(value = "/calculate-ranking", method = RequestMethod.GET)
-  public String calculateRanking() {
-    rankingService.calculateRanking();
+  @RequestMapping(value = "/calculate-rankings", method = RequestMethod.GET)
+  public String createRankings() {
+    rankingService.createRankings();
 
-    return "redirect:/admin";
+    return "rankingsCalculation";
   }
 
 }

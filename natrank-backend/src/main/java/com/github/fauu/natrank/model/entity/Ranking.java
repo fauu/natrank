@@ -21,6 +21,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -37,6 +38,6 @@ public class Ranking extends BaseEntity {
 
   @OneToMany(mappedBy = "ranking", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonManagedReference
-  private List<RankingEntry> entries;
+  private List<RankingEntry> entries = new LinkedList<>();
 
 }

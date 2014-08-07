@@ -13,7 +13,10 @@
 package com.github.fauu.natrank.service;
 
 import com.github.fauu.natrank.model.entity.*;
-import com.github.fauu.natrank.repository.*;
+import com.github.fauu.natrank.repository.MatchRepository;
+import com.github.fauu.natrank.repository.RankingRepository;
+import com.github.fauu.natrank.repository.TeamRatingRepository;
+import com.github.fauu.natrank.repository.TeamRepository;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -24,19 +27,22 @@ import java.util.*;
 @Service
 public class RankingServiceImpl implements RankingService {
 
-  public static final int AVERAGE_RATING = 1500;
+  public static final SortedMap<Integer, Integer> DEFAULT_RATINGS_UPTO_YEAR = new TreeMap<>();
+  static {
+    DEFAULT_RATINGS_UPTO_YEAR.put(1900, 2000);
+    DEFAULT_RATINGS_UPTO_YEAR.put(1910, 1900);
+    DEFAULT_RATINGS_UPTO_YEAR.put(1920, 1800);
+    DEFAULT_RATINGS_UPTO_YEAR.put(1930, 1700);
+  }
 
   public static final int INITIAL_HOME_ADVANTAGE_COEFFICIENT = 250;
 
-  public static final int NUM_TRIAL_MATCHES = 30;
+  public static final int NUM_TRIAL_MATCHES = 15;
 
-  public static final int TRIAL_RATING_MODIFIER = 10;
+  public static final int TRIAL_RATING_MODIFIER = 8;
 
   @Autowired
   private MatchRepository matchRepository;
-
-  @Autowired
-  private RankingEntryRepository rankingEntryRepository;
 
   @Autowired
   private RankingRepository rankingRepository;
@@ -47,15 +53,12 @@ public class RankingServiceImpl implements RankingService {
   @Autowired
   private TeamRatingRepository teamRatingRepository;
 
-  @Override
-  public void calculateRanking() throws DataAccessException {
+  private void calculateTeamRatings(List<Match> matches) throws DataAccessException {
     teamRatingRepository.deleteAll();
 
-    List<Match> matches = (List<Match>)matchRepository.findAll();
     List<TeamRating> ratings = new LinkedList<>();
     List<Team> teams = teamRepository.findAll();
-    Map<Integer, Integer> initialRatings = new HashMap<>();
-    int numPointsToInject = 0;
+    SortedMap<Integer, Integer> initialRatings = new TreeMap<>();
 
     for (int passNo = 0; passNo < 2; passNo++) {
       if (passNo == 1) {
@@ -79,7 +82,11 @@ public class RankingServiceImpl implements RankingService {
             rating.setChange(0);
 
             if (!initialRatings.containsKey(team.getId())) {
-              initialRatings.put(team.getId(), AVERAGE_RATING);
+              for (int year : DEFAULT_RATINGS_UPTO_YEAR.keySet()) {
+                if (match.getDate().getYear() < year) {
+                  initialRatings.put(team.getId(), DEFAULT_RATINGS_UPTO_YEAR.get(year));
+                }
+              }
             }
 
             rating.setValue(initialRatings.get(team.getId()));
@@ -135,7 +142,6 @@ public class RankingServiceImpl implements RankingService {
           int ratingChangeModifier = 1;
           if (passNo == 0 && matchTeams.get(i).getRatings().size() - 1 < NUM_TRIAL_MATCHES) {
             ratingChangeModifier = TRIAL_RATING_MODIFIER;
-            numPointsToInject -= (TRIAL_RATING_MODIFIER - 1) * matchTeamRatingChanges.get(i);
           }
           matchTeamRatings.set(i, matchTeamRatings.get(i) + ratingChangeModifier * matchTeamRatingChanges.get(i));
 
@@ -153,42 +159,91 @@ public class RankingServiceImpl implements RankingService {
 
           matchTeams.get(i).getRatings().add(newRating);
 
-          if (passNo == 0) {
+          if (passNo == 0 && (matchTeams.get(i).getRatings().size() - 1 < NUM_TRIAL_MATCHES)) {
             initialRatings.put(matchTeams.get(i).getId(), newRating.getValue());
-          }
-        }
-      }
-
-      if (passNo == 0) {
-        // TODO: Optimize this
-        while (Math.abs(numPointsToInject) > 0) {
-          for (Map.Entry<Integer, Integer> initialRating : initialRatings.entrySet()) {
-            if (numPointsToInject > 0) {
-              initialRating.setValue(initialRating.getValue() + 1);
-
-              numPointsToInject--;
-            } else {
-              initialRating.setValue(initialRating.getValue() - 1);
-
-              numPointsToInject++;
-            }
           }
         }
       }
     }
 
     teamRatingRepository.save(ratings);
-    matchRepository.save(matches);
+  }
 
-    // TODO: Factor this out
-    rankingEntryRepository.deleteAll(); // doesn't the line below take care of that?
-    rankingRepository.deleteAll();
-
+  private Ranking createRankingForDate(LocalDate date, Map<Integer, RankingEntry> entryMap) {
     Ranking ranking = new Ranking();
-    ranking.setDate(new LocalDate(1930, 7, 7));
+    ranking.setDate(date);
+
+    List<TeamRating> latestTeamRatingsForTeamByDate
+        = teamRatingRepository.findLatestForTeamByDate(ranking.getDate().toString("yyyy-MM-dd"));
+    Map<Integer, TeamRating> latestTeamRatingsMap = new HashMap<>();
+    for (TeamRating rating : latestTeamRatingsForTeamByDate) {
+      latestTeamRatingsMap.put(rating.getTeam().getId(), rating);
+    }
+
+    Map<Integer, RankingEntry> newEntryMap = new HashMap<>();
+    for (Map.Entry<Integer, RankingEntry> entry : entryMap.entrySet()) {
+      RankingEntry newEntry = new RankingEntry(entry.getValue());
+
+      if(newEntry.getMatchesTotal() >= NUM_TRIAL_MATCHES) {
+        newEntry.setRating(latestTeamRatingsMap.get(newEntry.getTeam().getId()).getValue());
+      }
+
+      newEntryMap.put(newEntry.getTeam().getId(), newEntry);
+    }
+
+    List<RankingEntry> newEntries = new LinkedList<>(newEntryMap.values());
+
+    Collections.sort(newEntries);
+
+    int currentRank = 1;
+    for (RankingEntry entry : newEntries) {
+      entry.setRanking(ranking);
+
+      if (entry.getRating() != 0) {
+        entry.setRank(currentRank);
+
+        currentRank++;
+      }
+    }
+
+    ranking.getEntries().addAll(newEntries);
+
+    return ranking;
+  }
+
+  @Override
+  public void createRankings() throws DataAccessException {
+    List<Match> matches = (List<Match>)matchRepository.findAll();
+
+    calculateTeamRatings(matches);
+
+    List<Ranking> rankings = new LinkedList<>();
     Map<Integer, RankingEntry> entryMap = new HashMap<>();
 
+    rankingRepository.deleteAll();
+
+    // FIXME: Don't hardcode the dates
+    Queue<LocalDate> rankingDateQueue = new LinkedList<>();
+    for (int year = 1900; year <= 1930; year++) {
+      if (year % 5 == 0) {
+        if (year != 1930) {
+          rankingDateQueue.add(new LocalDate(year, 8, 1));
+        } else {
+          rankingDateQueue.add(new LocalDate(year, 7, 7));
+        }
+      }
+    }
+
     for (Match match : matches) {
+      LocalDate nextRankingDate = rankingDateQueue.peek();
+      if (nextRankingDate == null) {
+        break;
+      }
+
+      if (match.getDate().isAfter(nextRankingDate)) {
+        rankings.add(createRankingForDate(rankingDateQueue.poll(), entryMap));
+      }
+
       List<Team> matchTeams = new ArrayList<>();
       matchTeams.add(match.getTeam1());
       matchTeams.add(match.getTeam2());
@@ -196,7 +251,6 @@ public class RankingServiceImpl implements RankingService {
       for (Team team : matchTeams) {
         if (!entryMap.containsKey(team.getId())) {
           RankingEntry newEntry = new RankingEntry();
-          newEntry.setRanking(ranking);
           newEntry.setTeam(team);
 
           entryMap.put(team.getId(), newEntry);
@@ -238,31 +292,12 @@ public class RankingServiceImpl implements RankingService {
       matchTeamEntries.get(1).addGoalsAgainst(match.getTeam1Goals());
     }
 
-    // TODO: replace with latestTeamRatingsForEachTeamForDate
-    List<TeamRating> latestTeamRatings = teamRatingRepository.findLatestForEachTeam();
-
-    for (TeamRating rating : latestTeamRatings) {
-      if (rating.getTeam().getRatings().size() - 1 >= NUM_TRIAL_MATCHES) {
-        RankingEntry entry = entryMap.get(rating.getTeam().getId());
-        entry.setRating(rating.getValue());
-      }
+    LocalDate nextRankingDate;
+    while ((nextRankingDate = rankingDateQueue.poll()) != null) {
+      rankings.add(createRankingForDate(nextRankingDate, entryMap));
     }
 
-    List<RankingEntry> entries = new LinkedList<>(entryMap.values());
-    Collections.sort(entries);
-
-    int currentRank = 1;
-    for (RankingEntry entry : entries) {
-      if (entry.getRating() != 0) {
-        entry.setRank(currentRank);
-
-        currentRank++;
-      }
-    }
-
-    ranking.setEntries(entries);
-
-    rankingRepository.save(ranking);
+    rankingRepository.save(rankings);
   }
 
   @Override
