@@ -20,8 +20,6 @@ import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
-import java.util.Collections;
-import java.util.List;
 
 @Entity
 @Getter
@@ -77,9 +75,29 @@ public class Match extends BaseEntity {
   @Column(name = "penalty_shootout")
   private boolean penaltyShootout;
 
-  @OneToMany(mappedBy = "match", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JsonIgnore
-  private List<TeamRating> teamRatings;
+  @Column(name = "team1_rating")
+  private Integer team1Rating;
+
+  @Column(name = "team2_rating")
+  private Integer team2Rating;
+
+  @Column(name = "team1_rating_change")
+  private Integer team1RatingChange;
+
+  @Column(name = "team2_rating_change")
+  private Integer team2RatingChange;
+
+  @Column(name = "team1_rank")
+  private Integer team1Rank;
+
+  @Column(name = "team2_rank")
+  private Integer team2Rank;
+
+  @Column(name = "team1_rank_change")
+  private Integer team1RankChange;
+
+  @Column(name = "team2_rank_change")
+  private Integer team2RankChange;
 
   @Getter(AccessLevel.NONE)
   @Transient
@@ -124,25 +142,6 @@ public class Match extends BaseEntity {
   @JsonManagedReference
   public Flag getCountryFlag() {
     return getCountry().getFlagByDate(date);
-  }
-
-  @JsonManagedReference
-  public TeamRating getTeam1Rating() {
-    return fixTeamRatingsOrder(teamRatings).get(0);
-  }
-
-  @JsonManagedReference
-  public TeamRating getTeam2Rating() {
-    return fixTeamRatingsOrder(teamRatings).get(1);
-  }
-
-  // Ugly hack, but overriding setter doesn't seem to work
-  private List<TeamRating> fixTeamRatingsOrder(List<TeamRating> teamRatings) {
-    if (teamRatings.get(0).getTeam() != team1) {
-      Collections.reverse(teamRatings);
-    }
-
-    return teamRatings;
   }
 
 }

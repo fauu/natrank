@@ -18,13 +18,13 @@
         <th>Rank</th>
         <th>Team</th>
         <th>Rating</th>
-        <th>P</th>
-        <th>W</th>
-        <th>D</th>
-        <th>L</th>
-        <th>GF</th>
-        <th>GA</th>
-        <th>GD</th>
+        <th ng-if="!isRankingDynamic">P</th>
+        <th ng-if="!isRankingDynamic">W</th>
+        <th ng-if="!isRankingDynamic">D</th>
+        <th ng-if="!isRankingDynamic">L</th>
+        <th ng-if="!isRankingDynamic">GF</th>
+        <th ng-if="!isRankingDynamic">GA</th>
+        <th ng-if="!isRankingDynamic">GD</th>
       </tr>
     </thead>
     <tbody>
@@ -39,13 +39,13 @@
         <td>
           {{entry.rating > 0 ? entry.rating : '—'}}
         </td>
-        <td>{{entry.matchesTotal}}</td>
-        <td>{{entry.wins}}</td>
-        <td>{{entry.draws}}</td>
-        <td>{{entry.losses}}</td>
-        <td>{{entry.goalsFor}}</td>
-        <td>{{entry.goalsAgainst}}</td>
-        <td>{{entry.goalDifference > 0 ? '+' : ''}}{{entry.goalDifference}}</td>
+        <td ng-if="!isRankingDynamic">{{entry.matchesTotal}}</td>
+        <td ng-if="!isRankingDynamic">{{entry.wins}}</td>
+        <td ng-if="!isRankingDynamic">{{entry.draws}}</td>
+        <td ng-if="!isRankingDynamic">{{entry.losses}}</td>
+        <td ng-if="!isRankingDynamic">{{entry.goalsFor}}</td>
+        <td ng-if="!isRankingDynamic">{{entry.goalsAgainst}}</td>
+        <td ng-if="!isRankingDynamic">{{entry.goalDifference > 0 ? '+' : ''}}{{entry.goalDifference}}</td>
       </tr>
     </tbody>
     <tfoot>
@@ -53,13 +53,13 @@
       <th>Rank</th>
       <th>Team</th>
       <th>Rating</th>
-      <th>P</th>
-      <th>W</th>
-      <th>D</th>
-      <th>L</th>
-      <th>GF</th>
-      <th>GA</th>
-      <th>GD</th>
+      <th ng-if="!isRankingDynamic">P</th>
+      <th ng-if="!isRankingDynamic">W</th>
+      <th ng-if="!isRankingDynamic">D</th>
+      <th ng-if="!isRankingDynamic">L</th>
+      <th ng-if="!isRankingDynamic">GF</th>
+      <th ng-if="!isRankingDynamic">GA</th>
+      <th ng-if="!isRankingDynamic">GD</th>
     </tr>
     </tfoot>
   </table>

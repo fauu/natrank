@@ -56,7 +56,7 @@ public class RankingServiceImpl implements RankingService {
   @Autowired
   private TeamRatingRepository teamRatingRepository;
 
-  private void calculateTeamRatings(List<Match> matches) throws DataAccessException {
+  private void calculateTeamRatingsAndRankChanges(List<Match> matches) throws DataAccessException {
     teamRatingRepository.deleteAll();
     teamRankRepository.deleteAll();
 
@@ -157,7 +157,7 @@ public class RankingServiceImpl implements RankingService {
           matchTeamRatings.set(i, currentTeamOldRating + ratingChangeModifier * matchTeamRatingChanges.get(i));
 
           TeamRating newRating = new TeamRating();
-          newRating.setDate(match.getDate().plusDays(1));
+          newRating.setDate(match.getDate());
           newRating.setTeam(matchTeams.get(i));
           newRating.setMatch(match);
           newRating.setValue(matchTeamRatings.get(i));
@@ -165,6 +165,14 @@ public class RankingServiceImpl implements RankingService {
 
           matchTeams.get(i).setHomeAdvantageCoefficient(
               matchTeams.get(i).getHomeAdvantageCoefficient() + 0.075 * matchTeamRatingChanges.get(i));
+
+          if (i == 0) {
+            match.setTeam1Rating(newRating.getValue());
+            match.setTeam1RatingChange(newRating.getChange());
+          } else if (i == 1) {
+            match.setTeam2Rating(newRating.getValue());
+            match.setTeam2RatingChange(newRating.getChange());
+          }
 
           ratings.add(newRating);
 
@@ -207,11 +215,11 @@ public class RankingServiceImpl implements RankingService {
                 int entryTeamRating = rankedTeamEntry.getValue().getRating();
 
                 int entryTeamRank = rankedTeamEntry.getValue().getRank();
-                 if ((currentTeamHighRating >= entryTeamRating) && (currentTeamLowRating <= entryTeamRating) &&
-                     !((currentTeamRatingChange > 0) && (entryTeamRating == currentTeamLowRating) && (entryTeamRank > currentTeamRank)) &&
-                     !((currentTeamRatingChange < 0) && (entryTeamRating == currentTeamHighRating) && (entryTeamRank < currentTeamRank))) {
-                    rankedTeamsToProcess.add(rankedTeamEntry.getValue());
-                 }
+                if ((currentTeamHighRating >= entryTeamRating) && (currentTeamLowRating <= entryTeamRating) &&
+                    !((currentTeamRatingChange > 0) && (entryTeamRating == currentTeamLowRating) && (entryTeamRank > currentTeamRank)) &&
+                    !((currentTeamRatingChange < 0) && (entryTeamRating == currentTeamHighRating) && (entryTeamRank < currentTeamRank))) {
+                   rankedTeamsToProcess.add(rankedTeamEntry.getValue());
+                }
               }
 
               if (isFirstEntryOfCurrentTeam || rankedTeamsToProcess.size() > 1) {
@@ -230,7 +238,23 @@ public class RankingServiceImpl implements RankingService {
                     newTeamRankEntry.setChange(-1 * rankChange);
                   }
 
+                  if (rankedTeam.getTeam() == match.getTeam1()) {
+                    match.setTeam1Rank(newTeamRankEntry.getValue());
+                    match.setTeam1RankChange(newTeamRankEntry.getChange());
+                  } else if (rankedTeam.getTeam() == match.getTeam2()) {
+                    match.setTeam2Rank(newTeamRankEntry.getValue());
+                    match.setTeam2RankChange(newTeamRankEntry.getChange());
+                  }
+
                   ranks.add(newTeamRankEntry);
+                }
+              } else {
+                if (i == 0) {
+                  match.setTeam1Rank(rankedTeamsByTeamId.get(currentTeam.getId()).getRank());
+                  match.setTeam1RankChange(0);
+                } else if (i == 1) {
+                  match.setTeam2Rank(rankedTeamsByTeamId.get(currentTeam.getId()).getRank());
+                  match.setTeam2RankChange(0);
                 }
               }
             }
@@ -243,6 +267,7 @@ public class RankingServiceImpl implements RankingService {
       }
     }
 
+    matchRepository.save(matches);
     teamRatingRepository.save(ratings);
     teamRankRepository.save(ranks);
   }
@@ -294,7 +319,7 @@ public class RankingServiceImpl implements RankingService {
   public void createRankings() throws DataAccessException {
     List<Match> matches = (List<Match>)matchRepository.findAll();
 
-    calculateTeamRatings(matches);
+    calculateTeamRatingsAndRankChanges(matches);
 
     List<Ranking> rankings = new LinkedList<>();
     Map<Integer, RankingEntry> entryMap = new HashMap<>();
@@ -399,6 +424,7 @@ public class RankingServiceImpl implements RankingService {
         = teamRankRepository.findLatestForTeamsByDate(dateStr);
 
     DynamicRanking ranking = new DynamicRanking();
+    ranking.setFullVariantAvailable(rankingRepository.existsByDate(date));
 
     Map<Integer, DynamicRankingEntry> rankingEntryMap = new HashMap<>();
 

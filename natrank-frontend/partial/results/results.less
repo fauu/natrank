@@ -33,10 +33,15 @@
 
       > .main-data {
         .make-row();
+        margin-bottom: 2px;
 
-        > .team1-name {
+        > .team1-info {
           .make-md-column(3);
           .make-xs-column(3);
+
+          > .rank {
+            margin-right: 1px;
+          }
         }
 
         > .team1-rating {
@@ -67,10 +72,36 @@
           .make-xs-column(1);
         }
 
-        > .team2-name {
+        > .team2-info {
           .make-md-column(3);
           .make-xs-column(3);
           .text-right;
+
+          > .rank {
+            margin-left: 1px;
+          }
+        }
+
+        .rank {
+          font-size: 10px;
+          width: 20px;
+          padding: 2px 0;
+          display: inline-block;
+          background-color: #888888;
+          border-radius: 3px;
+          color: #FFFFFF;
+          font-weight: bold;
+          .text-center;
+        }
+
+        .rank.up {
+          background-color: lighten(#3C763D, 20%);
+          border-color: lighten(#3C763D, 20%);
+        }
+
+        .rank.down {
+          background-color: lighten(#A94442, 20%);
+          border-color: lighten(#A94442, 20%);
         }
 
         .winner {

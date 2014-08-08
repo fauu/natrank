@@ -25,4 +25,8 @@ public interface RankingRepository extends JpaRepository<Ranking, Integer> {
 
   Ranking findByDate(LocalDate date) throws DataAccessException;
 
+  @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END " +
+         "FROM Ranking r WHERE r.date = ?")
+  boolean existsByDate(LocalDate date) throws DataAccessException;
+
 }

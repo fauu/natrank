@@ -14,7 +14,9 @@ angular.module('natrank')
 .controller('RankingsCtrl', ['$rootScope', '$scope', '$routeParams', 'rankingService',
 function($rootScope, $scope, $routeParams, rankingService) {
   function init() {
-    var selector = $routeParams.selector;
+    var selector = $routeParams.selector,
+        fullParam = $routeParams.full,
+        dynamic = true;
 
     if (selector.toLowerCase() === 'latest') {
       findLatestRanking();
@@ -22,11 +24,17 @@ function($rootScope, $scope, $routeParams, rankingService) {
       var date = new Date(selector);
 
       if (date instanceof Date && isFinite(date)) {
-        findRankingByDate(date);
+        if (fullParam === 'full') {
+          dynamic = false;
+        }
+
+        findRankingByDate(date, dynamic);
       } else {
         // TODO: handle incorrect date
       }
     }
+
+    $scope.isRankingDynamic = dynamic;
   }
 
   var findRankingSuccess = function(ranking) {
@@ -43,8 +51,8 @@ function($rootScope, $scope, $routeParams, rankingService) {
       .error(findRankingError);
   }
 
-  function findRankingByDate(date) {
-    rankingService.findByDate(date)
+  function findRankingByDate(date, dynamic) {
+    rankingService.findByDate(date, dynamic)
       .success(findRankingSuccess)
       .error(findRankingError);
   }
