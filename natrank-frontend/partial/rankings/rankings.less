@@ -14,31 +14,77 @@
   .make-md-column(12);
 
   > #header {
-    margin-top: 0;
+    margin: 0 0 12px 0;
     text-align: center;
+  }
 
-    > #date {
-      padding-left: 2px;
+  > #ranking-date {
+    font-size: 20px;
+    margin: 0 0 15px 0;
+    .text-center;
 
-      > #day {
-        width: 60px;
-        .text-right;
-      }
+    > #day {
+      width: 60px;
+      .text-right;
+    }
 
-      > #year {
-        width: 85px;
-      }
+    > #year {
+      width: 85px;
+    }
 
-      input, select {
-        padding: 4px;
-      }
+    input {
+      padding: 0 4px;
+    }
+
+    select {
+      padding: 2px 4px;
     }
   }
 
   > #ranking {
     .table;
-    .table-condensed;
-    //    .table-bordered;
     .table-hover;
+    .table-condensed;
+    font-size: 15px;
+    margin: 0 auto;
+
+    td {
+      vertical-align: middle !important;
+    }
+
+    > thead, > tfoot {
+      .team {
+        .text-left;
+      }
+
+      .rating {
+        .text-center;
+      }
+    }
+
+    > tbody {
+      .rank {
+        width: 5%;
+        padding-right: 8px;
+        font-size: 13px;
+        font-weight: bold;
+        .text-right;
+      }
+
+      .team {
+        .text-left;
+      }
+
+      .rating {
+        font-size: 16px;
+        font-weight: bold;
+        .text-center;
+      }
+    }
   }
+
+  > #ranking.dynamic {
+    width: 60%;
+  }
+
 }

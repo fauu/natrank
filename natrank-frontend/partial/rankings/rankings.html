@@ -11,24 +11,24 @@
   -->
 
 <div id="ranking-container" data-ng-controller="RankingsCtrl">
-  <h3 id="header">
-    World ranking for
-    <span id="date">
-      <input id="day" type="number" min="1" max="31" data-ng-model="day"
-             data-ng-model-options="{debounce: 500}" />
-      <select id="month" data-ng-model="month"
-              data-ng-options="selectedMonth.k as selectedMonth.v for selectedMonth in months">
-      </select>
-      <input id="year" type="number" min="1872" max="2014" data-ng-model="year"
-             data-ng-model-options="{debounce: 500}"/>
-    </span>
-  </h3>
-  <table id="ranking">
+  <h2 id="header">
+    World Ranking
+  </h2>
+  <div id="ranking-date">
+    <input id="day" type="number" min="1" max="31" data-ng-model="day"
+           data-ng-model-options="{debounce: 500}" />
+    <select id="month" data-ng-model="month"
+            data-ng-options="selectedMonth.k as selectedMonth.v for selectedMonth in months">
+    </select>
+    <input id="year" type="number" min="1872" max="2014" data-ng-model="year"
+           data-ng-model-options="{debounce: 500}"/>
+  </div>
+  <table id="ranking" ng-class="{'dynamic': isRankingDynamic}">
     <thead>
       <tr>
-        <th>Rank</th>
-        <th>Team</th>
-        <th>Rating</th>
+        <th class="rank">Rank</th>
+        <th class="team">Team</th>
+        <th class="rating">Rating</th>
         <th ng-if="!isRankingDynamic">P</th>
         <th ng-if="!isRankingDynamic">W</th>
         <th ng-if="!isRankingDynamic">D</th>
@@ -39,15 +39,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr data-ng-repeat="entry in ranking.entries">
-        <td>
-          {{entry.rank > 0 ? entry.rank : '*'}}
+      <tr class="entry" data-ng-repeat="entry in ranking.entries">
+        <td class="rank">
+          {{entry.rank > 0 ? entry.rank + '.' : '*'}}
         </td>
-        <td>
+        <td class="team">
           <img src="img/flags/{{entry.teamInfo.flag.code}}.png" class="flag" />
-           {{entry.teamInfo.name}}
+           <a data-ng-href="teams/{{entry.teamInfo.name | lowercase | whitespaceToDash}}">{{entry.teamInfo.name}}</a>
         </td>
-        <td>
+        <td class="rating">
           {{entry.rating > 0 ? entry.rating : '—'}}
         </td>
         <td ng-if="!isRankingDynamic">{{entry.matchesTotal}}</td>
