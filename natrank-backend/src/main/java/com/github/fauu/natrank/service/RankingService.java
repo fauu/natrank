@@ -12,6 +12,7 @@
 
 package com.github.fauu.natrank.service;
 
+import com.github.fauu.natrank.model.DynamicRanking;
 import com.github.fauu.natrank.model.entity.Ranking;
 import org.joda.time.LocalDate;
 import org.springframework.dao.DataAccessException;
@@ -23,5 +24,7 @@ public interface RankingService {
   Ranking findByDate(LocalDate date) throws DataAccessException;
 
   void createRankings() throws DataAccessException;
+
+  DynamicRanking createDynamicForDate(LocalDate date) throws DataAccessException;
 
 }

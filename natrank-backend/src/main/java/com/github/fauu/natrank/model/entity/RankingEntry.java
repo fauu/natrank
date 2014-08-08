@@ -13,11 +13,9 @@
 package com.github.fauu.natrank.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.fauu.natrank.model.TeamInfo;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -42,7 +40,7 @@ public class RankingEntry extends BaseEntity implements Comparable<RankingEntry>
 
   @ManyToOne
   @JoinColumn(name = "team_id")
-  @JsonManagedReference
+  @JsonIgnore
   private Team team;
 
   @Column(name = "matches_total")
@@ -72,18 +70,27 @@ public class RankingEntry extends BaseEntity implements Comparable<RankingEntry>
   @Column(name = "goals_against")
   private int goalsAgainst = 0;
 
+  @Getter(AccessLevel.NONE)
+  @Transient
+  private TeamInfo teamInfo;
+
   public int getGoalDifference() {
     return goalsFor - goalsAgainst;
   }
 
-  @JsonManagedReference
-  public Country getTeamCountry() {
-    return team.getCountryByDateNotTournamentLimited(ranking.getDate());
-  }
+  public TeamInfo getTeamInfo() {
+    if (teamInfo == null) {
+      Country teamCountry = team.getCountryByDate(ranking.getDate());
 
-  @JsonManagedReference
-  public Flag getTeamCountryFlag() {
-    return getTeamCountry().getFlagByDate(ranking.getDate());
+      TeamInfo teamInfo = new TeamInfo();
+      teamInfo.setTeam(team);
+      teamInfo.setName(teamCountry.getName());
+      teamInfo.setFlag(teamCountry.getFlagByDate(ranking.getDate()));
+
+      this.teamInfo = teamInfo;
+    }
+
+    return teamInfo;
   }
 
   public RankingEntry(RankingEntry other) {

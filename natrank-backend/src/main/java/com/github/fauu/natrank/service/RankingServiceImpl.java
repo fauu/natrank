@@ -12,6 +12,8 @@
 
 package com.github.fauu.natrank.service;
 
+import com.github.fauu.natrank.model.DynamicRanking;
+import com.github.fauu.natrank.model.DynamicRankingEntry;
 import com.github.fauu.natrank.model.RankedTeam;
 import com.github.fauu.natrank.model.entity.*;
 import com.github.fauu.natrank.repository.*;
@@ -28,9 +30,9 @@ public class RankingServiceImpl implements RankingService {
   public static final SortedMap<Integer, Integer> DEFAULT_RATINGS_UPTO_YEAR = new TreeMap<>();
   static {
     DEFAULT_RATINGS_UPTO_YEAR.put(1900, 2000);
-    DEFAULT_RATINGS_UPTO_YEAR.put(1910, 1900);
-    DEFAULT_RATINGS_UPTO_YEAR.put(1920, 1800);
-    DEFAULT_RATINGS_UPTO_YEAR.put(1930, 1700);
+    DEFAULT_RATINGS_UPTO_YEAR.put(1910, 1850);
+    DEFAULT_RATINGS_UPTO_YEAR.put(1920, 1700);
+    DEFAULT_RATINGS_UPTO_YEAR.put(1935, 1500);
   }
 
   public static final int INITIAL_HOME_ADVANTAGE_COEFFICIENT = 250;
@@ -223,8 +225,6 @@ public class RankingServiceImpl implements RankingService {
                   TeamRank newTeamRankEntry = new TeamRank();
                   newTeamRankEntry.setDate(match.getDate());
                   newTeamRankEntry.setTeam(rankedTeam.getTeam());
-                  newTeamRankEntry.setMatch(match);
-                  newTeamRankEntry.setRating(rankedTeam.getRating());
                   newTeamRankEntry.setValue(rankedTeam.getRank());
                   if (!(rankedTeam.getTeam() == currentTeam) || !isFirstEntryOfCurrentTeam) {
                     newTeamRankEntry.setChange(-1 * rankChange);
@@ -251,8 +251,9 @@ public class RankingServiceImpl implements RankingService {
     Ranking ranking = new Ranking();
     ranking.setDate(date);
 
+    // FIXME: This should take LocalDate instead of String
     List<TeamRating> latestTeamRatingsForTeamByDate
-        = teamRatingRepository.findLatestForTeamByDate(ranking.getDate().toString("yyyy-MM-dd"));
+        = teamRatingRepository.findLatestForTeamsByDate(ranking.getDate().toString("yyyy-MM-dd"));
     Map<Integer, TeamRating> latestTeamRatingsMap = new HashMap<>();
     for (TeamRating rating : latestTeamRatingsForTeamByDate) {
       latestTeamRatingsMap.put(rating.getTeam().getId(), rating);
@@ -386,6 +387,55 @@ public class RankingServiceImpl implements RankingService {
   @Override
   public Ranking findByDate(LocalDate date) throws DataAccessException {
     return rankingRepository.findByDate(date);
+  }
+
+  @Override
+  public DynamicRanking createDynamicForDate(LocalDate date) {
+    // FIXME: These should take LocalDate instead of String
+    String dateStr = date.toString("yyyy-MM-dd");
+    List<TeamRating> latestTeamRatingsForTeamByDate
+        = teamRatingRepository.findLatestForTeamsByDate(dateStr);
+    List<TeamRank> latestTeamRanksForTeamByDate
+        = teamRankRepository.findLatestForTeamsByDate(dateStr);
+
+    DynamicRanking ranking = new DynamicRanking();
+
+    Map<Integer, DynamicRankingEntry> rankingEntryMap = new HashMap<>();
+
+    for (TeamRank teamRank : latestTeamRanksForTeamByDate) {
+      DynamicRankingEntry rankingEntry = new DynamicRankingEntry();
+      rankingEntry.setTeam(teamRank.getTeam());
+      rankingEntry.setRanking(ranking);
+      rankingEntry.setRank(teamRank.getValue());
+
+      rankingEntryMap.put(teamRank.getTeam().getId(), rankingEntry);
+    }
+
+    for (TeamRating teamRating : latestTeamRatingsForTeamByDate) {
+      DynamicRankingEntry rankingEntry;
+
+      if (!rankingEntryMap.containsKey(teamRating.getTeam().getId())) {
+        rankingEntry = new DynamicRankingEntry();
+        rankingEntry.setTeam(teamRating.getTeam());
+        rankingEntry.setRanking(ranking);
+        rankingEntry.setRating(0);
+        rankingEntry.setRank(0);
+
+        rankingEntryMap.put(teamRating.getTeam().getId(), rankingEntry);
+      } else {
+        rankingEntry = rankingEntryMap.get(teamRating.getTeam().getId());
+        rankingEntry.setRating(teamRating.getValue());
+      }
+    }
+
+    List<DynamicRankingEntry> rankingEntries = new LinkedList<>(rankingEntryMap.values());
+
+    Collections.sort(rankingEntries);
+
+    ranking.setDate(date);
+    ranking.setEntries(rankingEntries);
+
+    return ranking;
   }
 
 }

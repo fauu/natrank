@@ -12,6 +12,7 @@
 
 package com.github.fauu.natrank.web.controller;
 
+import com.github.fauu.natrank.model.DynamicRanking;
 import com.github.fauu.natrank.model.entity.Ranking;
 import com.github.fauu.natrank.service.RankingService;
 import org.joda.time.LocalDate;
@@ -35,10 +36,16 @@ public class RankingController {
     return rankingService.findLatest();
   }
 
-  @RequestMapping(value = "/{date}", method = RequestMethod.GET)
+  @RequestMapping(value = "/{date}/full", method = RequestMethod.GET)
   public Ranking findByDate(
       @PathVariable(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
     return rankingService.findByDate(date);
+  }
+
+  @RequestMapping(value = "/{date}", method = RequestMethod.GET)
+  public DynamicRanking findDynamicByDate(
+      @PathVariable(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    return rankingService.createDynamicForDate(date);
   }
 
 }

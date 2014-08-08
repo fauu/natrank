@@ -33,6 +33,6 @@ public interface TeamRatingRepository extends JpaRepository<TeamRating, Integer>
            "LEFT JOIN (SELECT * FROM TeamRating WHERE date <= ?1) tr2 " +
              "ON (tr1.team_id = tr2.team_id AND tr1.date < tr2.date) " +
          "WHERE tr2.id IS NULL")
-  List<TeamRating> findLatestForTeamByDate(String date) throws DataAccessException;
+  List<TeamRating> findLatestForTeamsByDate(String date) throws DataAccessException;
 
 }

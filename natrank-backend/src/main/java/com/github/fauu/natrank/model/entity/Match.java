@@ -14,10 +14,8 @@ package com.github.fauu.natrank.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.github.fauu.natrank.model.TeamInfo;
+import lombok.*;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
@@ -49,12 +47,12 @@ public class Match extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "team1_id")
-  @JsonManagedReference
+  @JsonIgnore
   private Team team1;
 
   @ManyToOne
   @JoinColumn(name = "team2_id")
-  @JsonManagedReference
+  @JsonIgnore
   private Team team2;
 
   @Column(name = "team1_goals")
@@ -83,9 +81,40 @@ public class Match extends BaseEntity {
   @JsonIgnore
   private List<TeamRating> teamRatings;
 
-  @OneToMany(mappedBy = "match", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JsonIgnore
-  private List<TeamRank> teamRanks;
+  @Getter(AccessLevel.NONE)
+  @Transient
+  private TeamInfo team1Info;
+
+  @Getter(AccessLevel.NONE)
+  @Transient
+  private TeamInfo team2Info;
+
+  public TeamInfo getTeam1Info() {
+    if (team1Info == null) {
+      this.team1Info = createTeamInfo(team1);
+    }
+
+    return team1Info;
+  }
+
+  public TeamInfo getTeam2Info() {
+    if (team2Info == null) {
+      this.team2Info = createTeamInfo(team2);
+    }
+
+    return team2Info;
+  }
+
+  private TeamInfo createTeamInfo(Team team) {
+    Country teamCountry = team.getCountryByDate(date, type);
+
+    TeamInfo teamInfo = new TeamInfo();
+    teamInfo.setTeam(team);
+    teamInfo.setName(teamCountry.getName());
+    teamInfo.setFlag(teamCountry.getFlagByDate(date));
+
+    return teamInfo;
+  }
 
   @JsonManagedReference
   public Country getCountry() {
@@ -93,28 +122,8 @@ public class Match extends BaseEntity {
   }
 
   @JsonManagedReference
-  public Country getTeam1Country() {
-    return team1.getCountryByDate(date, type);
-  }
-
-  @JsonManagedReference
-  public Country getTeam2Country() {
-    return team2.getCountryByDate(date, type);
-  }
-
-  @JsonManagedReference
   public Flag getCountryFlag() {
     return getCountry().getFlagByDate(date);
-  }
-
-  @JsonManagedReference
-  public Flag getTeam1CountryFlag() {
-    return getTeam1Country().getFlagByDate(date);
-  }
-
-  @JsonManagedReference
-  public Flag getTeam2CountryFlag() {
-    return getTeam2Country().getFlagByDate(date);
   }
 
   @JsonManagedReference

@@ -106,6 +106,10 @@ public class Team extends BaseEntity {
     return null;
   }
 
+  public Country getCountryByDate(LocalDate date) {
+    return getCountryByDateNotTournamentLimited(date);
+  }
+
   public Country getCountryByDate(LocalDate date, MatchType matchType) {
     if (isRepresentedByTournamentLimitedCountry()) {
       for (Country country : countries) {
@@ -120,7 +124,7 @@ public class Team extends BaseEntity {
     return getCountryByDateNotTournamentLimited(date);
   }
 
-  public Country getCountryByDateNotTournamentLimited(LocalDate date) {
+  private Country getCountryByDateNotTournamentLimited(LocalDate date) {
     for (Country country : countries) {
       if (!country.getFromDate().isAfter(date) &&
           ((country.getToDate() == null) || country.getToDate().isAfter(date))) {

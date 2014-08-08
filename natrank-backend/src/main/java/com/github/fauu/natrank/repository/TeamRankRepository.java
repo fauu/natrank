@@ -13,8 +13,21 @@
 package com.github.fauu.natrank.repository;
 
 import com.github.fauu.natrank.model.entity.TeamRank;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface TeamRankRepository extends JpaRepository<TeamRank, Integer> {
+
+  // FIXME: This should take LocalDate instead of String
+  @Query(nativeQuery = true, value =
+      "SELECT tr1.* " +
+          "FROM (SELECT * FROM TeamRank WHERE date <= ?1) tr1 " +
+          "LEFT JOIN (SELECT * FROM TeamRank WHERE date <= ?1) tr2 " +
+          "ON (tr1.team_id = tr2.team_id AND tr1.date < tr2.date) " +
+          "WHERE tr2.id IS NULL")
+  List<TeamRank> findLatestForTeamsByDate(String date) throws DataAccessException;
 
 }
