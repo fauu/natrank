@@ -1,2 +1,3 @@
-<pagination class="pagination-sm" on-select-page="changePage(page)" data-page="resultsPage.number" data-total-items="resultsPage.totalElements"
-            data-items-per-page="resultsPage.size" data-boundary-links="true" data-rotate="false" data-max-size="5"></pagination>
+<pagination class="pagination-sm" data-ng-model="resultsPage.number" data-ng-change="pageChanged()"
+            data-total-items="resultsPage.totalElements" data-items-per-page="resultsPage.size">
+</pagination>

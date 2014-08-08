@@ -12,7 +12,7 @@
 
 angular.module('natrank', ['ui.bootstrap', 'ui.utils', 'ngRoute', 'ngAnimate']);
 
-angular.module('natrank').config(function($routeProvider, $locationProvider) {
+angular.module('natrank').config(function($routeProvider, $locationProvider, paginationConfig) {
   $routeProvider
     /* Add New Routes Above */
     .when('/results', {
@@ -31,7 +31,16 @@ angular.module('natrank').config(function($routeProvider, $locationProvider) {
       controller: 'RankingsCtrl'
     })
     .otherwise({redirectTo: '/'});
+
   $locationProvider.html5Mode(true);
+
+  paginationConfig.boundaryLinks = true;
+  paginationConfig.rotate = false;
+  paginationConfig.maxSize = 10;
+  paginationConfig.firstText = '«';
+  paginationConfig.previousText = '‹';
+  paginationConfig.nextText = '›';
+  paginationConfig.lastText = '»';
 });
 
 angular.module('natrank').run(function($rootScope) {

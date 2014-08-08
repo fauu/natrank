@@ -10,12 +10,12 @@
  * Authored by: Piotr Grabowski <fau999@gmail.com>
  */
 
-angular.module('natrank').controller('ResultsCtrl',
-['$scope', '$location', 'matchService',
+angular.module('natrank')
+.controller('ResultsCtrl', ['$scope', '$location', 'matchService',
 function($scope, $location, matchService) {
   function init() {
-    var attrs = $location.search();
-    var pageNo = attrs.page || 0;
+    var attrs = $location.search(),
+        pageNo = attrs.page || 0;
 
     findResultsPage(pageNo);
   }
@@ -31,8 +31,12 @@ function($scope, $location, matchService) {
       });
   }
 
-  $scope.changePage = function(newPageNo) {
-    findResultsPage(newPageNo - 1); // one based -> zero-based
+//  $scope.changePage = function(newPageNo) {
+//    findResultsPage(newPageNo - 1); // one based -> zero-based
+//  };
+
+  $scope.pageChanged = function() {
+    findResultsPage($scope.resultsPage.number - 1); // one based -> zero based
   };
 
   init();

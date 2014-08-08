@@ -20,7 +20,7 @@ angular.module('natrank').service('rankingService', ['$http', function($http) {
   this.findByDate = function(date, dynamic) {
     var dateString = date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString() + '-' +
       date.getDate().toString();
-    var paramString = dynamic ? "" : "/full"
+    var paramString = dynamic ? "" : "/full";
 
     return $http.get(urlBase + "/" + dateString + paramString);
   };
