@@ -95,13 +95,13 @@
         }
 
         .rank.up {
-          background-color: lighten(#3C763D, 20%);
-          border-color: lighten(#3C763D, 20%);
+          background-color: lighten(@color-up, 20%);
+          border-color: lighten(@color-up, 20%);
         }
 
         .rank.down {
-          background-color: lighten(#A94442, 20%);
-          border-color: lighten(#A94442, 20%);
+          background-color: lighten(@color-down, 20%);
+          border-color: lighten(@color-down, 20%);
         }
 
         .winner {
@@ -120,11 +120,11 @@
         }
 
         > .rating-change.up {
-          color: #3C763D;
+          color: @color-up;
         }
 
         > .rating-change.down {
-          color: #A94442;
+          color: @color-down;
         }
 
         > .result-extra {

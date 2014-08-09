@@ -23,55 +23,60 @@
     <input id="year" type="number" min="1872" max="2014" data-ng-model="year"
            data-ng-model-options="{debounce: 500}"/>
   </div>
-  <table id="ranking" ng-class="{'dynamic': isRankingDynamic}">
+  <table id="ranking" data-ng-class="{'dynamic': isRankingDynamic}">
     <thead>
       <tr>
         <th class="rank">Rank</th>
-        <th class="team">Team</th>
+        <th class="team" colspan="2">Team</th>
+        <th class="rank-change">1-Year Change</th>
         <th class="rating">Rating</th>
-        <th ng-if="!isRankingDynamic">P</th>
-        <th ng-if="!isRankingDynamic">W</th>
-        <th ng-if="!isRankingDynamic">D</th>
-        <th ng-if="!isRankingDynamic">L</th>
-        <th ng-if="!isRankingDynamic">GF</th>
-        <th ng-if="!isRankingDynamic">GA</th>
-        <th ng-if="!isRankingDynamic">GD</th>
+        <th data-ng-if="!isRankingDynamic">P</th>
+        <th data-ng-if="!isRankingDynamic">W</th>
+        <th data-ng-if="!isRankingDynamic">D</th>
+        <th data-ng-if="!isRankingDynamic">L</th>
+        <th data-ng-if="!isRankingDynamic">GF</th>
+        <th data-ng-if="!isRankingDynamic">GA</th>
+        <th data-ng-if="!isRankingDynamic">GD</th>
       </tr>
     </thead>
     <tbody>
       <tr class="entry" data-ng-repeat="entry in ranking.entries">
-        <td class="rank">
+        <td class="rank" data-ng-class="{'no-rank': entry.rank === 0}">
           {{entry.rank > 0 ? entry.rank + '.' : '*'}}
         </td>
-        <td class="team">
+        <td class="team-flag">
           <img src="img/flags/{{entry.teamInfo.flag.code}}.png" class="flag" />
-           <a data-ng-href="teams/{{entry.teamInfo.name | lowercase | whitespaceToDash}}">{{entry.teamInfo.name}}</a>
+        </td>
+        <td class="team-name">
+          <a data-ng-href="teams/{{entry.teamInfo.name | lowercase | whitespaceToDash}}">{{entry.teamInfo.name}}</a>
+        </td>
+        <td class="rank-change">
+          <span data-ng-show="entry.rankOneYearChange !== null"
+                data-ng-class="{'up': entry.rankOneYearChange > 0,
+                                'down': entry.rankOneYearChange < 0}">
+            <i class="fa"
+               data-ng-class="{'fa-arrow-circle-o-up': entry.rankOneYearChange > 0,
+                               'fa-minus': entry.rankOneYearChange == 0,
+                               'fa-arrow-circle-o-down': entry.rankOneYearChange < 0}"></i>
+            <span class="value" data-ng-show="entry.rankOneYearChange !== 0">
+              {{entry.rankOneYearChange < 0 ? -1 * entry.rankOneYearChange : entry.rankOneYearChange}}
+            </span>
+          </span>
+          <span class="new" data-ng-show="entry.rank > 0 && entry.rankOneYearChange === null">
+            New
+          </span>
         </td>
         <td class="rating">
           {{entry.rating > 0 ? entry.rating : '—'}}
         </td>
-        <td ng-if="!isRankingDynamic">{{entry.matchesTotal}}</td>
-        <td ng-if="!isRankingDynamic">{{entry.wins}}</td>
-        <td ng-if="!isRankingDynamic">{{entry.draws}}</td>
-        <td ng-if="!isRankingDynamic">{{entry.losses}}</td>
-        <td ng-if="!isRankingDynamic">{{entry.goalsFor}}</td>
-        <td ng-if="!isRankingDynamic">{{entry.goalsAgainst}}</td>
-        <td ng-if="!isRankingDynamic">{{entry.goalDifference > 0 ? '+' : ''}}{{entry.goalDifference}}</td>
+        <td data-ng-if="!isRankingDynamic">{{entry.matchesTotal}}</td>
+        <td data-ng-if="!isRankingDynamic">{{entry.wins}}</td>
+        <td data-ng-if="!isRankingDynamic">{{entry.draws}}</td>
+        <td data-ng-if="!isRankingDynamic">{{entry.losses}}</td>
+        <td data-ng-if="!isRankingDynamic">{{entry.goalsFor}}</td>
+        <td data-ng-if="!isRankingDynamic">{{entry.goalsAgainst}}</td>
+        <td data-ng-if="!isRankingDynamic">{{entry.goalDifference > 0 ? '+' : ''}}{{entry.goalDifference}}</td>
       </tr>
     </tbody>
-    <tfoot>
-    <tr>
-      <th>Rank</th>
-      <th>Team</th>
-      <th>Rating</th>
-      <th ng-if="!isRankingDynamic">P</th>
-      <th ng-if="!isRankingDynamic">W</th>
-      <th ng-if="!isRankingDynamic">D</th>
-      <th ng-if="!isRankingDynamic">L</th>
-      <th ng-if="!isRankingDynamic">GF</th>
-      <th ng-if="!isRankingDynamic">GA</th>
-      <th ng-if="!isRankingDynamic">GD</th>
-    </tr>
-    </tfoot>
   </table>
 </div>

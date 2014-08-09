@@ -29,10 +29,10 @@ public class RankingServiceImpl implements RankingService {
 
   public static final SortedMap<Integer, Integer> DEFAULT_RATINGS_UPTO_YEAR = new TreeMap<>();
   static {
-    DEFAULT_RATINGS_UPTO_YEAR.put(1900, 2000);
-    DEFAULT_RATINGS_UPTO_YEAR.put(1910, 1850);
+    DEFAULT_RATINGS_UPTO_YEAR.put(1910, 1750);
     DEFAULT_RATINGS_UPTO_YEAR.put(1920, 1700);
-    DEFAULT_RATINGS_UPTO_YEAR.put(1935, 1500);
+    DEFAULT_RATINGS_UPTO_YEAR.put(1930, 1650);
+    DEFAULT_RATINGS_UPTO_YEAR.put(1940, 1600);
   }
 
   public static final int INITIAL_HOME_ADVANTAGE_COEFFICIENT = 250;
@@ -92,6 +92,8 @@ public class RankingServiceImpl implements RankingService {
               for (int year : DEFAULT_RATINGS_UPTO_YEAR.keySet()) {
                 if (match.getDate().getYear() < year) {
                   initialRatings.put(team.getId(), DEFAULT_RATINGS_UPTO_YEAR.get(year));
+
+                  break;
                 }
               }
             }
@@ -418,17 +420,21 @@ public class RankingServiceImpl implements RankingService {
   public DynamicRanking createDynamicForDate(LocalDate date) {
     // FIXME: These should take LocalDate instead of String
     String dateStr = date.toString("yyyy-MM-dd");
-    List<TeamRating> latestTeamRatingsForTeamByDate
+    String dateMinusOneYearStr = date.minusYears(1).toString("yyyy-MM-dd");
+
+    List<TeamRating> latestTeamRatingsForTeam
         = teamRatingRepository.findLatestForTeamsByDate(dateStr);
-    List<TeamRank> latestTeamRanksForTeamByDate
+    List<TeamRank> latestTeamRanksForTeam
         = teamRankRepository.findLatestForTeamsByDate(dateStr);
+    List<TeamRank> teamRanksForTeamOneYearBefore
+        = teamRankRepository.findLatestForTeamsByDate(dateMinusOneYearStr);
 
     DynamicRanking ranking = new DynamicRanking();
     ranking.setFullVariantAvailable(rankingRepository.existsByDate(date));
 
     Map<Integer, DynamicRankingEntry> rankingEntryMap = new HashMap<>();
 
-    for (TeamRank teamRank : latestTeamRanksForTeamByDate) {
+    for (TeamRank teamRank : latestTeamRanksForTeam) {
       DynamicRankingEntry rankingEntry = new DynamicRankingEntry();
       rankingEntry.setTeam(teamRank.getTeam());
       rankingEntry.setRanking(ranking);
@@ -437,7 +443,18 @@ public class RankingServiceImpl implements RankingService {
       rankingEntryMap.put(teamRank.getTeam().getId(), rankingEntry);
     }
 
-    for (TeamRating teamRating : latestTeamRatingsForTeamByDate) {
+    for (TeamRank teamRankOneYearBefore : teamRanksForTeamOneYearBefore) {
+      if (rankingEntryMap.containsKey(teamRankOneYearBefore.getTeam().getId())) {
+        Integer rankOneYearChange
+            = teamRankOneYearBefore.getValue() -
+              rankingEntryMap.get(teamRankOneYearBefore.getTeam().getId()).getRank();
+
+        rankingEntryMap.get(teamRankOneYearBefore.getTeam().getId())
+            .setRankOneYearChange(rankOneYearChange);
+      }
+    }
+
+    for (TeamRating teamRating : latestTeamRatingsForTeam) {
       DynamicRankingEntry rankingEntry;
 
       if (!rankingEntryMap.containsKey(teamRating.getTeam().getId())) {

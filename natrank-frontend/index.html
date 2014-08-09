@@ -19,7 +19,7 @@
   <link href="app.less" type="text/css" rel="stylesheet/less">
 </head>
 <body>
-  <div class="top-bar">
+  <div id="top-bar">
     <div class="container">
       <header>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -43,6 +43,12 @@
     <div class="view-container" data-ng-view="">
     </div>
   </div>
+
+  <footer id="main-footer">
+    <div class="container">
+      <p>natrank</p>
+    </div>
+  </footer>
 
   <!-- Livereload script for development only (stripped during dist build) -->
   <script src="http://localhost:35729/livereload.js" data-concat="false"></script>

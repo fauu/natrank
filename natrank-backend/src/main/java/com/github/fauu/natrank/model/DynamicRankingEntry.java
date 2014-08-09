@@ -36,6 +36,8 @@ public class DynamicRankingEntry implements Comparable<DynamicRankingEntry> {
 
   private int rank;
 
+  private Integer rankOneYearChange;
+
   private int rating;
 
   public TeamInfo getTeamInfo() {

@@ -23,7 +23,10 @@
 /* Required for Angular UI Bootstrap */
 .nav, .pagination, .carousel a { cursor: pointer; }
 
-.top-bar {
+@color-up: #3C763D;
+@color-down: #A94442;
+
+#top-bar {
   .navbar;
   .navbar-default;
   .navbar-static-top;
@@ -39,6 +42,14 @@
   > .view-container {
     .make-row();
   }
+}
+
+#main-footer {
+  color: #777777;
+  border-top: 1px solid #E5E5E5;
+  padding: 10px 0 2px 0;
+  margin-top: 20px;
+  .text-center;
 }
 
 .flag {
