@@ -21,4 +21,6 @@ public interface MatchService {
 
   Page<Match> findAll(Pageable pageable) throws DataAccessException;
 
+  Page<Match> findByYear(int year, Pageable pageable) throws DataAccessException;
+
 }

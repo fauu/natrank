@@ -11,17 +11,17 @@
  */
 
 angular.module('natrank').service('rankingService', ['$http', function($http) {
-  var urlBase = "http://localhost:8080/rankings";
+  var urlBase = 'http://localhost:8080/rankings';
 
   this.findLatest = function() {
-    return $http.get(urlBase + "/latest");
+    return $http.get(urlBase + '/latest');
   };
 
   this.findByDate = function(date, dynamic) {
     var dateString = date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString() + '-' +
-      date.getDate().toString();
-    var paramString = dynamic ? "" : "/full";
+                     date.getDate().toString(),
+        paramString = dynamic ? '' : '/full';
 
-    return $http.get(urlBase + "/" + dateString + paramString);
+    return $http.get(urlBase + '/' + dateString + paramString);
   };
 }]);

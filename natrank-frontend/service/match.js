@@ -11,9 +11,11 @@
  */
 
 angular.module('natrank').service('matchService', ['$http', function($http) {
-  var urlBase = "http://localhost:8080/matches";
+  var urlBase = 'http://localhost:8080/matches';
 
-  this.findPage = function(pageNo) {
-    return $http.get(urlBase + '?page=' + pageNo);
+  this.findPage = function(pageNo, year) {
+    var paramString = year ? '/' + year : '';
+
+    return $http.get(urlBase + paramString + '?page=' + pageNo);
   };
 }]);

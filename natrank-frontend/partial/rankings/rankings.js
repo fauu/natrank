@@ -11,12 +11,14 @@
  */
 
 angular.module('natrank')
-.controller('RankingsCtrl', ['$rootScope', '$scope', '$routeParams', 'rankingService',
-function($rootScope, $scope, $routeParams, rankingService) {
+.controller('RankingsCtrl', ['$rootScope', '$scope', '$location', '$route', '$routeParams', 'rankingService',
+function($rootScope, $scope, $location, $route, $routeParams, rankingService) {
+  var date,
+      dynamic = true;
+
   function init() {
     var selector = $routeParams.selector,
-        fullParam = $routeParams.full,
-        dynamic = true;
+        fullParam = $routeParams.full;
 
     $scope.months = [
       {k: 1,  v: 'January'},
@@ -36,7 +38,8 @@ function($rootScope, $scope, $routeParams, rankingService) {
     if (selector.toLowerCase() === 'latest') {
       findLatestRanking();
     } else {
-      var date = new Date(selector);
+      var dateFragments = selector.split('-');
+      date = new Date(dateFragments[0], dateFragments[1], dateFragments[2]);
 
       if (date instanceof Date && isFinite(date)) {
         $scope.day = date.getDate();
@@ -54,11 +57,21 @@ function($rootScope, $scope, $routeParams, rankingService) {
     $scope.isRankingDynamic = dynamic;
 
     $scope.$watch('[day, month, year]', function() {
-      date.setDate($scope.day);
-      date.setMonth($scope.month - 1);
-      date.setFullYear($scope.year);
+      var dateStr;
 
-      findRankingByDate(date, dynamic);
+      if (!isNaN($scope.day) && !isNaN($scope.month) && !isNaN($scope.year)) {
+        date.setDate($scope.day);
+        date.setMonth($scope.month - 1);
+        date.setFullYear($scope.year);
+
+        dateStr = date.getFullYear() + '-'
+                  + ('0' + (date.getMonth() + 1)).slice(-2) + '-'
+                  + ('0' + date.getDate()).slice(-2);
+
+        $location.path('rankings/' + dateStr, false).replace();
+
+        findRankingByDate(date, dynamic);
+      }
     }, true);
   }
 

@@ -11,7 +11,16 @@
   -->
 
 <div id="results-container" data-ng-controller="ResultsCtrl">
-  <div data-ng-include src="'partial/results/pagination.html'"></div>
+  <h2 id="header">
+    Match results
+  </h2>
+  <div id="results-year-filter">
+    <label for="year">Year: </label>
+    <input id="year" type="number" min="1872" max="2014" data-ng-model="year"
+           data-ng-model-options="{debounce: 500}" placeholder="any" />
+    <i id="delete" class="fa fa-times" data-ng-show="year" ng-click="filterDeleteClicked()"></i>
+  </div>
+  <div data-ng-include src="'partial/results/pagination.html'" data-ng-show='resultsPage.totalPages > 1'></div>
   <ul id="results">
     <li class="result" data-ng-repeat="result in resultsPage.content">
       <div class="main-data">
@@ -56,5 +65,5 @@
       </div>
     </li>
   </ul>
-  <div data-ng-include src="'partial/results/pagination.html'"></div>
+  <div data-ng-include src="'partial/results/pagination.html'" data-ng-show="resultsPage.totalPages > 1"></div>
 </div>

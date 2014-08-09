@@ -15,6 +15,10 @@ angular.module('natrank', ['ui.bootstrap', 'ui.utils', 'ngRoute', 'ngAnimate']);
 angular.module('natrank').config(function($routeProvider, $locationProvider, paginationConfig) {
   $routeProvider
     /* Add New Routes Above */
+    .when('/results/:year', {
+      templateUrl: 'partial/results/results.html',
+      controller: 'ResultsCtrl'
+    })
     .when('/results', {
       templateUrl: 'partial/results/results.html',
       controller: 'ResultsCtrl'
@@ -43,7 +47,9 @@ angular.module('natrank').config(function($routeProvider, $locationProvider, pag
   paginationConfig.lastText = '»';
 });
 
-angular.module('natrank').run(function($rootScope) {
+angular.module('natrank').run(function($route, $rootScope, $location) {
+  var originalLocation;
+
   $rootScope.safeApply = function(fn) {
     var phase = $rootScope.$$phase;
     if (phase === '$apply' || phase === '$digest') {
@@ -53,5 +59,18 @@ angular.module('natrank').run(function($rootScope) {
     } else {
       this.$apply(fn);
     }
+  };
+
+  originalLocation = $location.path;
+
+  $location.path = function (path, reload) {
+    if (reload === false) {
+      var lastRoute = $route.current;
+      var un = $rootScope.$on('$locationChangeSuccess', function () {
+        $route.current = lastRoute;
+        un();
+      });
+    }
+    return originalLocation.apply($location, [path]);
   };
 });

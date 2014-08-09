@@ -14,8 +14,26 @@
   .make-md-column(12);
   .text-center;
 
+  #header {
+    margin-bottom: 3px;
+  }
+
   ul:first-child {
     margin-top: 0;
+  }
+
+  > #results-year-filter {
+    margin-bottom: 18px;
+
+    > #year {
+      width: 60px;
+      .text-right;
+    }
+
+    > #delete {
+      color: @color-down;
+      cursor: pointer;
+    }
   }
 
   > #results {
@@ -87,11 +105,15 @@
           width: 20px;
           padding: 2px 0;
           display: inline-block;
-          background-color: #888888;
+          border: 1px solid @gray-lighter;
+          color: @gray;
           border-radius: 3px;
-          color: #FFFFFF;
           font-weight: bold;
           .text-center;
+        }
+
+        .rank.up, .rank.down {
+          color: #FFFFFF;
         }
 
         .rank.up {
