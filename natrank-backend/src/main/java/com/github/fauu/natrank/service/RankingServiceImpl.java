@@ -319,7 +319,7 @@ public class RankingServiceImpl implements RankingService {
 
   @Override
   public void createRankings() throws DataAccessException {
-    List<Match> matches = (List<Match>)matchRepository.findAll();
+    List<Match> matches = (List<Match>) matchRepository.findAll();
 
     calculateTeamRatingsAndRankChanges(matches);
 
@@ -328,17 +328,8 @@ public class RankingServiceImpl implements RankingService {
 
     rankingRepository.deleteAll();
 
-    // FIXME: Don't hardcode the dates
     Queue<LocalDate> rankingDateQueue = new LinkedList<>();
-    for (int year = 1900; year <= 1930; year++) {
-      if (year % 5 == 0) {
-        if (year != 1930) {
-          rankingDateQueue.add(new LocalDate(year, 8, 1));
-        } else {
-          rankingDateQueue.add(new LocalDate(year, 7, 7));
-        }
-      }
-    }
+    rankingDateQueue.add(matches.get(matches.size() - 1).getDate());
 
     for (Match match : matches) {
       LocalDate nextRankingDate = rankingDateQueue.peek();

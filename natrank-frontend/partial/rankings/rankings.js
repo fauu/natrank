@@ -14,11 +14,10 @@ angular.module('natrank')
 .controller('RankingsCtrl', ['$rootScope', '$scope', '$location', '$route', '$routeParams', 'rankingService',
 function($rootScope, $scope, $location, $route, $routeParams, rankingService) {
   var date,
-      dynamic = true;
+      dynamic;
 
   function init() {
-    var selector = $routeParams.selector,
-        fullParam = $routeParams.full;
+    var selector = $routeParams.selector;
 
     $scope.months = [
       {k: 1,  v: 'January'},
@@ -36,47 +35,64 @@ function($rootScope, $scope, $location, $route, $routeParams, rankingService) {
     ];
 
     if (selector.toLowerCase() === 'latest') {
+      $scope.isRankingDynamic = false;
+      dynamic = false;
+
       findLatestRanking();
     } else {
+      $scope.isRankingDynamic = true;
+
       var dateFragments = selector.split('-');
       date = new Date(dateFragments[0], dateFragments[1], dateFragments[2]);
 
       if (date instanceof Date && isFinite(date)) {
+        dynamic = true;
+
         $scope.day = date.getDate();
         $scope.month = $scope.months[date.getMonth()].k;
         $scope.year = date.getFullYear();
-
-        if (fullParam === 'full') {
-          dynamic = false;
-        }
       } else {
         // TODO: handle incorrect date
       }
     }
 
-    $scope.isRankingDynamic = dynamic;
-
     $scope.$watch('[day, month, year]', function() {
       var dateStr;
 
-      if (!isNaN($scope.day) && !isNaN($scope.month) && !isNaN($scope.year)) {
-        date.setDate($scope.day);
-        date.setMonth($scope.month - 1);
-        date.setFullYear($scope.year);
+      if (dynamic) {
+        if (!isNaN($scope.day) && !isNaN($scope.month) && !isNaN($scope.year)) {
+          date.setDate($scope.day);
+          date.setMonth($scope.month - 1);
+          date.setFullYear($scope.year);
 
-        dateStr = date.getFullYear() + '-'
-                  + ('0' + (date.getMonth() + 1)).slice(-2) + '-'
-                  + ('0' + date.getDate()).slice(-2);
+          dateStr = date.getFullYear() + '-' +
+            ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+            ('0' + date.getDate()).slice(-2);
 
-        $location.path('rankings/' + dateStr, false).replace();
+          $location.path('rankings/' + dateStr, false).replace();
 
-        findRankingByDate(date, dynamic);
+          findRankingByDate(date);
+        }
       }
     }, true);
   }
 
   var findRankingSuccess = function(ranking) {
     $scope.ranking = ranking;
+
+    if (!dynamic) {
+      var dateFragments = $scope.ranking.date.split('-');
+
+      date = new Date(dateFragments[0], dateFragments[1], dateFragments[2]);
+
+      $scope.day = date.getDate();
+      $scope.month = $scope.months[date.getMonth()].k;
+      $scope.year = date.getFullYear();
+
+      dynamic = true;
+    } else {
+      $scope.isRankingDynamic = true;
+    }
   };
 
   var findRankingError = function(error) {
@@ -89,8 +105,8 @@ function($rootScope, $scope, $location, $route, $routeParams, rankingService) {
       .error(findRankingError);
   }
 
-  function findRankingByDate(date, dynamic) {
-    rankingService.findByDate(date, dynamic)
+  function findRankingByDate(date) {
+    rankingService.findByDate(date)
       .success(findRankingSuccess)
       .error(findRankingError);
   }

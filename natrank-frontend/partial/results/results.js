@@ -20,7 +20,7 @@ function($scope, $location, $routeParams, matchService) {
 
     // FIXME: DRY
     if (!isNaN(year) && year >= 1872 && year <= 2014) {
-      $scope.year = year
+      $scope.year = year;
     }
 
     $scope.$watch('year', function() {
@@ -37,7 +37,7 @@ function($scope, $location, $routeParams, matchService) {
 
     $scope.filterDeleteClicked = function() {
       $scope.year = null;
-    }
+    };
 
     $scope.pageChanged = function() {
       var newPageNo = $scope.resultsPage.number - 1, // one based -> zero based
