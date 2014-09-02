@@ -14,6 +14,7 @@ package com.github.fauu.natrank.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -71,7 +72,7 @@ public class Team extends BaseEntity {
     }
   }
 
-  @JsonBackReference
+  @JsonManagedReference
   public Country getCurrentCountry() {
     if (countries != null) {
       for (Country country : countries) {

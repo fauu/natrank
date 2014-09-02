@@ -27,7 +27,8 @@ public interface TeamRatingRepository extends JpaRepository<TeamRating, Integer>
   List<TeamRating> findLatestForTeam() throws DataAccessException;
 
   // FIXME: This should take LocalDate instead of String
-  // FIXME: Don't return duplicates when two ratings for the same date exist
+  // FIXME: Don't return duplicates when two ratings for the same date exist.
+  //        Perhaps use TeamRating id and then just limit the date?
   @Query(nativeQuery = true, value =
          "SELECT tr1.* " +
          "FROM (SELECT * FROM TeamRating WHERE date <= ?1) tr1 " +

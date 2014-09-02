@@ -23,4 +23,6 @@ public interface MatchService {
 
   Page<Match> findByYear(int year, Pageable pageable) throws DataAccessException;
 
+  Page<Match> findByCurrentTeamName(String name, Pageable pageable) throws DataAccessException;
+
 }

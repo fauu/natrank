@@ -13,7 +13,9 @@
 package com.github.fauu.natrank.service;
 
 import com.github.fauu.natrank.model.entity.Match;
+import com.github.fauu.natrank.model.entity.Team;
 import com.github.fauu.natrank.repository.MatchRepository;
+import com.github.fauu.natrank.repository.TeamRepository;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -27,6 +29,9 @@ public class MatchServiceImpl implements MatchService {
   @Autowired
   private MatchRepository matchRepository;
 
+  @Autowired
+  private TeamRepository teamRepository;
+
   @Override
   public Page<Match> findAll(Pageable pageable) throws DataAccessException {
     return matchRepository.findAll(pageable);
@@ -36,6 +41,13 @@ public class MatchServiceImpl implements MatchService {
   public Page<Match> findByYear(int year, Pageable pageable) throws DataAccessException {
     return matchRepository
            .findByDateBetween(new LocalDate(year, 1, 1), new LocalDate(year, 12, 31), pageable);
+  }
+
+  @Override
+  public Page<Match> findByCurrentTeamName(String name, Pageable pageable) throws DataAccessException {
+    Team team = teamRepository.findByCurrentName(name);
+
+    return matchRepository.findByTeam1OrTeam2(team, team, pageable);
   }
 
 }

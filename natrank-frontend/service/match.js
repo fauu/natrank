@@ -13,9 +13,16 @@
 angular.module('natrank').service('matchService', ['$http', function($http) {
   var urlBase = 'http://localhost:8080/matches';
 
-  this.findPage = function(pageNo, year) {
-    var paramString = year ? '/' + year : '';
+  this.findPage = function(pageNo, year, teamName) {
+    var paramString = '';
 
+    if (year !== undefined && year !== 0) {
+      paramString += '/year/' + year;
+    } else if (teamName !== undefined && teamName.length !== 0) {
+      paramString += '/team/' + teamName;
+    }
+
+    console.log(paramString);
     return $http.get(urlBase + paramString + '?page=' + pageNo);
   };
 }]);

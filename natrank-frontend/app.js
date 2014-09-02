@@ -14,7 +14,6 @@ angular.module('natrank', ['ui.bootstrap', 'ui.utils', 'ngRoute', 'ngAnimate']);
 
 angular.module('natrank').config(function($routeProvider, $locationProvider, paginationConfig) {
   $routeProvider
-    /* Add New Routes Above */
     .when('/results/:year', {
       templateUrl: 'partial/results/results.html',
       controller: 'ResultsCtrl'
@@ -30,6 +29,11 @@ angular.module('natrank').config(function($routeProvider, $locationProvider, pag
       templateUrl: 'partial/rankings/rankings.html',
       controller: 'RankingsCtrl'
     })
+    .when('/teams/:name', {
+      templateUrl: 'partial/team/team.html',
+      controller: 'TeamCtrl'
+    })
+    /* Add New Routes Above */
     .otherwise({redirectTo: '/'});
 
   $locationProvider.html5Mode(true);

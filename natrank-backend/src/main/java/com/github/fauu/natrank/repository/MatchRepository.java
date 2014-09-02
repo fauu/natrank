@@ -30,4 +30,7 @@ public interface MatchRepository extends PagingAndSortingRepository<Match, Integ
   Page<Match> findByDateBetween(LocalDate startDate, LocalDate endDate, Pageable pageable)
       throws DataAccessException;
 
+  Page<Match> findByTeam1OrTeam2(Team team1, Team team2, Pageable pageable)
+      throws DataAccessException;
+
 }

@@ -17,6 +17,7 @@ import com.github.fauu.natrank.service.MatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,14 +32,23 @@ public class MatchController {
   private MatchService matchService;
 
   @RequestMapping(method = RequestMethod.GET)
-  public Page<Match> findAll(@PageableDefault(size = 50) Pageable pageable) {
+  public Page<Match> findAll(@PageableDefault(size = 50, direction = Sort.Direction.DESC)
+                               Pageable pageable) {
     return matchService.findAll(pageable);
   }
 
-  @RequestMapping(value = "/{year}", method = RequestMethod.GET)
-  public Page<Match> findByYear(@PageableDefault(size = 50) Pageable pageable,
+  @RequestMapping(value = "/year/{year}", method = RequestMethod.GET)
+  public Page<Match> findByYear(@PageableDefault(size = 50, direction = Sort.Direction.DESC)
+                                    Pageable pageable,
                                 @PathVariable("year") int year) {
     return matchService.findByYear(year, pageable);
+  }
+
+  @RequestMapping(value = "/team/{teamName}", method = RequestMethod.GET)
+  public Page<Match> findByCurrentTeamName(@PageableDefault(size = 50, direction = Sort.Direction.DESC)
+                                               Pageable pageable,
+                                           @PathVariable("teamName") String teamName) {
+    return matchService.findByCurrentTeamName(teamName, pageable);
   }
 
 }
