@@ -35,6 +35,9 @@ public class RankingEntry extends BaseEntity implements Comparable<RankingEntry>
   @Column(name = "rank")
   private int rank;
 
+  @Column(name = "rank_change")
+  private Integer rankOneYearChange;
+
   @Column(name = "rating")
   private int rating;
 

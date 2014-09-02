@@ -278,6 +278,14 @@ public class RankingServiceImpl implements RankingService {
     Ranking ranking = new Ranking();
     ranking.setDate(date);
 
+    DynamicRanking rankingYearBefore = createDynamicForDate(date.minusYears(1));
+
+    Map<Integer, Integer> ranksYearBeforeMap = new HashMap<>();
+
+    for (DynamicRankingEntry entry : rankingYearBefore.getEntries()) {
+      ranksYearBeforeMap.put(entry.getTeamInfo().getTeam().getId(), entry.getRank());
+    }
+
     // FIXME: This should take LocalDate instead of String
     List<TeamRating> latestTeamRatingsForTeamByDate
         = teamRatingRepository.findLatestForTeamsByDate(ranking.getDate().toString("yyyy-MM-dd"));
@@ -307,6 +315,14 @@ public class RankingServiceImpl implements RankingService {
 
       if (entry.getRating() != 0) {
         entry.setRank(currentRank);
+
+        if (ranksYearBeforeMap.containsKey(entry.getTeam().getId())) {
+          Integer rankYearBefore = ranksYearBeforeMap.get(entry.getTeam().getId());
+
+          if (rankYearBefore != 0) {
+            entry.setRankOneYearChange(rankYearBefore - entry.getRank());
+          }
+        }
 
         currentRank++;
       }
@@ -445,20 +461,31 @@ public class RankingServiceImpl implements RankingService {
       }
     }
 
+    // Temporary workaround to discard lTRFT duplicates for two matches on the same date
+    // (4 April 1909 bug)
+    Collections.reverse(latestTeamRatingsForTeam);
+
+    List<Integer> processedTeamIds = new LinkedList<>();
     for (TeamRating teamRating : latestTeamRatingsForTeam) {
       DynamicRankingEntry rankingEntry;
 
-      if (!rankingEntryMap.containsKey(teamRating.getTeam().getId())) {
-        rankingEntry = new DynamicRankingEntry();
-        rankingEntry.setTeam(teamRating.getTeam());
-        rankingEntry.setRanking(ranking);
-        rankingEntry.setRating(0);
-        rankingEntry.setRank(0);
+      // Temporary workaround to discard lTRFT duplicates for two matches on the same date
+      // (4 April 1909 bug)
+      if (!processedTeamIds.contains(teamRating.getTeam().getId())) {
+        processedTeamIds.add(teamRating.getTeam().getId());
 
-        rankingEntryMap.put(teamRating.getTeam().getId(), rankingEntry);
-      } else {
-        rankingEntry = rankingEntryMap.get(teamRating.getTeam().getId());
-        rankingEntry.setRating(teamRating.getValue());
+        if (!rankingEntryMap.containsKey(teamRating.getTeam().getId())) {
+          rankingEntry = new DynamicRankingEntry();
+          rankingEntry.setTeam(teamRating.getTeam());
+          rankingEntry.setRanking(ranking);
+          rankingEntry.setRating(0);
+          rankingEntry.setRank(0);
+
+          rankingEntryMap.put(teamRating.getTeam().getId(), rankingEntry);
+        } else {
+          rankingEntry = rankingEntryMap.get(teamRating.getTeam().getId());
+          rankingEntry.setRating(teamRating.getValue());
+        }
       }
     }
 

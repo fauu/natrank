@@ -22,6 +22,7 @@ import java.util.List;
 public interface TeamRankRepository extends JpaRepository<TeamRank, Integer> {
 
   // FIXME: This should take LocalDate instead of String
+  // FIXME: Don't return duplicates when two ranks for the same date exist
   @Query(nativeQuery = true, value =
       "SELECT tr1.* " +
           "FROM (SELECT * FROM TeamRank WHERE date <= ?1) tr1 " +

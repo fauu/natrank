@@ -30,13 +30,13 @@
         <th class="team" colspan="2">Team</th>
         <th class="rank-change">1-Year Change</th>
         <th class="rating">Rating</th>
-        <th data-ng-if="!isRankingDynamic">P</th>
-        <th data-ng-if="!isRankingDynamic">W</th>
-        <th data-ng-if="!isRankingDynamic">D</th>
-        <th data-ng-if="!isRankingDynamic">L</th>
-        <th data-ng-if="!isRankingDynamic">GF</th>
-        <th data-ng-if="!isRankingDynamic">GA</th>
-        <th data-ng-if="!isRankingDynamic">GD</th>
+        <th class="full" data-ng-if="!isRankingDynamic">P</th>
+        <th class="full" data-ng-if="!isRankingDynamic">W</th>
+        <th class="full" data-ng-if="!isRankingDynamic">D</th>
+        <th class="full" data-ng-if="!isRankingDynamic">L</th>
+        <th class="full" data-ng-if="!isRankingDynamic">GF</th>
+        <th class="full" data-ng-if="!isRankingDynamic">GA</th>
+        <th class="full" data-ng-if="!isRankingDynamic">GD</th>
       </tr>
     </thead>
     <tbody>
@@ -48,7 +48,9 @@
           <img src="img/flags/{{entry.teamInfo.flag.code}}.png" class="flag" />
         </td>
         <td class="team-name">
-          <a data-ng-href="teams/{{entry.teamInfo.name | lowercase | whitespaceToDash}}">{{entry.teamInfo.name}}</a>
+          <a data-ng-href="teams/{{entry.teamInfo.name | lowercase | whitespaceToDash}}">
+            {{entry.teamInfo.name}}
+          </a>
         </td>
         <td class="rank-change">
           <span data-ng-show="entry.rankOneYearChange !== null"
@@ -69,13 +71,17 @@
         <td class="rating">
           {{entry.rating > 0 ? entry.rating : '—'}}
         </td>
-        <td data-ng-if="!isRankingDynamic">{{entry.matchesTotal}}</td>
-        <td data-ng-if="!isRankingDynamic">{{entry.wins}}</td>
-        <td data-ng-if="!isRankingDynamic">{{entry.draws}}</td>
-        <td data-ng-if="!isRankingDynamic">{{entry.losses}}</td>
-        <td data-ng-if="!isRankingDynamic">{{entry.goalsFor}}</td>
-        <td data-ng-if="!isRankingDynamic">{{entry.goalsAgainst}}</td>
-        <td data-ng-if="!isRankingDynamic">{{entry.goalDifference > 0 ? '+' : ''}}{{entry.goalDifference}}</td>
+        <td class="full" data-ng-if="!isRankingDynamic">{{entry.matchesTotal}}</td>
+        <td class="full" data-ng-if="!isRankingDynamic">{{entry.wins}}</td>
+        <td class="full" data-ng-if="!isRankingDynamic">{{entry.draws}}</td>
+        <td class="full" data-ng-if="!isRankingDynamic">{{entry.losses}}</td>
+        <td class="full" data-ng-if="!isRankingDynamic">{{entry.goalsFor}}</td>
+        <td class="full" data-ng-if="!isRankingDynamic">{{entry.goalsAgainst}}</td>
+        <td class="full" data-ng-if="!isRankingDynamic"
+            data-ng-class="{'positive': entry.goalDifference > 0,
+                            'negative': entry.goalDifference < 0}">
+          {{entry.goalDifference > 0 ? '+' : ''}}{{entry.goalDifference}}
+        </td>
       </tr>
     </tbody>
   </table>
