@@ -1,0 +1,70 @@
+<!--
+  ~ Copyright (C) 2014 natrank Developers (http://github.com/fauu/natrank)
+  ~
+  ~ This software is licensed under the GNU General Public License
+  ~ (version 3 or later). See the COPYING file in this distribution.
+  ~
+  ~ You should have received a copy of the GNU Library General Public License
+  ~ along with this software. If not, see <http://www.gnu.org/licenses/>.
+  ~
+  ~ Authored by: Piotr Grabowski <fau999@gmail.com>
+  -->
+
+<div id="team-container" data-ng-controller="TeamCtrl">
+  <h2 id="header">
+    <div class="rank-and-rating">
+      <div class="rank">{{teamRank}}</div>
+      <div class="rating">Rating: {{team.latestRankingEntry.rating}}</div>
+    </div>
+    <img src="img/flags/large/{{team.currentCountry.code}}.png" class="flag" /><span class="name">{{team.currentCountry.name}}</span>
+  </h2>
+  <table id="stats">
+    <tbody>
+      <tr>
+        <td class="header">Matches total</td>
+        <td>{{team.latestRankingEntry.matchesTotal}}</td>
+      </tr>
+      <tr>
+        <td class="header">Matches home</td>
+        <td>{{team.latestRankingEntry.matchesHome}}</td>
+      </tr>
+      <tr>
+        <td class="header">Matches away</td>
+        <td>{{team.latestRankingEntry.matchesAway}}</td>
+      </tr>
+      <tr>
+        <td class="header">Matches on neutral ground</td>
+        <td>{{team.latestRankingEntry.matchesOnNeutralGround}}</td>
+      </tr>
+      <tr>
+        <td class="header">Wins</td>
+        <td>{{team.latestRankingEntry.wins}}</td>
+      </tr>
+      <tr>
+        <td class="header">Draws</td>
+        <td>{{team.latestRankingEntry.draws}}</td>
+      </tr>
+      <tr>
+        <td class="header">Losses</td>
+        <td>{{team.latestRankingEntry.losses}}</td>
+      </tr>
+      <tr>
+        <td class="header">Goals for</td>
+        <td>{{team.latestRankingEntry.goalsFor}}</td>
+      </tr>
+      <tr>
+        <td class="header">Goals against</td>
+        <td>{{team.latestRankingEntry.goalsAgainst}}</td>
+      </tr>
+      <tr>
+        <td class="header">Goal difference</td>
+        <td>
+          <!-- Make this a filter? -->
+          {{team.latestRankingEntry.goalDifference > 0 ? '+' : ''}}{{team.latestRankingEntry.goalDifference}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div data-ranking=""></div>
+  <div data-result-list=""></div>
+</div>

@@ -1,0 +1,49 @@
+#team-container {
+  .make-md-column(12);
+
+  > #header {
+    .text-left;
+
+    > .rank-and-rating {
+      background-color: @color-new;
+      color: #FFFFFF;
+      vertical-align: middle;
+      padding: 3px 4px;
+      border-radius: 4px;
+      margin-right: 3px;
+      display: inline-table;
+
+      > div {
+        .text-center;
+        font-weight: bold;
+        display: table-row;
+      }
+
+      > .rating {
+        font-size: 10px;
+        font-weight: normal;
+        padding: 3px 10px;
+      }
+    }
+
+    > .flag {
+      width: 80px;
+      margin-right: 8px;
+    }
+
+    > .name {
+      vertical-align: middle;
+    }
+
+  }
+
+  > #stats {
+    .table;
+    .table-bordered;
+    width: 300px;
+
+    .header {
+      font-weight: bold;
+    }
+  }
+}

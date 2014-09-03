@@ -1,0 +1,163 @@
+#result-list-container {
+  .text-center;
+
+  > #results {
+    .list-unstyled;
+    .text-left;
+
+    > .result:not(:last-of-type) {
+      border-bottom: 1px solid @gray-lighter;
+    }
+
+    > .result {
+      .container;
+      padding: 7px 12px 7px 10px;
+      border-left: 3px solid #FFFFFF;
+
+      .name {
+        vertical-align: middle;
+      }
+
+      > .main-data {
+        .make-row();
+        margin-bottom: 2px;
+
+        > .team1-info {
+          .make-md-column(3);
+          .make-xs-column(3);
+
+          > .rank {
+            margin-right: 1px;
+          }
+        }
+
+        > .team1-rating {
+          .make-md-column(1);
+          .make-xs-column(1);
+          .text-right;
+        }
+
+        > .team1-rating-change {
+          .make-md-column(1);
+          .make-xs-column(1);
+          .text-right;
+        }
+
+        > .result {
+          .make-md-column(2);
+          .make-xs-column(2);
+          .text-center;
+        }
+
+        > .team2-rating-change {
+          .make-md-column(1);
+          .make-xs-column(1);
+        }
+
+        > .team2-rating {
+          .make-md-column(1);
+          .make-xs-column(1);
+        }
+
+        > .team2-info {
+          .make-md-column(3);
+          .make-xs-column(3);
+          .text-right;
+
+          > .rank {
+            margin-left: 1px;
+          }
+        }
+
+        .rank {
+          font-size: 10px;
+          background-color: #FFFFFF;
+          width: 20px;
+          padding: 2px 0;
+          display: inline-block;
+          border: 1px solid @gray-lighter;
+          color: @gray;
+          border-radius: 3px;
+          font-weight: bold;
+          .text-center;
+        }
+
+        .rank.up, .rank.down {
+          color: #FFFFFF;
+        }
+
+        .rank.up {
+          background-color: lighten(@color-up, 20%);
+          border-color: lighten(@color-up, 20%);
+        }
+
+        .rank.down {
+          background-color: lighten(@color-down, 20%);
+          border-color: lighten(@color-down, 20%);
+        }
+
+        .winner {
+          font-weight: bold;
+        }
+
+        > .rating {
+          .small;
+          color: @gray-light;
+        }
+
+        > .rating-change {
+          font-size: 11px;
+          font-weight: bold;
+          line-height: 20px;
+        }
+
+        > .rating-change.up {
+          color: @color-up;
+        }
+
+        > .rating-change.down {
+          color: @color-down;
+        }
+
+        > .result-extra {
+          .small;
+        }
+      }
+
+      > .additional-data {
+        .make-row();
+        .small;
+        color: @gray-light;
+
+        > div {
+          vertical-align: middle;
+        }
+
+        > .date {
+          .make-md-column(4);
+          .make-xs-column(4);
+        }
+
+        > .venue {
+          .make-md-column(4);
+          .make-xs-column(4);
+          .text-center;
+        }
+
+        > .type {
+          .make-md-column(4);
+          .make-xs-column(4);
+          .text-right;
+        }
+      }
+    }
+
+    .win {
+      border-left-color: lighten(@color-up, 30%);
+    }
+
+    .loss {
+      border-left-color: lighten(@color-down, 30%);
+    }
+  }
+}
