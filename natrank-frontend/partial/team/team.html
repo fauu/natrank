@@ -12,59 +12,59 @@
 
 <div id="team-container" data-ng-controller="TeamCtrl">
   <h2 id="header">
-    <div class="rank-and-rating">
-      <div class="rank">{{teamRank}}</div>
-      <div class="rating">Rating: {{team.latestRankingEntry.rating}}</div>
-    </div>
     <img src="img/flags/large/{{team.currentCountry.code}}.png" class="flag" /><span class="name">{{team.currentCountry.name}}</span>
   </h2>
-  <table id="stats">
-    <tbody>
-      <tr>
-        <td class="header">Matches total</td>
-        <td>{{team.latestRankingEntry.matchesTotal}}</td>
-      </tr>
-      <tr>
-        <td class="header">Matches home</td>
-        <td>{{team.latestRankingEntry.matchesHome}}</td>
-      </tr>
-      <tr>
-        <td class="header">Matches away</td>
-        <td>{{team.latestRankingEntry.matchesAway}}</td>
-      </tr>
-      <tr>
-        <td class="header">Matches on neutral ground</td>
-        <td>{{team.latestRankingEntry.matchesOnNeutralGround}}</td>
-      </tr>
-      <tr>
-        <td class="header">Wins</td>
-        <td>{{team.latestRankingEntry.wins}}</td>
-      </tr>
-      <tr>
-        <td class="header">Draws</td>
-        <td>{{team.latestRankingEntry.draws}}</td>
-      </tr>
-      <tr>
-        <td class="header">Losses</td>
-        <td>{{team.latestRankingEntry.losses}}</td>
-      </tr>
-      <tr>
-        <td class="header">Goals for</td>
-        <td>{{team.latestRankingEntry.goalsFor}}</td>
-      </tr>
-      <tr>
-        <td class="header">Goals against</td>
-        <td>{{team.latestRankingEntry.goalsAgainst}}</td>
-      </tr>
-      <tr>
-        <td class="header">Goal difference</td>
-        <td>
-          <!-- Make this a filter? -->
-          {{team.latestRankingEntry.goalDifference > 0 ? '+' : ''}}{{team.latestRankingEntry.goalDifference}}
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div data-ranking=""></div>
-  <div data-result-list=""></div>
+  <div class="row">
+    <section id="ranking">
+      <h4>Ranking position</h4>
+      <div data-ranking="" data-ng-show="ranking"></div>
+      <div id="not-ranked-msg" data-ng-show="!ranking">
+        This team is not ranked yet.
+      </div>
+    </section>
+    <section id="statistics">
+      <h4>Statistics</h4>
+      <div>
+        <div>
+          <strong>Total matches:</strong> {{team.latestRankingEntry.matchesTotal}}
+          (<i class="fa fa-home"></i> {{team.latestRankingEntry.matchesHome}} –
+          {{(100 * team.latestRankingEntry.matchesHome / team.latestRankingEntry.matchesTotal) | number: 0}}%)
+        </div>
+        <div id="outcomes">
+          <span id="wins">
+            <span class="num">{{team.latestRankingEntry.wins}}</span> wins
+            ({{(100 * team.latestRankingEntry.wins / team.latestRankingEntry.matchesTotal) | number: 0}}%)
+          </span> ·
+          <span id="draws">
+            <span class="num">{{team.latestRankingEntry.draws}}</span> draws
+          </span> ·
+          <span id="losses">
+            <span class="num">{{team.latestRankingEntry.losses}}</span> losses
+          </span>
+        </div>
+        <div id="goals">
+          <i class="fa fa-futbol-o"></i>
+          <span id="for">{{team.latestRankingEntry.goalsFor}}</span>:<span id="against">{{team.latestRankingEntry.goalsAgainst}}</span>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="row" data-ng-show="ranking">
+    <section id="ranking-history">
+      <h4>Ranking history</h4>
+      <div></div>
+    </section>
+  </div>
+  <div class="row">
+    <section id="notable-matches">
+      <h4>Notable matches</h4>
+      <div></div>
+    </section>
+  </div>
+  <div class="row">
+    <section id="results">
+      <h3>Match results</h3>
+      <div data-result-list=""></div>
+    </section>
+  </div>
 </div>

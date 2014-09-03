@@ -29,7 +29,7 @@ function($scope, $routeParams, teamService, rankingService) {
       })
       .error(function(error) {
         $scope.ranking = 'Unable to load ranking data:' + error.message;
-      })
+      });
   }
 
   init();
