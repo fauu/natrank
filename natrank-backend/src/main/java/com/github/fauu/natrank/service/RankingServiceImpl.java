@@ -419,6 +419,49 @@ public class RankingServiceImpl implements RankingService {
   }
 
   @Override
+  public DynamicRanking findExcerptFromLatestByTeam(Team team) {
+    LocalDate latestRankingDate = rankingRepository.findDateOfLatest();
+    int teamRank = team.getLatestRankingEntry().getRank();
+    int numRankedTeams = 0;
+    boolean isTeamRanked = false;
+
+    DynamicRanking latestRanking = createDynamicForDate(latestRankingDate);
+
+    for (DynamicRankingEntry entry : latestRanking.getEntries()) {
+      if (entry.getRank() != 0) {
+        if (entry.getTeamInfo().getId() == team.getId()) {
+          isTeamRanked = true;
+        }
+
+        numRankedTeams++;
+      } else {
+        break;
+      }
+     }
+
+    if (isTeamRanked) {
+      int excerptFrom = teamRank - 2 - 1;
+      int excerptTo = teamRank + 2;
+
+      if (excerptFrom < 0) {
+        excerptTo += -1 * excerptFrom;
+        excerptFrom = 0;
+      }
+
+      if (excerptTo > numRankedTeams - 1) {
+        excerptFrom -= excerptTo - numRankedTeams;
+        excerptTo = numRankedTeams;
+      }
+
+      latestRanking.setEntries(latestRanking.getEntries().subList(excerptFrom, excerptTo));
+
+      return latestRanking;
+    }
+
+    return null;
+  }
+
+  @Override
   public Ranking findByDate(LocalDate date) throws DataAccessException {
     return rankingRepository.findByDate(date);
   }

@@ -15,18 +15,20 @@
 @import "bower_components/font-awesome/less/font-awesome.less";
 @fa-font-path: "bower_components/font-awesome/fonts";
 
+@color-up: #3C763D;
+@color-down: #A94442;
+@color-new: #F0AD4E;
+
 /* Component LESS */
 @import "partial/results/results.less";
 @import "partial/rankings/rankings.less";
 @import "partial/team/team.less";
 @import "directive/resultList/resultList.less";
+@import "directive/ranking/ranking.less";
 /* Add Component LESS Above */
 
 /* Required for Angular UI Bootstrap */
 .nav, .pagination, .carousel a { cursor: pointer; }
-
-@color-up: #3C763D;
-@color-down: #A94442;
 
 #top-bar {
   .navbar;

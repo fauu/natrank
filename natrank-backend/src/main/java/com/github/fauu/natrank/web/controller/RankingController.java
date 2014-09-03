@@ -15,6 +15,7 @@ package com.github.fauu.natrank.web.controller;
 import com.github.fauu.natrank.model.DynamicRanking;
 import com.github.fauu.natrank.model.entity.Ranking;
 import com.github.fauu.natrank.service.RankingService;
+import com.github.fauu.natrank.service.TeamService;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,11 +31,21 @@ public class RankingController {
   @Autowired
   private RankingService rankingService;
 
-  // FIXME: Replace this with findByDate
+  @Autowired
+  private TeamService teamService;
+
+  // TODO: Replace this with findByDate
   @RequestMapping(value = {"", "/latest"}, method = RequestMethod.GET)
   public Ranking findLatest() {
     return rankingService.findLatest();
   }
+
+  @RequestMapping(value = "/excerpt/{teamName}", method = RequestMethod.GET)
+  public DynamicRanking findExcerptFromLatestByTeam(
+      @PathVariable(value = "teamName") String teamName) {
+    return rankingService.findExcerptFromLatestByTeam(teamService.findByCurrentName(teamName));
+  }
+
 
   @RequestMapping(value = "/{date}/full", method = RequestMethod.GET)
   public Ranking findByDate(

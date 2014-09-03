@@ -61,6 +61,10 @@ public class Team extends BaseEntity {
   @JsonBackReference
   private List<TeamRating> ratings;
 
+  @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JsonIgnore
+  private List<RankingEntry> rankingEntries;
+
   @JsonBackReference
   public String getCurrentName() {
     Country currentCountry = getCurrentCountry();
@@ -150,6 +154,16 @@ public class Team extends BaseEntity {
     }
 
     return false;
+  }
+
+  @JsonManagedReference
+  public RankingEntry getLatestRankingEntry() {
+    // FIXME: The last one is not necessarily the latest
+    if (!rankingEntries.isEmpty()) {
+      return rankingEntries.get(rankingEntries.size() - 1);
+    }
+
+    return null;
   }
 
 }

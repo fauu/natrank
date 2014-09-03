@@ -16,9 +16,9 @@ import com.github.fauu.natrank.model.entity.Match;
 import com.github.fauu.natrank.service.MatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,27 +28,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/matches")
 public class MatchController {
 
+  public static final int RECORDS_PER_PAGE = 50;
+
   @Autowired
   private MatchService matchService;
 
   @RequestMapping(method = RequestMethod.GET)
-  public Page<Match> findAll(@PageableDefault(size = 50, direction = Sort.Direction.DESC)
-                               Pageable pageable) {
-    return matchService.findAll(pageable);
+  public Page<Match> findAll(Pageable pageable) {
+    return matchService.findAll(createPageRequest(pageable, Sort.Direction.DESC));
   }
 
   @RequestMapping(value = "/year/{year}", method = RequestMethod.GET)
-  public Page<Match> findByYear(@PageableDefault(size = 50, direction = Sort.Direction.DESC)
-                                    Pageable pageable,
-                                @PathVariable("year") int year) {
-    return matchService.findByYear(year, pageable);
+  public Page<Match> findByYear(Pageable pageable, @PathVariable("year") int year) {
+    return matchService.findByYear(year, createPageRequest(pageable, Sort.Direction.ASC));
   }
 
   @RequestMapping(value = "/team/{teamName}", method = RequestMethod.GET)
-  public Page<Match> findByCurrentTeamName(@PageableDefault(size = 50, direction = Sort.Direction.DESC)
-                                               Pageable pageable,
+  public Page<Match> findByCurrentTeamName(Pageable pageable,
                                            @PathVariable("teamName") String teamName) {
-    return matchService.findByCurrentTeamName(teamName, pageable);
+    return matchService.findByCurrentTeamName(teamName,
+                                              createPageRequest(pageable, Sort.Direction.DESC));
+  }
+
+  private PageRequest createPageRequest(Pageable pageable, Sort.Direction direction) {
+    return new PageRequest(pageable.getPageNumber(), RECORDS_PER_PAGE, direction, "id");
   }
 
 }

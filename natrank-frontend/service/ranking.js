@@ -17,6 +17,10 @@ angular.module('natrank').service('rankingService', ['$http', function($http) {
     return $http.get(urlBase + '/latest');
   };
 
+  this.findLatestExcerptByTeamName = function(teamName) {
+    return $http.get(urlBase + '/excerpt/' + teamName);
+  };
+
   this.findByDate = function(date) {
     var dateString = date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString() + '-' +
                      date.getDate().toString();

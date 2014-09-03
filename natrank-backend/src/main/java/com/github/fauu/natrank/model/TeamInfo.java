@@ -12,6 +12,7 @@
 
 package com.github.fauu.natrank.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.fauu.natrank.model.entity.Flag;
 import com.github.fauu.natrank.model.entity.Team;
 import lombok.*;
@@ -23,8 +24,15 @@ import lombok.*;
 @ToString
 public class TeamInfo {
 
+  @JsonIgnore
   private Team team;
+
   private String name;
+
   private Flag flag;
+
+  public Integer getId() {
+    return team.getId();
+  }
 
 }

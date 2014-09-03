@@ -10,8 +10,6 @@
  * Authored by: Piotr Grabowski <fau999@gmail.com>
  */
 
-@color-new: #F0AD4E;
-
 #ranking-container {
   .make-md-column(12);
 
@@ -38,113 +36,6 @@
     }
   }
 
-  > #ranking {
-    .table;
-    .table-hover;
-    .table-condensed;
-    font-size: 15px;
-    margin: 0 auto;
-
-    > thead, > tfoot {
-      font-size: 11px;
-      font-weight: bold;
-
-      .team {
-        .text-left;
-      }
-
-      .rank-change {
-        .text-center;
-      }
-
-      .rating {
-        .text-center;
-      }
-    }
-
-    > tbody {
-      .rank {
-        width: 5%;
-        padding-right: 8px;
-        font-size: 13px;
-        font-weight: bold;
-        vertical-align: middle;
-        .text-right;
-      }
-
-      .rank.no-rank {
-        padding-right: 17px;
-      }
-
-      .team-flag {
-        .text-center;
-        padding-right: 0;
-        width: 25px;
-      }
-
-      .team-name > a {
-        vertical-align: -1px;
-      }
-
-      .rank-change {
-        width: 14%;
-        .text-center;
-
-        > .new, .value {
-          text-transform: uppercase;
-          font-weight: bold;
-        }
-
-        > .new {
-          background-color: @color-new;
-          color: #FFFFFF;
-          font-size: 10px;
-          padding: 4px;
-          border-radius: 2px;
-        }
-
-        .value {
-          font-size: 11px;
-          vertical-align: 1px;
-        }
-
-        > .up {
-          color: @color-up;
-        }
-
-        > .down {
-          color: @color-down;
-        }
-
-        .fa-minus {
-          font-size: 10px;
-        }
-      }
-
-      .rating {
-        font-size: 16px;
-        font-weight: bold;
-        .text-center;
-      }
-
-      .full {
-        vertical-align: middle;
-        font-size: 13px;
-      }
-
-      .positive {
-        color: @color-up;
-      }
-
-      .negative {
-        color: @color-down;
-      }
-    }
-
-    .full {
-      .text-center;
-    }
-  }
 
   > #ranking.dynamic {
     width: 60%;

@@ -22,7 +22,6 @@ angular.module('natrank').service('matchService', ['$http', function($http) {
       paramString += '/team/' + teamName;
     }
 
-    console.log(paramString);
     return $http.get(urlBase + paramString + '?page=' + pageNo);
   };
 }]);
