@@ -25,7 +25,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @Table(name = "RankingEntry")
-public class RankingEntry extends BaseEntity implements Comparable<RankingEntry> {
+public class RankingEntry extends BaseEntity<RankingEntry> {
 
   @ManyToOne
   @JoinColumn(name = "ranking_id")

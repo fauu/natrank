@@ -24,4 +24,13 @@ angular.module('natrank').service('matchService', ['$http', function($http) {
 
     return $http.get(urlBase + paramString + '?page=' + pageNo);
   };
+
+  this.findNotableCategories = function() {
+    return $http.get(urlBase + '/notable/categories');
+  }
+
+  this.findNotableByTeamName = function(teamName) {
+    return $http.get(urlBase + '/notable/team/' + teamName);
+  };
+
 }]);

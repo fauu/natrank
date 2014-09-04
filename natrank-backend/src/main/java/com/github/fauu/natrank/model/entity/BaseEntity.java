@@ -30,7 +30,7 @@ import javax.persistence.MappedSuperclass;
 @Setter
 @NoArgsConstructor
 @ToString
-public abstract class BaseEntity {
+public abstract class BaseEntity<T extends BaseEntity<T>> implements Comparable<T> {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +41,11 @@ public abstract class BaseEntity {
   @JsonIgnore
   public boolean isNew() {
     return (this.id == null);
+  }
+
+  @Override
+  public int compareTo(T other) {
+    return Integer.compare(this.getId(), other.getId());
   }
 
 }

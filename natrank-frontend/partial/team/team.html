@@ -58,7 +58,12 @@
   <div class="row">
     <section id="notable-matches">
       <h4>Notable matches</h4>
-      <div></div>
+      <div data-ng-repeat="(id, name) in notableMatchCategories">
+        <h5>{{name}}</h5>
+        <ul class="results">
+          <li data-result="" data-ng-repeat="result in notableMatches[id]"></li>
+        </ul>
+      </div>
     </section>
   </div>
   <div class="row">

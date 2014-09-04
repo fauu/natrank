@@ -13,6 +13,7 @@
 package com.github.fauu.natrank.web.controller;
 
 import com.github.fauu.natrank.model.entity.Match;
+import com.github.fauu.natrank.model.entity.NotableMatchCategory;
 import com.github.fauu.natrank.service.MatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/matches")
@@ -48,6 +52,16 @@ public class MatchController {
                                            @PathVariable("teamName") String teamName) {
     return matchService.findByCurrentTeamName(teamName,
                                               createPageRequest(pageable, Sort.Direction.DESC));
+  }
+
+  @RequestMapping(value = "/notable/team/{teamName}", method = RequestMethod.GET)
+  public Map<NotableMatchCategory, List<Match>> findNotableMatchesByTeamName(@PathVariable("teamName") String teamName) {
+    return matchService.findNotableMatchesByTeamName(teamName);
+  }
+
+  @RequestMapping(value = "/notable/categories", method = RequestMethod.GET)
+  public List<NotableMatchCategory> findNotableMatchCategories() {
+    return matchService.findNotableMatchCategories();
   }
 
   private PageRequest createPageRequest(Pageable pageable, Sort.Direction direction) {

@@ -12,6 +12,7 @@
 
 package com.github.fauu.natrank.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.github.fauu.natrank.model.TeamInfo;
@@ -20,6 +21,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -106,6 +108,10 @@ public class Match extends BaseEntity {
   @Getter(AccessLevel.NONE)
   @Transient
   private TeamInfo team2Info;
+
+  @OneToMany(mappedBy = "match", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JsonBackReference
+  private List<NotableMatch> notableMatchEntries;
 
   public TeamInfo getTeam1Info() {
     if (team1Info == null) {

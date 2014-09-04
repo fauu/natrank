@@ -93,6 +93,19 @@
     > h4 {
       .text-center;
     }
+
+    h5 {
+      font-weight: bold;
+      margin-bottom: 3px;
+    }
+
+    .results {
+      .list-unstyled;
+
+      > li.result:not(:last-of-type) {
+        border-bottom: 1px solid @gray-lighter;
+      }
+    }
   }
 
   section#results {

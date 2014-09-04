@@ -12,9 +12,7 @@
 
 package com.github.fauu.natrank.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,6 +29,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString
 @Table(name = "Team")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class Team extends BaseEntity {
 
   @Column(name = "home_advantage_coefficient")
@@ -64,6 +63,10 @@ public class Team extends BaseEntity {
   @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonIgnore
   private List<RankingEntry> rankingEntries;
+
+  @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JsonIgnore
+  private List<NotableMatch> notableMatches;
 
   @JsonBackReference
   public String getCurrentName() {

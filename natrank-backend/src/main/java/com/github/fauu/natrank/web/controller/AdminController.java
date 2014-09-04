@@ -18,6 +18,7 @@ import com.github.fauu.natrank.model.entity.Match;
 import com.github.fauu.natrank.model.entity.Team;
 import com.github.fauu.natrank.model.form.RawMatchDataForm;
 import com.github.fauu.natrank.service.MatchDataImportService;
+import com.github.fauu.natrank.service.MatchService;
 import com.github.fauu.natrank.service.RankingService;
 import com.github.fauu.natrank.web.converter.CountryPropertyEditor;
 import com.github.fauu.natrank.web.converter.TeamPropertyEditor;
@@ -40,6 +41,9 @@ public class AdminController {
 
   @Autowired
   private MatchDataImportService matchDataImportService;
+
+  @Autowired
+  private MatchService matchService;
 
   @Autowired
   private RankingService rankingService;
@@ -209,6 +213,7 @@ public class AdminController {
   @RequestMapping(value = "/calculate-rankings", method = RequestMethod.GET)
   public String createRankings() {
     rankingService.createRankings();
+    matchService.generateNotableMatches();
 
     return "rankingsCalculation";
   }
