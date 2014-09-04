@@ -97,8 +97,14 @@ public class MatchServiceImpl implements MatchService {
     List<NotableMatch> newNotableMatches = new LinkedList<>();
 
     for (Team team : teams) {
-      notableMatchesMap.put(1, matchRepository.findBiggestWinsByTeamId(team.getId()));
-      notableMatchesMap.put(2, matchRepository.findBiggestDefeatsByTeamId(team.getId()));
+      List<Match> firstMatchList = new LinkedList<>();
+      firstMatchList.add(matchRepository.findFirstByTeamId(team.getId()));
+
+      notableMatchesMap.put(1, firstMatchList);
+      notableMatchesMap.put(2, matchRepository.findBiggestWinsByTeamId(team.getId()));
+      notableMatchesMap.put(3, matchRepository.findBiggestDefeatsByTeamId(team.getId()));
+      notableMatchesMap.put(4, matchRepository.findBiggestUpsetsByTeam(team));
+      notableMatchesMap.put(5, matchRepository.findBiggestBlundersByTeam(team));
 
       for (Map.Entry<Integer, List<Match>> notableMatchesOfCategory : notableMatchesMap.entrySet()) {
         for (Match match : notableMatchesOfCategory.getValue()) {

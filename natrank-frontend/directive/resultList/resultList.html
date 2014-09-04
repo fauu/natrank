@@ -1,6 +1,7 @@
 <div id="result-list-container">
   <div data-ng-include src="'partial/results/pagination.html'" data-ng-show='resultsPage.totalPages > 1'></div>
   <ul id="results">
+    <!-- FIXME: Wins and losses don't show up correctly -->
     <div data-result="" data-ng-repeat="result in resultsPage.content"
          data-ng-class="{'win': team.id && result.winnerTeam.id == team.id, 'loss': team.id && result.winnerTeam.id && result.winnerTeam.id != team.id}">
     </div>
