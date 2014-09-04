@@ -10,9 +10,36 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
     findTeam(name);
     findRankingExcerpt(name);
     findForm(name);
+    findRatings(name);
     findNotableMatchCategories();
     findNotableMatches(name);
+
+    $scope.ratingHistoryChartConfig = {
+      options: {
+        title: null,
+        chart: {
+          type: 'line',
+          spacingLeft: 45,
+          spacingRight: 20,
+          spacingBottom: 40
+        },
+        xAxis: {
+          labels: {
+            enabled: false
+          },
+          tickLength: 0
+        },
+        yAxis: {
+          title: null
+        }
+      },
+      series: []
+    };
   }
+
+  var handleError = function(error) {
+    console.log(error.message);
+  };
 
   function findTeam(name) {
     teamService.findByName(name)
@@ -20,9 +47,7 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
         $scope.team = team;
         $scope.teamRank = team.latestRankingEntry.rank;
       })
-      .error(function(error) {
-        $scope.team = 'Unable to load team data:' + error.message;
-      });
+      .error(handleError);
   }
 
   function findRankingExcerpt(name) {
@@ -30,31 +55,41 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
       .success(function(ranking) {
         $scope.ranking = ranking;
       })
-      .error(function(error) {
-        $scope.ranking = 'Unable to load ranking data:' + error.message;
-      });
+      .error(handleError);
   }
 
   function findForm(name) {
     matchService.findTeamFormByName(name)
       .success(function(form) {
         $scope.teamForm = form;
-        console.log($scope.teamForm);
       })
-      .error(function(error) {
-        $scope.teamForm = 'Unable to load team form data:' + error.message;
-      });
+      .error(handleError);
+  }
+
+  function findRatings(name) {
+    teamService.findRatingsByName(name)
+      .success(function(teamRatings) {
+        var ratingArray = [];
+
+        _.each(teamRatings, function(rating) {
+          ratingArray.push(rating.value);
+        });
+
+        $scope.ratingHistoryChartConfig.series.push({
+          showInLegend: false,
+          data: ratingArray
+        });
+      })
+      .error(handleError);
   }
 
   function findNotableMatchCategories() {
     matchService.findNotableCategories()
       .success(function(categories) {
         $scope.notableMatchCategories =
-            _.object(_.map(categories, function(x) { return [x.id, x.name] }));
+            _.object(_.map(categories, function(x) { return [x.id, x.name]; }));
       })
-      .error(function(error) {
-        $scope.notableMatchCategories = 'Unable to load notable match category data:' + error.message;
-      });
+      .error(handleError);
   }
 
   function findNotableMatches(name) {
@@ -62,9 +97,7 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
       .success(function(notableMatches) {
         $scope.notableMatches = notableMatches;
       })
-      .error(function(error) {
-        $scope.notableMatches = 'Unable to load notable matches data:' + error.message;
-      });
+      .error(handleError);
   }
 
   init();

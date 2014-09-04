@@ -12,14 +12,18 @@
 
 package com.github.fauu.natrank.repository;
 
+import com.github.fauu.natrank.model.entity.Team;
 import com.github.fauu.natrank.model.entity.TeamRating;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
-public interface TeamRatingRepository extends JpaRepository<TeamRating, Integer> {
+public interface TeamRatingRepository extends PagingAndSortingRepository<TeamRating, Integer> {
+
+  List<TeamRating> findByTeam(Team team, Sort sort) throws DataAccessException;
 
   @Query(nativeQuery = true, value =
          "SELECT tr1.* FROM TeamRating tr1 LEFT JOIN TeamRating tr2 " +

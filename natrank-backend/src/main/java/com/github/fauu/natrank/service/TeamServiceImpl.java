@@ -13,12 +13,20 @@
 package com.github.fauu.natrank.service;
 
 import com.github.fauu.natrank.model.entity.Team;
+import com.github.fauu.natrank.model.entity.TeamRating;
+import com.github.fauu.natrank.repository.TeamRatingRepository;
 import com.github.fauu.natrank.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TeamServiceImpl implements TeamService {
+
+  @Autowired
+  TeamRatingRepository teamRatingRepository;
 
   @Autowired
   TeamRepository teamRepository;
@@ -26,6 +34,13 @@ public class TeamServiceImpl implements TeamService {
   @Override
   public Team findByCurrentName(String name) {
     return teamRepository.findByCurrentName(name);
+  }
+
+  @Override
+  public List<TeamRating> findRatingsByName(String name) {
+    Team team = teamRepository.findByCurrentName(name);
+
+    return teamRatingRepository.findByTeam(team, new Sort(Sort.Direction.ASC, "date", "match"));
   }
 
 }

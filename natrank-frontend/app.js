@@ -10,7 +10,7 @@
  * Authored by: Piotr Grabowski <fau999@gmail.com>
  */
 
-angular.module('natrank', ['ui.bootstrap', 'ui.utils', 'ngRoute', 'ngAnimate']);
+angular.module('natrank', ['ui.bootstrap', 'ui.utils', 'ngRoute', 'ngAnimate', 'highcharts-ng']);
 
 angular.module('natrank').config(function($routeProvider, $locationProvider, paginationConfig) {
   $routeProvider

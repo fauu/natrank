@@ -21,6 +21,8 @@
     "angular-bootstrap": "~0.11",
     "moment": "~2.5",
     "less.js": "~1.6",
-    "font-awesome": "~4.2"
+    "font-awesome": "~4.2",
+    "highcharts": "v4.0.4",
+    "highcharts-ng": "~0.0.7"
   }
 }
