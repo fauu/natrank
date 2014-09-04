@@ -33,6 +33,8 @@ public interface MatchService {
 
   List<NotableMatchCategory> findNotableMatchCategories() throws DataAccessException;
 
+  List<Integer> getTeamFormByName(String name) throws DataAccessException;
+
   void generateNotableMatches() throws DataAccessException;
 
 }

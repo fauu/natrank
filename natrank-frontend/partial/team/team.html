@@ -46,6 +46,11 @@
           <i class="fa fa-futbol-o"></i>
           <span id="for">{{team.latestRankingEntry.goalsFor}}</span>:<span id="against">{{team.latestRankingEntry.goalsAgainst}}</span>
         </div>
+        <div id="form">
+          <strong>Current form:</strong>
+          <i class="fa fa-circle" data-ng-repeat="formEntry in teamForm track by $index"
+             data-ng-class="{'win': formEntry == 1, 'draw': formEntry == 0, 'loss': formEntry == -1}"></i>
+        </div>
       </div>
     </section>
   </div>

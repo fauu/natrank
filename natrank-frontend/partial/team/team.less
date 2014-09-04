@@ -77,6 +77,24 @@
         color: @color-down;
       }
     }
+
+    #form {
+      > i {
+        margin-right: 2px;
+      }
+
+      > .win {
+        color: lighten(@color-up, 20%);
+      }
+
+      > .draw {
+        color: @gray-light;
+      }
+
+      > .loss {
+        color: lighten(@color-down, 20%);
+      }
+    }
   }
 
   section#ranking-history {

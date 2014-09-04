@@ -64,6 +64,11 @@ public class MatchController {
     return matchService.findNotableMatchCategories();
   }
 
+  @RequestMapping(value = "/form/team/{teamName}", method = RequestMethod.GET)
+  public List<Integer> getTeamFormByName(@PathVariable("teamName") String teamName) {
+    return matchService.getTeamFormByName(teamName);
+  }
+
   private PageRequest createPageRequest(Pageable pageable, Sort.Direction direction) {
     return new PageRequest(pageable.getPageNumber(), RECORDS_PER_PAGE, direction, "id");
   }

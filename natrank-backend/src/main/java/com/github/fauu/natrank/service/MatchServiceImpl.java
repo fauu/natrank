@@ -24,7 +24,9 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -84,6 +86,34 @@ public class MatchServiceImpl implements MatchService {
   @Override
   public List<NotableMatchCategory> findNotableMatchCategories() throws DataAccessException {
     return notableMatchCategoryRepository.findAll();
+  }
+
+  @Override
+  public List<Integer> getTeamFormByName(String name) throws DataAccessException {
+    Team team = teamRepository.findByCurrentName(name);
+    Page<Match> matchPage
+        = matchRepository.findByTeam1OrTeam2(team, team,
+            new PageRequest(0, 5, Sort.Direction.DESC, "id"));
+
+    List<Integer> form = new LinkedList<>();
+
+    for (Match match : matchPage.getContent()) {
+      int formEntryValue = 0;
+
+      if (match.getWinnerTeam() == null) {
+        formEntryValue = 0;
+      } else if (match.getWinnerTeam() == team) {
+        formEntryValue = 1;
+      } else if (match.getWinnerTeam() != team) {
+        formEntryValue = -1;
+      }
+
+      form.add(formEntryValue);
+    }
+
+    Collections.reverse(form);
+
+    return form;
   }
 
   @Override

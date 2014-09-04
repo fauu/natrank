@@ -9,6 +9,7 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
 
     findTeam(name);
     findRankingExcerpt(name);
+    findForm(name);
     findNotableMatchCategories();
     findNotableMatches(name);
   }
@@ -31,6 +32,17 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
       })
       .error(function(error) {
         $scope.ranking = 'Unable to load ranking data:' + error.message;
+      });
+  }
+
+  function findForm(name) {
+    matchService.findTeamFormByName(name)
+      .success(function(form) {
+        $scope.teamForm = form;
+        console.log($scope.teamForm);
+      })
+      .error(function(error) {
+        $scope.teamForm = 'Unable to load team form data:' + error.message;
       });
   }
 

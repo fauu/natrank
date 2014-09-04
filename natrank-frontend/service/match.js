@@ -27,10 +27,14 @@ angular.module('natrank').service('matchService', ['$http', function($http) {
 
   this.findNotableCategories = function() {
     return $http.get(urlBase + '/notable/categories');
-  }
+  };
 
   this.findNotableByTeamName = function(teamName) {
     return $http.get(urlBase + '/notable/team/' + teamName);
+  };
+
+  this.findTeamFormByName = function(teamName) {
+    return $http.get(urlBase + '/form/team/' + teamName);
   };
 
 }]);
