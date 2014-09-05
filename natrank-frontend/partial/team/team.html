@@ -64,18 +64,19 @@
     </section>
   </div>
   <div class="row" data-ng-show="ranking">
-    <section id="rating-history">
-      <h4>Rating history</h4>
-      <div data-highchart="" id="chart" data-config="ratingHistoryChartConfig"></div>
+    <section id="ranking-history">
+      <h3>Ranking history</h3>
+      <div data-highchart="" id="chart" data-config="rankingHistoryChartConfig"></div>
     </section>
   </div>
   <div class="row">
     <section id="notable-matches">
-      <h4>Notable matches</h4>
+      <h3>Notable matches</h3>
       <div data-ng-repeat="(id, name) in notableMatchCategories">
         <h5>{{name}}</h5>
         <ul class="results">
-          <li data-result="" data-ng-repeat="result in notableMatches[id]"></li>
+          <li data-result="" data-ng-repeat="result in notableMatches[id]"
+              data-ng-class="{'win': team.id && result.winnerTeam.id == team.id, 'loss': team.id && result.winnerTeam.id && result.winnerTeam.id != team.id}"></li>
         </ul>
       </div>
     </section>

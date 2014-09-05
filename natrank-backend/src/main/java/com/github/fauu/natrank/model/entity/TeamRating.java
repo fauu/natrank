@@ -33,7 +33,6 @@ public class TeamRating extends BaseEntity {
 
   @Column(name = "date")
   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-  @JsonIgnore
   private LocalDate date;
 
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -53,6 +52,7 @@ public class TeamRating extends BaseEntity {
   private int change;
 
   @Column(name = "provisional")
+  @JsonIgnore
   private boolean provisional = false;
 
 }

@@ -17,12 +17,15 @@ import com.github.fauu.natrank.model.entity.TeamExtreme;
 import com.github.fauu.natrank.model.entity.TeamRank;
 import org.joda.time.LocalDate;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
-public interface TeamRankRepository extends JpaRepository<TeamRank, Integer> {
+public interface TeamRankRepository extends PagingAndSortingRepository<TeamRank, Integer> {
+
+  List<TeamRank> findByTeam(Team team, Sort sort) throws DataAccessException;
 
   // FIXME: This should take LocalDate instead of String
   // FIXME: Don't return duplicates when two ranks for the same date exist

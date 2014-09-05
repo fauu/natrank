@@ -13,7 +13,9 @@
 package com.github.fauu.natrank.service;
 
 import com.github.fauu.natrank.model.entity.Team;
+import com.github.fauu.natrank.model.entity.TeamRank;
 import com.github.fauu.natrank.model.entity.TeamRating;
+import com.github.fauu.natrank.repository.TeamRankRepository;
 import com.github.fauu.natrank.repository.TeamRatingRepository;
 import com.github.fauu.natrank.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ import java.util.List;
 public class TeamServiceImpl implements TeamService {
 
   @Autowired
+  TeamRankRepository teamRankRepository;
+
+  @Autowired
   TeamRatingRepository teamRatingRepository;
 
   @Autowired
@@ -34,6 +39,13 @@ public class TeamServiceImpl implements TeamService {
   @Override
   public Team findByCurrentName(String name) {
     return teamRepository.findByCurrentName(name);
+  }
+
+  @Override
+  public List<TeamRank> findRanksByName(String name) {
+    Team team = teamRepository.findByCurrentName(name);
+
+    return teamRankRepository.findByTeam(team, new Sort(Sort.Direction.ASC, "date"));
   }
 
   @Override

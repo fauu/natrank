@@ -29,7 +29,7 @@ angular.module('natrank')
           pageNo = newPageNo;
         };
 
-        $scope.$watch('team', function(newval, oldval) {
+        $scope.$watch('team', function() {
           if (!_.isEmpty($scope.team)) {
             findResultsPageForTeam(pageNo, $scope.team.currentCountry.name.toLowerCase());
           }

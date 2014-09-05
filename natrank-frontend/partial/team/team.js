@@ -10,30 +10,94 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
     findTeam(name);
     findRankingExcerpt(name);
     findForm(name);
+    findRanks(name);
     findRatings(name);
     findNotableMatchCategories();
     findNotableMatches(name);
 
-    $scope.ratingHistoryChartConfig = {
+    Highcharts.setOptions({
+      lang: {
+        thousandsSep: ''
+      }
+    });
+
+    // TODO: Work on x axis after zooming
+    $scope.rankingHistoryChartConfig = {
       options: {
         title: null,
+        colors: ['#428BCA', '#F0AD4E'],
         chart: {
-          type: 'line',
-          spacingLeft: 45,
-          spacingRight: 20,
-          spacingBottom: 40
+          spacingLeft: 27,
+          spacingRight: 37,
+          spacingBottom: 10,
+          zoomType: 'x',
+          style: {
+            fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+            fontSize: '12px'
+          }
+        },
+        legend: {
+          margin: 5
         },
         xAxis: {
-          labels: {
-            enabled: false
+          title: {
+            text: 'Year',
+            offset: 32
           },
-          tickLength: 0
+          type: 'datetime',
+          labels: {
+            format: '{value: %Y}',
+            y: 22
+          }
         },
-        yAxis: {
-          title: null
-        }
+        yAxis: [
+          {
+            title: {
+              text: 'Rating',
+              offset: 40
+            },
+            labels: {
+              x: -4,
+              y: 3
+            }
+          },
+          {
+            title: {
+              text: 'Rank',
+              offset: 25
+            },
+            labels: {
+              x: 3,
+              y: 3
+            },
+            opposite: true,
+            reversed: true,
+            min: 1
+          }
+        ]
       },
-      series: []
+      series: [
+        {
+          yAxis: 0,
+          name: 'Rating',
+          type: 'spline',
+          tooltip: {
+            xDateFormat: '%m/%d/%Y'
+          },
+          zIndex: 5,
+          data: []
+        },
+        {
+          yAxis: 1,
+          name: 'Rank',
+          type: 'line',
+          step: true,
+          tooltip: {
+            xDateFormat: '%m/%d/%Y'
+          },
+          data: []
+        },
+      ]
     };
   }
 
@@ -71,19 +135,30 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
       .error(handleError);
   }
 
+  function findRanks(name) {
+    teamService.findRanksByName(name)
+      .success(function(teamRanks) {
+        var rankChartData = [];
+
+        _.each(teamRanks, function(rank) {
+          rankChartData.push([new Date(rank.date).getTime(), rank.value]);
+        });
+
+        $scope.rankingHistoryChartConfig.series[1].data = rankChartData;
+      })
+      .error(handleError);
+  }
+
   function findRatings(name) {
     teamService.findRatingsByName(name)
       .success(function(teamRatings) {
-        var ratingArray = [];
+        var ratingChartData = [];
 
         _.each(teamRatings, function(rating) {
-          ratingArray.push(rating.value);
+          ratingChartData.push([new Date(rating.date).getTime(), rating.value]);
         });
 
-        $scope.ratingHistoryChartConfig.series.push({
-          showInLegend: false,
-          data: ratingArray
-        });
+        $scope.rankingHistoryChartConfig.series[0].data = ratingChartData;
       })
       .error(handleError);
   }

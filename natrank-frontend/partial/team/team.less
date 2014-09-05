@@ -127,10 +127,10 @@
     }
   }
 
-  section#rating-history {
+  section#ranking-history {
     .make-md-column(12);
 
-    > h4 {
+    > h3 {
       .text-center;
     }
   }
@@ -138,13 +138,13 @@
   section#notable-matches {
     .make-md-column(12);
 
-    > h4 {
+    > h3 {
       .text-center;
     }
 
     h5 {
       font-weight: bold;
-      margin-bottom: 3px;
+      margin-bottom: 5px;
     }
 
     .results {
@@ -152,6 +152,14 @@
 
       > li.result:not(:last-of-type) {
         border-bottom: 1px solid @gray-lighter;
+      }
+
+      > .win {
+        border-left-color: lighten(@color-up, 30%);
+      }
+
+      > .loss {
+        border-left-color: lighten(@color-down, 30%);
       }
     }
   }
