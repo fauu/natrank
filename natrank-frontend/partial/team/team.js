@@ -36,8 +36,19 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
             fontSize: '12px'
           }
         },
+        tooltip: {
+          xDateFormat: '%m/%d/%Y',
+          useHTML: true,
+          backgroundColor: 'rgba(0, 0, 0, 0.87)',
+          borderWidth: 0,
+          borderRadius: 0,
+          shadow: false,
+          style: {
+            color: '#FFFFFF'
+          }
+        },
         legend: {
-          margin: 5
+          margin: 3
         },
         xAxis: {
           title: {
@@ -59,7 +70,8 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
             labels: {
               x: -4,
               y: 3
-            }
+            },
+            alternateGridColor: '#FDFDFD'
           },
           {
             title: {
@@ -68,11 +80,19 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
             },
             labels: {
               x: 3,
-              y: 3
+              y: 3,
+              formatter: function() {
+                if (this.value != 0) {
+                  return this.value;
+                } else {
+                  return null;
+                }
+              }
             },
             opposite: true,
             reversed: true,
-            min: 1
+            allowDecimals: false,
+            floor: 1
           }
         ]
       },
@@ -81,9 +101,6 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
           yAxis: 0,
           name: 'Rating',
           type: 'spline',
-          tooltip: {
-            xDateFormat: '%m/%d/%Y'
-          },
           zIndex: 5,
           data: []
         },
@@ -92,9 +109,6 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
           name: 'Rank',
           type: 'line',
           step: true,
-          tooltip: {
-            xDateFormat: '%m/%d/%Y'
-          },
           data: []
         },
       ]

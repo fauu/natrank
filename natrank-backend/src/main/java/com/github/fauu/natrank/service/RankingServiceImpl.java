@@ -93,6 +93,7 @@ public class RankingServiceImpl implements RankingService {
             rating.setDate(match.getDate());
             rating.setTeam(team);
             rating.setChange(0);
+            rating.setProvisional(true);
 
             if (!initialRatings.containsKey(team.getId())) {
               for (int year : DEFAULT_RATINGS_UPTO_YEAR.keySet()) {
