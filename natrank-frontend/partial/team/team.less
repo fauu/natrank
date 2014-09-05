@@ -95,6 +95,36 @@
         color: lighten(@color-down, 20%);
       }
     }
+
+    #extremes {
+      margin-top: 10px;
+
+      .high {
+        color: @color-up;
+      }
+
+      .low {
+        color: @color-down;
+      }
+
+      .periods:before {
+        content: "(";
+      }
+
+      .periods {
+        font-size: 12px;
+        vertical-align: text-bottom;
+        margin-left: 2px;
+      }
+
+      .periods:after {
+        content: ")";
+      }
+
+      .period:not(:last-child):after {
+        content: ", ";
+      }
+    }
   }
 
   section#rating-history {

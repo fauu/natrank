@@ -51,6 +51,12 @@ public class RankingServiceImpl implements RankingService {
   private TeamRepository teamRepository;
 
   @Autowired
+  private TeamExtremeRepository teamExtremeRepository;
+
+  @Autowired
+  private TeamExtremeTypeRepository teamExtremeTypeRepository;
+
+  @Autowired
   private TeamRankRepository teamRankRepository;
 
   @Autowired
@@ -165,6 +171,10 @@ public class RankingServiceImpl implements RankingService {
           newRating.setValue(matchTeamRatings.get(i));
           newRating.setChange(matchTeamRatingChanges.get(i));
 
+          if (passNo == 1 && (currentTeam.getRatings().size() - 1) < NUM_TRIAL_MATCHES) {
+            newRating.setProvisional(true);
+          }
+
           matchTeams.get(i).setHomeAdvantageCoefficient(
               matchTeams.get(i).getHomeAdvantageCoefficient() + 0.075 * matchTeamRatingChanges.get(i));
 
@@ -274,6 +284,65 @@ public class RankingServiceImpl implements RankingService {
     teamRankRepository.save(ranks);
   }
 
+  private void calculateTeamExtremes() {
+    List<TeamExtremeType> teamExtremeTypes = teamExtremeTypeRepository.findAll();
+    Map<Integer, TeamExtremeType> teamExtremeTypeMap = new HashMap<>();
+    for (TeamExtremeType type : teamExtremeTypes) {
+      teamExtremeTypeMap.put(type.getId(), type);
+    }
+
+    List<TeamExtreme> extremes = new LinkedList<>(teamRankRepository.findHighestValuesForTeams());
+    extremes.addAll(teamRankRepository.findLowestValuesForTeams());
+    extremes.addAll(teamRatingRepository.findHighestValuesForTeams());
+    extremes.addAll(teamRatingRepository.findLowestValuesForTeams());
+
+    for (TeamExtreme extreme : extremes) {
+      extreme.setType(teamExtremeTypeMap.get(extreme.getTypeId()));
+
+      List<LocalDate> periodDates = new LinkedList<>();
+      switch (extreme.getType().getId()) {
+        case 1:
+          periodDates = teamRankRepository.findHighestValuePeriodDates(extreme.getHighestRankTeam(),
+                                                                       extreme.getValue());
+          extreme.getHighestRankTeam().setHighestRank(extreme);
+          break;
+        case 2:
+          periodDates = teamRankRepository.findLowestValuePeriodDates(extreme.getLowestRankTeam(),
+                                                                      extreme.getValue());
+          extreme.getLowestRankTeam().setLowestRank(extreme);
+          break;
+        case 3:
+          periodDates = teamRatingRepository.findHighestValuePeriodDates(extreme.getHighestRatingTeam(),
+                                                                         extreme.getValue());
+          extreme.getHighestRatingTeam().setHighestRating(extreme);
+          break;
+        case 4:
+          periodDates = teamRatingRepository.findLowestValuePeriodDates(extreme.getLowestRatingTeam(),
+                                                                        extreme.getValue());
+          extreme.getLowestRatingTeam().setLowestRating(extreme);
+          break;
+      }
+
+      List<Period> periods = new LinkedList<>();
+
+      Iterator iterator = periodDates.iterator();
+      while (iterator.hasNext()) {
+        Period period = new Period();
+        period.setFromDate(((LocalDate) iterator.next()));
+
+        if (iterator.hasNext()) {
+          period.setToDate(((LocalDate) iterator.next()).minusDays(1));
+        }
+
+        periods.add(period);
+      }
+
+      extreme.setPeriods(periods);
+    }
+
+    teamExtremeRepository.save(extremes);
+  }
+
   private Ranking createRankingForDate(LocalDate date, Map<Integer, RankingEntry> entryMap) {
     Ranking ranking = new Ranking();
     ranking.setDate(date);
@@ -338,6 +407,7 @@ public class RankingServiceImpl implements RankingService {
     List<Match> matches = (List<Match>) matchRepository.findAll();
 
     calculateTeamRatingsAndRankChanges(matches);
+    calculateTeamExtremes();
 
     List<Ranking> rankings = new LinkedList<>();
     Map<Integer, RankingEntry> entryMap = new HashMap<>();

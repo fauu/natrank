@@ -62,11 +62,35 @@ public class Team extends BaseEntity {
 
   @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonIgnore
+  private List<TeamRank> ranks;
+
+  @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JsonIgnore
   private List<RankingEntry> rankingEntries;
 
   @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonIgnore
   private List<NotableMatch> notableMatches;
+
+  @OneToOne
+  @JoinColumn(name = "highest_rank_id")
+  @JsonManagedReference
+  private TeamExtreme highestRank;
+
+  @OneToOne
+  @JoinColumn(name = "lowest_rank_id")
+  @JsonManagedReference
+  private TeamExtreme lowestRank;
+
+  @OneToOne
+  @JoinColumn(name = "highest_rating_id")
+  @JsonManagedReference
+  private TeamExtreme highestRating;
+
+  @OneToOne
+  @JoinColumn(name = "lowest_rating_id")
+  @JsonManagedReference
+  private TeamExtreme lowestRating;
 
   @JsonBackReference
   public String getCurrentName() {

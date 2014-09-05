@@ -43,7 +43,7 @@ function($rootScope, $scope, $location, $route, $routeParams, rankingService) {
       $scope.isRankingDynamic = true;
 
       var dateFragments = selector.split('-');
-      date = new Date(dateFragments[0], dateFragments[1], dateFragments[2]);
+      date = new Date(dateFragments[0], dateFragments[1] - 1, dateFragments[2]);
 
       if (date instanceof Date && isFinite(date)) {
         dynamic = true;

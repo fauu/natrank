@@ -40,7 +40,7 @@ public class TeamServiceImpl implements TeamService {
   public List<TeamRating> findRatingsByName(String name) {
     Team team = teamRepository.findByCurrentName(name);
 
-    return teamRatingRepository.findByTeam(team, new Sort(Sort.Direction.ASC, "date", "match"));
+    return teamRatingRepository.findByTeamAndProvisionalFalse(team, new Sort(Sort.Direction.ASC, "date", "match"));
   }
 
 }

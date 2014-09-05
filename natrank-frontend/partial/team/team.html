@@ -26,30 +26,39 @@
       <h4>Statistics</h4>
       <div>
         <div>
-          <strong>Total matches:</strong> {{team.latestRankingEntry.matchesTotal}}
-          (<i class="fa fa-home"></i> {{team.latestRankingEntry.matchesHome}} –
-          {{(100 * team.latestRankingEntry.matchesHome / team.latestRankingEntry.matchesTotal) | number: 0}}%)
+          <div>
+            <strong>Total matches:</strong> {{team.latestRankingEntry.matchesTotal}}
+            (<i class="fa fa-home"></i> {{team.latestRankingEntry.matchesHome}} -
+            {{(100 * team.latestRankingEntry.matchesHome / team.latestRankingEntry.matchesTotal) | number: 0}}%)
+          </div>
+          <div id="outcomes">
+            <span id="wins">
+              <span class="num">{{team.latestRankingEntry.wins}}</span> wins
+              ({{(100 * team.latestRankingEntry.wins / team.latestRankingEntry.matchesTotal) | number: 0}}%)
+            </span> ·
+            <span id="draws">
+              <span class="num">{{team.latestRankingEntry.draws}}</span> draws
+            </span> ·
+            <span id="losses">
+              <span class="num">{{team.latestRankingEntry.losses}}</span> losses
+            </span>
+          </div>
+          <div id="goals">
+            <i class="fa fa-futbol-o"></i>
+            <span id="for">{{team.latestRankingEntry.goalsFor}}</span>:<span id="against">{{team.latestRankingEntry.goalsAgainst}}</span>
+          </div>
+          <div id="form">
+            <strong>Current form:</strong>
+            <i class="fa fa-circle" data-ng-repeat="formEntry in teamForm track by $index"
+               data-ng-class="{'win': formEntry == 1, 'draw': formEntry == 0, 'loss': formEntry == -1}"></i>
+          </div>
         </div>
-        <div id="outcomes">
-          <span id="wins">
-            <span class="num">{{team.latestRankingEntry.wins}}</span> wins
-            ({{(100 * team.latestRankingEntry.wins / team.latestRankingEntry.matchesTotal) | number: 0}}%)
-          </span> ·
-          <span id="draws">
-            <span class="num">{{team.latestRankingEntry.draws}}</span> draws
-          </span> ·
-          <span id="losses">
-            <span class="num">{{team.latestRankingEntry.losses}}</span> losses
-          </span>
-        </div>
-        <div id="goals">
-          <i class="fa fa-futbol-o"></i>
-          <span id="for">{{team.latestRankingEntry.goalsFor}}</span>:<span id="against">{{team.latestRankingEntry.goalsAgainst}}</span>
-        </div>
-        <div id="form">
-          <strong>Current form:</strong>
-          <i class="fa fa-circle" data-ng-repeat="formEntry in teamForm track by $index"
-             data-ng-class="{'win': formEntry == 1, 'draw': formEntry == 0, 'loss': formEntry == -1}"></i>
+        <div id="extremes">
+          <div data-ng-repeat="extreme in team.extremes track by $index">
+            <strong>{{extreme.type.name}}:</strong> <span data-ng-class="{'high': $index % 2 == 0, 'low': $index % 2 == 1}">{{extreme.value}}</span>
+            <span class="periods"><span class="period" data-ng-repeat="period in extreme.periods"><a ng-href="rankings/{{period.fromDate | date: 'yyyy-MM-dd'}}">{{period.fromDate | date: 'd/M/yyyy'}}</a> -
+              <a ng-href="rankings/{{period.toDate | date: 'yyyy-MM-dd'}}" data-ng-show="period.toDate">{{period.toDate | date: 'd/M/yyyy'}}</a><span data-ng-show="!period.toDate">now</span></span></span>
+          </div>
         </div>
       </div>
     </section>

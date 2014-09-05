@@ -46,6 +46,11 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
       .success(function(team) {
         $scope.team = team;
         $scope.teamRank = team.latestRankingEntry.rank;
+        $scope.team.extremes = [];
+        $scope.team.extremes.push($scope.team.highestRank);
+        $scope.team.extremes.push($scope.team.lowestRank);
+        $scope.team.extremes.push($scope.team.highestRating);
+        $scope.team.extremes.push($scope.team.lowestRating);
       })
       .error(handleError);
   }

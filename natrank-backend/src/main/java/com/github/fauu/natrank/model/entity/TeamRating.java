@@ -52,4 +52,7 @@ public class TeamRating extends BaseEntity {
   @Column(name = "change")
   private int change;
 
+  @Column(name = "provisional")
+  private boolean provisional = false;
+
 }
