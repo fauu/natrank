@@ -13,28 +13,25 @@
 package com.github.fauu.natrank.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.github.fauu.natrank.web.json.BaseView;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+@Data
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
-@ToString
 @Table(name = "NotableMatch")
 public class NotableMatch extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "category_id")
-  @JsonManagedReference
+  @JsonView(BaseView.class)
   private NotableMatchCategory category;
 
   @ManyToOne
@@ -44,7 +41,7 @@ public class NotableMatch extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "match_id")
-  @JsonManagedReference
+  @JsonView(BaseView.class)
   private Match match;
 
 }

@@ -12,14 +12,12 @@
 
 package com.github.fauu.natrank.model;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import org.joda.time.LocalDate;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @ToString
 public class ParsedRawMatchDatum {

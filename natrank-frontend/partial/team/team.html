@@ -55,7 +55,7 @@
         </div>
         <div id="extremes">
           <div data-ng-repeat="extreme in team.extremes track by $index">
-            <strong>{{extreme.type.name}}:</strong> <span data-ng-class="{'high': $index % 2 == 0, 'low': $index % 2 == 1}">{{extreme.value}}</span>
+            <strong>{{extreme.type}}:</strong> <span data-ng-class="{'high': $index % 2 == 0, 'low': $index % 2 == 1}">{{extreme.value}}</span>
             <span class="periods"><span class="period" data-ng-repeat="period in extreme.periods"><a ng-href="rankings/{{period.fromDate | date: 'yyyy-MM-dd'}}">{{period.fromDate | date: 'd/M/yyyy'}}</a> -
               <a ng-href="rankings/{{period.toDate | date: 'yyyy-MM-dd'}}" data-ng-show="period.toDate">{{period.toDate | date: 'd/M/yyyy'}}</a><span data-ng-show="!period.toDate">now</span></span></span>
           </div>
@@ -76,7 +76,7 @@
         <h5>{{name}}</h5>
         <ul class="results">
           <li data-result="" data-ng-repeat="result in notableMatches[id]"
-              data-ng-class="{'win': team.id && result.winnerTeam.id == team.id, 'loss': team.id && result.winnerTeam.id && result.winnerTeam.id != team.id}"></li>
+              data-ng-class="{'win': team.id && result.idWinner == team.id, 'loss': team.id && result.idWinner && result.idWinner != team.id}"></li>
         </ul>
       </div>
     </section>

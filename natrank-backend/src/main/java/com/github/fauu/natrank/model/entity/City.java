@@ -12,33 +12,30 @@
 
 package com.github.fauu.natrank.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
-@ToString
 @Table(name = "City")
 public class City extends NamedEntity {
 
   @OneToMany(mappedBy = "city", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JsonBackReference
+  @JsonIgnore
   private List<CityCountryAssoc> cityCountryAssocs = new ArrayList<>();
 
   @OneToMany(mappedBy = "city", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  @JsonBackReference
+  @JsonIgnore
   private List<Match> matches;
 
+  @JsonIgnore
   public Country getCountryByDate(LocalDate date) {
     for (CityCountryAssoc ccAssoc : cityCountryAssocs) {
       if (!ccAssoc.getFromDate().isAfter(date) &&
@@ -48,6 +45,11 @@ public class City extends NamedEntity {
     }
 
     return null;
+  }
+
+  @Override
+  public String toString() {
+    return super.toString();
   }
 
 }

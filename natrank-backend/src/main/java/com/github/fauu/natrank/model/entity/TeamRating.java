@@ -12,43 +12,47 @@
 
 package com.github.fauu.natrank.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.github.fauu.natrank.web.json.BaseView;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 
+@Data
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
-@ToString
 @Table(name = "TeamRating")
 public class TeamRating extends BaseEntity {
 
+  public static class Views {
+    public static class Default extends BaseView { }
+  }
+
   @Column(name = "date")
   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+  @JsonView(BaseView.class)
   private LocalDate date;
 
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinColumn(name = "team_id")
-  @JsonBackReference
+  @JsonIgnore
   private Team team;
 
   @ManyToOne
   @JoinColumn(name = "match_id")
-  @JsonBackReference
+  @JsonIgnore
   private Match match;
 
   @Column(name = "rating")
+  @JsonView(BaseView.class)
   private int value;
 
   @Column(name = "change")
+  @JsonView(Views.Default.class)
   private int change;
 
   @Column(name = "provisional")

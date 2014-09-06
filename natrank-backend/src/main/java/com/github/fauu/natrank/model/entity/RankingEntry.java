@@ -12,33 +12,39 @@
 
 package com.github.fauu.natrank.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.github.fauu.natrank.model.TeamInfo;
-import lombok.*;
+import com.github.fauu.natrank.web.json.BaseView;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Data
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
-@ToString
 @Table(name = "RankingEntry")
 public class RankingEntry extends BaseEntity<RankingEntry> {
 
   @ManyToOne
   @JoinColumn(name = "ranking_id")
-  @JsonBackReference
+  @JsonIgnore
   private Ranking ranking;
 
   @Column(name = "rank")
+  @JsonView(BaseView.class)
   private int rank;
 
   @Column(name = "rank_change")
+  @JsonView(BaseView.class)
   private Integer rankOneYearChange;
 
   @Column(name = "rating")
+  @JsonView(BaseView.class)
   private int rating;
 
   @ManyToOne
@@ -47,40 +53,52 @@ public class RankingEntry extends BaseEntity<RankingEntry> {
   private Team team;
 
   @Column(name = "matches_total")
+  @JsonView(BaseView.class)
   private int matchesTotal = 0;
 
   @Column(name = "matches_home")
+  @JsonView(BaseView.class)
   private int matchesHome = 0;
 
   @Column(name = "matches_away")
+  @JsonView(BaseView.class)
   private int matchesAway = 0;
 
   @Column(name = "matches_neutral")
+  @JsonView(BaseView.class)
   private int matchesOnNeutralGround = 0;
 
   @Column(name = "wins")
+  @JsonView(BaseView.class)
   private int wins = 0;
 
   @Column(name = "losses")
+  @JsonView(BaseView.class)
   private int losses = 0;
 
   @Column(name = "draws")
+  @JsonView(BaseView.class)
   private int draws = 0;
 
   @Column(name = "goals_for")
+  @JsonView(BaseView.class)
   private int goalsFor = 0;
 
   @Column(name = "goals_against")
+  @JsonView(BaseView.class)
   private int goalsAgainst = 0;
 
   @Getter(AccessLevel.NONE)
   @Transient
   private TeamInfo teamInfo;
 
+  @JsonView(BaseView.class)
   public int getGoalDifference() {
     return goalsFor - goalsAgainst;
   }
 
+  @JsonProperty("team")
+  @JsonView(Ranking.Views.Full.class)
   public TeamInfo getTeamInfo() {
     if (teamInfo == null) {
       Country teamCountry = team.getCountryByDate(ranking.getDate());

@@ -13,33 +13,38 @@
 package com.github.fauu.natrank.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.github.fauu.natrank.model.entity.Country;
 import com.github.fauu.natrank.model.entity.Team;
+import com.github.fauu.natrank.web.json.BaseView;
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class DynamicRankingEntry implements Comparable<DynamicRankingEntry> {
 
   @JsonIgnore
   private DynamicRanking ranking;
 
-  @Getter(AccessLevel.NONE)
   @JsonIgnore
   private Team team;
 
   @Getter(AccessLevel.NONE)
   private TeamInfo teamInfo;
 
+  @JsonView(BaseView.class)
   private int rank;
 
+  @JsonView(BaseView.class)
   private Integer rankOneYearChange;
 
+  @JsonView(BaseView.class)
   private int rating;
 
+  @JsonProperty("team")
+  @JsonView(BaseView.class)
   public TeamInfo getTeamInfo() {
     if (teamInfo == null) {
       Country teamCountry = team.getCountryByDate(ranking.getDate());

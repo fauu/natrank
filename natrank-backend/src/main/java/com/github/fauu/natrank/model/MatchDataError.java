@@ -12,13 +12,13 @@
 
 package com.github.fauu.natrank.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class MatchDataError {
 
   private int lineNo;

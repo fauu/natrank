@@ -12,20 +12,27 @@
 
 package com.github.fauu.natrank.model;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.github.fauu.natrank.web.json.BaseView;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.joda.time.LocalDate;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class DynamicRanking {
 
+  @JsonView(BaseView.class)
   private LocalDate date;
-  private boolean isFullVariantAvailable;
+
+  @JsonView(BaseView.class)
+  private boolean fullVariantAvailable;
+
+  @JsonView(BaseView.class)
   private List<DynamicRankingEntry> entries;
 
 }

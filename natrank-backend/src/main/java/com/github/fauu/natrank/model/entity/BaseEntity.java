@@ -14,28 +14,23 @@ package com.github.fauu.natrank.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.github.fauu.natrank.web.json.view.BaseView;
-import lombok.Getter;
+import com.github.fauu.natrank.web.json.BaseView;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+@Data
 @MappedSuperclass
-@Getter
-@Setter
 @NoArgsConstructor
-@ToString
 public abstract class BaseEntity<T extends BaseEntity<T>> implements Comparable<T> {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonView(BaseView.class)
-  @JsonIgnore
   protected Integer id;
 
   @JsonIgnore

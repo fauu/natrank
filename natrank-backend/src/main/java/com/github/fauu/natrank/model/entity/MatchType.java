@@ -12,17 +12,16 @@
 
 package com.github.fauu.natrank.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Entity
+@NoArgsConstructor
 @Table(name = "MatchType")
 public class MatchType extends NamedEntity {
 
@@ -35,7 +34,12 @@ public class MatchType extends NamedEntity {
   private Integer weight;
 
   @OneToMany(mappedBy = "type", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JsonBackReference
+  @JsonIgnore
   private List<Match> matches;
+
+  @Override
+  public String toString() {
+    return super.toString();
+  }
 
 }

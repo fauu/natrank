@@ -15,11 +15,11 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
     findNotableMatchCategories();
     findNotableMatches(name);
 
-    Highcharts.setOptions({
-      lang: {
-        thousandsSep: ''
-      }
-    });
+//    Highcharts.setOptions({
+//      lang: {
+//        thousandsSep: ''
+//      }
+//    });
 
     // TODO: Work on x axis after zooming
     $scope.rankingHistoryChartConfig = {
@@ -82,7 +82,7 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
               x: 3,
               y: 3,
               formatter: function() {
-                if (this.value != 0) {
+                if (this.value !== 0) {
                   return this.value;
                 } else {
                   return null;

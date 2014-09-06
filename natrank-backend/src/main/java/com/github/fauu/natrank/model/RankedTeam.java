@@ -13,10 +13,12 @@
 package com.github.fauu.natrank.model;
 
 import com.github.fauu.natrank.model.entity.Team;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString

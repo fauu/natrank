@@ -12,26 +12,24 @@
 
 package com.github.fauu.natrank.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.github.fauu.natrank.web.json.BaseView;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 
+@Data
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
-@ToString
 @Table(name = "Flag")
 public class Flag extends BaseEntity {
 
   @Column(name = "code")
+  @JsonView(BaseView.class)
   private String code;
 
   @Column(name = "date_from")
@@ -46,7 +44,12 @@ public class Flag extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "country_id")
-  @JsonBackReference
+  @JsonIgnore
   private Country country;
+
+  @Override
+  public String toString() {
+    return code;
+  }
 
 }

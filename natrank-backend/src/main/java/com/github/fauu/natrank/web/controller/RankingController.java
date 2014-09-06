@@ -12,10 +12,12 @@
 
 package com.github.fauu.natrank.web.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.github.fauu.natrank.model.DynamicRanking;
 import com.github.fauu.natrank.model.entity.Ranking;
 import com.github.fauu.natrank.service.RankingService;
 import com.github.fauu.natrank.service.TeamService;
+import com.github.fauu.natrank.web.json.BaseView;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -36,24 +38,26 @@ public class RankingController {
 
   // TODO: Replace this with findByDate
   @RequestMapping(value = {"", "/latest"}, method = RequestMethod.GET)
+  @JsonView(Ranking.Views.Full.class)
   public Ranking findLatest() {
     return rankingService.findLatest();
   }
 
   @RequestMapping(value = "/excerpt/{teamName}", method = RequestMethod.GET)
+  @JsonView(BaseView.class)
   public DynamicRanking findExcerptFromLatestByTeam(
       @PathVariable(value = "teamName") String teamName) {
     return rankingService.findExcerptFromLatestByTeam(teamService.findByCurrentName(teamName));
   }
 
-
-  @RequestMapping(value = "/{date}/full", method = RequestMethod.GET)
-  public Ranking findByDate(
-      @PathVariable(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-    return rankingService.findByDate(date);
-  }
+//  @RequestMapping(value = "/{date}/full", method = RequestMethod.GET)
+//  public Ranking findByDate(
+//      @PathVariable(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+//    return rankingService.findByDate(date);
+//  }
 
   @RequestMapping(value = "/{date}", method = RequestMethod.GET)
+  @JsonView(BaseView.class)
   public DynamicRanking findDynamicByDate(
       @PathVariable(value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
     return rankingService.createDynamicForDate(date);

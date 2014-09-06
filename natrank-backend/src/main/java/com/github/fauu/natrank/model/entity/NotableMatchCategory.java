@@ -12,23 +12,21 @@
 
 package com.github.fauu.natrank.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
+@Data
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @Table(name = "NotableMatchCategory")
 public class NotableMatchCategory extends NamedEntity {
 
   @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JsonBackReference
+  @JsonIgnore
   private List<NotableMatch> notableMatches;
 
   @Override

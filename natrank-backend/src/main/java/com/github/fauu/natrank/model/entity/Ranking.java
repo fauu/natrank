@@ -12,11 +12,10 @@
 
 package com.github.fauu.natrank.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.github.fauu.natrank.web.json.BaseView;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
@@ -24,20 +23,23 @@ import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
 
+@Data
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
-@ToString
 @Table(name = "Ranking")
 public class Ranking extends BaseEntity {
 
+  public static class Views {
+    public static class Full extends BaseView { }
+  }
+
   @Column(name = "date")
   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+  @JsonView(BaseView.class)
   private LocalDate date;
 
   @OneToMany(mappedBy = "ranking", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JsonManagedReference
+  @JsonView(BaseView.class)
   private List<RankingEntry> entries = new LinkedList<>();
 
 }

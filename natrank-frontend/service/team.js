@@ -19,7 +19,7 @@ angular.module('natrank').service('teamService', ['$http', function($http) {
 
   this.findRanksByName = function(name) {
     return $http.get(urlBase + '/' + name + '/ranks');
-  }
+  };
 
   this.findRatingsByName = function(name) {
     return $http.get(urlBase + '/' + name + '/ratings');

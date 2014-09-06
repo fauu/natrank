@@ -12,27 +12,27 @@
 
 package com.github.fauu.natrank.model.entity;
 
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.github.fauu.natrank.web.json.BaseView;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+@Data
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
-@ToString
 @Table(name = "utilCountryCode")
 public class CountryCode extends BaseEntity {
 
   @Column(name = "country_name")
+  @JsonView(BaseView.class)
   private String countryName;
 
   @Column(name = "code")
+  @JsonView(BaseView.class)
   private String code;
 
 }

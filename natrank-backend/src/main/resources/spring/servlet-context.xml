@@ -31,20 +31,12 @@
 
     <bean id="jacksonObjectMapper"
           class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
-        <!--<property name="indentOutput" value="true" />-->
         <property name="simpleDateFormat" value="dd-MM-yyyy" />
         <property name="modules">
             <list>
                 <bean class="com.fasterxml.jackson.datatype.joda.JodaModule" />
             </list>
         </property>
-
-        <!--<property name="dateFormat">-->
-        <!--<bean class="java.text.SimpleDateFormat">-->
-        <!--<constructor-arg type="java.lang.String" value="dd/MM/yyyy" />-->
-        <!--&lt;!&ndash;<property name="timeZone"></property>&ndash;&gt;-->
-        <!--</bean>-->
-        <!--</property>-->
     </bean>
 
     <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
@@ -66,13 +58,10 @@
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="objectMapper" ref="jacksonObjectMapper" />
             </bean>
-            <!--<bean class="com.github.fauu.natrank.web.jsonwAwareJsonMessageConverter" />-->
         </mvc:message-converters>
         <mvc:argument-resolvers>
             <bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver"/>
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
-
-    <bean class="com.github.fauu.natrank.web.json.view.support.JsonViewSupportFactoryBean" />
 
 </beans>

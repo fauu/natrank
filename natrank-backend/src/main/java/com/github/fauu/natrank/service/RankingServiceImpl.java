@@ -500,7 +500,7 @@ public class RankingServiceImpl implements RankingService {
 
     for (DynamicRankingEntry entry : latestRanking.getEntries()) {
       if (entry.getRank() != 0) {
-        if (entry.getTeamInfo().getId() == team.getId()) {
+        if (entry.getTeamInfo().getTeam().getId() == team.getId()) {
           isTeamRanked = true;
         }
 

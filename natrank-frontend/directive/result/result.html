@@ -2,10 +2,10 @@
   <div class="main-data">
     <div class="team1-info">
       <span class="rank" data-ng-class="{'up': result.team1RankChange > 0, 'down': result.team1RankChange < 0}">{{result.team1Rank ? result.team1Rank : '–'}}</span>
-      <img src="img/flags/{{result.team1Info.flag.code}}.png" class="flag" />
-          <span class="name" data-ng-class="{'winner': result.team1Info.id == result.winnerTeam.id}">
-            <a data-ng-href="teams/{{result.team1Info.name | lowercase | whitespaceToDash}}">
-              {{result.team1Info.name}}
+      <img src="img/flags/{{result.team1.flag}}.png" class="flag" />
+          <span class="name" data-ng-class="{'winner': result.team1.id == result.idWinner}">
+            <a data-ng-href="teams/{{result.team1.name | lowercase | whitespaceToDash}}">
+              {{result.team1.name}}
             </a>
           </span>
     </div>
@@ -13,26 +13,26 @@
       {{result.team1Rating}}
     </div>
     <div class="team1-rating-change rating-change" data-ng-class="{'up': result.team1RatingChange > 0,
-            'down': result.team1RatingChange < 0}">
+                                                                   'down': result.team1RatingChange < 0}">
       {{result.team1RatingChange > 0 ? '+' : ''}}{{result.team1RatingChange}}
     </div>
     <div class="result">
       {{result.team1Goals}}:{{result.team2Goals}} <span class="result-extra">{{result.resultExtra}}</span>
     </div>
     <div class="team2-rating-change rating-change" data-ng-class="{'up': result.team2RatingChange > 0,
-          'down': result.team2RatingChange < 0}">
+                                                                   'down': result.team2RatingChange < 0}">
       {{result.team2RatingChange > 0 ? '+' : ''}}{{result.team2RatingChange}}
     </div>
     <div class="team2-rating rating">
       {{result.team2Rating}}
     </div>
     <div class="team2-info">
-          <span class="name" data-ng-class="{'winner': result.team2Info.id == result.winnerTeam.id}">
-            <a data-ng-href="teams/{{result.team2Info.name | lowercase | whitespaceToDash}}">
-              {{result.team2Info.name}}
+          <span class="name" data-ng-class="{'winner': result.team2.id == result.idWinner}">
+            <a data-ng-href="teams/{{result.team2.name | lowercase | whitespaceToDash}}">
+              {{result.team2.name}}
             </a>
           </span>
-      <img src="img/flags/{{result.team2Info.flag.code}}.png" class="flag" />
+      <img src="img/flags/{{result.team2.flag}}.png" class="flag" />
       <span class="rank" data-ng-class="{'up': result.team2RankChange > 0, 'down': result.team2RankChange < 0}">{{result.team2Rank ? result.team2Rank : '–'}}</span>
     </div>
   </div>
@@ -41,10 +41,10 @@
       <a ng-href="rankings/{{result.date | date: 'yyyy-MM-dd'}}">{{result.date | date: 'd/M/yyyy'}}</a>
     </div>
     <div class="venue">
-      <span class="name">{{result.city.name}}, {{result.country.name}}</span> <img src="img/flags/{{result.countryFlag.code}}.png" class="flag smaller" />
+      <span class="name">{{result.city}}, {{result.country}}</span> <img src="img/flags/{{result.countryFlag}}.png" class="flag smaller" />
     </div>
     <div class="type">
-      {{result.type.name}}
+      {{result.type}}
     </div>
   </div>
 </li>

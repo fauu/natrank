@@ -12,39 +12,41 @@
 
 package com.github.fauu.natrank.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.github.fauu.natrank.web.json.BaseView;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 
+@Data
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Table(name = "CityCountry")
 public class CityCountryAssoc extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "city_id")
-  @JsonBackReference
+  @JsonView(BaseView.class)
   private City city;
 
   @ManyToOne
   @JoinColumn(name = "country_id")
-  @JsonManagedReference
+  @JsonView(BaseView.class)
   private Country country;
 
   @Column(name = "date_from")
   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+  @JsonView(BaseView.class)
   private LocalDate fromDate;
 
   @Column(name = "date_to")
   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+  @JsonView(BaseView.class)
   private LocalDate toDate;
 
 }

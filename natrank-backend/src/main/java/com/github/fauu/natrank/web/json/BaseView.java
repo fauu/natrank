@@ -7,9 +7,9 @@
  * You should have received a copy of the GNU Library General Public License
  * along with this software. If not, see <http://www.gnu.org/licenses/>.
  *
- * Authored by: Piotr Grabowski <fau999@gmail.com>
+ * Authored by: Piotr Grabowski <fau999(at)gmail.com>
  */
 
-package com.github.fauu.natrank.web.json.view;
+package com.github.fauu.natrank.web.json;
 
-public interface MatchListView extends BaseView { }
+public class BaseView { }

@@ -12,54 +12,53 @@
 
 package com.github.fauu.natrank.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.github.fauu.natrank.web.json.BaseView;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
+@Data
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
-@ToString
 @Table(name = "Team")
-//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class Team extends BaseEntity {
+
+  public static class Views {
+    public static class Default extends BaseView { }
+  }
 
   @Column(name = "home_advantage_coefficient")
   @JsonIgnore
   private double homeAdvantageCoefficient;
 
   @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JsonBackReference
+  @JsonIgnore
   private List<Country> countries;
 
   @OneToMany(mappedBy = "team1", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JsonBackReference
+  @JsonIgnore
   private Set<Match> matchesAsTeam1;
 
   @OneToMany(mappedBy = "team2", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JsonBackReference
+  @JsonIgnore
   private Set<Match> matchesAsTeam2;
 
   @OneToMany(mappedBy = "homeTeam", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JsonBackReference
+  @JsonIgnore
   private Set<Match> matchesHome;
 
   @OneToMany(mappedBy = "winnerTeam", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JsonBackReference
+  @JsonIgnore
   private Set<Match> matchesWon;
 
   @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JsonBackReference
+  @JsonIgnore
   private List<TeamRating> ratings;
 
   @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -76,25 +75,25 @@ public class Team extends BaseEntity {
 
   @OneToOne
   @JoinColumn(name = "highest_rank_id")
-  @JsonManagedReference
+  @JsonView(Views.Default.class)
   private TeamExtreme highestRank;
 
   @OneToOne
   @JoinColumn(name = "lowest_rank_id")
-  @JsonManagedReference
+  @JsonView(Views.Default.class)
   private TeamExtreme lowestRank;
 
   @OneToOne
   @JoinColumn(name = "highest_rating_id")
-  @JsonManagedReference
+  @JsonView(Views.Default.class)
   private TeamExtreme highestRating;
 
   @OneToOne
   @JoinColumn(name = "lowest_rating_id")
-  @JsonManagedReference
+  @JsonView(Views.Default.class)
   private TeamExtreme lowestRating;
 
-  @JsonBackReference
+  @JsonIgnore
   public String getCurrentName() {
     Country currentCountry = getCurrentCountry();
 
@@ -105,7 +104,7 @@ public class Team extends BaseEntity {
     }
   }
 
-  @JsonManagedReference
+  @JsonView(Views.Default.class)
   public Country getCurrentCountry() {
     if (countries != null) {
       for (Country country : countries) {
@@ -118,7 +117,7 @@ public class Team extends BaseEntity {
     return null;
   }
 
-  @JsonBackReference
+  @JsonIgnore
   public boolean isRepresentedByTournamentLimitedCountry() {
     if (countries != null) {
       for (Country country : countries) {
@@ -131,7 +130,7 @@ public class Team extends BaseEntity {
     return false;
   }
 
-  @JsonBackReference
+  @JsonIgnore
   public TeamRating getCurrentRating() {
     if (!ratings.isEmpty()) {
       return ratings.get(ratings.size() - 1); // not safe, assumes that ratings are added in order
@@ -140,10 +139,12 @@ public class Team extends BaseEntity {
     return null;
   }
 
+  @JsonIgnore
   public Country getCountryByDate(LocalDate date) {
     return getCountryByDateNotTournamentLimited(date);
   }
 
+  @JsonIgnore
   public Country getCountryByDate(LocalDate date, MatchType matchType) {
     if (isRepresentedByTournamentLimitedCountry()) {
       for (Country country : countries) {
@@ -169,6 +170,7 @@ public class Team extends BaseEntity {
     return null;
   }
 
+  @JsonIgnore
   public boolean isCityHomeForDate(City city, LocalDate date) {
     if (countries != null) {
       for (Country country : countries) {
@@ -185,7 +187,7 @@ public class Team extends BaseEntity {
     return false;
   }
 
-  @JsonManagedReference
+  @JsonView(Views.Default.class)
   public RankingEntry getLatestRankingEntry() {
     // FIXME: The last one is not necessarily the latest
     if (!rankingEntries.isEmpty()) {

@@ -12,27 +12,31 @@
 
 package com.github.fauu.natrank.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.github.fauu.natrank.model.entity.Flag;
 import com.github.fauu.natrank.model.entity.Team;
-import lombok.*;
+import com.github.fauu.natrank.web.json.BaseView;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class TeamInfo {
 
-  @JsonIgnore
+  @JsonUnwrapped
+  @JsonView(BaseView.class)
   private Team team;
 
+  @JsonView(BaseView.class)
   private String name;
 
+  @JsonSerialize(using = ToStringSerializer.class)
+  @JsonView(BaseView.class)
   private Flag flag;
-
-  public Integer getId() {
-    return team.getId();
-  }
 
 }

@@ -12,54 +12,58 @@
 
 package com.github.fauu.natrank.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.github.fauu.natrank.web.json.BaseView;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
+@Data
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @Table(name = "TeamExtreme")
 public class TeamExtreme extends BaseEntity {
 
   @Transient
+  @JsonIgnore
   private int typeId;
 
   @ManyToOne
   @JoinColumn(name = "type_id")
-  @JsonManagedReference
+  @JsonSerialize(using = ToStringSerializer.class)
+  @JsonView(BaseView.class)
   private TeamExtremeType type;
 
   @Column(name = "value")
+  @JsonView(BaseView.class)
   private int value;
 
   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinTable(name = "TeamExtremePeriod",
              joinColumns = { @JoinColumn(name = "team_extreme_id", nullable = false) },
              inverseJoinColumns = { @JoinColumn(name = "period_id", nullable = false) })
-  @JsonManagedReference
+  @JsonView(BaseView.class)
   private List<Period> periods;
 
   @OneToOne(mappedBy = "highestRank", cascade = CascadeType.MERGE)
-  @JsonBackReference
+  @JsonIgnore
   private Team highestRankTeam;
 
   @OneToOne(mappedBy = "lowestRank", cascade = CascadeType.MERGE)
-  @JsonBackReference
+  @JsonIgnore
   private Team lowestRankTeam;
 
   @OneToOne(mappedBy = "highestRating", cascade = CascadeType.MERGE)
-  @JsonBackReference
+  @JsonIgnore
   private Team highestRatingTeam;
 
   @OneToOne(mappedBy = "lowestRating", cascade = CascadeType.MERGE)
-  @JsonBackReference
+  @JsonIgnore
   private Team lowestRatingTeam;
 
   public TeamExtreme(int typeId, Team team , int value) {
