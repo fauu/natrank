@@ -20,6 +20,7 @@
 @color-new: #F0AD4E;
 
 /* Component LESS */
+@import "partial/landing/landing.less";
 @import "partial/results/results.less";
 @import "partial/rankings/rankings.less";
 @import "partial/team/team.less";
@@ -28,9 +29,12 @@
 @import "directive/result/result.less";
 /* Add Component LESS Above */
 
-
 /* Required for Angular UI Bootstrap */
 .nav, .pagination, .carousel a { cursor: pointer; }
+
+body {
+  margin-bottom: 30px;
+}
 
 #top-bar {
   .navbar;
@@ -39,6 +43,15 @@
 
   header {
     .navbar-header;
+
+    > .navbar-brand {
+      font-weight: bold;
+
+      sup {
+        font-size: 11px;
+        font-weight: normal;
+      }
+    }
   }
 }
 
@@ -106,6 +119,15 @@
 
 .animated-container.ng-hide {
   display: block !important;
+}
+
+.tooltip {
+  font-weight: bold !important;
+}
+
+.tooltip-inner {
+  white-space: nowrap;
+  max-width: 350px !important;
 }
 
 /* Personal preference for BS modal.  The LESS below makes the backdrop white and

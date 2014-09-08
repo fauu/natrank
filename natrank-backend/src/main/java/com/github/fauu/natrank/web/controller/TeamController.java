@@ -17,6 +17,7 @@ import com.github.fauu.natrank.model.entity.Team;
 import com.github.fauu.natrank.model.entity.TeamRank;
 import com.github.fauu.natrank.model.entity.TeamRating;
 import com.github.fauu.natrank.service.TeamService;
+import com.github.fauu.natrank.util.StringUtils;
 import com.github.fauu.natrank.web.json.BaseView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,20 +36,20 @@ public class TeamController {
 
   @RequestMapping(value = "/{name}", method = RequestMethod.GET)
   @JsonView(Team.Views.Default.class)
-  public Team findByName(@PathVariable("name") String name) {
-    return teamService.findByCurrentName(name);
+  public Team findByName(@PathVariable("name") String urlFriendlyName) {
+    return teamService.findByName(StringUtils.urlFriendlyToProper(urlFriendlyName));
   }
 
   @RequestMapping(value = "/{name}/ranks", method = RequestMethod.GET)
   @JsonView(BaseView.class)
-  public List<TeamRank> findRanksByName(@PathVariable("name") String name) {
-    return teamService.findRanksByName(name);
+  public List<TeamRank> findRanksByName(@PathVariable("name") String urlFriendlyName) {
+    return teamService.findRanksByName(StringUtils.urlFriendlyToProper(urlFriendlyName));
   }
 
   @RequestMapping(value = "/{name}/ratings", method = RequestMethod.GET)
   @JsonView(BaseView.class)
-  public List<TeamRating> findRatingsByName(@PathVariable("name") String name) {
-    return teamService.findRatingsByName(name);
+  public List<TeamRating> findRatingsByName(@PathVariable("name") String urlFriendlyName) {
+    return teamService.findRatingsByName(StringUtils.urlFriendlyToProper(urlFriendlyName));
   }
 
 }

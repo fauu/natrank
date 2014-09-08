@@ -27,11 +27,11 @@ import javax.persistence.Table;
 @Table(name = "utilCountryCode")
 public class CountryCode extends BaseEntity {
 
-  @Column(name = "country_name")
+  @Column(name = "country_name", nullable = false)
   @JsonView(BaseView.class)
   private String countryName;
 
-  @Column(name = "code")
+  @Column(name = "code", nullable = false)
   @JsonView(BaseView.class)
   private String code;
 

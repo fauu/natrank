@@ -32,13 +32,13 @@ public class TeamRating extends BaseEntity {
     public static class Default extends BaseView { }
   }
 
-  @Column(name = "date")
+  @Column(name = "date", nullable = false)
   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
   @JsonView(BaseView.class)
   private LocalDate date;
 
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  @JoinColumn(name = "team_id")
+  @JoinColumn(name = "team_id", nullable = false)
   @JsonIgnore
   private Team team;
 
@@ -47,15 +47,15 @@ public class TeamRating extends BaseEntity {
   @JsonIgnore
   private Match match;
 
-  @Column(name = "rating")
+  @Column(name = "rating", nullable = false)
   @JsonView(BaseView.class)
   private int value;
 
-  @Column(name = "change")
+  @Column(name = "change", nullable = false)
   @JsonView(Views.Default.class)
   private int change;
 
-  @Column(name = "provisional")
+  @Column(name = "provisional", nullable = false)
   @JsonIgnore
   private boolean provisional = false;
 

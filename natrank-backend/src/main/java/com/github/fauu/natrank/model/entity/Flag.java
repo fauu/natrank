@@ -28,11 +28,11 @@ import javax.persistence.*;
 @Table(name = "Flag")
 public class Flag extends BaseEntity {
 
-  @Column(name = "code")
+  @Column(name = "code", nullable = false)
   @JsonView(BaseView.class)
   private String code;
 
-  @Column(name = "date_from")
+  @Column(name = "date_from", nullable = false)
   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
   @JsonIgnore
   private LocalDate fromDate;
@@ -43,7 +43,7 @@ public class Flag extends BaseEntity {
   private LocalDate toDate;
 
   @ManyToOne
-  @JoinColumn(name = "country_id")
+  @JoinColumn(name = "country_id", nullable = false)
   @JsonIgnore
   private Country country;
 

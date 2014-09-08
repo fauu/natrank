@@ -3,23 +3,23 @@
     <thead>
       <tr>
         <th class="rank">Rank</th>
-        <th class="rank-change">1y +-</th>
+        <th class="rank-change" data-tooltip="One year change" data-tooltip-append-to-body="true">1y +-</th>
         <th class="team" colspan="2">Team</th>
         <th class="rating">Rating</th>
-        <th class="full" data-ng-if="!isRankingDynamic">P</th>
-        <th class="full" data-ng-if="!isRankingDynamic">W</th>
-        <th class="full" data-ng-if="!isRankingDynamic">D</th>
-        <th class="full" data-ng-if="!isRankingDynamic">L</th>
-        <th class="full" data-ng-if="!isRankingDynamic">GF</th>
-        <th class="full" data-ng-if="!isRankingDynamic">GA</th>
-        <th class="full" data-ng-if="!isRankingDynamic">GD</th>
+        <th class="full" data-tooltip="Matches played" data-tooltip-append-to-body="true" data-ng-if="!isRankingDynamic">P</th>
+        <th class="full" data-tooltip="Matches won" data-tooltip-append-to-body="true" data-ng-if="!isRankingDynamic">W</th>
+        <th class="full" data-tooltip="Matches drawn" data-tooltip-append-to-body="true" data-ng-if="!isRankingDynamic">D</th>
+        <th class="full" data-tooltip="Matches lost" data-tooltip-append-to-body="true" data-ng-if="!isRankingDynamic">L</th>
+        <th class="full" data-tooltip="Goals for" data-tooltip-append-to-body="true" data-ng-if="!isRankingDynamic">GF</th>
+        <th class="full" data-tooltip="Goals against" data-tooltip-append-to-body="true" data-ng-if="!isRankingDynamic">GA</th>
+        <th class="full" data-tooltip="Goal difference" data-tooltip-append-to-body="true" data-ng-if="!isRankingDynamic">GD</th>
       </tr>
     </thead>
     <tbody>
       <tr class="entry" data-ng-repeat="entry in ranking.entries"
           data-ng-class="{'highlight': entry.rank === teamRank}">
-        <td class="rank" data-ng-class="{'no-rank': entry.rank === 0}">
-          {{entry.rank > 0 ? entry.rank + '.' : '*'}}
+        <td class="rank">
+          {{entry.rank > 0 ? entry.rank + '.' : ''}}
         </td>
         <td class="rank-change">
           <span data-ng-show="entry.rankOneYearChange !== null"
@@ -41,7 +41,7 @@
           <img src="img/flags/{{entry.team.flag}}.png" class="flag" />
         </td>
         <td class="team-name">
-          <a data-ng-href="teams/{{entry.team.name | lowercase | whitespaceToDash}}">
+          <a data-ng-href="teams/{{entry.team.name | properToDashed}}">
             {{entry.team.name}}
           </a>
         </td>

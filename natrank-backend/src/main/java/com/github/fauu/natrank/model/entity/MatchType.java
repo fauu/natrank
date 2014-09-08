@@ -29,7 +29,7 @@ public class MatchType extends NamedEntity {
   @JsonIgnore
   private String fifaName;
 
-  @Column(name = "weight")
+  @Column(name = "weight", nullable = false)
   @JsonIgnore
   private Integer weight;
 

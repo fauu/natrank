@@ -33,7 +33,7 @@ public class Team extends BaseEntity {
     public static class Default extends BaseView { }
   }
 
-  @Column(name = "home_advantage_coefficient")
+  @Column(name = "home_advantage_coefficient", nullable = false)
   @JsonIgnore
   private double homeAdvantageCoefficient;
 

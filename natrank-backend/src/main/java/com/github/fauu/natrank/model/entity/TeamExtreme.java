@@ -34,12 +34,12 @@ public class TeamExtreme extends BaseEntity {
   private int typeId;
 
   @ManyToOne
-  @JoinColumn(name = "type_id")
+  @JoinColumn(name = "type_id", nullable = false)
   @JsonSerialize(using = ToStringSerializer.class)
   @JsonView(BaseView.class)
   private TeamExtremeType type;
 
-  @Column(name = "value")
+  @Column(name = "value", nullable = false)
   @JsonView(BaseView.class)
   private int value;
 

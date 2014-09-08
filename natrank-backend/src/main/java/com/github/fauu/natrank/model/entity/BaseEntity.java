@@ -18,10 +18,7 @@ import com.github.fauu.natrank.web.json.BaseView;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 @Data
 @MappedSuperclass
@@ -29,6 +26,7 @@ import javax.persistence.MappedSuperclass;
 public abstract class BaseEntity<T extends BaseEntity<T>> implements Comparable<T> {
 
   @Id
+  @Column(name = "id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonView(BaseView.class)
   protected Integer id;

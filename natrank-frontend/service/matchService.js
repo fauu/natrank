@@ -37,4 +37,8 @@ angular.module('natrank').service('matchService', ['$http', function($http) {
     return $http.get(urlBase + '/form/team/' + teamName);
   };
 
+  this.findLatestDate = function() {
+    return $http.get(urlBase + '/latest-date');
+  };
+
 }]);

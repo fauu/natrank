@@ -17,6 +17,7 @@ import com.github.fauu.natrank.model.DynamicRanking;
 import com.github.fauu.natrank.model.entity.Ranking;
 import com.github.fauu.natrank.service.RankingService;
 import com.github.fauu.natrank.service.TeamService;
+import com.github.fauu.natrank.util.StringUtils;
 import com.github.fauu.natrank.web.json.BaseView;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,9 @@ public class RankingController {
   @RequestMapping(value = "/excerpt/{teamName}", method = RequestMethod.GET)
   @JsonView(BaseView.class)
   public DynamicRanking findExcerptFromLatestByTeam(
-      @PathVariable(value = "teamName") String teamName) {
-    return rankingService.findExcerptFromLatestByTeam(teamService.findByCurrentName(teamName));
+      @PathVariable(value = "teamName") String urlFriendlyTeamName) {
+    return rankingService.findExcerptFromLatestByTeam(
+        teamService.findByName(StringUtils.urlFriendlyToProper(urlFriendlyTeamName)));
   }
 
 //  @RequestMapping(value = "/{date}/full", method = RequestMethod.GET)

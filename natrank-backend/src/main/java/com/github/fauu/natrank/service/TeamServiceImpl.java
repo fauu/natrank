@@ -37,20 +37,20 @@ public class TeamServiceImpl implements TeamService {
   TeamRepository teamRepository;
 
   @Override
-  public Team findByCurrentName(String name) {
-    return teamRepository.findByCurrentName(name);
+  public Team findByName(String name) {
+    return teamRepository.findByName(name);
   }
 
   @Override
   public List<TeamRank> findRanksByName(String name) {
-    Team team = teamRepository.findByCurrentName(name);
+    Team team = teamRepository.findByName(name);
 
     return teamRankRepository.findByTeam(team, new Sort(Sort.Direction.ASC, "date"));
   }
 
   @Override
   public List<TeamRating> findRatingsByName(String name) {
-    Team team = teamRepository.findByCurrentName(name);
+    Team team = teamRepository.findByName(name);
 
     return teamRatingRepository.findByTeamAndProvisionalFalse(team, new Sort(Sort.Direction.ASC, "date", "match"));
   }

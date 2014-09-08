@@ -41,7 +41,7 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
           useHTML: true,
           backgroundColor: 'rgba(0, 0, 0, 0.87)',
           borderWidth: 0,
-          borderRadius: 0,
+          borderRadius: 8,
           shadow: false,
           style: {
             color: '#FFFFFF'
@@ -110,7 +110,7 @@ function($scope, $routeParams, teamService, matchService, rankingService) {
           type: 'line',
           step: true,
           data: []
-        },
+        }
       ]
     };
   }

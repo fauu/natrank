@@ -30,17 +30,17 @@ import javax.persistence.Table;
 public class NotableMatch extends BaseEntity {
 
   @ManyToOne
-  @JoinColumn(name = "category_id")
+  @JoinColumn(name = "category_id", nullable = false)
   @JsonView(BaseView.class)
   private NotableMatchCategory category;
 
   @ManyToOne
-  @JoinColumn(name = "team_id")
+  @JoinColumn(name = "team_id", nullable = false)
   @JsonIgnore
   private Team team;
 
   @ManyToOne
-  @JoinColumn(name = "match_id")
+  @JoinColumn(name = "match_id", nullable = false)
   @JsonView(BaseView.class)
   private Match match;
 

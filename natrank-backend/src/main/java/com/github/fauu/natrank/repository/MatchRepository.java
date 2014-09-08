@@ -35,21 +35,24 @@ public interface MatchRepository extends PagingAndSortingRepository<Match, Integ
       throws DataAccessException;
 
   @Query(nativeQuery = true, value =
-         "SELECT * FROM `Match` m " +
-           "WHERE (m.team1_id = ?1 OR m.team2_id = ?1) " +
-             "AND m.date = (SELECT MIN(m.date) FROM `Match` m WHERE m.team1_id = ?1 OR m.team2_id = ?1) " +
+         "SELECT * " +
+         "FROM `Match` m " +
+         "WHERE (m.team1_id = ?1 OR m.team2_id = ?1) " +
+               "AND m.date = (SELECT MIN(m.date) " +
+                             "FROM `Match` m " +
+                             "WHERE m.team1_id = ?1 OR m.team2_id = ?1) " +
          "LIMIT 1")
   Match findFirstByTeamId(Integer teamId) throws DataAccessException;
 
   @Query(nativeQuery = true, value =
          "SELECT * FROM `Match` m " +
          "WHERE " +
-          "(m.team1_id = ?1 AND " +
+          "(m.team1_id = ?1 AND m.winner_team_id = m.team1_id AND " +
             "(m.team1_goals - m.team2_goals = " +
               "(SELECT MAX(goalDiff) FROM " +
                 "(SELECT MAX(m.team1_goals - m.team2_goals) goalDiff FROM `Match` m WHERE m.team1_id = ?1 UNION " +
                  "SELECT MAX(m.team2_goals - m.team1_goals) goalDiff FROM `Match` m WHERE m.team2_id = ?1) goalDiffs))) OR " +
-          "(m.team2_id = ?1 AND " +
+          "(m.team2_id = ?1 AND m.winner_team_id = m.team2_id AND " +
             "(m.team2_goals - m.team1_goals = " +
               "(SELECT MAX(goalDiff) FROM " +
                 "(SELECT MAX(m.team1_goals - m.team2_goals) goalDiff FROM `Match` m WHERE m.team1_id = ?1 UNION " +
@@ -80,5 +83,8 @@ public interface MatchRepository extends PagingAndSortingRepository<Match, Integ
          "WHERE m IN (SELECT tr.match FROM TeamRating tr WHERE tr.team = ?1 AND tr.change = " +
            "(SELECT MIN(tr.change) FROM TeamRating tr WHERE tr.team = ?1))")
   List<Match> findBiggestBlundersByTeam(Team team) throws DataAccessException;
+
+  @Query("SELECT MAX(m.date) FROM Match m")
+  LocalDate findLatestDate() throws DataAccessException;
 
 }

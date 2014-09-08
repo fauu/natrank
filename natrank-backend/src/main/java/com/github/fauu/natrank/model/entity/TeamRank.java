@@ -32,17 +32,17 @@ public class TeamRank extends BaseEntity {
     public static class Default extends BaseView { }
   }
 
-  @Column(name = "date")
+  @Column(name = "date", nullable = false)
   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
   @JsonView(BaseView.class)
   private LocalDate date;
 
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  @JoinColumn(name = "team_id")
+  @JoinColumn(name = "team_id", nullable = false)
   @JsonIgnore
   private Team team;
 
-  @Column(name = "rank")
+  @Column(name = "rank", nullable = false)
   @JsonView(BaseView.class)
   private int value;
 

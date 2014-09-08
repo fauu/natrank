@@ -25,7 +25,7 @@ import javax.persistence.MappedSuperclass;
 @NoArgsConstructor
 public abstract class NamedEntity extends BaseEntity {
 
-  @Column(name = "name")
+  @Column(name = "name", nullable = false)
   @JsonView(BaseView.class)
   private String name;
 

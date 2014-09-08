@@ -2,7 +2,7 @@
   <div data-ng-include src="'partial/results/pagination.html'" data-ng-show='resultsPage.totalPages > 1'></div>
   <ul id="results" class="animated-container" data-ng-hide="loadingPage">
     <div data-result="" data-ng-repeat="result in resultsPage.content"
-         data-ng-class="{'win': team.id && result.winnerid == team.id, 'loss': team.id && result.winnerid && result.winnerid != team.id}">
+         data-ng-class="{'win': team.id && result.idWinner == team.id, 'loss': team.id && result.idWinner && result.idWinner != team.id}">
     </div>
   </ul>
   <div data-ng-include src="'partial/results/pagination.html'" data-ng-show="resultsPage.totalPages > 1"></div>

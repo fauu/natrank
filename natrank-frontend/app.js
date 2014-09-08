@@ -15,6 +15,11 @@ angular.module('natrank', ['ui.bootstrap', 'ui.utils', 'ngRoute', 'ngAnimate', '
 
 angular.module('natrank').config(function($routeProvider, $locationProvider, paginationConfig) {
   $routeProvider
+    .when('/', {
+      templateUrl: 'partial/landing/landing.html',
+      controller: 'LandingCtrl',
+      fullReload: true
+    })
     .when('/results/:year', {
       templateUrl: 'partial/results/results.html',
       controller: 'ResultsCtrl'
@@ -51,7 +56,7 @@ angular.module('natrank').config(function($routeProvider, $locationProvider, pag
   paginationConfig.lastText = '»';
 });
 
-angular.module('natrank').run(function($route, $rootScope, $location) {
+angular.module('natrank').run(function($route, $rootScope, $location, matchService) {
   var originalLocation;
 
   $rootScope.$on('$routeChangeStart', function(event, next, current) {

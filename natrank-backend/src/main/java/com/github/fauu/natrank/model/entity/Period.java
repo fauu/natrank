@@ -31,7 +31,7 @@ import javax.persistence.Table;
 @Table(name = "Period")
 public class Period extends BaseEntity {
 
-  @Column(name = "date_from")
+  @Column(name = "date_from", nullable = false)
   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
   @JsonView(BaseView.class)
   private LocalDate fromDate;

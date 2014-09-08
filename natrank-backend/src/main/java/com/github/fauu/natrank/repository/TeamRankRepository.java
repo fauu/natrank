@@ -31,14 +31,15 @@ public interface TeamRankRepository extends PagingAndSortingRepository<TeamRank,
   // FIXME: Don't return duplicates when two ranks for the same date exist
   @Query(nativeQuery = true, value =
       "SELECT tr1.* " +
-          "FROM (SELECT * FROM TeamRank WHERE date <= ?1) tr1 " +
+      "FROM (SELECT * FROM TeamRank WHERE date <= ?1) tr1 " +
           "LEFT JOIN (SELECT * FROM TeamRank WHERE date <= ?1) tr2 " +
-          "ON (tr1.team_id = tr2.team_id AND tr1.date < tr2.date) " +
-          "WHERE tr2.id IS NULL")
+              "ON (tr1.team_id = tr2.team_id AND tr1.date < tr2.date) " +
+      "WHERE tr2.id IS NULL")
   List<TeamRank> findLatestForTeamsByDate(String date) throws DataAccessException;
 
   @Query("SELECT NEW com.github.fauu.natrank.model.entity.TeamExtreme(1, team, MIN(tr.value)) " +
-         "FROM TeamRank tr GROUP BY tr.team")
+         "FROM TeamRank tr " +
+         "GROUP BY tr.team")
   List<TeamExtreme> findHighestValuesForTeams() throws DataAccessException;
 
   @Query("SELECT tr.date " +
@@ -47,7 +48,8 @@ public interface TeamRankRepository extends PagingAndSortingRepository<TeamRank,
   List<LocalDate> findHighestValuePeriodDates(Team team, int highestValue) throws DataAccessException;
 
   @Query("SELECT NEW com.github.fauu.natrank.model.entity.TeamExtreme(2, team, MAX(tr.value)) " +
-         "FROM TeamRank tr GROUP BY tr.team")
+         "FROM TeamRank tr " +
+         "GROUP BY tr.team")
   List<TeamExtreme> findLowestValuesForTeams() throws DataAccessException;
 
   @Query("SELECT tr.date " +

@@ -37,38 +37,38 @@ public class Match extends BaseEntity {
     public static class Default extends BaseView { }
   }
 
-  @Column(name = "date")
+  @Column(name = "date", nullable = false)
   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
   @JsonView(Views.Default.class)
   private LocalDate date;
 
   @ManyToOne
-  @JoinColumn(name = "type_id")
+  @JoinColumn(name = "type_id", nullable = false)
   @JsonSerialize(using = ToStringSerializer.class)
   @JsonView(Views.Default.class)
   private MatchType type;
 
   @ManyToOne
-  @JoinColumn(name = "city_id")
+  @JoinColumn(name = "city_id", nullable = false)
   @JsonSerialize(using = ToStringSerializer.class)
   @JsonView(Views.Default.class)
   private City city;
 
   @ManyToOne
-  @JoinColumn(name = "team1_id")
+  @JoinColumn(name = "team1_id", nullable = false)
   @JsonIgnore
   private Team team1;
 
   @ManyToOne
-  @JoinColumn(name = "team2_id")
+  @JoinColumn(name = "team2_id", nullable = false)
   @JsonIgnore
   private Team team2;
 
-  @Column(name = "team1_goals")
+  @Column(name = "team1_goals", nullable = false)
   @JsonView(Views.Default.class)
   private int team1Goals;
 
-  @Column(name = "team2_goals")
+  @Column(name = "team2_goals", nullable = false)
   @JsonView(Views.Default.class)
   private int team2Goals;
 
@@ -91,11 +91,11 @@ public class Match extends BaseEntity {
   @JsonView(Views.Default.class)
   private boolean penaltyShootout;
 
-  @Column(name = "team1_rating")
+  @Column(name = "team1_rating", nullable = false)
   @JsonView(Views.Default.class)
   private Integer team1Rating;
 
-  @Column(name = "team2_rating")
+  @Column(name = "team2_rating", nullable = false)
   @JsonView(Views.Default.class)
   private Integer team2Rating;
 

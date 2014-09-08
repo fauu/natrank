@@ -172,7 +172,7 @@ public class RankingServiceImpl implements RankingService {
           newRating.setValue(matchTeamRatings.get(i));
           newRating.setChange(matchTeamRatingChanges.get(i));
 
-          if (passNo == 1 && (currentTeam.getRatings().size() - 1) < NUM_TRIAL_MATCHES) {
+          if (passNo == 1 && currentTeam.getRatings().size() < NUM_TRIAL_MATCHES) {
             newRating.setProvisional(true);
           }
 
@@ -286,6 +286,8 @@ public class RankingServiceImpl implements RankingService {
   }
 
   private void calculateTeamExtremes() {
+    teamExtremeRepository.deleteAll();
+
     List<TeamExtremeType> teamExtremeTypes = teamExtremeTypeRepository.findAll();
     Map<Integer, TeamExtremeType> teamExtremeTypeMap = new HashMap<>();
     for (TeamExtremeType type : teamExtremeTypes) {

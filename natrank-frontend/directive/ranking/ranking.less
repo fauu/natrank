@@ -11,6 +11,7 @@
 
     .rank {
       .text-right;
+      width: 3em;
     }
 
     .team {
@@ -18,11 +19,16 @@
     }
 
     .rank-change {
+      width: 4.5em;
       .text-center;
     }
 
     .rating {
       .text-center;
+    }
+
+    .full {
+      width: 5em;
     }
   }
 
@@ -32,15 +38,10 @@
     }
 
     .rank {
-      width: 5%;
       font-size: 13px;
       font-weight: bold;
       vertical-align: middle;
       .text-right;
-    }
-
-    .rank.no-rank {
-      padding-right: 17px;
     }
 
     .team-flag {
@@ -54,7 +55,6 @@
     }
 
     .rank-change {
-      width: 8%;
       .text-center;
 
       > .new, .value {
@@ -68,6 +68,7 @@
         font-size: 10px;
         padding: 4px;
         border-radius: 2px;
+        vertical-align: 2px;
       }
 
       .value {
@@ -81,6 +82,10 @@
 
       > .down {
         color: @color-down;
+      }
+
+      .fa {
+        margin-bottom: 3px;
       }
 
       .fa-minus {

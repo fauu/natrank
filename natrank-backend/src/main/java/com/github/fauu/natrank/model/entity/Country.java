@@ -30,11 +30,11 @@ import java.util.List;
 @Table(name = "Country")
 public class Country extends NamedEntity {
 
-  @Column(name = "code")
+  @Column(name = "code", nullable = false)
   @JsonView(BaseView.class)
   private String code;
 
-  @Column(name = "date_from")
+  @Column(name = "date_from", nullable = false)
   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
   @JsonIgnore
   private LocalDate fromDate;

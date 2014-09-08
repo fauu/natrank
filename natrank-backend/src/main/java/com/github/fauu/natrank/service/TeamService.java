@@ -21,7 +21,7 @@ import java.util.List;
 
 public interface TeamService {
 
-  Team findByCurrentName(String name) throws DataAccessException;
+  Team findByName(String name) throws DataAccessException;
 
   List<TeamRank> findRanksByName(String name) throws DataAccessException;
 

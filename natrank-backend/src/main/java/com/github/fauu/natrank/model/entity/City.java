@@ -31,7 +31,7 @@ public class City extends NamedEntity {
   @JsonIgnore
   private List<CityCountryAssoc> cityCountryAssocs = new ArrayList<>();
 
-  @OneToMany(mappedBy = "city", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "city", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonIgnore
   private List<Match> matches;
 

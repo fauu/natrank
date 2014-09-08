@@ -33,7 +33,7 @@ public class Ranking extends BaseEntity {
     public static class Full extends BaseView { }
   }
 
-  @Column(name = "date")
+  @Column(name = "date", nullable = false)
   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
   @JsonView(BaseView.class)
   private LocalDate date;

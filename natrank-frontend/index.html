@@ -29,7 +29,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">natrank</a>
+        <a class="navbar-brand" href="/">natrank<sup>beta</sup></a>
       </header>
       <nav class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -45,11 +45,11 @@
     </div>
   </div>
 
-  <footer id="main-footer">
-    <div class="container">
-      <p>natrank</p>
-    </div>
-  </footer>
+  <!--<footer id="main-footer">-->
+    <!--<div class="container">-->
+      <!--<p>natrank</p>-->
+    <!--</div>-->
+  <!--</footer>-->
 
   <!-- Livereload script for development only (stripped during dist build) -->
   <script src="http://localhost:35729/livereload.js" data-concat="false"></script>
@@ -73,13 +73,15 @@
 
   <!-- Main App JS -->
   <script src="app.js"></script>
-  <script src="partial/results/results.js"></script>
   <script src="service/matchService.js"></script>
-  <script src="partial/rankings/rankings.js"></script>
-  <script src="service/rankingService.js"></script>
-  <script src="filter/whitespaceToDash.js"></script>
-  <script src="partial/team/team.js"></script>
   <script src="service/teamService.js"></script>
+  <script src="service/rankingService.js"></script>
+  <script src="partial/landing/landing.js"></script>
+  <script src="partial/results/results.js"></script>
+  <script src="partial/rankings/rankings.js"></script>
+  <script src="partial/team/team.js"></script>
+  <script src="filter/dashedToProper.js"></script>
+  <script src="filter/properToDashed.js"></script>
   <script src="directive/resultList/resultList.js"></script>
   <script src="directive/ranking/ranking.js"></script>
   <script src="directive/result/result.js"></script>

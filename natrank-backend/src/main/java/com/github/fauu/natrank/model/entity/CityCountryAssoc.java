@@ -30,16 +30,16 @@ import javax.persistence.*;
 public class CityCountryAssoc extends BaseEntity {
 
   @ManyToOne
-  @JoinColumn(name = "city_id")
+  @JoinColumn(name = "city_id", nullable = false)
   @JsonView(BaseView.class)
   private City city;
 
   @ManyToOne
-  @JoinColumn(name = "country_id")
+  @JoinColumn(name = "country_id", nullable = false)
   @JsonView(BaseView.class)
   private Country country;
 
-  @Column(name = "date_from")
+  @Column(name = "date_from", nullable = false)
   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
   @JsonView(BaseView.class)
   private LocalDate fromDate;

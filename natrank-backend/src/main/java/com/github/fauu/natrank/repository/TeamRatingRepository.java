@@ -44,23 +44,31 @@ public interface TeamRatingRepository extends PagingAndSortingRepository<TeamRat
   List<TeamRating> findLatestForTeamsByDate(String date) throws DataAccessException;
 
   @Query("SELECT NEW com.github.fauu.natrank.model.entity.TeamExtreme(3, team, MAX(tr.value))" +
-         "FROM TeamRating tr WHERE tr.provisional = false GROUP BY tr.team")
+         "FROM TeamRating tr " +
+         "WHERE tr.provisional IS FALSE " +
+         "GROUP BY tr.team")
   List<TeamExtreme> findHighestValuesForTeams() throws DataAccessException;
 
   @Query("SELECT tr.date " +
          "FROM TeamRating tr " +
-         "WHERE tr.team = ?1 AND tr.provisional = false " +
-           "AND (tr.value = ?2 OR (tr.change != 0 AND tr.value - tr.change = ?2))")
+         "WHERE tr.team = ?1 " +
+               "AND tr.provisional IS FALSE " +
+               "AND (tr.value = ?2 " +
+                    "OR (tr.change != 0 AND tr.value - tr.change = ?2))")
   List<LocalDate> findHighestValuePeriodDates(Team team, int highestValue) throws DataAccessException;
 
   @Query("SELECT NEW com.github.fauu.natrank.model.entity.TeamExtreme(4, team, MIN(tr.value))" +
-         "FROM TeamRating tr WHERE tr.provisional = false GROUP BY tr.team")
+         "FROM TeamRating tr " +
+         "WHERE tr.provisional IS FALSE " +
+         "GROUP BY tr.team")
   List<TeamExtreme> findLowestValuesForTeams() throws DataAccessException;
 
   @Query("SELECT tr.date " +
          "FROM TeamRating tr " +
-         "WHERE tr.team = ?1 AND tr.provisional = false " +
-           "AND (tr.value = ?2 OR (tr.change != 0 AND tr.value - tr.change = ?2))")
+         "WHERE tr.team = ?1 " +
+               "AND tr.provisional IS FALSE " +
+               "AND (tr.value = ?2 " +
+                    "OR (tr.change != 0 AND tr.value - tr.change = ?2))")
   List<LocalDate> findLowestValuePeriodDates(Team team, int lowestValue) throws DataAccessException;
 
 }

@@ -23,13 +23,14 @@ public interface RankingRepository extends JpaRepository<Ranking, Integer> {
   @Query("FROM Ranking r WHERE r.date = (SELECT MAX(r.date) FROM Ranking r)")
   Ranking findLatest() throws DataAccessException;
 
-  @Query("SELECT MAX(r.date) FROM Ranking r")
+  @Query("SELECT MAX(date) FROM Ranking")
   LocalDate findDateOfLatest() throws DataAccessException;
 
   Ranking findByDate(LocalDate date) throws DataAccessException;
 
   @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END " +
-         "FROM Ranking r WHERE r.date = ?")
+         "FROM Ranking r " +
+         "WHERE r.date = ?")
   boolean existsByDate(LocalDate date) throws DataAccessException;
 
 }

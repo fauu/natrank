@@ -31,7 +31,7 @@ import javax.persistence.*;
 public class RankingEntry extends BaseEntity<RankingEntry> {
 
   @ManyToOne
-  @JoinColumn(name = "ranking_id")
+  @JoinColumn(name = "ranking_id", nullable = false)
   @JsonIgnore
   private Ranking ranking;
 
@@ -48,43 +48,43 @@ public class RankingEntry extends BaseEntity<RankingEntry> {
   private int rating;
 
   @ManyToOne
-  @JoinColumn(name = "team_id")
+  @JoinColumn(name = "team_id", nullable = false)
   @JsonIgnore
   private Team team;
 
-  @Column(name = "matches_total")
+  @Column(name = "matches_total", nullable = false)
   @JsonView(BaseView.class)
   private int matchesTotal = 0;
 
-  @Column(name = "matches_home")
+  @Column(name = "matches_home", nullable = false)
   @JsonView(BaseView.class)
   private int matchesHome = 0;
 
-  @Column(name = "matches_away")
+  @Column(name = "matches_away", nullable = false)
   @JsonView(BaseView.class)
   private int matchesAway = 0;
 
-  @Column(name = "matches_neutral")
+  @Column(name = "matches_neutral", nullable = false)
   @JsonView(BaseView.class)
   private int matchesOnNeutralGround = 0;
 
-  @Column(name = "wins")
+  @Column(name = "wins", nullable = false)
   @JsonView(BaseView.class)
   private int wins = 0;
 
-  @Column(name = "losses")
+  @Column(name = "losses", nullable = false)
   @JsonView(BaseView.class)
   private int losses = 0;
 
-  @Column(name = "draws")
+  @Column(name = "draws", nullable = false)
   @JsonView(BaseView.class)
   private int draws = 0;
 
-  @Column(name = "goals_for")
+  @Column(name = "goals_for", nullable = false)
   @JsonView(BaseView.class)
   private int goalsFor = 0;
 
-  @Column(name = "goals_against")
+  @Column(name = "goals_against", nullable = false)
   @JsonView(BaseView.class)
   private int goalsAgainst = 0;
 

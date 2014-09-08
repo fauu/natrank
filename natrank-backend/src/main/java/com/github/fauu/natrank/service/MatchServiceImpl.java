@@ -152,4 +152,8 @@ public class MatchServiceImpl implements MatchService {
     }
   }
 
+  public LocalDate findLatestDate() {
+    return matchRepository.findLatestDate();
+  }
+
 }
