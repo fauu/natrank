@@ -19,8 +19,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface TeamRepository extends JpaRepository<Team, Integer> {
 
-  // FIXME: This currently searches by all names, not just the current one
   @Query("SELECT t FROM Country c LEFT JOIN c.team t WHERE c.name = ?1")
-  Team findByCurrentName(String name) throws DataAccessException;
+  Team findByName(String name) throws DataAccessException;
 
 }

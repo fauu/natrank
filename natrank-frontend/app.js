@@ -10,7 +10,8 @@
  * Authored by: Piotr Grabowski <fau999@gmail.com>
  */
 
-angular.module('natrank', ['ui.bootstrap', 'ui.utils', 'ngRoute', 'ngAnimate', 'highcharts-ng']);
+angular.module('natrank', ['ui.bootstrap', 'ui.utils', 'ngRoute', 'ngAnimate', 'highcharts-ng',
+                           'angular-loading-bar']);
 
 angular.module('natrank').config(function($routeProvider, $locationProvider, paginationConfig) {
   $routeProvider
@@ -20,10 +21,12 @@ angular.module('natrank').config(function($routeProvider, $locationProvider, pag
     })
     .when('/results', {
       templateUrl: 'partial/results/results.html',
-      controller: 'ResultsCtrl'
+      controller: 'ResultsCtrl',
+      fullReload: true
     })
     .when('/rankings', {
-      redirectTo: '/rankings/latest'
+      redirectTo: '/rankings/latest',
+      fullReload: true
     })
     .when('/rankings/:selector', {
       templateUrl: 'partial/rankings/rankings.html',
@@ -31,7 +34,8 @@ angular.module('natrank').config(function($routeProvider, $locationProvider, pag
     })
     .when('/teams/:name', {
       templateUrl: 'partial/team/team.html',
-      controller: 'TeamCtrl'
+      controller: 'TeamCtrl',
+      fullReload: true
     })
     /* Add New Routes Above */
     .otherwise({redirectTo: '/'});
@@ -49,6 +53,16 @@ angular.module('natrank').config(function($routeProvider, $locationProvider, pag
 
 angular.module('natrank').run(function($route, $rootScope, $location) {
   var originalLocation;
+
+  $rootScope.$on('$routeChangeStart', function(event, next, current) {
+    if(next.fullReload) {
+      $rootScope.fullReload = true;
+    }
+  });
+
+  $rootScope.$on('preventFullReload', function() {
+    $rootScope.fullReload = false;
+  });
 
   $rootScope.safeApply = function(fn) {
     var phase = $rootScope.$$phase;

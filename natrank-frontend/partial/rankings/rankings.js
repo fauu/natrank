@@ -11,13 +11,14 @@
  */
 
 angular.module('natrank')
-.controller('RankingsCtrl', ['$rootScope', '$scope', '$location', '$route', '$routeParams', 'rankingService',
-function($rootScope, $scope, $location, $route, $routeParams, rankingService) {
+.controller('RankingsCtrl', ['$scope', '$location', '$route', '$routeParams', 'rankingService',
+function($scope, $location, $route, $routeParams, rankingService) {
   var date,
-      dynamic;
+      dynamic,
+      selector;
 
   function init() {
-    var selector = $routeParams.selector;
+    selector = $routeParams.selector;
 
     $scope.months = [
       {k: 1,  v: 'January'},
@@ -59,6 +60,12 @@ function($rootScope, $scope, $location, $route, $routeParams, rankingService) {
     $scope.$watch('[day, month, year]', function() {
       var dateStr;
 
+      if (!selector || selector.toLowerCase() !== 'latest') {
+        $scope.$emit('preventFullReload');
+      }
+
+      $scope.loadingRanking = true;
+
       if (dynamic) {
         if (!isNaN($scope.day) && !isNaN($scope.month) && !isNaN($scope.year)) {
           date.setDate($scope.day);
@@ -74,11 +81,15 @@ function($rootScope, $scope, $location, $route, $routeParams, rankingService) {
           findRankingByDate(date);
         }
       }
+
+      selector = null;
     }, true);
   }
 
   var findRankingSuccess = function(ranking) {
     $scope.ranking = ranking;
+
+    $scope.loadingRanking = false;
 
     if (!dynamic) {
       var dateFragments = $scope.ranking.date.split('-');

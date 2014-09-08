@@ -53,10 +53,8 @@ public class MatchController {
 
   @RequestMapping(value = "/team/{teamName}", method = RequestMethod.GET)
   @JsonView(Match.Views.Default.class)
-  public Page<Match> findByCurrentTeamName(Pageable pageable,
-                                           @PathVariable("teamName") String teamName) {
-    return matchService.findByCurrentTeamName(teamName,
-                                              createPageRequest(pageable, Sort.Direction.DESC));
+  public Page<Match> findByTeamName(Pageable pageable, @PathVariable("teamName") String teamName) {
+    return matchService.findByTeamName(teamName, createPageRequest(pageable, Sort.Direction.DESC));
   }
 
   @RequestMapping(value = "/notable/team/{teamName}", method = RequestMethod.GET)

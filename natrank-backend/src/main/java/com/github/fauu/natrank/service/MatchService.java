@@ -27,7 +27,7 @@ public interface MatchService {
 
   Page<Match> findByYear(int year, Pageable pageable) throws DataAccessException;
 
-  Page<Match> findByCurrentTeamName(String name, Pageable pageable) throws DataAccessException;
+  Page<Match> findByTeamName(String name, Pageable pageable) throws DataAccessException;
 
   Map<NotableMatchCategory, List<Match>> findNotableMatchesByTeamName(String name) throws DataAccessException;
 

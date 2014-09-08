@@ -10,6 +10,8 @@
  * Authored by: Piotr Grabowski <fau999@gmail.com>
  */
 
-angular.module('natrank').controller('ResultsCtrl', function() {
+angular.module('natrank')
+.controller('ResultsCtrl',
+function() {
 
 });

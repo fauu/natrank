@@ -17,6 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="utf-8">
   <link href="app.less" type="text/css" rel="stylesheet/less">
+  <link href="bower_components/angular-loading-bar/build/loading-bar.css" type="text/css" rel="stylesheet">
 </head>
 <body>
   <div id="top-bar">
@@ -40,7 +41,7 @@
   </div>
 
   <div id="main-container">
-    <div class="view-container" data-ng-view="">
+    <div class="view-container animated-container" data-ng-view="" data-hide-until-loaded="">
     </div>
   </div>
 
@@ -67,20 +68,22 @@
   <script src="bower_components/angular-ui-utils/ui-utils.js"></script>
   <script src="bower_components/highcharts/highcharts.js"></script>
   <script src="bower_components/highcharts-ng/dist/highcharts-ng.js"></script>
+  <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
   <!-- Add New Bower Component JS Above -->
 
   <!-- Main App JS -->
   <script src="app.js"></script>
   <script src="partial/results/results.js"></script>
-  <script src="service/match.js"></script>
+  <script src="service/matchService.js"></script>
   <script src="partial/rankings/rankings.js"></script>
-  <script src="service/ranking.js"></script>
+  <script src="service/rankingService.js"></script>
   <script src="filter/whitespaceToDash.js"></script>
   <script src="partial/team/team.js"></script>
-  <script src="service/team.js"></script>
+  <script src="service/teamService.js"></script>
   <script src="directive/resultList/resultList.js"></script>
   <script src="directive/ranking/ranking.js"></script>
   <script src="directive/result/result.js"></script>
+  <script src="directive/hideUntilLoaded.js"></script>
   <!-- Add New Component JS Above -->
 </body>
 </html>

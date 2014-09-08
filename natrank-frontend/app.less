@@ -28,6 +28,7 @@
 @import "directive/result/result.less";
 /* Add Component LESS Above */
 
+
 /* Required for Angular UI Bootstrap */
 .nav, .pagination, .carousel a { cursor: pointer; }
 
@@ -76,6 +77,35 @@
 
 .negative {
   color: @color-down;
+}
+
+.animated-container {
+  opacity: 1;
+}
+
+.animated-container.ng-hide {
+  opacity: 0;
+}
+
+.animated-container.ng-hide-add,
+.animated-container.ng-hide-remove {
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+}
+
+.animated-container.ng-leave {
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+
+  opacity: 1;
+}
+
+.animated-container.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+
+.animated-container.ng-hide {
+  display: block !important;
 }
 
 /* Personal preference for BS modal.  The LESS below makes the backdrop white and

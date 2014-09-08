@@ -23,6 +23,7 @@
     "less.js": "~1.6",
     "font-awesome": "~4.2",
     "highcharts": "v4.0.4",
-    "highcharts-ng": "~0.0.7"
+    "highcharts-ng": "~0.0.7",
+    "angular-loading-bar": "0.5.2"
   }
 }

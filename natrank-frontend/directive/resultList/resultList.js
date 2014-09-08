@@ -18,6 +18,8 @@ angular.module('natrank')
           var newPageNo = $scope.resultsPage.number - 1, // one based -> zero based
               year = $scope.year;
 
+          $scope.$emit('preventFullReload');
+
           if (isValidYear(year)) {
             findResultsPageForYear(newPageNo, year);
           } else if ($scope.team) {
@@ -37,6 +39,7 @@ angular.module('natrank')
 
         $scope.$watch('year', function () {
           if ($scope.year && !isNaN($scope.year)) {
+
             $location.path('results/' + $scope.year, false).replace();
 
             findResultsPageForYear(pageNo, $scope.year);
@@ -53,18 +56,24 @@ angular.module('natrank')
       }
 
       function findResultsPage(pageNo) {
+        $scope.loadingPage = true;
+
         matchService.findPage(pageNo)
           .success(findResultsPageSuccess)
           .error(findResultsPageError);
       }
 
       function findResultsPageForYear(pageNo, year) {
+        $scope.loadingPageForYear = true;
+
         matchService.findPage(pageNo, year)
           .success(findResultsPageSuccess)
           .error(findResultsPageError);
       }
 
       function findResultsPageForTeam(pageNo, teamName) {
+        $scope.loadingPage = true;
+
         matchService.findPage(pageNo, 0, teamName)
           .success(findResultsPageSuccess)
           .error(findResultsPageError);
@@ -73,6 +82,8 @@ angular.module('natrank')
       var findResultsPageSuccess = function (matchPage) {
         matchPage.number += 1; // zero-based -> one-based
         $scope.resultsPage = matchPage;
+        $scope.loadingPage = false;
+        $scope.loadingPageForYear = false;
       };
 
       var findResultsPageError = function (error) {

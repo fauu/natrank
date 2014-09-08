@@ -1,4 +1,5 @@
-angular.module('natrank').directive('ranking', function() {
+angular.module('natrank')
+.directive('ranking', function() {
 	return {
 		restrict: 'A',
 		replace: true,

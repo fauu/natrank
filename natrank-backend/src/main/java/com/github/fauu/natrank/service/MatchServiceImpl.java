@@ -58,8 +58,8 @@ public class MatchServiceImpl implements MatchService {
   }
 
   @Override
-  public Page<Match> findByCurrentTeamName(String name, Pageable pageable) throws DataAccessException {
-    Team team = teamRepository.findByCurrentName(name);
+  public Page<Match> findByTeamName(String name, Pageable pageable) throws DataAccessException {
+    Team team = teamRepository.findByName(name);
 
     return matchRepository.findByTeam1OrTeam2(team, team, pageable);
   }
@@ -67,7 +67,7 @@ public class MatchServiceImpl implements MatchService {
   @Override
   public Map<NotableMatchCategory, List<Match>> findNotableMatchesByTeamName(String name) throws DataAccessException {
     List<NotableMatch> notableMatches =
-        notableMatchRepository.findByTeam(teamRepository.findByCurrentName(name));
+        notableMatchRepository.findByTeam(teamRepository.findByName(name));
     List<NotableMatchCategory> notableMatchCategories =
         notableMatchCategoryRepository.findAll();
     SortedMap<NotableMatchCategory, List<Match>> notableMatchMap = new TreeMap<>();
@@ -90,7 +90,7 @@ public class MatchServiceImpl implements MatchService {
 
   @Override
   public List<Integer> getTeamFormByName(String name) throws DataAccessException {
-    Team team = teamRepository.findByCurrentName(name);
+    Team team = teamRepository.findByName(name);
     Page<Match> matchPage
         = matchRepository.findByTeam1OrTeam2(team, team,
             new PageRequest(0, 5, Sort.Direction.DESC, "id"));
