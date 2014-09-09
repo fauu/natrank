@@ -77,7 +77,7 @@ DROP TABLE IF EXISTS `Match`;
 CREATE TABLE `Match` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `date` date NOT NULL,
-  `type_id` tinyint unsigned NOT NULL,
+  `type_id` int unsigned NOT NULL,
   `city_id` int unsigned DEFAULT NULL,
   `team1_id` int unsigned NOT NULL,
   `team2_id` int unsigned NOT NULL,
