@@ -12,11 +12,13 @@
 
 package com.github.fauu.natrank.service;
 
+import com.github.fauu.natrank.model.CountryTeamMerge;
 import com.github.fauu.natrank.model.MatchDataError;
 import com.github.fauu.natrank.model.ParsedRawMatchDatum;
 import com.github.fauu.natrank.model.ProcessedMatchData;
 import com.github.fauu.natrank.model.entity.*;
 import com.github.fauu.natrank.repository.*;
+import com.google.common.base.Strings;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -25,6 +27,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -48,6 +51,9 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
   private CountryRepository countryRepository;
 
   @Autowired
+  private FlagRepository flagRepository;
+
+  @Autowired
   private MatchRepository matchRepository;
 
   @Autowired
@@ -55,6 +61,9 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
 
   @Autowired
   private TeamRepository teamRepository;
+
+  @Autowired
+  private CountryService countryService;
 
   @Override
   public ProcessedMatchData processMatchData(String rawMatchData) {
@@ -163,7 +172,8 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
               !existingCountryNames.contains(countryName)) {
             Country newCountry = new Country();
             newCountry.setName(countryName);
-            newCountry.setFromDate(parsedRawMatchDatum.getDate());
+            newCountry.setPeriod(new Period());
+            newCountry.getPeriod().setFromDate(parsedRawMatchDatum.getDate());
             List<CountryCode> matchingCountryCodes
                 = countryCodeRepository.findByCountryName(newCountry.getName());
             String inferredCountryCode = "";
@@ -187,7 +197,8 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
 
           CityCountryAssoc cityCountryAssoc = new CityCountryAssoc();
           cityCountryAssoc.setCity(newCity);
-          cityCountryAssoc.setFromDate(parsedRawMatchDatum.getDate());
+          cityCountryAssoc.setPeriod(new Period());
+          cityCountryAssoc.getPeriod().setFromDate(parsedRawMatchDatum.getDate());
 
           newCity.getCityCountryAssocs().add(cityCountryAssoc);
 
@@ -208,53 +219,54 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
   }
 
   @Override
-  public Team findTeamById(Integer id) throws DataAccessException {
-    return teamRepository.findOne(id);
-  }
-
-  @Override
   public List<Country> findAllCountriesSorted() throws DataAccessException {
     return countryRepository.findAll(new Sort(Sort.Direction.ASC, "name"));
   }
 
   @Override
-  public Country findCountryById(Integer id) throws DataAccessException {
-    return countryRepository.findById(id);
-  }
-
-  @Override
+  @Transactional
   public void addCountries(List<Country> countries) throws DataAccessException {
+    List<Country> countriesWithPredecessors = new LinkedList<>();
+
     for (Country country : countries) {
       // TODO: Perhaps do this in a DB trigger/JPA event listener?
       String oldTeamName = country.getTeam().getCurrentName();
       if (oldTeamName != null) {
         Country oldTeamCountry = countryRepository.findByName(oldTeamName);
-        oldTeamCountry.setToDate(country.getFromDate().minusDays(1));
+        oldTeamCountry.getPeriod().setToDate(country.getPeriod().getFromDate().minusDays(1));
+
         countryRepository.save(oldTeamCountry);
+      }
+
+      if (!Strings.isNullOrEmpty(country.getPredecessorName())) {
+        countriesWithPredecessors.add(country);
       }
 
       Flag countryFlag = new Flag();
       countryFlag.setCountry(country);
-      countryFlag.setCode(country.getCode() + "1");
-      countryFlag.setFromDate(country.getFromDate());
-      country.getFlags().add(countryFlag);
+      countryFlag.setCode(country.getCode() + country.getPeriod().getFromDate().getYear());
+      countryFlag.setPeriod(new Period());
+      countryFlag.getPeriod().setFromDate(country.getPeriod().getFromDate());
 
-      countryRepository.save(country);
+      country.getFlags().add(countryFlag);
+    }
+
+    countryRepository.save(countries);
+
+    for (Country country : countriesWithPredecessors) {
+      countryService.mergeTeams(new CountryTeamMerge(country,
+          countryRepository.findByName(country.getPredecessorName())));
     }
   }
 
   @Override
   public void addCities(List<City> cities) throws DataAccessException {
-    for (City city : cities) {
-      cityRepository.save(city);
-    }
+    cityRepository.save(cities);
   }
 
   @Override
   public void addMatchTypes(List<MatchType> types) throws DataAccessException {
-    for (MatchType type : types) {
-      matchTypeRepository.save(type);
-    }
+    matchTypeRepository.save(types);
   }
 
   @Override
@@ -384,32 +396,7 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
 
   @Override
   public void addMatches(List<Match> matches) {
-    for (Match match : matches) {
-      matchRepository.save(match);
-    }
-  }
-
-  @Override
-  public String getWikiCountryFlagMarkup(List<Country> countries) throws DataAccessException {
-    StringBuilder flagMarkupBuilder = new StringBuilder();
-
-    for (Country country : countries) {
-      flagMarkupBuilder.append("{{flagicon|");
-      flagMarkupBuilder.append(country.getCode());
-      flagMarkupBuilder.append("|size=150px}}");
-      flagMarkupBuilder.append("{{flagicon|");
-      flagMarkupBuilder.append(country.getCode());
-      flagMarkupBuilder.append("|");
-      flagMarkupBuilder.append(country.getFromDate().toString("yyyy"));
-      flagMarkupBuilder.append("}}");
-      flagMarkupBuilder.append(country.getCode());
-      flagMarkupBuilder.append("1 ");
-      flagMarkupBuilder.append("http://en.wikipedia.org/wiki/Template:Country_data_");
-      flagMarkupBuilder.append(country.getName());
-      flagMarkupBuilder.append('\n');
-    }
-
-    return flagMarkupBuilder.toString();
+    matchRepository.save(matches);
   }
 
 }

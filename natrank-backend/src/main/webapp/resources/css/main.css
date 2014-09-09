@@ -1,6 +1,7 @@
 body {
     background-color: #22313F;
     color: #FFFFFF;
+    margin-bottom: 30px;
 }
 
 .top-bar {
@@ -43,6 +44,8 @@ ul {
 
 .bg-success {
     color: #3C763D;
+    line-height: 23px;
+    padding: 6px 10px;
 }
 
 .bg-info {

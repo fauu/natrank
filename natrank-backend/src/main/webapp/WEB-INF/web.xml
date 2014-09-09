@@ -56,6 +56,10 @@
             <param-name>entityManagerFactoryBeanName</param-name>
             <param-value>entityManagerFactory</param-value>
         </init-param>
+        <init-param>
+            <param-name>flushMode</param-name>
+            <param-value>auto</param-value>
+        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>openEntityManagerInViewFilter</filter-name>

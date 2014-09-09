@@ -12,13 +12,12 @@
 
 package com.github.fauu.natrank.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.github.fauu.natrank.web.json.BaseView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
-import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 
@@ -39,14 +38,9 @@ public class CityCountryAssoc extends BaseEntity {
   @JsonView(BaseView.class)
   private Country country;
 
-  @Column(name = "date_from", nullable = false)
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-  @JsonView(BaseView.class)
-  private LocalDate fromDate;
-
-  @Column(name = "date_to")
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-  @JsonView(BaseView.class)
-  private LocalDate toDate;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "period_id", nullable = false)
+  @JsonIgnore
+  private Period period;
 
 }

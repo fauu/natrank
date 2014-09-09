@@ -12,21 +12,22 @@
 
 package com.github.fauu.natrank.service;
 
-import com.github.fauu.natrank.model.entity.Team;
-import com.github.fauu.natrank.model.entity.TeamRank;
-import com.github.fauu.natrank.model.entity.TeamRating;
+import com.github.fauu.natrank.model.CountryTeamMerge;
+import com.github.fauu.natrank.model.CountryWithFlagEntryYears;
+import com.github.fauu.natrank.model.entity.Country;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
 
-public interface TeamService {
+public interface CountryService {
 
-  Team findById(int id) throws DataAccessException;
+  List<Country> findAll() throws DataAccessException;
 
-  Team findByName(String name) throws DataAccessException;
+  Country findById(Integer id) throws DataAccessException;
 
-  List<TeamRank> findRanksByName(String name) throws DataAccessException;
+  void mergeTeams(CountryTeamMerge merge) throws DataAccessException;
 
-  List<TeamRating> findRatingsByName(String name) throws DataAccessException;
+  void addFlags(List<CountryWithFlagEntryYears> countriesWithFlagEntryYears)
+      throws DataAccessException;
 
 }

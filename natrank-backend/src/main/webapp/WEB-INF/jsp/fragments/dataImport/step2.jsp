@@ -26,12 +26,17 @@
               <form:input path="countries[${cStatus.index}].code" />
             </td>
             <td>
-              <joda:format value="${country.fromDate}" style="M-" />
+              <joda:format value="${country.period.fromDate}" style="M-" />
             </td>
             <td>
               <form:select path="countries[${cStatus.index}].team">
                 <form:option label="- Create new team -" value="0" />
                 <form:options items="${teams}" itemLabel="currentName" itemValue="id" />
+              </form:select>
+              or the new team of
+              <form:select path="countries[${cStatus.index}].predecessorName">
+                <form:option label="-" value="" />
+                <form:options items="${matchData.countries}" itemLabel="name" itemValue="name" />
               </form:select>
             </td>
           </tr>

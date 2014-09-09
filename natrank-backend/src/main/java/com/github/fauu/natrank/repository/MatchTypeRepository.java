@@ -14,12 +14,12 @@ package com.github.fauu.natrank.repository;
 
 import com.github.fauu.natrank.model.entity.MatchType;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.Repository;
 
 import java.util.List;
 
-public interface MatchTypeRepository extends Repository<MatchType, Integer> {
+public interface MatchTypeRepository extends JpaRepository<MatchType, Integer> {
 
   List<MatchType> findAll();
 

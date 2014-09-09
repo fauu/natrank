@@ -24,11 +24,7 @@ public interface MatchDataImportService {
 
   List<Country> findAllCountriesSorted() throws DataAccessException;
 
-  Team findTeamById(Integer id) throws DataAccessException;
-
   List<Team> findAllTeams() throws DataAccessException;
-
-  Country findCountryById(Integer id) throws DataAccessException;
 
   void addCountries(List<Country> countries) throws DataAccessException;
 
@@ -39,7 +35,5 @@ public interface MatchDataImportService {
   List<Match> createMatches(ProcessedMatchData matchData) throws DataAccessException;
 
   void addMatches(List<Match> matches) throws DataAccessException;
-
-  String getWikiCountryFlagMarkup(List<Country> countries) throws DataAccessException;
 
 }

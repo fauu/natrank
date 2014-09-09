@@ -27,7 +27,7 @@
               </form:select>
             </td>
             <td>
-              <joda:format value="${city.cityCountryAssocs[0].fromDate}" style="M-" />
+              <joda:format value="${city.cityCountryAssocs[0].period.fromDate}" style="M-" />
             </td>
           </tr>
         </c:forEach>

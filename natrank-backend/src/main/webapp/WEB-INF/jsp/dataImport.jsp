@@ -4,9 +4,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <jsp:include page="fragments/headTag.jsp" />
+<jsp:include page="fragments/headTag.jsp" />
 <body>
-  <jsp:include page="fragments/topBar.jsp" />
+<jsp:include page="fragments/topBar.jsp" />
 <div class="container">
   <h3>
     Match data import

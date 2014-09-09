@@ -31,11 +31,11 @@ CREATE TABLE `CityCountry` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `city_id` int unsigned NOT NULL,
   `country_id` int unsigned NOT NULL,
-  `date_from` date NOT NULL,
-  `date_to` date DEFAULT NULL,
+  `period_id` int unsigned NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_CityCountry_City` FOREIGN KEY (`city_id`) REFERENCES `City` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_CityCountry_Country` FOREIGN KEY (`country_id`) REFERENCES `Country` (`id`) ON DELETE CASCADE ON UPDATE CASCADE 
+  CONSTRAINT `fk_CityCountry_Country` FOREIGN KEY (`country_id`) REFERENCES `Country` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_CityCountry_Period` FOREIGN KEY (`period_id`) REFERENCES `Period` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -48,10 +48,10 @@ CREATE TABLE `Country` (
   `name` varchar(30) NOT NULL,
   `code` char(3) NOT NULL,
   `team_id` int unsigned DEFAULT NULL,
-  `date_from` date NOT NULL,
-  `date_to` date DEFAULT NULL,
+  `period_id` int unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `fk_Country_Team` FOREIGN KEY (`team_id`) REFERENCES `Team` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_Country_Team` FOREIGN KEY (`team_id`) REFERENCES `Team` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Country_Period` FOREIGN KEY (`period_id`) REFERENCES `Period` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -61,12 +61,12 @@ DROP TABLE IF EXISTS `Flag`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Flag` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `code` char(8) NOT NULL,
   `country_id` int unsigned NOT NULL,
-  `code` char(5) NOT NULL,
-  `date_from` date NOT NULL DEFAULT '1872-11-30',
-  `date_to` date DEFAULT NULL,
+  `period_id` int unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `fk_Flag_Country` FOREIGN KEY (`country_id`) REFERENCES `Country` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_Flag_Country` FOREIGN KEY (`country_id`) REFERENCES `Country` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_Flag_Period` FOREIGN KEY (`period_id`) REFERENCES `Period` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -87,8 +87,8 @@ CREATE TABLE `Match` (
   `home_team_id` int unsigned DEFAULT NULL,
   `winner_team_id` int unsigned DEFAULT NULL,
   `penalty_shootout` bit NOT NULL DEFAULT 0,
-  `team1_rating` smallint unsigned NOT NULL,
-  `team2_rating` smallint unsigned NOT NULL,
+  `team1_rating` smallint unsigned DEFAULT NULL,
+  `team2_rating` smallint unsigned DEFAULT NULL,
   `team1_rating_change` smallint unsigned DEFAULT NULL,
   `team2_rating_change` smallint unsigned DEFAULT NULL,
   `team1_rank` smallint unsigned DEFAULT NULL,
@@ -112,9 +112,9 @@ DROP TABLE IF EXISTS `MatchType`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `MatchType` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) NOT NULL,
-  `fifa_name` varchar(30) DEFAULT NULL,
-  `weight` tinyint unsigned NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `fifa_name` varchar(40) DEFAULT NULL,
+  `weight` tinyint unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

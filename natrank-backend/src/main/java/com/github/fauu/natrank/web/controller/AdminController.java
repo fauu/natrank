@@ -12,14 +12,15 @@
 
 package com.github.fauu.natrank.web.controller;
 
+import com.github.fauu.natrank.model.CountryTeamMerge;
+import com.github.fauu.natrank.model.CountryWithFlagEntryYears;
 import com.github.fauu.natrank.model.ProcessedMatchData;
 import com.github.fauu.natrank.model.entity.Country;
 import com.github.fauu.natrank.model.entity.Match;
 import com.github.fauu.natrank.model.entity.Team;
+import com.github.fauu.natrank.model.form.FlagManagementForm;
 import com.github.fauu.natrank.model.form.RawMatchDataForm;
-import com.github.fauu.natrank.service.MatchDataImportService;
-import com.github.fauu.natrank.service.MatchService;
-import com.github.fauu.natrank.service.RankingService;
+import com.github.fauu.natrank.service.*;
 import com.github.fauu.natrank.web.converter.CountryPropertyEditor;
 import com.github.fauu.natrank.web.converter.TeamPropertyEditor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -36,8 +38,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
-@SessionAttributes({"matchData", "newMatches"})
+@SessionAttributes({"matchData", "newMatches", "flagManagementForm"})
 public class AdminController {
+
+  @Autowired
+  private CountryService countryService;
 
   @Autowired
   private MatchDataImportService matchDataImportService;
@@ -47,6 +52,9 @@ public class AdminController {
 
   @Autowired
   private RankingService rankingService;
+
+  @Autowired
+  private TeamService teamService;
 
   @ModelAttribute("rawMatchDataForm")
   public RawMatchDataForm getRawMatchDataFrom() {
@@ -63,10 +71,15 @@ public class AdminController {
     return new LinkedList<>();
   }
 
+  @ModelAttribute("flagManagementForm")
+  public FlagManagementForm getFlagManagementForm() {
+    return new FlagManagementForm();
+  }
+
   @InitBinder
   public void initBinder(WebDataBinder binder) {
-    binder.registerCustomEditor(Team.class, new TeamPropertyEditor(matchDataImportService));
-    binder.registerCustomEditor(Country.class, new CountryPropertyEditor(matchDataImportService));
+    binder.registerCustomEditor(Team.class, new TeamPropertyEditor(teamService));
+    binder.registerCustomEditor(Country.class, new CountryPropertyEditor(countryService));
   }
 
   @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
@@ -203,8 +216,6 @@ public class AdminController {
     sessionStatus.setComplete();
     matchDataImportService.addMatches(newMatches);
 
-    String flagMarkup = matchDataImportService.getWikiCountryFlagMarkup(matchData.getCountries());
-    model.addAttribute("flagMarkup", flagMarkup);
     model.addAttribute("step", 6);
 
     return "dataImport";
@@ -216,6 +227,52 @@ public class AdminController {
     matchService.generateNotableMatches();
 
     return "rankingsCalculation";
+  }
+
+  @RequestMapping(value = "/manage-countries", method = RequestMethod.GET)
+  public String manageCountries(Model model) {
+    List<Country> countries = countryService.findAll();
+
+    model.addAttribute("countries", countries);
+    model.addAttribute("merge", new CountryTeamMerge());
+
+    return "countryManagement";
+  }
+
+  @RequestMapping(value = "/manage-countries", method = RequestMethod.POST)
+  public String saveCountries(@ModelAttribute("merge") CountryTeamMerge merge,
+                              RedirectAttributes redirectAttributes) {
+    countryService.mergeTeams(merge);
+
+    redirectAttributes.addFlashAttribute("message", "Team merge has been completed");
+
+    return "redirect:/admin/manage-countries";
+  }
+
+  @RequestMapping(value = "/manage-flags", method = RequestMethod.GET)
+  public String manageFlags(Model model) {
+    List<Country> countries = countryService.findAll();
+    List<CountryWithFlagEntryYears> countriesWithFlagEntryYears = new LinkedList<>();
+
+    // Perhaps move this into CountryService?
+    for (Country country : countries) {
+      countriesWithFlagEntryYears.add(new CountryWithFlagEntryYears(country, ""));
+    }
+
+    model.addAttribute(new FlagManagementForm(countriesWithFlagEntryYears));
+
+    return "flagManagement";
+  }
+
+  @RequestMapping(value = "/manage-flags", method = RequestMethod.POST)
+  public String addFlags(@ModelAttribute("flagManagementForm") FlagManagementForm flagManagementForm,
+                         RedirectAttributes redirectAttributes) {
+
+    countryService.addFlags(flagManagementForm.getCountriesWithFlagEntryYears());
+
+    redirectAttributes.addFlashAttribute("message", "Flag entries have been saved");
+
+    return "redirect:/admin/manage-flags";
   }
 
 }

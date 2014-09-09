@@ -17,7 +17,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.github.fauu.natrank.web.json.BaseView;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
@@ -34,15 +33,10 @@ public class Country extends NamedEntity {
   @JsonView(BaseView.class)
   private String code;
 
-  @Column(name = "date_from", nullable = false)
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "period_id", nullable = false)
   @JsonIgnore
-  private LocalDate fromDate;
-
-  @Column(name = "date_to")
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-  @JsonIgnore
-  private LocalDate toDate;
+  private Period period;
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "team_id")
@@ -53,7 +47,7 @@ public class Country extends NamedEntity {
   @JsonIgnore
   private List<CityCountryAssoc> cityCountryAssocs = new LinkedList<>();
 
-  @OneToMany(mappedBy = "country", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "country", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JsonIgnore
   private List<Flag> flags = new LinkedList<>();
 
@@ -64,6 +58,10 @@ public class Country extends NamedEntity {
   @JsonIgnore
   private List<MatchType> matchTypesLimited = new LinkedList<>();
 
+  @Transient
+  @JsonIgnore
+  private String predecessorName;
+
   @JsonIgnore
   public boolean isTournamentLimited() {
     return matchTypesLimited.size() > 0;
@@ -72,7 +70,7 @@ public class Country extends NamedEntity {
   @JsonIgnore
   public Flag getCurrentFlag() {
     for (Flag flag : flags) {
-      if (flag.getToDate() == null) {
+      if (flag.getPeriod().getToDate() == null) {
         return flag;
       }
     }
@@ -83,8 +81,8 @@ public class Country extends NamedEntity {
   @JsonIgnore
   public Flag getFlagByDate(LocalDate date) {
     for (Flag flag : flags) {
-      if (!flag.getFromDate().isAfter(date) &&
-          ((flag.getToDate() == null) || flag.getToDate().isAfter(date))) {
+      if (!flag.getPeriod().getFromDate().isAfter(date) &&
+          ((flag.getPeriod().getToDate() == null) || flag.getPeriod().getToDate().isAfter(date))) {
         return flag;
       }
     }

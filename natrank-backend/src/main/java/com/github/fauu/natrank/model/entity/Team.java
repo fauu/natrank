@@ -108,7 +108,7 @@ public class Team extends BaseEntity {
   public Country getCurrentCountry() {
     if (countries != null) {
       for (Country country : countries) {
-        if (country.getToDate() == null && !country.isTournamentLimited()) {
+        if (country.getPeriod().getToDate() == null && !country.isTournamentLimited()) {
           return country;
         }
       }
@@ -149,8 +149,9 @@ public class Team extends BaseEntity {
     if (isRepresentedByTournamentLimitedCountry()) {
       for (Country country : countries) {
           if (country.isTournamentLimited() && country.getMatchTypesLimited().contains(matchType)
-              && !country.getFromDate().isAfter(date) &&
-              ((country.getToDate() == null) || country.getToDate().isAfter(date))) {
+              && !country.getPeriod().getFromDate().isAfter(date)
+              && ((country.getPeriod().getToDate() == null)
+                  || country.getPeriod().getToDate().isAfter(date))) {
             return country;
           }
       }
@@ -161,8 +162,9 @@ public class Team extends BaseEntity {
 
   private Country getCountryByDateNotTournamentLimited(LocalDate date) {
     for (Country country : countries) {
-      if (!country.getFromDate().isAfter(date) &&
-          ((country.getToDate() == null) || country.getToDate().isAfter(date))) {
+      if (!country.getPeriod().getFromDate().isAfter(date) &&
+          ((country.getPeriod().getToDate() == null)
+           || country.getPeriod().getToDate().isAfter(date))) {
         return country;
       }
     }
@@ -174,8 +176,9 @@ public class Team extends BaseEntity {
   public boolean isCityHomeForDate(City city, LocalDate date) {
     if (countries != null) {
       for (Country country : countries) {
-        if (!country.getFromDate().isAfter(date) &&
-            ((country.getToDate() == null) || country.getToDate().isAfter(date))) {
+        if (!country.getPeriod().getFromDate().isAfter(date) &&
+            ((country.getPeriod().getToDate() == null)
+             || country.getPeriod().getToDate().isAfter(date))) {
           Country countryByDate = city.getCountryByDate(date);
           if (countryByDate != null) {
             return countryByDate.equals(country);

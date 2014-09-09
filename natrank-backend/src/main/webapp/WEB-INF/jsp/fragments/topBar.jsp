@@ -11,23 +11,46 @@
       <ul class="nav navbar-nav">
         <c:choose>
           <c:when test="${fn:contains(requestScope['javax.servlet.forward.servlet_path'], 'import-data')}">
-            <li class="active">
-          </c:when>
-          <c:otherwise>
-            <li>
-          </c:otherwise>
-        </c:choose>
-          <a href="<c:url value="/admin/import-data" />">Import match data</a>
-        </li>
-        <c:choose>
-        <c:when test="${fn:contains(requestScope['javax.servlet.forward.servlet_path'], 'calculate-ranking')}">
         <li class="active">
           </c:when>
           <c:otherwise>
         <li>
           </c:otherwise>
-          </c:choose>
+        </c:choose>
+          <a href="<c:url value="/admin/import-data" />">Import match data</a>
+        </li>
+
+        <c:choose>
+          <c:when test="${fn:contains(requestScope['javax.servlet.forward.servlet_path'], 'calculate-ranking')}">
+        <li class="active">
+          </c:when>
+          <c:otherwise>
+        <li>
+          </c:otherwise>
+        </c:choose>
           <a href="<c:url value="/admin/calculate-rankings" />">Calculate rankings</a>
+        </li>
+
+        <c:choose>
+          <c:when test="${fn:contains(requestScope['javax.servlet.forward.servlet_path'], 'manage-countries')}">
+        <li class="active">
+          </c:when>
+          <c:otherwise>
+        <li>
+          </c:otherwise>
+        </c:choose>
+          <a href="<c:url value="/admin/manage-countries" />">Manage countries</a>
+        </li>
+
+        <c:choose>
+          <c:when test="${fn:contains(requestScope['javax.servlet.forward.servlet_path'], 'manage-flags')}">
+        <li class="active">
+          </c:when>
+          <c:otherwise>
+        <li>
+          </c:otherwise>
+        </c:choose>
+          <a href="<c:url value="/admin/manage-flags" />">Manage flags</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">

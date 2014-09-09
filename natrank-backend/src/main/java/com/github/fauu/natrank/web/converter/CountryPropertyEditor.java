@@ -13,23 +13,29 @@
 package com.github.fauu.natrank.web.converter;
 
 import com.github.fauu.natrank.model.entity.Country;
-import com.github.fauu.natrank.service.MatchDataImportService;
+import com.github.fauu.natrank.service.CountryService;
 
 import java.beans.PropertyEditorSupport;
 
 public class CountryPropertyEditor extends PropertyEditorSupport {
 
-    private MatchDataImportService matchDataImportService;
+  private CountryService countryService;
 
-    public CountryPropertyEditor(MatchDataImportService matchDataImportService) {
-      this.matchDataImportService = matchDataImportService;
+  public CountryPropertyEditor(CountryService countryService) {
+    this.countryService = countryService;
+  }
+
+  @Override
+  public void setAsText(String text) {
+    Country country;
+
+    if (!text.equals("0")) {
+      country = countryService.findById(Integer.parseInt(text));
+    } else {
+      country = new Country();
     }
 
-    @Override
-    public void setAsText(String text) {
-      Country country = matchDataImportService.findCountryById(Integer.parseInt(text));
-
-      setValue(country);
-    }
+    setValue(country);
+  }
 
 }

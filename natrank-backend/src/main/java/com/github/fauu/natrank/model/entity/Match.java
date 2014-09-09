@@ -91,11 +91,11 @@ public class Match extends BaseEntity {
   @JsonView(Views.Default.class)
   private boolean penaltyShootout;
 
-  @Column(name = "team1_rating", nullable = false)
+  @Column(name = "team1_rating")
   @JsonView(Views.Default.class)
   private Integer team1Rating;
 
-  @Column(name = "team2_rating", nullable = false)
+  @Column(name = "team2_rating")
   @JsonView(Views.Default.class)
   private Integer team2Rating;
 
