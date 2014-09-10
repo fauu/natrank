@@ -41,4 +41,8 @@ public class Period extends BaseEntity {
   @JsonView(BaseView.class)
   private LocalDate toDate;
 
+  public boolean includesDate(LocalDate date) {
+    return (!date.isBefore(fromDate) && (toDate == null || date.isAfter(toDate)));
+  }
+
 }

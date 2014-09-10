@@ -23,6 +23,11 @@ public interface CityRepository extends JpaRepository<City, Integer> {
 
   List<City> findAll() throws DataAccessException;
 
+//  @Query("SELECT DISTINCT(ci) " +
+//         "FROM City ci " +
+//         "WHERE ?1 > (SELECT p FROM ci.p WHERE )")
+//  List<City> findOrphansForDate(LocalDate date) throws DataAccessException;
+
   @Query("SELECT name FROM City")
   List<String> findAllNames() throws DataAccessException;
 

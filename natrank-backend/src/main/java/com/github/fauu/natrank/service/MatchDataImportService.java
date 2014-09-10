@@ -22,7 +22,7 @@ public interface MatchDataImportService {
 
   ProcessedMatchData processMatchData(String rawMatchData);
 
-  List<Country> findAllCountriesSorted() throws DataAccessException;
+  List<Country> findAllCountriesSortedByName() throws DataAccessException;
 
   List<Team> findAllTeams() throws DataAccessException;
 

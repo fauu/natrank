@@ -12,6 +12,7 @@
 
 package com.github.fauu.natrank.service;
 
+import com.github.fauu.natrank.model.CityWithNewCountry;
 import com.github.fauu.natrank.model.CountryTeamMerge;
 import com.github.fauu.natrank.model.CountryWithFlagEntryYears;
 import com.github.fauu.natrank.model.entity.Country;
@@ -29,5 +30,7 @@ public interface CountryService {
 
   void addFlags(List<CountryWithFlagEntryYears> countriesWithFlagEntryYears)
       throws DataAccessException;
+
+  void reassignCities(List<CityWithNewCountry> citiesWithNewCountries) throws DataAccessException;
 
 }

@@ -23,7 +23,7 @@
               <c:out value="${country.name}" />
             </td>
             <td>
-              <form:input path="countries[${cStatus.index}].code" />
+              <form:input path="countries[${cStatus.index}].code" size="3" />
             </td>
             <td>
               <joda:format value="${country.period.fromDate}" style="M-" />
@@ -35,7 +35,7 @@
               </form:select>
               or the new team of
               <form:select path="countries[${cStatus.index}].predecessorName">
-                <form:option label="-" value="" />
+                <form:option label="" value="" />
                 <form:options items="${matchData.countries}" itemLabel="name" itemValue="name" />
               </form:select>
             </td>
@@ -51,3 +51,25 @@
     <a href="<c:url value="/admin/import-data/steps/${step + 1}" />" class="btn btn-default">Continue</a>
   </c:otherwise>
 </c:choose>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("form input").each(function () {
+      highlightInvalidInputs($(this));
+      $(this).keyup(function() {
+        highlightInvalidInputs($(this));
+      });
+    })
+  });
+
+  var highlightInvalidInputs = function(el) {
+    var input = el;
+
+    if (input.val().length !== 3) {
+      input.addClass('invalid');
+    } else {
+      input.removeClass('invalid');
+    }
+  }
+</script>

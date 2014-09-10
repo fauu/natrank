@@ -35,3 +35,26 @@
   </c:otherwise>
 </c:choose>
 
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+  // FIXME: DRY (see step 2)
+
+  $(document).ready(function() {
+    $("form input").each(function () {
+      highlightInvalidInputs($(this));
+      $(this).keyup(function() {
+        highlightInvalidInputs($(this));
+      });
+    })
+  });
+
+  var highlightInvalidInputs = function(el) {
+    var input = el;
+
+    if (input.val() == "") {
+      input.addClass('invalid');
+    } else {
+      input.removeClass('invalid');
+    }
+  }
+</script>

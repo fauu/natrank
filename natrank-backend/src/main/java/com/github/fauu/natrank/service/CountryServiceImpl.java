@@ -12,13 +12,11 @@
 
 package com.github.fauu.natrank.service;
 
+import com.github.fauu.natrank.model.CityWithNewCountry;
 import com.github.fauu.natrank.model.CountryTeamMerge;
 import com.github.fauu.natrank.model.CountryWithFlagEntryYears;
 import com.github.fauu.natrank.model.entity.*;
-import com.github.fauu.natrank.repository.CountryRepository;
-import com.github.fauu.natrank.repository.FlagRepository;
-import com.github.fauu.natrank.repository.MatchRepository;
-import com.github.fauu.natrank.repository.TeamRepository;
+import com.github.fauu.natrank.repository.*;
 import com.google.common.base.Strings;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +28,12 @@ import java.util.List;
 
 @Service
 public class CountryServiceImpl implements CountryService {
+
+  @Autowired
+  public CityCountryAssocRepository cityCountryAssocRepository;
+
+  @Autowired
+  public CityRepository cityRepository;
 
   @Autowired
   public CountryRepository countryRepository;
@@ -107,6 +111,52 @@ public class CountryServiceImpl implements CountryService {
       }
 
       countryRepository.save(country);
+    }
+  }
+
+  @Override
+  @Transactional
+  public void reassignCities(List<CityWithNewCountry> citiesWithNewCountries)
+      throws DataAccessException {
+    for (CityWithNewCountry cityWithNewCountry : citiesWithNewCountries) {
+      Country country = cityWithNewCountry.getNewCountry();
+
+      if(country == null) {
+        continue;
+      }
+
+      City city = cityWithNewCountry.getCity();
+
+      CityCountryAssoc lastCityCountryAssoc = city.getLastCityCountryAssoc();
+      lastCityCountryAssoc.getPeriod().setToDate(country.getPeriod().getFromDate().minusDays(1));
+      if (lastCityCountryAssoc.getPeriod().getFromDate()
+              .isAfter(lastCityCountryAssoc.getPeriod().getToDate())) {
+        city.getCityCountryAssocs().remove(lastCityCountryAssoc);
+        cityCountryAssocRepository.delete(lastCityCountryAssoc);
+      }
+
+      lastCityCountryAssoc = city.getLastCityCountryAssoc();
+      lastCityCountryAssoc.getPeriod().setToDate(country.getPeriod().getFromDate().minusDays(1));
+
+      CityCountryAssoc newCityCountryAssoc = new CityCountryAssoc();
+      newCityCountryAssoc.setCity(city);
+      newCityCountryAssoc.setCountry(country);
+      Period period = new Period();
+      period.setFromDate(country.getPeriod().getFromDate());
+      period.setToDate(country.getPeriod().getToDate());
+      newCityCountryAssoc.setPeriod(period);
+      city.getCityCountryAssocs().add(newCityCountryAssoc);
+
+      // List<Match> matches = city.getMatches() throws org.hibernate.LazyInitializationException :(
+      List<Match> matches = matchRepository.findByCity(city);
+      for (Match match : matches) {
+        if (newCityCountryAssoc.getPeriod().includesDate(match.getDate())
+            && (match.getTeam1() == country.getTeam() || match.getTeam2() == country.getTeam())) {
+            match.setHomeTeam(country.getTeam());
+        }
+      }
+
+      cityRepository.save(city);
     }
   }
 }

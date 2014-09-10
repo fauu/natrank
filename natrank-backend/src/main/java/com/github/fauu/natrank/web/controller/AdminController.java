@@ -12,12 +12,15 @@
 
 package com.github.fauu.natrank.web.controller;
 
+import com.github.fauu.natrank.model.CityWithNewCountry;
 import com.github.fauu.natrank.model.CountryTeamMerge;
 import com.github.fauu.natrank.model.CountryWithFlagEntryYears;
 import com.github.fauu.natrank.model.ProcessedMatchData;
+import com.github.fauu.natrank.model.entity.City;
 import com.github.fauu.natrank.model.entity.Country;
 import com.github.fauu.natrank.model.entity.Match;
 import com.github.fauu.natrank.model.entity.Team;
+import com.github.fauu.natrank.model.form.CityReassignmentForm;
 import com.github.fauu.natrank.model.form.FlagManagementForm;
 import com.github.fauu.natrank.model.form.RawMatchDataForm;
 import com.github.fauu.natrank.service.*;
@@ -38,7 +41,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
-@SessionAttributes({"matchData", "newMatches", "flagManagementForm"})
+@SessionAttributes({"matchData", "newMatches", "flagManagementForm", "cityReassignmentForm"})
 public class AdminController {
 
   @Autowired
@@ -74,6 +77,11 @@ public class AdminController {
   @ModelAttribute("flagManagementForm")
   public FlagManagementForm getFlagManagementForm() {
     return new FlagManagementForm();
+  }
+
+  @ModelAttribute("cityReassignmentForm")
+  public CityReassignmentForm getCityReassignmentForm() {
+    return new CityReassignmentForm();
   }
 
   @InitBinder
@@ -135,6 +143,7 @@ public class AdminController {
     return "dataImport";
   }
 
+  // TODO: Country code validation
   @RequestMapping(value = "/import-data/steps/2", method = RequestMethod.POST)
   public String saveCountries(@ModelAttribute("matchData") ProcessedMatchData matchData) {
     matchDataImportService.addCountries(matchData.getCountries());
@@ -148,7 +157,7 @@ public class AdminController {
       return "redirect:/admin/import-data";
     }
 
-    List<Country> allCountries = matchDataImportService.findAllCountriesSorted();
+    List<Country> allCountries = matchDataImportService.findAllCountriesSortedByName();
 
     model.addAttribute("step", 3);
     model.addAttribute("matchData", matchData);
@@ -254,7 +263,6 @@ public class AdminController {
     List<Country> countries = countryService.findAll();
     List<CountryWithFlagEntryYears> countriesWithFlagEntryYears = new LinkedList<>();
 
-    // Perhaps move this into CountryService?
     for (Country country : countries) {
       countriesWithFlagEntryYears.add(new CountryWithFlagEntryYears(country, ""));
     }
@@ -273,6 +281,43 @@ public class AdminController {
     redirectAttributes.addFlashAttribute("message", "Flag entries have been saved");
 
     return "redirect:/admin/manage-flags";
+  }
+
+  @RequestMapping(value = "/manage-cities", method = RequestMethod.GET)
+  public String manageCities(Model model) {
+    List<Country> countries = countryService.findAll();
+
+    model.addAttribute("countries", countries);
+
+    return "cityManagement";
+  }
+
+  @RequestMapping(value = "/manage-cities/country/{countryId}", method = RequestMethod.GET)
+  public String reassignCities(@PathVariable("countryId") int countryId, Model model) {
+    Country subjectCountry = countryService.findById(countryId);
+
+    List<CityWithNewCountry> citiesWithNewCountries = new LinkedList<>();
+    for (City city : subjectCountry.getCurrentCities()) {
+      citiesWithNewCountries.add(new CityWithNewCountry(city));
+    }
+
+    model.addAttribute("subPage", "cityReassignment");
+    model.addAttribute("subjectCountry", subjectCountry);
+    model.addAttribute("countries", countryService.findAll());
+    model.addAttribute(new CityReassignmentForm(citiesWithNewCountries));
+
+    return "cityManagement";
+  }
+
+  @RequestMapping(value = "/manage-cities/country/{countryId}", method = RequestMethod.POST)
+  public String doReassignCities(
+      @ModelAttribute("cityReassignmentForm") CityReassignmentForm cityReassignmentForm,
+      RedirectAttributes redirectAttributes) {
+    countryService.reassignCities(cityReassignmentForm.getCitiesWithNewCountries());
+
+    redirectAttributes.addFlashAttribute("message", "Cities have been reassigned");
+
+    return "redirect:/admin/manage-cities";
   }
 
 }

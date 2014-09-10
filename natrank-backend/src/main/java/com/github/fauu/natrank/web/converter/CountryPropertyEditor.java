@@ -29,10 +29,12 @@ public class CountryPropertyEditor extends PropertyEditorSupport {
   public void setAsText(String text) {
     Country country;
 
-    if (!text.equals("0")) {
-      country = countryService.findById(Integer.parseInt(text));
-    } else {
+    if (text.equals("")) {
+      country = null;
+    } else if (text.equals("0")) {
       country = new Country();
+    } else {
+      country = countryService.findById(Integer.parseInt(text));
     }
 
     setValue(country);

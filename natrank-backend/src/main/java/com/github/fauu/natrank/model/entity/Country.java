@@ -43,7 +43,7 @@ public class Country extends NamedEntity {
   @JsonIgnore
   private Team team;
 
-  @OneToMany(mappedBy = "city", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "country", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonIgnore
   private List<CityCountryAssoc> cityCountryAssocs = new LinkedList<>();
 
@@ -65,6 +65,19 @@ public class Country extends NamedEntity {
   @JsonIgnore
   public boolean isTournamentLimited() {
     return matchTypesLimited.size() > 0;
+  }
+
+  @JsonIgnore
+  public List<City> getCurrentCities() {
+    List<City> cities = new LinkedList<>();
+
+    for (CityCountryAssoc cityCountryAssoc : cityCountryAssocs) {
+      if (cityCountryAssoc.getPeriod().getToDate() == null) {
+        cities.add(cityCountryAssoc.getCity());
+      }
+    }
+
+    return cities;
   }
 
   @JsonIgnore

@@ -17,19 +17,18 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.github.fauu.natrank.model.TeamInfo;
 import com.github.fauu.natrank.web.json.BaseView;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
+@ToString
 @Table(name = "Match")
 public class Match extends BaseEntity {
 
@@ -179,4 +178,33 @@ public class Match extends BaseEntity {
     return getCountry().getFlagByDate(date);
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    if (!super.equals(o)) return false;
+
+    Match match = (Match) o;
+
+    if (team1Goals != match.team1Goals) return false;
+    if (team2Goals != match.team2Goals) return false;
+    if (city != null ? !city.equals(match.city) : match.city != null) return false;
+    if (!date.equals(match.date)) return false;
+    if (resultExtra != null ? !resultExtra.equals(match.resultExtra) : match.resultExtra != null)
+      return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = super.hashCode();
+    result = 31 * result + date.hashCode();
+    result = 31 * result + (city != null ? city.hashCode() : 0);
+    result = 31 * result + team1Goals;
+    result = 31 * result + team2Goals;
+    result = 31 * result + (resultExtra != null ? resultExtra.hashCode() : 0);
+
+    return result;
+  }
 }

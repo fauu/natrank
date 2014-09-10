@@ -18,7 +18,9 @@ import lombok.NoArgsConstructor;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 @Data
@@ -27,13 +29,24 @@ import java.util.List;
 @Table(name = "City")
 public class City extends NamedEntity {
 
-  @OneToMany(mappedBy = "city", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "city", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JsonIgnore
-  private List<CityCountryAssoc> cityCountryAssocs = new ArrayList<>();
+  private List<CityCountryAssoc> cityCountryAssocs = new LinkedList<>();
 
   @OneToMany(mappedBy = "city", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonIgnore
   private List<Match> matches;
+
+  @JsonIgnore
+  public List<Country> getCountries() {
+    List<Country> countries = new LinkedList<>();
+
+    for (CityCountryAssoc cityCountryAssoc : cityCountryAssocs) {
+      countries.add(cityCountryAssoc.getCountry());
+    }
+
+    return countries;
+  }
 
   @JsonIgnore
   public Country getCountryByDate(LocalDate date) {
@@ -45,6 +58,21 @@ public class City extends NamedEntity {
     }
 
     return null;
+  }
+
+  @JsonIgnore
+  public CityCountryAssoc getLastCityCountryAssoc() {
+    List<CityCountryAssoc> cityCountryAssocsSortedByFromDate = new LinkedList<>(cityCountryAssocs);
+    // TODO: Verify that this is the correct order!
+    Collections.sort(cityCountryAssocsSortedByFromDate, new Comparator<CityCountryAssoc>() {
+      @Override
+      public int compare(CityCountryAssoc cityCountryAssoc1, CityCountryAssoc cityCountryAssoc2) {
+        return cityCountryAssoc1.getPeriod().getFromDate()
+                   .compareTo(cityCountryAssoc2.getPeriod().getFromDate());
+      }
+    });
+
+    return cityCountryAssocsSortedByFromDate.get(cityCountryAssocsSortedByFromDate.size() - 1);
   }
 
   @Override

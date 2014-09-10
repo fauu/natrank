@@ -52,6 +52,17 @@
         </c:choose>
           <a href="<c:url value="/admin/manage-flags" />">Manage flags</a>
         </li>
+
+        <c:choose>
+          <c:when test="${fn:contains(requestScope['javax.servlet.forward.servlet_path'], 'manage-cities')}">
+        <li class="active">
+          </c:when>
+          <c:otherwise>
+        <li>
+          </c:otherwise>
+        </c:choose>
+          <a href="<c:url value="/admin/manage-cities" />">Manage cities</a>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>

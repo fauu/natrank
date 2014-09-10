@@ -28,12 +28,12 @@ import javax.persistence.*;
 @Table(name = "CityCountry")
 public class CityCountryAssoc extends BaseEntity {
 
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinColumn(name = "city_id", nullable = false)
   @JsonView(BaseView.class)
   private City city;
 
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinColumn(name = "country_id", nullable = false)
   @JsonView(BaseView.class)
   private Country country;

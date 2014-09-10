@@ -12,6 +12,7 @@
 
 package com.github.fauu.natrank.repository;
 
+import com.github.fauu.natrank.model.entity.City;
 import com.github.fauu.natrank.model.entity.Match;
 import com.github.fauu.natrank.model.entity.Team;
 import org.joda.time.LocalDate;
@@ -24,6 +25,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.List;
 
 public interface MatchRepository extends PagingAndSortingRepository<Match, Integer> {
+
+  List<Match> findByCity(City city) throws DataAccessException;
 
   List<Match> findByDateAndTeam1AndTeam2(LocalDate date, Team team1, Team team2)
       throws DataAccessException;

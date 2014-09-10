@@ -7,20 +7,23 @@
  * You should have received a copy of the GNU Library General Public License
  * along with this software. If not, see <http://www.gnu.org/licenses/>.
  *
- * Authored by: Piotr Grabowski <fau999@gmail.com>
+ * Authored by: Piotr Grabowski <fau999(at)gmail.com>
  */
 
 package com.github.fauu.natrank.model.form;
 
+import com.github.fauu.natrank.model.CityWithNewCountry;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RawMatchDataForm {
+public class CityReassignmentForm {
 
-  private String rawData;
+  private List<CityWithNewCountry> citiesWithNewCountries;
 
 }

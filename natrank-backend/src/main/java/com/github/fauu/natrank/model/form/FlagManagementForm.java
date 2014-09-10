@@ -13,15 +13,15 @@
 package com.github.fauu.natrank.model.form;
 
 import com.github.fauu.natrank.model.CountryWithFlagEntryYears;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class FlagManagementForm {
 
   private List<CountryWithFlagEntryYears> countriesWithFlagEntryYears;

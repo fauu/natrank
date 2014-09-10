@@ -6,7 +6,7 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Date</th>
+      <th class="date">Date</th>
       <th>Type</th>
       <th>Venue</th>
       <th>Team 1</th>

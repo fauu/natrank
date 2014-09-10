@@ -219,7 +219,7 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
   }
 
   @Override
-  public List<Country> findAllCountriesSorted() throws DataAccessException {
+  public List<Country> findAllCountriesSortedByName() throws DataAccessException {
     return countryRepository.findAll(new Sort(Sort.Direction.ASC, "name"));
   }
 
@@ -260,7 +260,39 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
   }
 
   @Override
+  @Transactional
   public void addCities(List<City> cities) throws DataAccessException {
+    for (City city : cities) {
+      Country firstCountry = city.getCountries().get(0);
+
+      if (firstCountry.getPeriod().getToDate() == null) {
+        continue;
+      }
+
+      city.getCityCountryAssocs().get(0).getPeriod().setToDate(firstCountry.getPeriod().getToDate());
+
+      Team teamOfFirstCountry = firstCountry.getTeam();
+
+      if (teamOfFirstCountry.getCountries().size() == 1) {
+        continue;
+      }
+
+      List<Country> newCityCountries
+          = teamOfFirstCountry.getCountries().subList(1, teamOfFirstCountry.getCountries().size());
+
+      for (Country country : newCityCountries) {
+        CityCountryAssoc cityCountryAssoc = new CityCountryAssoc();
+        cityCountryAssoc.setCity(city);
+        cityCountryAssoc.setCountry(country);
+        Period period = new Period();
+        period.setFromDate(country.getPeriod().getFromDate());
+        period.setToDate(country.getPeriod().getToDate());
+        cityCountryAssoc.setPeriod(period);
+
+        city.getCityCountryAssocs().add(cityCountryAssoc);
+      }
+    }
+
     cityRepository.save(cities);
   }
 
@@ -277,7 +309,7 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
     List<City> cities = cityRepository.findAll();
     List<Country> countries = countryRepository.findAll();
 
-    StringBuilder resultExtraBuilder = new StringBuilder(50);
+    StringBuilder resultExtraBuilder = new StringBuilder(30);
 
     for (ParsedRawMatchDatum intMatch : matchData.getMatches()) {
       Match newMatch = new Match();
@@ -336,7 +368,6 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
         }
       } else {
         // TODO: Should not happen, log this
-        System.out.println("no match");
       }
 
       newMatch.setTeam1Goals(team1Goals);

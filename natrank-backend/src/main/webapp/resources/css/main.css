@@ -85,3 +85,15 @@ td {
 .btn-lg {
     margin-right: 8px;
 }
+
+table.narrow {
+    width: 50%;
+}
+
+input.invalid {
+    box-shadow: 0px 0px 15px 5px rgba(255, 57, 75, .75);
+}
+
+th.date {
+    width: 8em;
+}
