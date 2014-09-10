@@ -17,16 +17,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.github.fauu.natrank.model.TeamInfo;
 import com.github.fauu.natrank.web.json.BaseView;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
+@EqualsAndHashCode(of = {"ranking", "rating", "team"}, callSuper = true)
+@ToString
 @Table(name = "RankingEntry")
 public class RankingEntry extends BaseEntity<RankingEntry> {
 
@@ -171,10 +171,7 @@ public class RankingEntry extends BaseEntity<RankingEntry> {
     int ratingComparison = -1 * Integer.compare(this.getRating(), other.getRating());
 
     if (ratingComparison == 0) {
-      int matchTotalComparison
-          = -1 * Integer.compare(this.getMatchesTotal(), other.getMatchesTotal());
-
-      return matchTotalComparison;
+      return (-1 * Integer.compare(this.getMatchesTotal(), other.getMatchesTotal()));
     }
 
     return ratingComparison;

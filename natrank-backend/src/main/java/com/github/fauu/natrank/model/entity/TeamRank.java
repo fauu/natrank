@@ -15,16 +15,18 @@ package com.github.fauu.natrank.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.github.fauu.natrank.web.json.BaseView;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 
-@Data
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString
 @Table(name = "TeamRank")
 public class TeamRank extends BaseEntity {
 

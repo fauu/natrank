@@ -15,17 +15,21 @@ package com.github.fauu.natrank.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.github.fauu.natrank.web.json.BaseView;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
 
-@Data
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
+@EqualsAndHashCode(of = {"period"}, callSuper = true)
 @Table(name = "Country")
 public class Country extends NamedEntity {
 

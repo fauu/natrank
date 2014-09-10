@@ -14,15 +14,19 @@ package com.github.fauu.natrank.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.github.fauu.natrank.web.json.BaseView;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
-@Data
 @MappedSuperclass
+@Getter
+@Setter
 @NoArgsConstructor
+@EqualsAndHashCode(of = {"name"}, callSuper = true)
 public abstract class NamedEntity extends BaseEntity {
 
   @Column(name = "name", nullable = false)

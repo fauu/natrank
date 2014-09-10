@@ -14,16 +14,18 @@ package com.github.fauu.natrank.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.github.fauu.natrank.web.json.BaseView;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Data
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString
 @Table(name = "utilCountryCode")
 public class CountryCode extends BaseEntity {
 

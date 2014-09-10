@@ -15,14 +15,16 @@ package com.github.fauu.natrank.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.github.fauu.natrank.web.json.BaseView;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
 @MappedSuperclass
+@Getter
+@Setter
 @NoArgsConstructor
+@EqualsAndHashCode(of = {"id"})
+@ToString
 public abstract class BaseEntity<T extends BaseEntity<T>> implements Comparable<T> {
 
   @Id

@@ -13,15 +13,19 @@
 package com.github.fauu.natrank.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Data
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
+@EqualsAndHashCode(of = {"fifaName"}, callSuper = true)
 @Table(name = "MatchType")
 public class MatchType extends NamedEntity {
 
