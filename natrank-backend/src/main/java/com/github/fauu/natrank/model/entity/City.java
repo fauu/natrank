@@ -55,9 +55,8 @@ public class City extends NamedEntity {
   @JsonIgnore
   public Country getCountryByDate(LocalDate date) {
     for (CityCountryAssoc ccAssoc : cityCountryAssocs) {
-      if (!ccAssoc.getPeriod().getFromDate().isAfter(date) &&
-          ((ccAssoc.getPeriod().getToDate() == null) || ccAssoc.getPeriod().getToDate().isAfter(date))) {
-        return  ccAssoc.getCountry();
+      if (ccAssoc.getPeriod().includesDate(date)) {
+        return ccAssoc.getCountry();
       }
     }
 

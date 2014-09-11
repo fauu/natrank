@@ -28,10 +28,15 @@
         <c:forEach var="countryWithFlagEntryYears" items="${flagManagementForm.countriesWithFlagEntryYears}" varStatus="cStatus">
           <tr>
             <td>
+              <small>
+                <strong>
+                  <c:out value="${countryWithFlagEntryYears.country.code}" />
+                </strong>
+              </small>
               <c:out value="${countryWithFlagEntryYears.country.name}" />
             </td>
             <td>
-              <joda:format value="${countryWithFlagEntryYears.country.currentFlag.period.fromDate}" style="M-" />
+              <joda:format value="${countryWithFlagEntryYears.country.lastFlag.period.fromDate}" style="M-" />
             </td>
             <td>
               <form:input path="countriesWithFlagEntryYears[${cStatus.index}].flagEntryYears"

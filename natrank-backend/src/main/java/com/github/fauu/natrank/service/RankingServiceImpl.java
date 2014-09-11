@@ -29,17 +29,18 @@ public class RankingServiceImpl implements RankingService {
 
   public static final SortedMap<Integer, Integer> DEFAULT_RATINGS_UPTO_YEAR = new TreeMap<>();
   static {
-    DEFAULT_RATINGS_UPTO_YEAR.put(1910, 1750);
-    DEFAULT_RATINGS_UPTO_YEAR.put(1920, 1700);
-    DEFAULT_RATINGS_UPTO_YEAR.put(1930, 1650);
-    DEFAULT_RATINGS_UPTO_YEAR.put(1940, 1600);
+    DEFAULT_RATINGS_UPTO_YEAR.put(1900, 1700);
+    DEFAULT_RATINGS_UPTO_YEAR.put(1910, 1650);
+    DEFAULT_RATINGS_UPTO_YEAR.put(1920, 1600);
+    DEFAULT_RATINGS_UPTO_YEAR.put(1930, 1550);
+    DEFAULT_RATINGS_UPTO_YEAR.put(2020, 1500);
   }
 
   public static final int INITIAL_HOME_ADVANTAGE_COEFFICIENT = 250;
 
   public static final int NUM_TRIAL_MATCHES = 15;
 
-  public static final int TRIAL_RATING_MODIFIER = 8;
+  public static final int TRIAL_RATING_MODIFIER = 2;
 
   @Autowired
   private MatchRepository matchRepository;

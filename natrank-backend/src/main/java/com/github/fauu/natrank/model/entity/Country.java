@@ -22,6 +22,8 @@ import lombok.Setter;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -96,10 +98,23 @@ public class Country extends NamedEntity {
   }
 
   @JsonIgnore
+  public Flag getLastFlag() {
+    List<Flag> flags = new LinkedList<>(getFlags());
+
+    Collections.sort(flags, new Comparator<Flag>() {
+      @Override
+      public int compare(Flag flag1, Flag flag2) {
+        return flag1.getPeriod().getFromDate().compareTo(flag2.getPeriod().getFromDate());
+      }
+    });
+
+    return flags.size() > 0 ? flags.get(flags.size() - 1) : null;
+  }
+
+  @JsonIgnore
   public Flag getFlagByDate(LocalDate date) {
     for (Flag flag : flags) {
-      if (!flag.getPeriod().getFromDate().isAfter(date) &&
-          ((flag.getPeriod().getToDate() == null) || flag.getPeriod().getToDate().isAfter(date))) {
+      if (flag.getPeriod().includesDate(date)) {
         return flag;
       }
     }

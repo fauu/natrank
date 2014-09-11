@@ -104,7 +104,7 @@ public class CountryServiceImpl implements CountryService {
         flagPeriod.setFromDate(new LocalDate(entryYear, 1, 1));
         newFlag.setPeriod(flagPeriod);
 
-        Flag latestFlag = country.getCurrentFlag();
+        Flag latestFlag = country.getLastFlag();
         latestFlag.getPeriod().setToDate(flagPeriod.getFromDate().minusDays(1));
 
         country.getFlags().add(newFlag);

@@ -46,7 +46,7 @@ public class Period extends BaseEntity {
   private LocalDate toDate;
 
   public boolean includesDate(LocalDate date) {
-    return (!date.isBefore(fromDate) && (toDate == null || date.isAfter(toDate)));
+    return (!date.isBefore(fromDate) && (toDate == null || !date.isAfter(toDate)));
   }
 
   @JsonIgnore
