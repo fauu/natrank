@@ -37,7 +37,7 @@ public class Team extends BaseEntity {
 
   @Column(name = "home_advantage_coefficient", nullable = false)
   @JsonIgnore
-  private double homeAdvantageCoefficient;
+  private double homeAdvantageCoefficient = 250.0;
 
   @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonIgnore

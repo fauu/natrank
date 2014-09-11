@@ -159,4 +159,81 @@ public class CountryServiceImpl implements CountryService {
       cityRepository.save(city);
     }
   }
+
+  @Override
+  public void rename(Country country, String newName, String newCode, Period period)
+      throws DataAccessException {
+    if (period == null || period.getType() == Period.Type.INFINITE) {
+      country.setName(newName);
+      country.setCode(newCode);
+    } else if (period.getType() == Period.Type.LEFT_AND_RIGHT_BOUNDED) {
+      // TODO: Support country renaming for bounded periods
+      throw new UnsupportedOperationException();
+    } else {
+      Country newCountry = new Country();
+      newCountry.setName(newName);
+      newCountry.setCode(newCode);
+      newCountry.setTeam(country.getTeam());
+
+      Period newCountryPeriod = new Period();
+
+      Flag countryFlag = country.getCurrentFlag();
+
+      if (period.getType() == Period.Type.LEFT_BOUNDED) {
+        newCountryPeriod.setFromDate(period.getFromDate());
+        newCountryPeriod.setToDate(country.getPeriod().getToDate());
+
+        country.getPeriod().setToDate(newCountryPeriod.getFromDate().minusDays(1));
+
+        countryFlag.getPeriod().setToDate(country.getPeriod().getToDate());
+      } else if (period.getType() == Period.Type.RIGHT_BOUNDED) {
+        newCountryPeriod.setFromDate(country.getPeriod().getFromDate());
+        newCountryPeriod.setToDate(period.getToDate());
+
+        country.getPeriod().setFromDate(newCountryPeriod.getToDate().plusDays(1));
+
+        countryFlag.getPeriod().setFromDate(country.getPeriod().getFromDate());
+        countryFlag.setCode(country.getCode() + countryFlag.getPeriod().getFromDate().getYear());
+      }
+
+      newCountry.setPeriod(newCountryPeriod);
+
+      Flag newCountryFlag = new Flag();
+      newCountryFlag.setCountry(newCountry);
+      newCountryFlag.setPeriod(newCountryPeriod);
+      newCountryFlag.setCode(newCountry.getCode() + newCountryFlag.getPeriod().getFromDate().getYear());
+
+      newCountry.getFlags().add(newCountryFlag);
+
+      List<CityCountryAssoc> cityCountryAssocs = country.getCityCountryAssocs();
+      for (CityCountryAssoc cityCountryAssoc : cityCountryAssocs) {
+        if ((period.getType() == Period.Type.LEFT_BOUNDED
+             && cityCountryAssoc.getPeriod().includesDate(newCountryPeriod.getFromDate()) ||
+            (period.getType() == Period.Type.RIGHT_BOUNDED
+             && cityCountryAssoc.getPeriod().includesDate(newCountryPeriod.getToDate())))) {
+          CityCountryAssoc newCityCountryAssoc = new CityCountryAssoc();
+          newCityCountryAssoc.setCity(cityCountryAssoc.getCity());
+          newCityCountryAssoc.setCountry(newCountry);
+
+          Period newCCAPeriod = new Period();
+          newCCAPeriod.setFromDate(newCountryPeriod.getFromDate());
+          newCCAPeriod.setToDate(newCountryPeriod.getToDate());
+          newCityCountryAssoc.setPeriod(newCCAPeriod);
+
+          newCountry.getCityCountryAssocs().add(newCityCountryAssoc);
+
+          if (period.getType() == Period.Type.LEFT_BOUNDED) {
+            cityCountryAssoc.getPeriod().setToDate(country.getPeriod().getToDate());
+          } else if (period.getType() == Period.Type.RIGHT_BOUNDED) {
+            cityCountryAssoc.getPeriod().setFromDate(country.getPeriod().getFromDate());
+          }
+        }
+      }
+
+      countryRepository.save(newCountry);
+    }
+
+    countryRepository.save(country);
+  }
+
 }

@@ -12,10 +12,10 @@
 
 package com.github.fauu.natrank.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.github.fauu.natrank.web.json.BaseView;
 import lombok.*;
-import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import javax.persistence.Column;
@@ -31,18 +31,35 @@ import javax.persistence.Table;
 @Table(name = "Period")
 public class Period extends BaseEntity {
 
+  public enum Type {
+    INFINITE, LEFT_BOUNDED, RIGHT_BOUNDED, LEFT_AND_RIGHT_BOUNDED
+  }
+
   @Column(name = "date_from", nullable = false)
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+  @org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
   @JsonView(BaseView.class)
   private LocalDate fromDate;
 
   @Column(name = "date_to")
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+  @org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
   @JsonView(BaseView.class)
   private LocalDate toDate;
 
   public boolean includesDate(LocalDate date) {
     return (!date.isBefore(fromDate) && (toDate == null || date.isAfter(toDate)));
+  }
+
+  @JsonIgnore
+  public Type getType() {
+    if (fromDate == null && toDate == null) {
+      return Type.INFINITE;
+    } else if (fromDate != null && toDate == null) {
+      return Type.LEFT_BOUNDED;
+    } else if (fromDate == null && toDate != null) {
+      return Type.RIGHT_BOUNDED;
+    } else {
+      return Type.LEFT_AND_RIGHT_BOUNDED;
+    }
   }
 
 }

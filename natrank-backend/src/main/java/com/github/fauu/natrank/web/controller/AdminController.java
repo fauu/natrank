@@ -21,9 +21,11 @@ import com.github.fauu.natrank.model.entity.Country;
 import com.github.fauu.natrank.model.entity.Match;
 import com.github.fauu.natrank.model.entity.Team;
 import com.github.fauu.natrank.model.form.CityReassignmentForm;
+import com.github.fauu.natrank.model.form.CountryRenameForm;
 import com.github.fauu.natrank.model.form.FlagManagementForm;
 import com.github.fauu.natrank.model.form.RawMatchDataForm;
 import com.github.fauu.natrank.service.*;
+import com.github.fauu.natrank.util.PeriodUtils;
 import com.github.fauu.natrank.web.converter.CountryPropertyEditor;
 import com.github.fauu.natrank.web.converter.TeamPropertyEditor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -244,16 +246,30 @@ public class AdminController {
 
     model.addAttribute("countries", countries);
     model.addAttribute("merge", new CountryTeamMerge());
+    model.addAttribute("countryRenameForm", new CountryRenameForm());
 
     return "countryManagement";
   }
 
-  @RequestMapping(value = "/manage-countries", method = RequestMethod.POST)
-  public String saveCountries(@ModelAttribute("merge") CountryTeamMerge merge,
+  @RequestMapping(value = "/manage-countries/merge", method = RequestMethod.POST)
+  public String mergeCountries(@ModelAttribute("merge") CountryTeamMerge merge,
                               RedirectAttributes redirectAttributes) {
     countryService.mergeTeams(merge);
 
     redirectAttributes.addFlashAttribute("message", "Team merge has been completed");
+
+    return "redirect:/admin/manage-countries";
+  }
+
+  @RequestMapping(value = "/manage-countries/rename", method = RequestMethod.POST)
+  public String renameCountry(@ModelAttribute("countryRenameForm") CountryRenameForm countryRenameForm,
+                              RedirectAttributes redirectAttributes) {
+    countryService.rename(countryRenameForm.getCountry(),
+                          countryRenameForm.getNewName(),
+                          countryRenameForm.getNewCode(),
+                          PeriodUtils.createFromString(countryRenameForm.getPeriodStr()));
+
+    redirectAttributes.addFlashAttribute("message", "Country has been renamed");
 
     return "redirect:/admin/manage-countries";
   }
