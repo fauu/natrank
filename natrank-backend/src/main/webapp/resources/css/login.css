@@ -33,3 +33,8 @@ p {
     width: 100%;
 }
 
+.bg-danger, .bg-success {
+    padding: 6px 10px;
+    margin-bottom: 8px;
+}
+

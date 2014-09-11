@@ -30,9 +30,20 @@
 
     <authentication-manager>
         <authentication-provider>
-            <user-service>
-                <user name="admin" password="password" authorities="ROLE_ADMIN" />
-            </user-service>
+            <password-encoder ref="encoder" />
+            <jdbc-user-service data-source-ref="dataSource"
+                               users-by-username-query="SELECT username, password, enabled
+                                                        FROM User
+                                                        WHERE username = ?"
+                               authorities-by-username-query="SELECT u.username, ur.role
+                                                              FROM User u
+                                                                LEFT JOIN UserRole ur
+                                                                  ON ur.user_id = u.id
+                                                              WHERE u.username = ?" />
         </authentication-provider>
     </authentication-manager>
+
+    <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+        <beans:constructor-arg name="strength" value="10" />
+    </beans:bean>
 </beans:beans>

@@ -216,7 +216,7 @@ DROP TABLE IF EXISTS `Team`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Team` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `home_advantage_coefficient` double NOT NULL DEFAULT 250,
+  `home_advantage_coefficient` double NOT NULL DEFAULT '250',
   `highest_rank_id` int unsigned DEFAULT NULL,
   `lowest_rank_id` int unsigned DEFAULT NULL,
   `highest_rating_id` int unsigned DEFAULT NULL,
@@ -304,6 +304,33 @@ CREATE TABLE `TeamRating` (
   INDEX `idx_TeamRank_provisional` (`provisional`),
   CONSTRAINT `fk_TeamRating_Team` FOREIGN KEY (`team_id`) REFERENCES `Team` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_TeamRating_Match` FOREIGN KEY (`match_id`) REFERENCES `Match` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+DROP TABLE IF EXISTS `User`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `User` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(45) NOT NULL,
+  `password` varchar(450) NOT NULL,
+  `enabled` bit NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  INDEX `idx_User_username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `UserRole`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `UserRole` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int unsigned NOT NULL,
+  `role` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unq_UserRole_user_id_role` (`user_id`, `role`),
+  CONSTRAINT `fk_UserRole_User` FOREIGN KEY (`user_id`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

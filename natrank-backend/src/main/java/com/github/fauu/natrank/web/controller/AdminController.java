@@ -30,6 +30,7 @@ import com.github.fauu.natrank.web.converter.CountryPropertyEditor;
 import com.github.fauu.natrank.web.converter.TeamPropertyEditor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -334,6 +335,14 @@ public class AdminController {
     redirectAttributes.addFlashAttribute("message", "Cities have been reassigned");
 
     return "redirect:/admin/manage-cities";
+  }
+
+  @RequestMapping(value = "/bcrypt-enc/{text}", method = RequestMethod.GET)
+  @ResponseBody
+  public String bcryptEncode(@PathVariable("text") String text) {
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    return encoder.encode(text);
   }
 
 }
