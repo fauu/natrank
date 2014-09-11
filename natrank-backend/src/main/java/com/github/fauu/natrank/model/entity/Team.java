@@ -150,10 +150,9 @@ public class Team extends BaseEntity {
   public Country getCountryByDate(LocalDate date, MatchType matchType) {
     if (isRepresentedByTournamentLimitedCountry()) {
       for (Country country : countries) {
-          if (country.isTournamentLimited() && country.getMatchTypesLimited().contains(matchType)
-              && !country.getPeriod().getFromDate().isAfter(date)
-              && ((country.getPeriod().getToDate() == null)
-                  || country.getPeriod().getToDate().isAfter(date))) {
+          if (country.isTournamentLimited()
+              && country.getMatchTypesLimited().contains(matchType)
+              && country.getPeriod().includesDate(date)) {
             return country;
           }
       }
@@ -164,9 +163,7 @@ public class Team extends BaseEntity {
 
   private Country getCountryByDateNotTournamentLimited(LocalDate date) {
     for (Country country : countries) {
-      if (!country.getPeriod().getFromDate().isAfter(date) &&
-          ((country.getPeriod().getToDate() == null)
-           || country.getPeriod().getToDate().isAfter(date))) {
+      if (country.getPeriod().includesDate(date)) {
         return country;
       }
     }
@@ -178,10 +175,9 @@ public class Team extends BaseEntity {
   public boolean isCityHomeForDate(City city, LocalDate date) {
     if (countries != null) {
       for (Country country : countries) {
-        if (!country.getPeriod().getFromDate().isAfter(date) &&
-            ((country.getPeriod().getToDate() == null)
-             || country.getPeriod().getToDate().isAfter(date))) {
+        if(country.getPeriod().includesDate(date)) {
           Country countryByDate = city.getCountryByDate(date);
+
           if (countryByDate != null) {
             return countryByDate.equals(country);
           }
