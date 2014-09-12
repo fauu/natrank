@@ -10,8 +10,10 @@
  * Authored by: Piotr Grabowski <fau999@gmail.com>
  */
 
-angular.module('natrank').service('rankingService', ['$http', function($http) {
-  var urlBase = 'http://localhost:8080/rankings';
+angular.module('natrank')
+.service('rankingService', ['$http', 'NATRANK_CONFIG',
+function($http, NATRANK_CONFIG) {
+  var urlBase = NATRANK_CONFIG.baseUrl + '/rankings';
 
   this.findLatest = function() {
     return $http.get(urlBase + '/latest');

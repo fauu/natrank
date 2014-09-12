@@ -10,8 +10,10 @@
  * Authored by: Piotr Grabowski <fau999@gmail.com>
  */
 
-angular.module('natrank').service('teamService', ['$http', function($http) {
-  var urlBase = 'http://localhost:8080/teams';
+angular.module('natrank')
+.service('teamService', ['$http', 'NATRANK_CONFIG',
+function($http, NATRANK_CONFIG) {
+  var urlBase = NATRANK_CONFIG.baseUrl + '/teams';
 
   this.findByName = function(name) {
     return $http.get(urlBase + '/' + name);

@@ -14,7 +14,7 @@
     <properties>
         <java.version>1.7</java.version>
         <guava.version>18.0</guava.version>
-        <tomcat-servlet.version>7.0.54</tomcat-servlet.version>
+        <tomcat-servlet.version>7.0.55</tomcat-servlet.version>
         <jsp.version>2.1</jsp.version>
         <jstl.version>1.2</jstl.version>
         <jackson.version>2.4.2</jackson.version>
@@ -209,19 +209,6 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>tomcat</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <tomcat.server>localhost</tomcat.server>
-                <tomcat.url>http://localhost:8080/manager</tomcat.url>
-            </properties>
-        </profile>
-    </profiles>
-
     <build>
         <defaultGoal>install</defaultGoal>
         <plugins>
@@ -243,6 +230,16 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.4</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <url>${deploymentUrl}</url>
+                    <server>${serverName}</server>
+                    <path>${applicationPath}</path>
+                </configuration>
             </plugin>
         </plugins>
     </build>

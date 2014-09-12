@@ -29,8 +29,11 @@
                data-ng-class="{'fa-arrow-circle-o-up': entry.rankOneYearChange > 0,
                                'fa-minus': entry.rankOneYearChange == 0,
                                'fa-arrow-circle-o-down': entry.rankOneYearChange < 0}"></i>
-            <span class="value" data-ng-show="entry.rankOneYearChange !== 0">
-              {{entry.rankOneYearChange < 0 ? -1 * entry.rankOneYearChange : entry.rankOneYearChange}}
+            <span class="value" data-ng-show="entry.rankOneYearChange < 0">
+              {{-1 * entry.rankOneYearChange}}
+            </span>
+            <span class="value" data-ng-show="entry.rankOneYearChange > 0">
+              {{entry.rankOneYearChange}}
             </span>
           </span>
           <span class="new" data-ng-show="entry.rank > 0 && entry.rankOneYearChange === null">

@@ -15,7 +15,7 @@ angular.module('natrank')
 	return {
     restrict: 'A',
     replace: true,
-    templateUrl: '/directive/resultList/resultList.html',
+    templateUrl: 'directive/resultList/resultList.html',
     controller: function ($scope, $location, $routeParams, matchService) {
       function init() {
         var attrs = $location.search(),

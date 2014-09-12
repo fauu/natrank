@@ -10,8 +10,10 @@
  * Authored by: Piotr Grabowski <fau999@gmail.com>
  */
 
-angular.module('natrank').service('matchService', ['$http', function($http) {
-  var urlBase = 'http://localhost:8080/matches';
+angular.module('natrank')
+.service('matchService', ['$http', 'NATRANK_CONFIG',
+function($http, NATRANK_CONFIG) {
+  var urlBase = NATRANK_CONFIG.baseUrl + '/matches';
 
   this.findPage = function(pageNo, year, teamName) {
     var paramString = '';
