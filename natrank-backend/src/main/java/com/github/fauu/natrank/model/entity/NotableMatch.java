@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 natrank Developers (http://github.com/fauu/natrank)
+ * Copyright (C) 2014-2016 natrank Developers (http://github.com/fauu/natrank)
  *
  * This software is licensed under the GNU General Public License
  * (version 3 or later). See the COPYING file in this distribution.
