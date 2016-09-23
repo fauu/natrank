@@ -42,9 +42,9 @@
         <property name="jpaProperties">
             <props>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
-                <prop key="hibernate.globally_quoted_identifiers">
-                    ${hibernate.globally_quoted_identifiers}
-                </prop>
+                <prop key="hibernate.globally_quoted_identifiers">${hibernate.globally_quoted_identifiers}</prop>
+                <prop key="hibernate.connection.autocommit">${hibernate.connection.autocommit}</prop>
+                <prop key="hibernate.connection.autoReconnect">${hibernate.connection.autoReconnect}</prop>
             </props>
         </property>
         <property name="persistenceUnitName" value="natrank" />

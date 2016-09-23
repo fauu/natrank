@@ -32,6 +32,8 @@ var createFolderGlobs = function(fileTypePatterns) {
 
 module.exports = function (grunt) {
 
+  grunt.option('force', true);
+
   // load all grunt tasks
   require('load-grunt-tasks')(grunt);
 
@@ -66,7 +68,7 @@ module.exports = function (grunt) {
         options: {
             jshintrc: '.jshintrc'
         },
-        src: createFolderGlobs('*.js')
+        src: createFolderGlobs('*.js'),
       }
     },
     clean: {

@@ -1,3 +1,6 @@
+natrank-frontend.iml
 /bower_components
 /node_modules
-/img/flags/*
+/temp
+/dist
+deploy.sh
