@@ -55,7 +55,7 @@ module.exports = function (grunt) {
     watch: {
       main: {
         options: {
-            livereload: true,
+            livereload: 13654,
             livereloadOnError: false,
             spawn: false
         },
