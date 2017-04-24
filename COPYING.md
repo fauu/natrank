@@ -18,3 +18,9 @@ A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
 details.
 
 See the LICENSE.md file for a copy of the *GNU Affero General Public License*.
+
+Exceptions
+----------
+Files | Author(s) | Licensing
+----- | --------- | ---------
+`natrank-frontend/img/flags` | Wikipedia contributors | Public domain
