@@ -1,0 +1,56 @@
+@import '~normalize-scss/sass/normalize/import-now';
+@import '_fonts.scss';
+@import 'bourbon/bourbon';
+
+body {
+  font-family: 'Roboto';
+}
+
+$primary: rgb(25, 85, 135);
+$background: rgb(250, 250, 250);
+
+@mixin text-shadow {
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
+}
+
+nav#top-bar {
+  height: 60px;
+  background: $primary;
+  color: $background;
+  top: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 2px solid shade($primary, 20%);
+
+  .logo {
+    @include text-shadow;
+    font-weight: bold;
+    font-size: 200%;
+    margin-right: 40px;
+  }
+
+  a {
+    @include text-shadow;
+    color: $background;
+    text-decoration: none;
+    height: 100%;
+    text-align: center;
+    line-height: 60px;
+    padding: 0 18px;
+
+    &:hover {
+      background-color: $background;
+      color: $primary;
+      text-shadow: none;
+    }
+  }
+
+  i {
+    margin-right: 8px;
+  }
+}
+
+#page {
+  padding: 20px 20px;
+}
