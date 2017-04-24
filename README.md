@@ -14,11 +14,11 @@ Natrank is a national football team ranking web application which uses modified 
 ### Backend module (incl. Admin module)
 Provides access to match and ranking data through REST-like endpoints. The Admin module makes it possible for the administrator to, among other tasks, import match data using a web interface.
 #### Technologies and tools
-* **Java 7**
-* **Spring Framework 4**
+* **Java 8**
+* **Spring Boot**
 * **Spring Web MVC** and **Jackson** for REST-like endpoints
 * **Spring Security** for Admin module authentication and authorization
-* **MySQL** database engine with **Hibernate ORM 4** and **Spring Data JPA** for data access layer
+* **MySQL** database engine with **Hibernate ORM 5** and **Spring Data JPA** for data access layer
 * **JSP** with **JSTL** and **Bootstrap 3** for Admin module web interface templating
 * **Maven** build system
 
@@ -50,10 +50,9 @@ The Frontend module is a single-page application that accesses the data provided
 * Firefox Nightly 51.0a1
 
 ### Instructions
-
 1. Clone the repository: `git clone https://github.com/fauu/natrank.git`.
 2. Change to project root directory: `cd natrank`.
-3. Start MySQL instance.
+3. Start a MySQL instance.
 4. Create natrank MySQL schema: `mysql -h <HOSTNAME> -u <USER> -p <PASSWORD> < natrank-backend/schema.sql`.
 5. Configure database access properties in `natrank-backend/src/main/resources/spring/data-access.properties` (see `data-access.properties-TEMPLATE` file).
 6. Change to Backend module root directory: `cd natrank-backend`.
@@ -67,20 +66,17 @@ The Frontend module is a single-page application that accesses the data provided
 14. Go to `localhost:8080/natrank/admin` for the administration area.
 
 ## Current version
-The application is currently in late alpha stage.
+The application is currently in alpha stage.
 
-## Future plans
-* Match result view redesign
+## Planned features
+* New frontend
 * Ranking algorithm refinements
-* Performance tuning
+* Performance improvements
 * More of fun historical charts/graphs/listings etc.
-* More tools for data importing and maintenance
+* Improved tooling for data importing and maintenance
 * Automatic match database and ranking updates
 * Regional rankings
 * ...
 
 ## Licensing
-See the [COPYING](https://github.com/fauu/natrank/blob/master/COPYING) file.
-
-## Authors
-See the [AUTHORS](https://github.com/fauu/natrank/blob/master/AUTHORS) file.
+See the [COPYING.md](https://github.com/fauu/natrank/blob/master/COPYING.md) file.
