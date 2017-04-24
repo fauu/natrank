@@ -14,7 +14,7 @@ package com.github.fauu.natrank.service;
 
 import com.github.fauu.natrank.model.entity.Match;
 import com.github.fauu.natrank.model.entity.NotableMatchCategory;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

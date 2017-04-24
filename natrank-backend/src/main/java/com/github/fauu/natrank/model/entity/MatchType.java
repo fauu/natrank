@@ -26,7 +26,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"fifaName"}, callSuper = true)
-@Table(name = "MatchType")
 public class MatchType extends NamedEntity {
 
   @Column(name = "fifa_name")

@@ -28,8 +28,7 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString
-@Table(name = "TeamExtreme")
-public class TeamExtreme extends BaseEntity {
+public class TeamExtreme extends BaseEntity<TeamExtreme> {
 
   @Transient
   @JsonIgnore
@@ -46,7 +45,7 @@ public class TeamExtreme extends BaseEntity {
   private int value;
 
   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinTable(name = "TeamExtremePeriod",
+  @JoinTable(name = "team_extreme_period",
              joinColumns = { @JoinColumn(name = "team_extreme_id", nullable = false) },
              inverseJoinColumns = { @JoinColumn(name = "period_id", nullable = false) })
   @JsonView(BaseView.class)

@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="http://www.joda.org/joda/time/tags" prefix="joda" %>
+<%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 <%@ page pageEncoding="utf-8" %>
 
 <c:choose>
@@ -27,7 +27,7 @@
               </form:select>
             </td>
             <td>
-              <joda:format value="${city.cityCountryAssocs[0].period.fromDate}" style="M-" />
+              <javatime:format value="${city.cityCountryAssocs[0].period.fromDate}" style="M-" />
             </td>
           </tr>
         </c:forEach>

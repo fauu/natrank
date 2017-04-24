@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://www.joda.org/joda/time/tags" prefix="joda" %>
+<%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 <%@ page pageEncoding="utf-8" %>
 
 <h4>Matches to be added:</h4>
@@ -20,7 +20,7 @@
   <tbody>
 <c:forEach var="match" items="${newMatches}">
   <tr>
-    <td><joda:format value="${match.date}" style="M-" /></td>
+    <td><javatime:format value="${match.date}" style="M-" /></td>
     <td>${match.type.name}</td>
     <td>${match.city.name}, ${match.city.getCountryByDate(match.date).name}</td>
     <td>${match.team1.getCountryByDate(match.date).name}</td>

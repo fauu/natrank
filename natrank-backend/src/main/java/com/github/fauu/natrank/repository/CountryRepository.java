@@ -35,7 +35,4 @@ public interface CountryRepository extends PagingAndSortingRepository<Country, I
 
   Country findByName(String name) throws DataAccessException;
 
-  @Override
-  Country save(Country country) throws DataAccessException;
-
 }

@@ -13,7 +13,7 @@
 package com.github.fauu.natrank.repository;
 
 import com.github.fauu.natrank.model.entity.Ranking;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -30,7 +30,7 @@ public interface RankingRepository extends JpaRepository<Ranking, Integer> {
 
   @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END " +
          "FROM Ranking r " +
-         "WHERE r.date = ?")
+         "WHERE r.date = ?1")
   boolean existsByDate(LocalDate date) throws DataAccessException;
 
 }

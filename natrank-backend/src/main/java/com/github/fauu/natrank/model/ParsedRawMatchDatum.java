@@ -15,7 +15,7 @@ package com.github.fauu.natrank.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor

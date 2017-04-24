@@ -27,8 +27,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"code"}, callSuper = true)
-@Table(name = "Flag")
-public class Flag extends BaseEntity {
+public class Flag extends BaseEntity<Flag> {
 
   @Column(name = "code", nullable = false)
   @JsonView(BaseView.class)

@@ -27,7 +27,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"ranking", "rating", "team"}, callSuper = true)
 @ToString
-@Table(name = "RankingEntry")
 public class RankingEntry extends BaseEntity<RankingEntry> {
 
   @ManyToOne

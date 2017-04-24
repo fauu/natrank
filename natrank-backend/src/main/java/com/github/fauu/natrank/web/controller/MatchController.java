@@ -18,7 +18,7 @@ import com.github.fauu.natrank.model.entity.NotableMatchCategory;
 import com.github.fauu.natrank.service.MatchService;
 import com.github.fauu.natrank.util.StringUtils;
 import com.github.fauu.natrank.web.json.BaseView;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -50,7 +50,8 @@ public class MatchController {
   @RequestMapping(value = "/year/{year}", method = RequestMethod.GET)
   @JsonView(Match.Views.Default.class)
   public Page<Match> findByYear(Pageable pageable, @PathVariable("year") int year) {
-    return matchService.findByYear(year, createPageRequest(pageable, Sort.Direction.ASC));
+    Page<Match> page =  matchService.findByYear(year, createPageRequest(pageable, Sort.Direction.ASC));
+    return page;
   }
 
   @RequestMapping(value = "/team/{teamName}", method = RequestMethod.GET)

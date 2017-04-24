@@ -26,8 +26,8 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString
-@Table(name = "utilCountryCode")
-public class CountryCode extends BaseEntity {
+@Table(name = "util_country_code")
+public class CountryCode extends BaseEntity<CountryCode> {
 
   @Column(name = "country_name", nullable = false)
   @JsonView(BaseView.class)

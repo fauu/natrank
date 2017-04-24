@@ -13,7 +13,7 @@
 package com.github.fauu.natrank.util;
 
 import com.github.fauu.natrank.model.entity.Period;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 
 public final class PeriodUtils {
 
@@ -38,7 +38,7 @@ public final class PeriodUtils {
 
       String[] periodStrParts = periodStr.split("-");
 
-      LocalDate date = new LocalDate(Integer.parseInt(periodStrParts[0]),
+      LocalDate date = LocalDate.of(Integer.parseInt(periodStrParts[0]),
                                      Integer.parseInt(periodStrParts[1]),
                                      Integer.parseInt(periodStrParts[2]));
 
@@ -51,11 +51,11 @@ public final class PeriodUtils {
       // FIXME: DRY!
       String[] periodStrParts = periodStr.split("-");
 
-      LocalDate fromDate = new LocalDate(Integer.parseInt(periodStrParts[0]),
+      LocalDate fromDate = LocalDate.of(Integer.parseInt(periodStrParts[0]),
                                          Integer.parseInt(periodStrParts[1]),
                                          Integer.parseInt(periodStrParts[2]));
 
-      LocalDate toDate = new LocalDate(Integer.parseInt(periodStrParts[3]),
+      LocalDate toDate = LocalDate.of(Integer.parseInt(periodStrParts[3]),
                                        Integer.parseInt(periodStrParts[4]),
                                        Integer.parseInt(periodStrParts[5]));
 

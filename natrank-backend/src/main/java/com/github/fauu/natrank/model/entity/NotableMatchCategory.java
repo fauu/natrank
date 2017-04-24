@@ -26,7 +26,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"notableMatches"}, callSuper = true)
-@Table(name = "NotableMatchCategory")
 public class NotableMatchCategory extends NamedEntity {
 
   @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

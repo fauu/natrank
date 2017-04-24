@@ -17,9 +17,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.joda.time.LocalDate;
 
 import javax.persistence.*;
+
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -30,7 +31,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"cityCountryAssocs"}, callSuper = true)
-@Table(name = "City")
 public class City extends NamedEntity {
 
   @OneToMany(mappedBy = "city", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

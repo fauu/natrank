@@ -19,9 +19,9 @@ import com.github.fauu.natrank.model.ProcessedMatchData;
 import com.github.fauu.natrank.model.entity.*;
 import com.github.fauu.natrank.repository.*;
 import com.google.common.base.Strings;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Sort;
@@ -51,9 +51,6 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
   private CountryRepository countryRepository;
 
   @Autowired
-  private FlagRepository flagRepository;
-
-  @Autowired
   private MatchRepository matchRepository;
 
   @Autowired
@@ -68,7 +65,7 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
   @Override
   public ProcessedMatchData processMatchData(String rawMatchData) {
     ProcessedMatchData matchData = new ProcessedMatchData();
-    DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     int lineNo = 1;
     BufferedReader reader = new BufferedReader(new StringReader(rawMatchData));
@@ -91,7 +88,7 @@ public class MatchDataImportServiceImpl implements MatchDataImportService {
           ParsedRawMatchDatum match = new ParsedRawMatchDatum();
           LocalDate matchDate;
           try {
-            matchDate = dateTimeFormatter.parseLocalDate(splitLine[0]);
+            matchDate = LocalDate.parse(splitLine[0], dateTimeFormatter);
           } catch (IllegalArgumentException e) {
             MatchDataError error =
                 new MatchDataError(lineNo, line, MatchDataError.Type.ERROR_INCORRECT_DATE_FORMAT);

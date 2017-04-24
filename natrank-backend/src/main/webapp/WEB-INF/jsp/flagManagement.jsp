@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://www.joda.org/joda/time/tags" prefix="joda" %>
+<%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -36,7 +36,7 @@
               <c:out value="${countryWithFlagEntryYears.country.name}" />
             </td>
             <td>
-              <joda:format value="${countryWithFlagEntryYears.country.lastFlag.period.fromDate}" style="M-" />
+              <javatime:format value="${countryWithFlagEntryYears.country.lastFlag.period.fromDate}" style="M-" />
             </td>
             <td>
               <form:input path="countriesWithFlagEntryYears[${cStatus.index}].flagEntryYears"

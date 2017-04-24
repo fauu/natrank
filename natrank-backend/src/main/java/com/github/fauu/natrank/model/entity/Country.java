@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -32,7 +32,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"period"}, callSuper = true)
-@Table(name = "Country")
 public class Country extends NamedEntity {
 
   @Column(name = "code", nullable = false)
@@ -58,7 +57,7 @@ public class Country extends NamedEntity {
   private List<Flag> flags = new LinkedList<>();
 
   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinTable(name = "MatchTypeCountry", joinColumns = {
+  @JoinTable(name = "match_type_country", joinColumns = {
       @JoinColumn(name = "country_id", nullable = false)},
       inverseJoinColumns = { @JoinColumn(name = "match_type_id", nullable = false)})
   @JsonIgnore

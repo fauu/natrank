@@ -15,8 +15,7 @@ package com.github.fauu.natrank.model.entity;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.github.fauu.natrank.web.json.BaseView;
 import lombok.*;
-import org.hibernate.annotations.Type;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 
 import javax.persistence.*;
 import java.util.LinkedList;
@@ -28,15 +27,13 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"date"}, callSuper = true)
 @ToString
-@Table(name = "Ranking")
-public class Ranking extends BaseEntity {
+public class Ranking extends BaseEntity<Ranking> {
 
   public static class Views {
     public static class Full extends BaseView { }
   }
 
   @Column(name = "date", nullable = false)
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
   @JsonView(BaseView.class)
   private LocalDate date;
 

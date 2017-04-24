@@ -27,7 +27,7 @@ import javax.persistence.MappedSuperclass;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"name"}, callSuper = true)
-public abstract class NamedEntity extends BaseEntity {
+public abstract class NamedEntity extends BaseEntity<NamedEntity> {
 
   @Column(name = "name", nullable = false)
   @JsonView(BaseView.class)

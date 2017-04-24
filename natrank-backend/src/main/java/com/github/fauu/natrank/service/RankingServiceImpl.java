@@ -17,7 +17,9 @@ import com.github.fauu.natrank.model.DynamicRankingEntry;
 import com.github.fauu.natrank.model.RankedTeam;
 import com.github.fauu.natrank.model.entity.*;
 import com.github.fauu.natrank.repository.*;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -62,6 +64,8 @@ public class RankingServiceImpl implements RankingService {
 
   @Autowired
   private TeamRatingRepository teamRatingRepository;
+  
+  private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
   private void calculateTeamRatingsAndRankChanges(List<Match> matches) throws DataAccessException {
     teamRatingRepository.deleteAll();
@@ -69,7 +73,7 @@ public class RankingServiceImpl implements RankingService {
 
     List<TeamRating> ratings = new LinkedList<>();
     List<TeamRank> ranks = new LinkedList<>();
-    Map<Integer, RankedTeam> rankedTeamsByTeamId = new HashMap();
+    Map<Integer, RankedTeam> rankedTeamsByTeamId = new HashMap<>();
     List<Team> teams = teamRepository.findAll();
     SortedMap<Integer, Integer> initialRatings = new TreeMap<>();
 
@@ -329,7 +333,7 @@ public class RankingServiceImpl implements RankingService {
 
       List<Period> periods = new LinkedList<>();
 
-      Iterator iterator = periodDates.iterator();
+      Iterator<LocalDate> iterator = periodDates.iterator();
       while (iterator.hasNext()) {
         Period period = new Period();
         period.setFromDate(((LocalDate) iterator.next()));
@@ -361,7 +365,7 @@ public class RankingServiceImpl implements RankingService {
 
     // FIXME: This should take LocalDate instead of String
     List<TeamRating> latestTeamRatingsForTeamByDate
-        = teamRatingRepository.findLatestForTeamsByDate(ranking.getDate().toString("yyyy-MM-dd"));
+        = teamRatingRepository.findLatestForTeamsByDate(ranking.getDate().format(dateTimeFormatter));
     Map<Integer, TeamRating> latestTeamRatingsMap = new HashMap<>();
     for (TeamRating rating : latestTeamRatingsForTeamByDate) {
       latestTeamRatingsMap.put(rating.getTeam().getId(), rating);
@@ -543,8 +547,8 @@ public class RankingServiceImpl implements RankingService {
   @Override
   public DynamicRanking createDynamicForDate(LocalDate date) {
     // FIXME: These should take LocalDate instead of String
-    String dateStr = date.toString("yyyy-MM-dd");
-    String dateMinusOneYearStr = date.minusYears(1).toString("yyyy-MM-dd");
+    String dateStr = date.format(dateTimeFormatter);
+    String dateMinusOneYearStr = date.minusYears(1).format(dateTimeFormatter);
 
     List<TeamRating> latestTeamRatingsForTeam
         = teamRatingRepository.findLatestForTeamsByDate(dateStr);

@@ -1,8 +1,0 @@
-jdbc.driverClassName=com.mysql.jdbc.Driver
-jdbc.url=jdbc:mysql://localhost:3306/natrank
-jdbc.username=root
-jdbc.password=
-jpa.database=MYSQL
-jpa.showSql=true
-hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
-hibernate.globally_quoted_identifiers=true

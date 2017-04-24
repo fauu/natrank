@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.github.fauu.natrank.web.json.BaseView;
 import lombok.*;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 
 import javax.persistence.*;
 import java.util.List;
@@ -28,8 +28,7 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"countries"}, callSuper = true)
 @ToString
-@Table(name = "Team")
-public class Team extends BaseEntity {
+public class Team extends BaseEntity<Team> {
 
   public static class Views {
     public static class Default extends BaseView { }

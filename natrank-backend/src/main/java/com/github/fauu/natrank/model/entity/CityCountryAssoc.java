@@ -25,8 +25,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString
-@Table(name = "CityCountry")
-public class CityCountryAssoc extends BaseEntity {
+@Table(name = "city_country")
+public class CityCountryAssoc extends BaseEntity<CityCountryAssoc> {
 
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinColumn(name = "city_id", nullable = false)

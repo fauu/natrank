@@ -21,11 +21,7 @@ import java.util.List;
 
 public interface MatchTypeRepository extends JpaRepository<MatchType, Integer> {
 
-  List<MatchType> findAll();
-
   @Query("SELECT fifaName FROM MatchType")
   List<String> findAllFifaNames() throws DataAccessException;
-
-  MatchType save(MatchType type) throws DataAccessException;
 
 }

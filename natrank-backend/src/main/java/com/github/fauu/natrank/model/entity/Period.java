@@ -16,11 +16,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.github.fauu.natrank.web.json.BaseView;
 import lombok.*;
-import org.joda.time.LocalDate;
+
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
 @Getter
@@ -28,20 +28,17 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString
-@Table(name = "Period")
-public class Period extends BaseEntity {
+public class Period extends BaseEntity<Period> {
 
   public enum Type {
     INFINITE, LEFT_BOUNDED, RIGHT_BOUNDED, LEFT_AND_RIGHT_BOUNDED
   }
 
   @Column(name = "date_from", nullable = false)
-  @org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
   @JsonView(BaseView.class)
   private LocalDate fromDate;
 
   @Column(name = "date_to")
-  @org.hibernate.annotations.Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
   @JsonView(BaseView.class)
   private LocalDate toDate;
 

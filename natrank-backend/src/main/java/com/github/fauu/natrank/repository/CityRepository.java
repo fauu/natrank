@@ -31,8 +31,6 @@ public interface CityRepository extends JpaRepository<City, Integer> {
   @Query("SELECT name FROM City")
   List<String> findAllNames() throws DataAccessException;
 
-  City findById(int id) throws DataAccessException;
-
-  City save(City city) throws DataAccessException;
+  City findById(Integer id) throws DataAccessException;
 
 }

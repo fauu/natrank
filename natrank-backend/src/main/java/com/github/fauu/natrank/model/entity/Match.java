@@ -18,8 +18,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.github.fauu.natrank.model.TeamInfo;
 import com.github.fauu.natrank.web.json.BaseView;
 import lombok.*;
-import org.hibernate.annotations.Type;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 
 import javax.persistence.*;
 import java.util.List;
@@ -30,15 +29,13 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"date", "team1Goals", "team2Goals", "resultExtra"}, callSuper = true)
 @ToString
-@Table(name = "Match")
-public class Match extends BaseEntity {
+public class Match extends BaseEntity<Match> {
 
   public static class Views {
     public static class Default extends BaseView { }
   }
 
   @Column(name = "date", nullable = false)
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
   @JsonView(Views.Default.class)
   private LocalDate date;
 
@@ -132,7 +129,6 @@ public class Match extends BaseEntity {
   private TeamInfo team2Info;
 
   @OneToMany(mappedBy = "match", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JsonBackReference
   @JsonIgnore
   private List<NotableMatch> notableMatchEntries;
 

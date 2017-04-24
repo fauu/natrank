@@ -26,7 +26,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"extremes"}, callSuper = true)
-@Table(name = "TeamExtremeType")
 public class TeamExtremeType extends NamedEntity {
 
   @OneToMany(mappedBy = "type", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

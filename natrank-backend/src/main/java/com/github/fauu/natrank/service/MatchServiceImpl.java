@@ -20,7 +20,7 @@ import com.github.fauu.natrank.repository.MatchRepository;
 import com.github.fauu.natrank.repository.NotableMatchCategoryRepository;
 import com.github.fauu.natrank.repository.NotableMatchRepository;
 import com.github.fauu.natrank.repository.TeamRepository;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -54,7 +54,7 @@ public class MatchServiceImpl implements MatchService {
   @Override
   public Page<Match> findByYear(int year, Pageable pageable) throws DataAccessException {
     return matchRepository
-           .findByDateBetween(new LocalDate(year, 1, 1), new LocalDate(year, 12, 31), pageable);
+           .findByDateBetween(LocalDate.of(year, 1, 1), LocalDate.of(year, 12, 31), pageable);
   }
 
   @Override

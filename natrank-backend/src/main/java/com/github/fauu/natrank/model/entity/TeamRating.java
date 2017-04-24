@@ -16,8 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.github.fauu.natrank.web.json.BaseView;
 import lombok.*;
-import org.hibernate.annotations.Type;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 
 import javax.persistence.*;
 
@@ -27,15 +26,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"match"}, callSuper = true)
 @ToString
-@Table(name = "TeamRating")
-public class TeamRating extends BaseEntity {
+public class TeamRating extends BaseEntity<TeamRating> {
 
   public static class Views {
     public static class Default extends BaseView { }
   }
 
   @Column(name = "date", nullable = false)
-  @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
   @JsonView(BaseView.class)
   private LocalDate date;
 

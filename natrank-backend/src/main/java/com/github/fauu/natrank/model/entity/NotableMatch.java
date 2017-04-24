@@ -20,7 +20,6 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
 @Getter
@@ -28,8 +27,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString
-@Table(name = "NotableMatch")
-public class NotableMatch extends BaseEntity {
+public class NotableMatch extends BaseEntity<NotableMatch> {
 
   @ManyToOne
   @JoinColumn(name = "category_id", nullable = false)

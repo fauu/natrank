@@ -15,7 +15,7 @@ package com.github.fauu.natrank.repository;
 import com.github.fauu.natrank.model.entity.Team;
 import com.github.fauu.natrank.model.entity.TeamExtreme;
 import com.github.fauu.natrank.model.entity.TeamRating;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
@@ -28,7 +28,7 @@ public interface TeamRatingRepository extends PagingAndSortingRepository<TeamRat
   List<TeamRating> findByTeamAndProvisionalFalse(Team team, Sort sort) throws DataAccessException;
 
   @Query(nativeQuery = true, value =
-         "SELECT tr1.* FROM TeamRating tr1 LEFT JOIN TeamRating tr2 " +
+         "SELECT tr1.* FROM team_rating tr1 LEFT JOIN team_rating tr2 " +
          "ON (tr1.team_id = tr2.team_id AND tr1.date < tr2.date) WHERE tr2.id IS NULL")
   List<TeamRating> findLatestForTeam() throws DataAccessException;
 
@@ -37,8 +37,8 @@ public interface TeamRatingRepository extends PagingAndSortingRepository<TeamRat
   //        Perhaps use TeamRating id and then just limit the date?
   @Query(nativeQuery = true, value =
          "SELECT tr1.* " +
-         "FROM (SELECT * FROM TeamRating WHERE date <= ?1) tr1 " +
-           "LEFT JOIN (SELECT * FROM TeamRating WHERE date <= ?1) tr2 " +
+         "FROM (SELECT * FROM team_rating WHERE date <= ?1) tr1 " +
+           "LEFT JOIN (SELECT * FROM team_rating WHERE date <= ?1) tr2 " +
              "ON (tr1.team_id = tr2.team_id AND tr1.date < tr2.date) " +
          "WHERE tr2.id IS NULL")
   List<TeamRating> findLatestForTeamsByDate(String date) throws DataAccessException;

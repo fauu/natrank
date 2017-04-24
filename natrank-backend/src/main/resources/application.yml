@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/natrank
+    username: root
+    password:
+  jpa:
+    database: MYSQL
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        connection.autocommit: true
+        connection.autoReconnect: true
+        temp.use_jdbc_metadata_defaults: false
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  jackson:
+    serialization:
+     write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+    mapper:
+      default-view-inclusion: true
+security.basic.enabled: false
+logging:
+  file: /var/natrank.log
+  level:
+    org.springframework.web: ERROR
+    org.hibernate: INFO
+    org.hibernate.SQL: INFO
+    org.hibernate.type.descriptor.sql: INFO
+    com.github.fauu.natrank: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

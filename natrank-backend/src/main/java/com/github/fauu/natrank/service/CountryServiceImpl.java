@@ -18,7 +18,7 @@ import com.github.fauu.natrank.model.CountryWithFlagEntryYears;
 import com.github.fauu.natrank.model.entity.*;
 import com.github.fauu.natrank.repository.*;
 import com.google.common.base.Strings;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -101,7 +101,7 @@ public class CountryServiceImpl implements CountryService {
         newFlag.setCode(country.getCode() + entryYearStr);
         newFlag.setCountry(country);
         Period flagPeriod = new Period();
-        flagPeriod.setFromDate(new LocalDate(entryYear, 1, 1));
+        flagPeriod.setFromDate(LocalDate.of(entryYear, 1, 1));
         newFlag.setPeriod(flagPeriod);
 
         Flag latestFlag = country.getLastFlag();
