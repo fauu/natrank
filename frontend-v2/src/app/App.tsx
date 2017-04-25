@@ -3,13 +3,6 @@ import { TopBar } from './TopBar';
 
 export class App extends React.Component<any, any> {
 
-  renderDevTool() {
-    if (process.env.NODE_ENV !== 'production') {
-      const DevTools = require('mobx-react-devtools').default;
-      return (<DevTools />);
-    }
-  };
-
   render() {
     return (
       <div className="main-container">
@@ -17,9 +10,25 @@ export class App extends React.Component<any, any> {
         <div className="page">
           {this.props.children}
         </div>
+        {this.renderFooter()}
         {this.renderDevTool()}
       </div>
     );
   }
+
+  renderFooter() {
+    return (
+      <div className="footer">
+        {/* TODO */} 
+      </div>
+    ) 
+  }
+
+  renderDevTool() {
+    if (process.env.NODE_ENV !== 'production') {
+      const DevTools = require('mobx-react-devtools').default;
+      return (<DevTools />);
+    }
+  };
 
 };

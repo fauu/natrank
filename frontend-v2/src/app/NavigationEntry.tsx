@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router';
+import { Icon } from '../common/Icon';
 
 export interface NavigationEntryProps {
   key: number;
@@ -13,11 +14,10 @@ export class NavigationEntry extends React.Component<NavigationEntryProps, any> 
 
   render() {
     let linkClassName = 'main-navigation__link main-navigation__link' + (this.props.isActive ? '--active' : '')
-    let iconClassName = 'fa fa-' + this.props.icon;
 
     return (
       <Link to={this.props.link} className={linkClassName}>
-        <i className={iconClassName} aria-hidden="true"></i>
+        <Icon name={this.props.icon} />
         {this.props.text}
       </Link>
     )

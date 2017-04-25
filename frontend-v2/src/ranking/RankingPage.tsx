@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { RankingStore } from './RankingStore';
+import { RankingTable } from './RankingTable';
 import { inject, observer } from 'mobx-react';
 import { autorun, action, observable } from 'mobx';
 
@@ -13,12 +14,11 @@ export class RankingPage extends React.Component<RankingPageProps, any> {
 
   render() {
     let ranking = this.props.rankingStore.ranking;
-    let rk = (rs) => {
-      switch (rs.ranking === undefined) {
-        case true:
-          return <span>Loading</span>;
-        case false:
-          return <span>date: {rs.ranking.date.toString()}</span>
+    let rk = (rs: RankingStore) => {
+      if (rs.ranking === undefined) {
+        return <span>Loading...</span>;
+      } else {
+        return <RankingTable data={rs.ranking}/>;
       }
     }
 

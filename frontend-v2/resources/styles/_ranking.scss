@@ -1,0 +1,120 @@
+$border-color: tint($text-color, 75%);
+
+@mixin header-sub-border {
+  border-right: 1px dashed tint($primary-color, 25%);
+}
+@mixin cell-sub-border {
+  border-right: 1px dashed tint($border-color, 10%);
+}
+
+.ranking {
+  width: 700px;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+.ranking-header {
+  background: lighten($primary-color, 30%);
+  color: $bg-color;
+  border-bottom: 1px solid $bg-color;
+  font-size: 80%;
+
+  &__cell {
+    padding: 6px 5px;
+    text-align: center;
+    border-bottom: 1px solid lighten($primary-color, 15%);
+    border-top: 1px solid lighten($primary-color, 15%);
+
+    &--rank {
+      text-align: right;
+      width: 35px;
+    }
+    &--rank-one-year-change {
+      width: 50px;
+    }
+    &--team {
+      text-align: left;
+    }
+    &--rating {
+      border-right: 1px solid lighten($primary-color, 15%);
+    }
+    &--total {
+      @include header-sub-border;
+    }
+    &--losses {
+      @include header-sub-border;
+    }
+  }
+}
+
+.ranking-row {
+  font-size: 80%;
+  padding: 20px 0;
+
+  &--alternate {
+    background: rgb(243, 243, 243);
+  }
+
+  &__cell {
+    padding: 10px 5px;
+    text-align: center;
+
+    &--rank {
+      @include font-bold;
+      font-size: 115%;
+      text-align: right;
+    }
+    &--team-flag {
+      padding: 0;
+    }
+    &--team-name {
+      @include font-medium;
+      text-align: left;
+      font-size: 130%;
+    }
+    &--rating {
+      @include font-bold;
+      font-size: 130%;
+      border-right: 1px solid $border-color;
+    }
+    &--total {
+      @include cell-sub-border;
+    }
+    &--losses {
+      @include cell-sub-border;
+    }
+  }
+}
+
+.rank-change {
+  @include font-medium;
+  vertical-align: -2px;
+
+  &--positive {
+    color: $positive-color;
+  }
+
+  &--negative {
+    color: $negative-color;
+  }
+}
+
+.goal-difference {
+  &--positive {
+    color: $positive-color;
+  }
+
+  &--negative {
+    color: $negative-color;
+  }
+}
+
+.new-ranking-entry-indicator {
+  @include font-bold;
+  text-transform: uppercase;
+  color: $bg-color;
+  background: rgb(255, 160, 25);
+  padding: 3px 5px;
+  border-radius: 2px;
+  vertical-align: -2px;
+}

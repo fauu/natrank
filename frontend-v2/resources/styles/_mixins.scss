@@ -1,0 +1,13 @@
+@mixin text-shadow {
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+}
+
+@mixin font-regular {
+  font-weight: 400;
+}
+@mixin font-medium {
+  font-weight: 500;
+}
+@mixin font-bold {
+  font-weight: 700;
+}
