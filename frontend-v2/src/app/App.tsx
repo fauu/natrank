@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router';
+import { TopBar } from './TopBar';
 
 export class App extends React.Component<any, any> {
 
@@ -10,28 +10,11 @@ export class App extends React.Component<any, any> {
     }
   };
 
-  Header = () => (
-    <nav id="top-bar">
-      <span className="logo">
-        natrank  
-      </span>
-
-      <Link to="/">
-        <i className="fa fa-trophy" aria-hidden="true"></i>
-        Ranking
-      </Link>
-      <Link to="/results">
-        <i className="fa fa-futbol-o" aria-hidden="true"></i>
-        Results
-      </Link>
-    </nav>
-  )
-
   render() {
     return (
       <div className="main-container">
-        <this.Header />
-        <div id="page">
+        <TopBar />
+        <div className="page">
           {this.props.children}
         </div>
         {this.renderDevTool()}
