@@ -3,24 +3,24 @@ import * as ReactDOM from 'react-dom';
 import { useStrict } from 'mobx';
 import { Provider } from 'mobx-react';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
-import { App } from './App';
-import { RouterStore } from './RouterStore';
-import { STORE_ROUTER } from './constants';
-import '../../assets/styles/main.scss';
+import { App } from './app/App';
+import { Api } from './app/Api';
+import { RouterStore } from './app/RouterStore';
+import { RankingStore } from './ranking/RankingStore';
+import { RankingPage } from './ranking/RankingPage';
+import '../resources/styles/main.scss';
 
 useStrict(true);
 
 const routerStore = new RouterStore(browserHistory);
-const rootStores = {
-  [STORE_ROUTER]: routerStore
-};
+const rankingStore = new RankingStore(new Api());
+const stores = { routerStore, rankingStore };
 
-const RankingPage = () => <span>Ranking page</span>
 const ResultsPage = () => <span>Results page</span>
 const NotFoundPage = () => <span>404 page</span>
 
 ReactDOM.render(
-  <Provider {...rootStores} >
+  <Provider {...stores} >
     <Router history={browserHistory} >
       <Route path='/' component={App}>
         <IndexRoute component={RankingPage} />

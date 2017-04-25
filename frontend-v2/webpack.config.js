@@ -13,7 +13,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
   context: sourcePath,
   entry: {
-    main: './main.ts',
+    main: './Main.tsx',
     vendor: [
       'react',
       'react-dom',
