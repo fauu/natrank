@@ -2,8 +2,10 @@ export class Api {
 
   private static baseUrl = "http://localhost:8080";
 
-  getLatestRankingJson(): Promise<{}> {
-    return this.fetchJson('/rankings/latest');
+  getRankingJson(date?: Date): Promise<{}> {
+    let param = date ? date.toISOString().substring(0, 10) : 'latest';
+
+    return this.fetchJson(`/rankings/${param}`);
   }
 
   private fetchJson(url: string): Promise<{}> {

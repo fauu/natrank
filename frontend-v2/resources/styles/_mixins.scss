@@ -11,3 +11,9 @@
 @mixin font-bold {
   font-weight: 900;
 }
+
+@mixin icon($icon) {
+    @include fa-icon;
+    @extend .fa;
+    @extend .fa-#{$icon}:before;
+}

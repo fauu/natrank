@@ -7,6 +7,92 @@ $border-color: tint($text-color, 75%);
   border-right: 1px dashed tint($border-color, 10%);
 }
 
+.ranking-page {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.ranking-date-picker {
+  display: flex;
+  font-size: 140%;
+  margin: 0 auto 20px auto;
+  align-items: center;
+
+  .react-numeric-input {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+
+    b {
+      display: table;
+      color: lighten($text-color, 50%);
+
+      i {
+        @include fa-icon;
+        content: $fa-var-caret-up;
+        font-size: 70%;
+        display: table-cell;
+        cursor: pointer;
+
+        transition-duration: 0.2s;
+        transition-property: 'color';
+      }
+
+      &:hover {
+        color: darken($text-color, 50%);
+      }
+      &:active {
+        color: lighten($text-color, 50%);
+      }
+    }
+
+    b:nth-child(2) {
+      order: 1;
+
+      i {
+        line-height: 9px;
+      }
+
+      i:before {
+        @include icon(caret-up)
+      }
+    }
+    input {
+      order: 2;
+      text-align: center;
+      width: 80%;
+      border: none;
+      background: transparent;
+      @include font-medium;
+      font-family: 'Lato';
+      padding: 5px 4px 7px 4px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+    b:nth-child(3) {
+      order: 3;
+
+      i {
+        line-height: 6px;
+      }
+
+      i:before {
+        @include icon(caret-down)
+      }
+    }
+  }
+
+  &__input--month {
+    @include font-medium;
+    font-family: 'Lato';
+    padding: 0 5px;
+    height: 40px;
+  }
+}
+
 .ranking {
   width: 700px;
   margin: 0 auto;
