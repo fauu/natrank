@@ -1,24 +1,32 @@
 @import '~normalize-scss/sass/normalize/import-now';
+@import 'bourbon/bourbon';
 @import '_fonts.scss';
 @import '_colors.scss';
 @import '_mixins.scss';
-@import 'bourbon/bourbon';
 @import '_ranking.scss';
 
 $top-bar-height: 45px;
 
 body {
-  font-family: 'Roboto';
+  font-family: 'Lato';
   background: $bg-color;
   color: $text-color;
 }
 
-.page a {
-  color: $primary-color;
+a {
   text-decoration: none;
+  color: lighten($primary-color, 22.5%);
+
+  transition-duration: 0.2s;
+  transition-property: 'background-color, color';
+
 
   &:hover {
-    color: tint($primary-color, 50%);
+    color: lighten($primary-color, 50%);
+  }
+
+  &:active {
+    color: darken($primary-color, 10%);
   }
 }
 
@@ -34,11 +42,22 @@ body {
 
 .site-logo {
   @include text-shadow;
-  font-weight: bold;
+  font-family: 'Montserrat';
+  font-weight: 600;
   font-size: 170%;
+  letter-spacing: -1px;
   margin-right: 25px;
+  margin-bottom: 3px;
   user-select: none;
   cursor: default;
+}
+
+h2 {
+  font-family: 'Montserrat';
+  font-weight: 600;
+  font-size: 180%;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .main-navigation {
@@ -46,7 +65,7 @@ body {
 
   &__link {
     @include font-medium;
-    color: $bg-color;
+    color: $bg-color !important;
     text-decoration: none;
     text-align: center;
     display: inline-block;
@@ -55,11 +74,15 @@ body {
 
     &--active {
       background-color: $bg-color;
-      color: $text-color;
+      color: $text-color !important;
     }
 
     &:hover:not(&--active) {
       background: rgba(255, 255, 255, 0.3);
+    }
+
+    &:active:not(&--active) {
+      background: shade($primary-color, 0.3) !important;
     }
   }
 
@@ -72,7 +95,11 @@ body {
   padding: 20px 25px;
 }
 
+.footer {
+
+}
+
 .flag {
-  vertical-align: -5px;
+  vertical-align: -3px;
   border: 1px solid rgb(220, 220, 220);
 }
