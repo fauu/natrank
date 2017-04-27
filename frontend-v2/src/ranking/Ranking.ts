@@ -6,12 +6,12 @@ export class Ranking {
   entries: RankingEntry[];
 
   static fromJson(json): Ranking {
-    let ranking = new Ranking();
+    const ranking = new Ranking();
 
     ranking.date = this.parseDate(json['date']);
     ranking.entries = [];
-    for (var jsonEntry of json.entries) {
-      let entry = RankingEntry.fromJson(jsonEntry);
+    for (const jsonEntry of json.entries) {
+      const entry = RankingEntry.fromJson(jsonEntry);
       ranking.entries.push(entry);
     }
 
@@ -19,8 +19,8 @@ export class Ranking {
   }
 
   // http://stackoverflow.com/a/2587398
-  private static parseDate(dateString: string): Date {
-    let parts: number[] = dateString.split('-').map(part => Number(part));
+  static parseDate(dateString: string): Date {
+    const parts: number[] = dateString.split('-').map(part => Number(part));
 
     return new Date(parts[0], parts[1] - 1, parts[2]);
   }

@@ -12,7 +12,8 @@ interface RankingTableRowProps {
 export class RankingTableRow extends React.Component<RankingTableRowProps, any> {
 
   render() {
-    let data = this.props.data;
+    const data = this.props.data;
+    // TODO: classnames
     let rowClassName = 'ranking-row ranking-row' + 
       (this.props.isAlternate ? '--alternate' : '');
 

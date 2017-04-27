@@ -8,7 +8,7 @@ export class RankingStore {
   @observable selectedDate: Date;
   @observable ranking: Ranking;
 
-  private api: Api;
+  api: Api;
 
   constructor(api: Api) {
     this.api = api;
@@ -16,7 +16,7 @@ export class RankingStore {
   }
 
   @action
-  private loadRanking(date?: Date) {
+  loadRanking(date?: Date) {
     this.ranking = undefined;
 
     const rankingJson = this.api.getRankingJson(date);
@@ -26,7 +26,7 @@ export class RankingStore {
   }
 
   @action
-  private handleRankingLoad(json: {}, date: Date) {
+  handleRankingLoad(json: {}, date: Date) {
     this.ranking = Ranking.fromJson(json);
 
     if (!date) {
@@ -34,10 +34,10 @@ export class RankingStore {
     }
   }
 
-  private handleSelectedDateChange = reaction(
+  handleSelectedDateChange = reaction(
     () => this.selectedDate,
-    () => {
-      this.loadRanking(this.selectedDate);
+    (date) => {
+      this.loadRanking(date);
     }
   );
   

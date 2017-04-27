@@ -47,12 +47,8 @@ $border-color: tint($text-color, 75%);
       }
     }
 
-    b:nth-child(2) {
+    b:nth-child(3) {
       order: 1;
-
-      i {
-        line-height: 9px;
-      }
 
       i:before {
         @include icon(caret-up)
@@ -66,18 +62,14 @@ $border-color: tint($text-color, 75%);
       background: transparent;
       @include font-medium;
       font-family: 'Lato';
-      padding: 5px 4px 7px 4px;
+      //padding: 5px 4px;
 
       &:focus {
         outline: none;
       }
     }
-    b:nth-child(3) {
+    b:nth-child(2) {
       order: 3;
-
-      i {
-        line-height: 6px;
-      }
 
       i:before {
         @include icon(caret-down)
@@ -88,8 +80,11 @@ $border-color: tint($text-color, 75%);
   &__input--month {
     @include font-medium;
     font-family: 'Lato';
+    margin: 0 5px;
     padding: 0 5px;
     height: 40px;
+    background: transparent;
+    border: 1px dashed lighten($text-color, 50%);
   }
 }
 

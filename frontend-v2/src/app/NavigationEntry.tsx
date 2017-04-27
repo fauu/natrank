@@ -13,6 +13,7 @@ export interface NavigationEntryProps {
 export class NavigationEntry extends React.Component<NavigationEntryProps, any> {
 
   render() {
+    // TODO: classnames
     let linkClassName = 'main-navigation__link main-navigation__link' + (this.props.isActive ? '--active' : '')
 
     return (

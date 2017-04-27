@@ -7,19 +7,23 @@ export class App extends React.Component<any, any> {
     return (
       <div className="main-container">
         <TopBar />
+
         <div className="page">
           {this.props.children}
         </div>
+
         {this.renderFooter()}
+
         {this.renderDevTool()}
       </div>
     );
   }
 
+  // TODO: Footer
   renderFooter() {
     return (
       <div className="footer">
-        {/* TODO */} 
+
       </div>
     ) 
   }
@@ -27,7 +31,8 @@ export class App extends React.Component<any, any> {
   renderDevTool() {
     if (process.env.NODE_ENV !== 'production') {
       const DevTools = require('mobx-react-devtools').default;
-      return (<DevTools />);
+
+      return <DevTools />;
     }
   };
 

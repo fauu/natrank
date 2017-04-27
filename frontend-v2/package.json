@@ -2,7 +2,6 @@
   "name": "natrank-frontend-v2",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server -d --history-api-fallback --hot --inline --progress --colors --port 9001",
     "build": "webpack -p --progress --colors"
   },

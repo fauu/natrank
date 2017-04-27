@@ -5,6 +5,7 @@
     "jsx": "react",
     "module": "commonjs",
     "moduleResolution": "node",
+    "baseUrl": "src",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "declaration": false,

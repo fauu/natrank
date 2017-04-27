@@ -1,22 +1,17 @@
-import * as React from 'react';
+import { action } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { DatePicker } from './DatePicker';
+import * as React from 'react';
 import { RankingStore } from './RankingStore';
-import { RankingTable } from './RankingTable';
+import { RankingSection } from './RankingSection';
+import { RankingDatePickerSection } from './RankingDatePickerSection';
 
-interface RankingPageProps {
-  rankingStore?: RankingStore;
-}
-
-@inject('rankingStore')
-@observer
-export class RankingPage extends React.Component<RankingPageProps, any> {
-
+export class RankingPage extends React.Component<any, any> {
+  
   render() {
     return (
       <div className="ranking-page">
-        <DatePicker />
-        <RankingTable />
+        <RankingDatePickerSection />
+        <RankingSection />
       </div>
     );
   }

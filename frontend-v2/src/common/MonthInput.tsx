@@ -1,6 +1,6 @@
-import * as React from 'react';
 import { action, observable } from 'mobx';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
+import * as React from 'react';
 
 interface MonthInputProps {
   initialValue: number,
@@ -25,11 +25,11 @@ export class MonthInput extends React.Component<MonthInputProps, any> {
               value={this.value} onChange={this.handleChange.bind(this)}>
               
         {this.months.map((monthName, idx) => {
-          return (<option value={idx + 1} key={idx}>{monthName}</option>)
+          return (<option value={idx + 1} key={idx}>{monthName}</option>);
         })};
 
       </select>
-    )
+    );
   }
 
   @action
