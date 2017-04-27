@@ -13,11 +13,15 @@ interface RankingSectionProps {
 export class RankingSection extends React.Component<RankingSectionProps, any> {
 
   render() {
-    return ( 
-      this.props.rankingStore.ranking 
-      ? <RankingTable ranking={this.props.rankingStore.ranking} />
-      : <Spinner />
-    )
+    const ranking = this.props.rankingStore.ranking;
+
+    if (!ranking) {
+      return <Spinner />;
+    } else if (ranking.entries.length == 0) {
+      return <span>Could not generate ranking for the provided date.</span>;
+    } else {
+      return <RankingTable ranking={this.props.rankingStore.ranking} />;
+    }
   }
 
 }

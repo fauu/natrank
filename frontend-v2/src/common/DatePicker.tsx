@@ -10,47 +10,52 @@ enum DatePickerField {
 }
 
 interface DatePickerProps {
-  initialDate: Date;
+  value: Date;
+  minYear: number,
+  maxYear: number,
   onChange
 }
 
+// TODO: maxDate support
 export class DatePicker extends React.Component<DatePickerProps, any> {
 
-  selectedDate: Date = new Date();
+  selectedDate: Date;
 
-  render() {
-    const initialDate = this.props.initialDate;
+  componentWillMount() {
+    const initialDate = this.props.value;
     const dateFragments = initialDate.toISOString().substring(0, 10).split('-');
 
-    const day = Number(dateFragments[2]);
+    // We lose a day for some reason during the conversion to ISO string
+    const day = Number(dateFragments[2]) + 1;
     const month = Number(dateFragments[1]);
     const year = Number(dateFragments[0]);
 
-    this.selectedDate.setDate(day);
-    this.selectedDate.setMonth(month - 1)
-    this.selectedDate.setFullYear(year);
+    this.selectedDate = new Date(year, month - 1, day)      
+  }
 
+  render() {
+    console.log(this.selectedDate);
     const dayInputProps = {
       style: false,
       size: 2,
       maxLength: 2,
       min: 1,
       max: 31,
-      value: day,
+      value: this.selectedDate.getDate(),
       onChange: this.handleChange(DatePickerField.Day)
     }
 
     const monthInputProps = {
-      initialValue: month,
+      initialValue: this.selectedDate.getMonth() + 1,
       onChange: this.handleChange(DatePickerField.Month)
     }
 
     const yearInputProps = {
       style: false,
       size: 4,
-      min: 1872,
-      max: 2017,
-      value: year,
+      min: this.props.minYear,
+      max: this.props.maxYear,
+      value: this.selectedDate.getFullYear(),
       onChange: this.handleChange(DatePickerField.Year)
     }
 

@@ -7,6 +7,7 @@ import { RankingEntry } from './RankingEntry';
 interface RankingTableRowProps {
   data?: RankingEntry;
   isAlternate: boolean;
+  isFull: boolean;
 }
 
 export class RankingTableRow extends React.Component<RankingTableRowProps, any> {
@@ -77,27 +78,29 @@ export class RankingTableRow extends React.Component<RankingTableRowProps, any> 
         <td className="ranking-row__cell ranking-row__cell--rating">
           {data.rating > 0 ? data.rating : ''}
         </td>
-        <td className="ranking-row__cell ranking-row__cell--total">
-          {data.matchesTotal}
-        </td>
-        <td className="ranking-row__cell ranking-row__cell--wins">
-          {data.wins}
-        </td>
-        <td className="ranking-row__cell ranking-row__cell--draws">
-          {data.draws}
-        </td>
-        <td className="ranking-row__cell ranking-row__cell--losses">
-          {data.losses}
-        </td>
-        <td className="ranking-row__cell ranking-row__cell--goals-for">
-          {data.goalsFor}
-        </td>
-        <td className="ranking-row__cell ranking-row__cell--goals-against">
-          {data.goalsAgainst}
-        </td>
-        <td className="ranking-row__cell ranking-row__cell--goals-against">
-          {renderGoalDifference()}
-        </td>
+        { this.props.isFull && [
+          <td className="ranking-row__cell ranking-row__cell--total" key={1}>
+            {data.matchesTotal}
+          </td>,
+          <td className="ranking-row__cell ranking-row__cell--wins" key={2}>
+            {data.wins}
+          </td>,
+          <td className="ranking-row__cell ranking-row__cell--draws" key={3}>
+            {data.draws}
+          </td>,
+          <td className="ranking-row__cell ranking-row__cell--losses" key={4}>
+            {data.losses}
+          </td>,
+          <td className="ranking-row__cell ranking-row__cell--goals-for" key={5}>
+            {data.goalsFor}
+          </td>,
+          <td className="ranking-row__cell ranking-row__cell--goals-against" key={6}>
+            {data.goalsAgainst}
+          </td>,
+          <td className="ranking-row__cell ranking-row__cell--goals-against" key={7}>
+            {renderGoalDifference()}
+          </td>
+        ]}
       </tr>
     )
   }

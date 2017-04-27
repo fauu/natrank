@@ -1,5 +1,6 @@
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
+import * as classNames from 'classnames';
 import { Ranking } from './Ranking';
 import { RankingTableRow } from './RankingTableRow';
 
@@ -27,11 +28,13 @@ export class RankingTable extends React.Component<RankingTableProps, any> {
     const ranking = this.props.ranking;
     const thClassPrefix = 'ranking-header__cell ranking-header__cell--';
 
+    const columns = ranking.isFull ? RankingTable.columns : RankingTable.columns.slice(0, 4);
+
     return (
-      <table className="ranking">
+      <table className={classNames('ranking', { 'ranking--full': ranking.isFull})}>
         <thead>
           <tr className="ranking-header">
-            {RankingTable.columns.map((column, idx) => {
+            {columns.map((column, idx) => {
               return (
                 <th className={thClassPrefix + column.classModifier} {...column.props} key={idx} >
                   {column.label}
@@ -42,7 +45,7 @@ export class RankingTable extends React.Component<RankingTableProps, any> {
         </thead>
         <tbody>
           {ranking.entries.map((entry, idx) => { 
-            return <RankingTableRow data={entry} isAlternate={idx % 2 != 0} key={entry.id} />;
+            return <RankingTableRow data={entry} isAlternate={idx % 2 != 0} isFull={ranking.isFull} key={entry.id} />;
           })}
         </tbody>
       </table>

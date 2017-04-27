@@ -4,6 +4,7 @@ export class Ranking {
 
   date: Date;
   entries: RankingEntry[];
+  isFull: boolean;
 
   static fromJson(json): Ranking {
     const ranking = new Ranking();
@@ -14,6 +15,8 @@ export class Ranking {
       const entry = RankingEntry.fromJson(jsonEntry);
       ranking.entries.push(entry);
     }
+    // FIXME: Hacky
+    ranking.isFull = (json['fullVariantAvailable'] === undefined);
 
     return ranking;
   }

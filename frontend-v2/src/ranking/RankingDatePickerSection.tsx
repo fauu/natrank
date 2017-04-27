@@ -17,7 +17,10 @@ export class RankingDatePickerSection extends React.Component<RankingDatePickerS
 
     return ( 
       initialDate
-      ? <DatePicker initialDate={initialDate} onChange={this.handleDateChange} />
+      ? <DatePicker minYear={1873} 
+                    maxYear={initialDate.getFullYear()} 
+                    value={initialDate} 
+                    onChange={this.handleDateChange} />
       : null
     )
   }

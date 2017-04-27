@@ -19,6 +19,11 @@ export class RankingStore {
   loadRanking(date?: Date) {
     this.ranking = undefined;
 
+    // FIXME: Hacky
+    // Force loading of full ranking when we know we have it available
+    if (date && (date.getTime() == this.latestRankingDate.getTime())) {
+      date = undefined;
+    }
     const rankingJson = this.api.getRankingJson(date);
     rankingJson.then(json => {
       this.handleRankingLoad(json, date)
@@ -28,6 +33,10 @@ export class RankingStore {
   @action
   handleRankingLoad(json: {}, date: Date) {
     this.ranking = Ranking.fromJson(json);
+    if (date > this.latestRankingDate) {
+      // FIXME: Hacky as fuck
+      this.ranking.entries = [];
+    }
 
     if (!date) {
       this.latestRankingDate = this.ranking.date;
