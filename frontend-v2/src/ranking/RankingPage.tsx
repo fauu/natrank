@@ -32,7 +32,7 @@ export class RankingPage extends React.Component<RankingPageProps, {}> {
       if (dateRegex.exec(date)) {
         rankingStore.selectedDate = DateUtils.parse(date);
       } else {
-        rankingStore.selectedDate = undefined;
+        rankingStore.loadRanking();
         this.props.routerStore.push(paths.ranking)
       }
     }

@@ -38,7 +38,6 @@ export class RankingStore {
     }
   }
 
-  @action
   handleSelectedDateChange = reaction(
     () => this.selectedDate,
     (date) => {

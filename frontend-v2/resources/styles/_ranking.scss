@@ -1,3 +1,5 @@
+@import 'ranking-datepicker';
+
 $border-color: tint($text-color, 75%);
 
 @mixin header-sub-border {
@@ -13,82 +15,8 @@ $border-color: tint($text-color, 75%);
   flex-direction: column;
 }
 
-.ranking-date-picker {
-  display: flex;
-  font-size: 140%;
-  margin: 0 auto 20px auto;
-  align-items: center;
-
-  .react-numeric-input {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-
-    b {
-      color: lighten($text-color, 65%);
-
-      i {
-        @include fa-icon;
-        content: $fa-var-caret-up;
-        font-size: 70%;
-        display: table-cell;
-        cursor: pointer;
-
-        transition-duration: 0.2s;
-        transition-property: 'color';
-      }
-
-      &:hover {
-        color: lighten($primary-color, 50%);
-      }
-      &:active {
-        color: darken($text-color, 50%);
-      }
-    }
-
-    b:nth-child(2) {
-      order: 1;
-
-      i:before {
-        @include icon(plus-square)
-      }
-    }
-    input {
-      order: 2;
-      @include font-medium;
-      text-align: center;
-      width: 80%;
-      margin: 3px 0;
-      border: none;
-      background: transparent;
-      font-family: 'Lato';
-
-      &:focus {
-        outline: none;
-      }
-    }
-    b:nth-child(3) {
-      order: 3;
-      margin-top: 3px;
-
-      i:before {
-        @include icon(minus-square)
-      }
-    }
-  }
-
-  &__input--month {
-    @include font-medium;
-    font-family: 'Lato';
-    margin: 0 5px;
-    padding: 0 5px;
-    height: 40px;
-    background: transparent;
-    border: 1px dashed lighten($text-color, 50%);
-  }
-}
-
 .ranking {
+  @include rounded-border;
   width: 400px;
   margin: 0 auto;
   border-collapse: collapse;

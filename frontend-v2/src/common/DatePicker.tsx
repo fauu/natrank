@@ -19,6 +19,8 @@ interface DatePickerProps {
 // TODO: maxDate support
 export class DatePicker extends React.Component<DatePickerProps, any> {
 
+  static readonly debounceMs = 500;
+
   selectedDate: Date;
 
   componentWillMount() {
@@ -52,13 +54,15 @@ export class DatePicker extends React.Component<DatePickerProps, any> {
     return (
       <div className='ranking-date-picker'>
 
-        <Debounce time="500" handler="onChange">
+        <Debounce time={DatePicker.debounceMs} handler="onChange">
           <NumericInput {...dayInputProps} />
         </Debounce>
 
-        <MonthInput {...monthInputProps} />
+        <Debounce time={DatePicker.debounceMs} handler="onChange">
+          <MonthInput {...monthInputProps} />
+        </Debounce>
 
-        <Debounce time="500" handler="onChange">
+        <Debounce time={DatePicker.debounceMs} handler="onChange">
           <NumericInput {...yearInputProps} />
         </Debounce>
 
