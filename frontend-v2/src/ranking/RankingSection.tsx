@@ -20,7 +20,7 @@ export class RankingSection extends React.Component<RankingSectionProps, any> {
     } else if (ranking.entries.length == 0) {
       return <span>Could not generate ranking for the selected date.</span>;
     } else {
-      return <RankingTable ranking={this.props.rankingStore.ranking} />;
+      return <RankingTable ranking={this.props.rankingStore.ranking} />
     }
   }
 

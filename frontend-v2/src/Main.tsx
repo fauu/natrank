@@ -8,7 +8,9 @@ import { App } from './app/App';
 import { Api } from './app/Api';
 import { RouterStore } from './app/RouterStore';
 import { RankingStore } from './ranking/RankingStore';
+import { NotFoundPage } from './app/NotFoundPage';
 import { RankingPage } from './ranking/RankingPage';
+import { ResultsPage } from './results/ResultsPage';
 import '../resources/styles/main.scss';
 
 useStrict(true);
@@ -17,9 +19,6 @@ const routerStore = new RouterStore(browserHistory);
 const rankingStore = new RankingStore(new Api(), routerStore);
 const stores = { routerStore, rankingStore };
 
-const ResultsPage = () => <span>Results page</span>
-const NotFoundPage = () => <span>404 page</span>
-
 ReactDOM.render(
   <Provider {...stores}>
     <Router history={browserHistory}>
@@ -27,7 +26,7 @@ ReactDOM.render(
         <Route path={paths.ranking} component={RankingPage}>
           <Route path={'(:date)'} component={RankingPage} />
         </Route>
-        <Route path={paths.result} component={ResultsPage} />
+        <Route path={paths.results} component={ResultsPage} />
         <Route path='*' component={NotFoundPage} />
       </Route>
     </Router>

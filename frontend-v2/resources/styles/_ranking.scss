@@ -9,8 +9,7 @@ $border-color: tint($text-color, 75%);
   border-right: 1px dashed tint($border-color, 10%);
 }
 
-.ranking-page {
-  display: flex;
+.page--ranking {
   justify-content: center;
   flex-direction: column;
 }

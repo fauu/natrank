@@ -8,24 +8,11 @@ export class App extends React.Component<any, any> {
       <div className="main-container">
         <TopBar />
 
-        <div className="page">
-          {this.props.children}
-        </div>
-
-        {this.renderFooter()}
+        {this.props.children}
 
         {this.renderDevTool()}
       </div>
     );
-  }
-
-  // TODO: Footer
-  renderFooter() {
-    return (
-      <div className="footer">
-
-      </div>
-    ) 
   }
 
   renderDevTool() {

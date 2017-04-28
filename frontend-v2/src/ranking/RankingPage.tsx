@@ -40,7 +40,7 @@ export class RankingPage extends React.Component<RankingPageProps, {}> {
   
   render() {
     return (
-      <div className="ranking-page">
+      <div className="page page--ranking">
         <RankingDatePickerSection />
         <RankingSection />
       </div>

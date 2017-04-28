@@ -13,7 +13,7 @@ export class Navigation extends React.Component<NavigationProps, {}> {
 
   navigationEntries: NavigationEntryProps[] = [
     { key: 1, link: `${paths.ranking}`, icon: 'trophy', text: 'Ranking' },
-    { key: 2, link: `${paths.result}`, icon: 'futbol-o', text: 'Results' }
+    { key: 2, link: `${paths.results}`, icon: 'futbol-o', text: 'Results' }
   ];
 
   render() {
