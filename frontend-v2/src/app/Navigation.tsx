@@ -1,22 +1,23 @@
 import { inject } from 'mobx-react';
 import * as React from 'react';
+import { paths } from './Config';
 import { RouterStore } from './RouterStore';
 import { NavigationEntry, NavigationEntryProps } from './NavigationEntry';
 
+interface NavigationProps {
+  routerStore?: RouterStore;
+}
+
 @inject('routerStore')
-export class Navigation extends React.Component<any, any> {
+export class Navigation extends React.Component<NavigationProps, {}> {
 
   navigationEntries: NavigationEntryProps[] = [
-    { key: 1, link: '/', icon: 'trophy', text: 'Ranking', isActive: false },
-    { key: 2, link: '/results', icon: 'futbol-o', text: 'Results', isActive: false }
+    { key: 1, link: `${paths.ranking}`, icon: 'trophy', text: 'Ranking' },
+    { key: 2, link: `${paths.result}`, icon: 'futbol-o', text: 'Results' }
   ];
 
   render() {
     const currentPathname = this.props.routerStore.location.pathname;
-
-    for (const entry of this.navigationEntries) {
-      entry.isActive = (entry.link == currentPathname);
-    }
 
     return (
       <div className="main-navigation">

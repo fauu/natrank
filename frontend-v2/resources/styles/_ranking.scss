@@ -25,8 +25,7 @@ $border-color: tint($text-color, 75%);
     align-items: center;
 
     b {
-      display: table;
-      color: lighten($text-color, 50%);
+      color: lighten($text-color, 65%);
 
       i {
         @include fa-icon;
@@ -40,39 +39,40 @@ $border-color: tint($text-color, 75%);
       }
 
       &:hover {
-        color: darken($text-color, 50%);
+        color: lighten($primary-color, 50%);
       }
       &:active {
-        color: lighten($text-color, 50%);
+        color: darken($text-color, 50%);
       }
     }
 
-    b:nth-child(3) {
+    b:nth-child(2) {
       order: 1;
 
       i:before {
-        @include icon(caret-up)
+        @include icon(plus-square)
       }
     }
     input {
       order: 2;
+      @include font-medium;
       text-align: center;
       width: 80%;
+      margin: 3px 0;
       border: none;
       background: transparent;
-      @include font-medium;
       font-family: 'Lato';
-      //padding: 5px 4px;
 
       &:focus {
         outline: none;
       }
     }
-    b:nth-child(2) {
+    b:nth-child(3) {
       order: 3;
+      margin-top: 3px;
 
       i:before {
-        @include icon(caret-down)
+        @include icon(minus-square)
       }
     }
   }
@@ -197,6 +197,10 @@ $border-color: tint($text-color, 75%);
 
   &--negative {
     color: $negative-color;
+  }
+
+  i {
+    margin-right: 2px;
   }
 }
 

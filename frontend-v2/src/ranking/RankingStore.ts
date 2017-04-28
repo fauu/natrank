@@ -1,29 +1,28 @@
 import { action, reaction, observable } from 'mobx';
+import { paths } from '../app/Config';
+import { RouterStore } from '../app/RouterStore';
 import { Api } from '../app/Api';
+import { DateUtils } from '../common/DateUtils';
 import { Ranking } from './Ranking';
 
 export class RankingStore {
 
-  @observable latestRankingDate: Date; // The date of the ranking at /rankings/latest
+  @observable initialDate: Date;
   @observable selectedDate: Date;
   @observable ranking: Ranking;
 
+  routerStore: RouterStore;
   api: Api;
 
-  constructor(api: Api) {
+  constructor(api: Api, routerStore: RouterStore) {
+    this.routerStore = routerStore;
     this.api = api;
-    this.loadRanking();
   }
 
   @action
   loadRanking(date?: Date) {
     this.ranking = undefined;
 
-    // FIXME: Hacky
-    // Force loading of full ranking when we know we have it available
-    if (date && (date.getTime() == this.latestRankingDate.getTime())) {
-      date = undefined;
-    }
     const rankingJson = this.api.getRankingJson(date);
     rankingJson.then(json => {
       this.handleRankingLoad(json, date)
@@ -31,22 +30,25 @@ export class RankingStore {
   }
 
   @action
-  handleRankingLoad(json: {}, date: Date) {
+  handleRankingLoad(json: {}, date?: Date) {
     this.ranking = Ranking.fromJson(json);
-    if (date > this.latestRankingDate) {
-      // FIXME: Hacky as fuck
-      this.ranking.entries = [];
-    }
 
-    if (!date) {
-      this.latestRankingDate = this.ranking.date;
+    if (!this.initialDate) {
+      this.initialDate = this.ranking.date;
     }
   }
 
+  @action
   handleSelectedDateChange = reaction(
     () => this.selectedDate,
     (date) => {
+      if (!this.initialDate) {
+        this.initialDate = date;
+      }
+
       this.loadRanking(date);
+
+      this.routerStore.push(`${paths.ranking}/${DateUtils.stringify(date)}`);
     }
   );
   

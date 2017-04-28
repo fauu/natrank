@@ -18,7 +18,7 @@ export class RankingSection extends React.Component<RankingSectionProps, any> {
     if (!ranking) {
       return <Spinner />;
     } else if (ranking.entries.length == 0) {
-      return <span>Could not generate ranking for the provided date.</span>;
+      return <span>Could not generate ranking for the selected date.</span>;
     } else {
       return <RankingTable ranking={this.props.rankingStore.ranking} />;
     }

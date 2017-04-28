@@ -7,17 +7,15 @@ export interface NavigationEntryProps {
   link: string;
   icon: string;
   text: string;
-  isActive: boolean;
 }
 
 export class NavigationEntry extends React.Component<NavigationEntryProps, any> {
 
   render() {
-    // TODO: classnames
-    let linkClassName = 'main-navigation__link main-navigation__link' + (this.props.isActive ? '--active' : '')
-
     return (
-      <Link to={this.props.link} className={linkClassName}>
+      <Link to={this.props.link} 
+            className='main-navigation__link'
+            activeClassName='main-navigation__link--active'>
         <Icon name={this.props.icon} />
         {this.props.text}
       </Link>

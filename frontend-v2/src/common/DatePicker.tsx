@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Debounce } from 'react-throttle';
 import * as NumericInput from 'react-numeric-input';
+import { DateUtils } from './DateUtils';
 import { MonthInput } from './MonthInput';
 
 enum DatePickerField {
@@ -12,7 +13,6 @@ enum DatePickerField {
 interface DatePickerProps {
   value: Date;
   minYear: number,
-  maxYear: number,
   onChange
 }
 
@@ -22,19 +22,10 @@ export class DatePicker extends React.Component<DatePickerProps, any> {
   selectedDate: Date;
 
   componentWillMount() {
-    const initialDate = this.props.value;
-    const dateFragments = initialDate.toISOString().substring(0, 10).split('-');
-
-    // We lose a day for some reason during the conversion to ISO string
-    const day = Number(dateFragments[2]) + 1;
-    const month = Number(dateFragments[1]);
-    const year = Number(dateFragments[0]);
-
-    this.selectedDate = new Date(year, month - 1, day)      
+    this.selectedDate = this.props.value;
   }
 
   render() {
-    console.log(this.selectedDate);
     const dayInputProps = {
       style: false,
       size: 2,
@@ -54,7 +45,6 @@ export class DatePicker extends React.Component<DatePickerProps, any> {
       style: false,
       size: 4,
       min: this.props.minYear,
-      max: this.props.maxYear,
       value: this.selectedDate.getFullYear(),
       onChange: this.handleChange(DatePickerField.Year)
     }
