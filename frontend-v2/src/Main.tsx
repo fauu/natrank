@@ -8,6 +8,7 @@ import { App } from './app/App';
 import { Api } from './app/Api';
 import { RouterStore } from './app/RouterStore';
 import { RankingStore } from './ranking/RankingStore';
+import { ResultsStore } from './results/ResultsStore';
 import { NotFoundPage } from './app/NotFoundPage';
 import { RankingPage } from './ranking/RankingPage';
 import { ResultsPage } from './results/ResultsPage';
@@ -16,8 +17,10 @@ import '../resources/styles/main.scss';
 useStrict(true);
 
 const routerStore = new RouterStore(browserHistory);
-const rankingStore = new RankingStore(new Api(), routerStore);
-const stores = { routerStore, rankingStore };
+const api = new Api();
+const rankingStore = new RankingStore(api, routerStore);
+const resultsStore = new ResultsStore(api, routerStore);
+const stores = { routerStore, rankingStore, resultsStore };
 
 ReactDOM.render(
   <Provider {...stores}>

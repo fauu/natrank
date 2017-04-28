@@ -22,6 +22,7 @@ export class DatePicker extends React.Component<DatePickerProps, any> {
   static readonly debounceMs = 500;
 
   selectedDate: Date;
+  initialChangeConsumed = false;
 
   componentWillMount() {
     this.selectedDate = this.props.value;
@@ -71,6 +72,11 @@ export class DatePicker extends React.Component<DatePickerProps, any> {
   };
 
   handleChange = (field) => (newValue) => {
+    if (!this.initialChangeConsumed) {
+      this.initialChangeConsumed = true;
+      return;
+    }
+
     switch (field) {
       case DatePickerField.Day:
         this.selectedDate.setDate(Number(newValue));

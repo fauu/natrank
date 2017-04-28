@@ -10,6 +10,10 @@ export class Api {
     return this.fetchJson(`/rankings/${param}`);
   }
 
+  getMatchesJson(): Promise<{}> {
+    return this.fetchJson('/matches');
+  }
+
   private fetchJson(url: string): Promise<{}> {
     let fullUrl = Api.baseUrl + url;
     let options = { mode: 'cors' };
