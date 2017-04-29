@@ -2,6 +2,7 @@ import { DateUtils } from '../common/DateUtils';
 
 export class Match {
 
+  id: number;
   date: Date;
   type: string;
   city: string;
@@ -21,6 +22,7 @@ export class Match {
   static fromJson(json) {
     const match = new Match();
 
+    match.id = json['id'];
     match.date = DateUtils.parse(json['date']);
     match.type = json['type'];
     match.city = json['city'];

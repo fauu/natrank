@@ -25,6 +25,7 @@ export class ResultsStore {
     });
   }
 
+  @action
   handleMatchesLoad(json: {}, date?: Date) {
     const matchesJson = json['content'];
     this.matchPage = Page.fromJson<Match>(json, Match.fromJson);
