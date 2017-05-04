@@ -34,10 +34,11 @@ a {
   padding: 0 25px;
   height: $top-bar-height;
   background: linear-gradient(120deg, $color-primary 50%, $color-secondary 90%);
-  color: $color-bg;
+  color: $color-panel-bg;
   top: 0;
   display: flex;
   align-items: center;
+  @include panel-shadow;
 }
 
 .site-logo {
@@ -64,7 +65,7 @@ h2 {
 
   &__link {
     @include font-medium;
-    color: $color-bg !important;
+    color: $color-panel-bg !important;
     text-decoration: none;
     text-align: center;
     display: inline-block;
@@ -72,8 +73,8 @@ h2 {
     padding: 0 18px;
 
     &--active {
-      background-color: $color-bg;
-      color: $color-text !important;
+      background-color: $color-panel-bg;
+      color: $color-primary !important;
     }
 
     &:hover:not(&--active) {

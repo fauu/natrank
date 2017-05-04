@@ -97,7 +97,7 @@ export class RankingTableRow extends React.Component<RankingTableRowProps, any> 
           <td className="ranking-row__cell ranking-row__cell--goals-against" key={6}>
             {data.goalsAgainst}
           </td>,
-          <td className="ranking-row__cell ranking-row__cell--goals-against" key={7}>
+          <td className="ranking-row__cell ranking-row__cell--goal-difference" key={7}>
             {renderGoalDifference()}
           </td>
         ]}

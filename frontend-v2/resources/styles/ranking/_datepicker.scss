@@ -3,7 +3,7 @@
 @mixin datepicker-input {
   @include font-medium;
   font-family: 'Lato';
-  background: lighten($color-bg, 10%);
+  background: $color-panel-bg;
   border: 1px solid $color-border;
   color: $color-text;
   height: 40px;
@@ -11,9 +11,13 @@
 
 .ranking-date-picker {
   display: flex;
-  font-size: 140%;
+  font-size: 125%;
   margin: 0 auto 20px auto;
   align-items: center;
+  background: $color-panel-bg;
+  @include panel-shadow;
+  padding: 10px 15px;
+  border: 1px solid $color-border;
 
   .react-numeric-input {
     display: inline-flex;
@@ -36,7 +40,7 @@
       }
 
       &:hover {
-        color: $color-secondary;
+        color: $color-primary;
       }
     }
 
@@ -88,7 +92,7 @@
         cursor: pointer;
 
         &:hover {
-          color: $color-secondary;
+          color: $color-primary;
         }
       }
     }

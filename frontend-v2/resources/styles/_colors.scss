@@ -9,8 +9,10 @@ $desaturation: 20%;
 $color-primary: ncolor('cerulean', 30);
 $color-secondary: ncolor('yellow', 10);
 $color-secondary-shaded: ncolor('yellow', 30);
-$color-bg: ncolor('neutral-white', 1);
+$color-bg: ncolor('neutral-white', 4);
+$color-panel-bg: ncolor('neutral-white', 1);
 $color-text: ncolor('black', 100, 0.87);
+$color-text-secondary: ncolor('black', 100, 0.54);
 $color-positive: ncolor('green', 40);
 $color-negative: ncolor('red', 40);
 
