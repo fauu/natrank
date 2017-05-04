@@ -1,79 +1,46 @@
 @import '~normalize-scss/sass/normalize/import-now';
-@import 'bourbon/bourbon';
-@import 'font-awesome/font-awesome';
+@import 'vendor/font-awesome/font-awesome';
 @import 'fonts';
 @import 'colors';
 @import 'mixins';
-@import 'spinner';
-@import 'ranking';
-@import 'results';
+@import 'common/spinner';
+@import 'ranking/ranking';
+@import 'results/results';
 
 $top-bar-height: 45px;
 
 body {
   font-family: 'Lato';
-  background: $bg-color;
-  color: $text-color;
-}
-
-.fade-enter {
-  opacity: 0.01;
-}
-
-.fade-enter.fade-enter-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
-}
-
-.fade-leave {
-  opacity: 1;
-}
-
-.fade-leave.fade-leave-active {
-  opacity: 0.01;
-  transition: opacity 500ms ease-in;
-}
-.fade-appear {
-  opacity: 0.01;
-}
-
-.fade-appear.fade-appear-active {
-  opacity: 1;
-  transition: opacity .5s ease-in;
+  background: $color-bg;
+  color: $color-text;
 }
 
 ::selection {
-  background: lighten($primary-color, 50%);
+  background: $color-secondary;
 }
 
 a {
   text-decoration: none;
-  color: lighten($primary-color, 22.5%);
-
+  color: $color-primary;
   transition-duration: 0.2s;
   transition-property: 'background-color, color';
 
   &:hover {
-    color: lighten($primary-color, 50%);
-  }
-
-  &:active {
-    color: darken($primary-color, 10%);
+    color: $color-secondary;
   }
 }
 
 .top-bar {
+  padding: 0 25px;
   height: $top-bar-height;
-  background: linear-gradient(240deg, $primary-color 0%, lighten($primary-color, 30%) 70%, lighten($primary-color, 40%) 100%);
-  color: $bg-color;
+  background: linear-gradient(120deg, $color-primary 50%, $color-secondary 90%);
+  color: $color-bg;
   top: 0;
   display: flex;
   align-items: center;
-  padding: 0 25px;
 }
 
 .site-logo {
-  @include text-shadow;
   font-family: 'Montserrat';
   font-weight: 600;
   font-size: 170%;
@@ -97,7 +64,7 @@ h2 {
 
   &__link {
     @include font-medium;
-    color: $bg-color !important;
+    color: $color-bg !important;
     text-decoration: none;
     text-align: center;
     display: inline-block;
@@ -105,16 +72,12 @@ h2 {
     padding: 0 18px;
 
     &--active {
-      background-color: $bg-color;
-      color: $text-color !important;
+      background-color: $color-bg;
+      color: $color-text !important;
     }
 
     &:hover:not(&--active) {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    &:active:not(&--active) {
-      background: shade($primary-color, 0.3) !important;
+      background: rgba($color-bg, 0.35);
     }
   }
 
@@ -132,11 +95,11 @@ h2 {
     padding-top: 300px;
     justify-content: center;
     font-size: 999%;
-    color: lighten($text-color, 60%);
+    color: lighten($color-text, 60%);
   }
 }
 
 .flag {
   vertical-align: -3px;
-  border: 1px solid rgb(220, 220, 220);
+  border: 1px solid rgba($color-text, 0.1);
 }

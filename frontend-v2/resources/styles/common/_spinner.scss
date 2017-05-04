@@ -12,7 +12,7 @@
   -moz-animation: react-spinner_spin 1.2s linear infinite;
   animation: react-spinner_spin 1.2s linear infinite;
   border-radius: 5px;
-  background-color: lighten($primary-color, 30%);
+  background-color: lighten($color-primary, 30%);
   position: absolute;
   width: 20%;
   height: 7.8%;

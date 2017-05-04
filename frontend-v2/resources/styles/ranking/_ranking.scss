@@ -1,12 +1,7 @@
-@import 'ranking-datepicker';
+@import 'datepicker';
 
-$border-color: tint($text-color, 75%);
-
-@mixin header-sub-border {
-  border-right: 1px dashed tint($primary-color, 25%);
-}
 @mixin cell-sub-border {
-  border-right: 1px dashed tint($border-color, 10%);
+  border-right: 1px solid $color-border;
 }
 
 .page--ranking {
@@ -15,41 +10,32 @@ $border-color: tint($text-color, 75%);
 }
 
 .ranking {
-  @include rounded-border;
+  @include panel-shadow;
   width: 400px;
   margin: 0 auto;
   border-collapse: collapse;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+  border: 1px solid $color-border;
 
   &--full {
     width: 700px;
 
-    .ranking-header {
-      &__cell--rating {
-        border-right: 1px solid lighten($primary-color, 15%);
-      }
-    }
-
     .ranking-row {
       &__cell--rating {
-        border-right: 1px solid lighten($text-color, 50%);
+        @include cell-sub-border;
       }
     }
   }
 }
 
 .ranking-header {
-  background: lighten($primary-color, 30%);
-  color: $bg-color;
-  border-bottom: 1px solid $bg-color;
+  background: $color-primary;
+  color: $color-bg;
   font-size: 80%;
 
   &__cell {
     padding: 6px 5px;
     width: 35px;
     text-align: center;
-    border-bottom: 1px solid lighten($primary-color, 15%);
-    border-top: 1px solid lighten($primary-color, 15%);
 
     &--rank {
       padding-left: 10px !important;
@@ -65,12 +51,6 @@ $border-color: tint($text-color, 75%);
       padding: 0 10px !important;
       text-align: center;
     }
-    &--total {
-      @include header-sub-border;
-    }
-    &--losses {
-      @include header-sub-border;
-    }
   }
 }
 
@@ -79,7 +59,7 @@ $border-color: tint($text-color, 75%);
   padding: 20px 0;
 
   &--alternate {
-    background: rgb(243, 243, 243);
+    background: darken($color-bg, 2.5%);
   }
 
   &__cell {
@@ -119,11 +99,11 @@ $border-color: tint($text-color, 75%);
   vertical-align: -2px;
 
   &--positive {
-    color: $positive-color;
+    color: $color-positive;
   }
 
   &--negative {
-    color: $negative-color;
+    color: $color-negative;
   }
 
   i {
@@ -133,11 +113,11 @@ $border-color: tint($text-color, 75%);
 
 .goal-difference {
   &--positive {
-    color: $positive-color;
+    color: $color-positive;
   }
 
   &--negative {
-    color: $negative-color;
+    color: $color-negative;
   }
 }
 
@@ -145,7 +125,7 @@ $border-color: tint($text-color, 75%);
   @include font-bold;
   font-size: 90%;
   text-transform: uppercase;
-  color: $bg-color;
+  color: $color-bg;
   background: rgb(255, 160, 25);
   padding: 3px 5px;
   border-radius: 2px;
