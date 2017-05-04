@@ -6,17 +6,17 @@
   background: $color-panel-bg;
   border: 1px solid $color-border;
   color: $color-text;
-  height: 40px;
+  height: 1.8em;
 }
 
 .ranking-date-picker {
   display: flex;
   font-size: 125%;
-  margin: 0 auto 20px auto;
+  margin: 0 auto 0.85em auto;
   align-items: center;
   background: $color-panel-bg;
   @include panel-shadow;
-  padding: 10px 15px;
+  padding: 0.4em 0.6em;
   border: 1px solid $color-border;
 
   .react-numeric-input {
@@ -35,12 +35,11 @@
         display: table-cell;
         cursor: pointer;
         padding: 5px 8px;
-
         transition-duration: 0.2s;
       }
 
       &:hover {
-        color: $color-primary;
+        color: $color-text-secondary;
       }
     }
 
@@ -79,6 +78,7 @@
     flex-direction: column;
     text-align: center;
     color: $color-border;
+    margin-left: 2px;
 
     &__control {
       display: flex;
@@ -92,7 +92,7 @@
         cursor: pointer;
 
         &:hover {
-          color: $color-primary;
+          color: $color-text-secondary;
         }
       }
     }

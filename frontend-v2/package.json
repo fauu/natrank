@@ -2,7 +2,7 @@
   "name": "natrank-frontend-v2",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server -d --history-api-fallback --hot --inline --progress --colors --port 9001",
+    "start": "node --max_old_space_size=256 node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --history-api-fallback --inline --progress --colors --port 9001",
     "build": "webpack -p --progress --colors"
   },
   "devDependencies": {

@@ -23,44 +23,52 @@
   font-size: 80%;
 
   &__cell {
-    padding: 6px 0;
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+}
 
+.ranking-header, .ranking-row {
+  &__cell {
+    &--rank {
+      text-align: right;
+      width: 40px;
+    }
+    &--rank-one-year-change {
+      width: 60px;
+      text-align: center;
+    }
     &--team {
       min-width: 220px;
       text-align: left;
     }
-    &--rank {
-      text-align: right;
-      width: 45px;
-    }
-    &--rating {
-      padding-right: 15px;
-      text-align: center;
-    }
+
+    &--rating,
     &--total {
       padding-right: 15px;
+      padding-left: 15px;
+      text-align: right;
     }
+
+    &--wins, 
+    &--draws, 
+    &--losses {
+      width: 40px;
+      text-align: right;
+    }
+
     &--losses {
       padding-right: 15px;
     }
+
+    &--goals-for,
+    &--goals-against,
+    &--goal-difference {
+      width: 40px;
+      text-align: right;
+    }
     &--goal-difference {
       padding-right: 15px;
-    }
-
-    &--goals-for,
-    &--goals-against,
-    &--goal-difference {
-      min-width: 40px;
-    }
-
-    &--total,
-    &--wins,
-    &--draws,
-    &--losses,
-    &--goals-for,
-    &--goals-against,
-    &--goal-difference {
-      text-align: right;
     }
   }
 }
@@ -70,51 +78,31 @@
 
   &:hover {
     background: $color-bg;
+    transition-duration: 0.2s;
   }
 
   &__cell {
     height: 33px;
-    text-align: center;
-
-    &--rank-one-year-change {
-      width: 65px;
-    }
-    &--team {
-      text-align: left;
-    }
-    &--rating {
-      padding-right: 15px;
-    }
-    &--total {
-      padding-right: 15px;
-    }
-    &--goal-difference {
-      padding-right: 15px;
-    }
 
     &--rank {
       font-size: 115%;
+    }
+
+    &--team-flag {
+      padding: 0 5px 0 0;
       text-align: right;
     }
-    &--team-flag {
-      padding: 0 4px 0 0;
-    }
+
     &--team-name {
       @include font-medium;
-      text-align: left;
       font-size: 130%;
     }
+
     &--rating {
       @include font-medium;
       font-size: 130%;
-      text-align: center;
     }
-    &--wins, &--draws, &--losses {
-      width: 35px;
-    }
-    &--losses {
-      padding-right: 15px;
-    }
+
     &--total,
     &--wins,
     &--draws,
@@ -123,7 +111,6 @@
     &--goals-against,
     &--goal-difference {
       color: $color-text-secondary;
-      text-align: right;
     }
   }
 }
@@ -159,8 +146,8 @@
   @include font-bold;
   font-size: 90%;
   text-transform: uppercase;
-  color: $color-bg;
-  background: rgb(255, 160, 25);
+  color: $color-text-secondary;
+  background: $color-secondary;
   padding: 3px 5px;
   border-radius: 2px;
   vertical-align: -2px;
