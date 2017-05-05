@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classNames from 'classnames';
 import { Link } from 'react-router';
 import { Icon } from '../common/Icon';
 import { Flag } from '../common/Flag';
@@ -14,64 +15,25 @@ export class RankingTableRow extends React.Component<RankingTableRowProps, any> 
 
   render() {
     const data = this.props.data;
-    // TODO: classnames
-    let rowClassName = 'ranking-row ranking-row' + 
-      (this.props.isAlternate ? '--alternate' : '');
 
-    // TODO: Refactor both of these as methods
-    let renderRankChange = () => {
-      let delta = data.rankOneYearChange;
-
-      if (delta > 0) {
-        return (
-          <span className="rank-change rank-change--positive">
-            <Icon name="arrow-up"/> {delta}
-          </span>
-        );
-      } else if (delta < 0) {
-        return (
-          <span className="rank-change rank-change--negative">
-            {/* TODO: Make it possible to provide a custom className */}
-            <Icon name="arrow-down"/> {Math.abs(delta)}
-          </span>
-        );
-      } else if (delta == 0) {
-        ;
-      } else if (data.rank > 0) {
-        return (
-          <span className="new-ranking-entry-indicator">New</span>
-        );
-      }
-    }
-
-    let renderGoalDifference = () => {
-      let delta = data.goalDifference;
-
-      let sign = (delta > 0) ? '+' : '';
-      let modifier = (delta > 0) 
-                     ? 'positive' 
-                     : ((delta < 0) ? 'negative' : 'neutral');
-
-      return (
-        <span className={"goal-difference goal-difference--" + modifier}>
-          {sign}{delta}
-        </span>
-      )
-    }
+    const rowClassName = classNames({
+      'ranking-row': true,
+      'ranking-row--alternate': this.props.isAlternate
+    });
 
     return (
       <tr className={rowClassName}>
         <td className="ranking-row__cell ranking-row__cell--rank">
-          {data.rank > 0 ? data.rank : ''}
+          {data.rank > 0 && data.rank}
         </td>
         <td className="ranking-row__cell ranking-row__cell--rank-one-year-change">
-          {renderRankChange()}
+          <RankChange rank={data.rank} rankChange={data.rankOneYearChange} />
         </td>
         <td className="ranking-row__cell ranking-row__cell--team-flag">
           <Flag code={data.teamFlag} className="flag" />
         </td>
         <td className="ranking-row__cell ranking-row__cell--team-name">
-          <Link to={"/teams/" + data.teamName.toLowerCase()}>
+          <Link to={`/teams/${data.teamName.toLowerCase()}`}>
             {data.teamName}
           </Link>
         </td>
@@ -98,11 +60,55 @@ export class RankingTableRow extends React.Component<RankingTableRowProps, any> 
             {data.goalsAgainst}
           </td>,
           <td className="ranking-row__cell ranking-row__cell--goal-difference" key={7}>
-            {renderGoalDifference()}
+            <GoalDifference value={data.goalDifference} />
           </td>
         ]}
       </tr>
     )
   }
 
+}
+
+const RankChange = ({rank, rankChange}) => {
+  const delta = rankChange;
+
+  if (delta > 0) {
+    return (
+      <span className="rank-change rank-change--positive">
+        <Icon name="arrow-top-right"/> {delta}
+      </span>
+    );
+  } else if (delta < 0) {
+    return (
+      <span className="rank-change rank-change--negative">
+        <Icon name="arrow-bottom-right"/> {Math.abs(delta)}
+      </span>
+    );
+  } else if (delta == null && rank > 0) {
+    return (
+      <span className="new-ranking-entry-indicator">
+        New
+      </span>
+    );
+  } else {
+    return null;
+  }
+}
+
+const GoalDifference = ({value}) => {
+  const delta = value;
+
+  const goalDifferenceClassName = classNames({
+    'goal-difference': true,
+    'goal-difference--positive': delta > 0,
+    'goal-difference--negative': delta < 0,
+    'goal-difference--neutral': delta == 0
+  })
+  const sign = (delta > 0) ? '+' : '';
+
+  return (
+    <span className={goalDifferenceClassName}>
+      {sign}{delta}
+    </span>
+  )
 }

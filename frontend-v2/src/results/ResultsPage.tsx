@@ -1,7 +1,5 @@
-// import { action } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-// import { paths } from '../app/Config';
 import { RouterStore } from '../app/RouterStore';
 import { ResultsStore } from './ResultsStore';
 import { Result } from './Result';

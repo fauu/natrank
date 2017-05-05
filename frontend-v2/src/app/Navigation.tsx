@@ -12,8 +12,8 @@ interface NavigationProps {
 export class Navigation extends React.Component<NavigationProps, {}> {
 
   navigationEntries: NavigationEntryProps[] = [
-    { key: 1, link: `${paths.ranking}`, icon: 'trophy', text: 'Ranking' },
-    { key: 2, link: `${paths.results}`, icon: 'futbol-o', text: 'Results' }
+    { key: 1, link: `${paths.ranking}`, icon: 'trophy-variant', text: 'Ranking' },
+    { key: 2, link: `${paths.results}`, icon: 'soccer', text: 'Results' }
   ];
 
   render() {

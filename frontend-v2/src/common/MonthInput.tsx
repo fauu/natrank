@@ -27,7 +27,7 @@ export class MonthInput extends React.Component<MonthInputProps, any> {
     return (
       <span className="month-input">
         <b className="month-input__control" onClick={this.handlePlusControlClick.bind(this)}>
-          <Icon name="plus-square" />
+          <Icon name="plus-box" />
         </b>
 
         <select className="month-input__select"
@@ -40,7 +40,7 @@ export class MonthInput extends React.Component<MonthInputProps, any> {
         </select>
 
         <b className="month-input__control" onClick={this.handleMinusControlClick.bind(this)}>
-          <Icon name="minus-square" />
+          <Icon name="minus-box" />
         </b>
       </span>
     );

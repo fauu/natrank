@@ -16,7 +16,7 @@
   align-items: center;
   background: $color-panel-bg;
   @include panel-shadow;
-  padding: 0.4em 0.6em;
+  padding: 0.6em;
   border: 1px solid $color-border;
 
   .react-numeric-input {
@@ -26,15 +26,13 @@
     margin: 0 7px;
 
     b {
-      color: $color-border;
+      color: rgba($color-border, 0.15);
 
       i {
-        @include fa-icon;
-        content: $fa-var-caret-up;
-        font-size: 70%;
+        font-size: 18px;
         display: table-cell;
         cursor: pointer;
-        padding: 5px 8px;
+        padding: 2px 8px;
         transition-duration: $base-transition-duration;
       }
 
@@ -47,7 +45,7 @@
       order: 1;
 
       i:before {
-        @include icon(plus-square)
+        @include icon(plus-box)
       }
     }
     input {
@@ -67,7 +65,7 @@
       margin-top: 1px;
 
       i:before {
-        @include icon(minus-square)
+        @include icon(minus-box)
       }
     }
   }
@@ -87,9 +85,10 @@
       height: 25px;
   
       i {
-        transition-duration: $base-transition-duration;
-        font-size: 70%;
+        font-size: 18px;
         cursor: pointer;
+        color: rgba($color-border, 0.15);
+        transition-duration: $base-transition-duration;
 
         &:hover {
           color: $color-text-secondary;

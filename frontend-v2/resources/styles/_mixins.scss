@@ -12,8 +12,7 @@
   font-weight: 900;
 }
 
-@mixin icon($icon) {
-    @include fa-icon;
-    @extend .fa;
-    @extend .fa-#{$icon}:before;
+@mixin icon($name) {
+  font: normal normal normal 1em/1 "Material Design Icons";
+  content: mdi($name);
 }

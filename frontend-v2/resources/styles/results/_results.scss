@@ -84,7 +84,7 @@
   &--positive {
     color: $color-positive;
 
-    &:before() {
+    &:before {
       content: '+';
     }
   }
@@ -92,7 +92,7 @@
   &--neutral {
     color: $color-text-secondary;
 
-    &:before() {
+    &:before {
       content: '±';
     }
   }

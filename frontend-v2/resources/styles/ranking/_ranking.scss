@@ -78,7 +78,7 @@
 
   &:hover {
     background: $color-bg;
-    transition-duration: 0.2s;
+    transition-duration: $base-transition-duration;
   }
 
   &__cell {
@@ -116,7 +116,6 @@
 }
 
 .rank-change {
-  @include font-medium;
   vertical-align: -2px;
 
   &--positive {
@@ -125,10 +124,6 @@
 
   &--negative {
     color: $color-negative;
-  }
-
-  i {
-    margin-right: 2px;
   }
 }
 
@@ -143,7 +138,6 @@
 }
 
 .new-ranking-entry-indicator {
-  @include font-bold;
   font-size: 90%;
   text-transform: uppercase;
   color: $color-text-secondary;

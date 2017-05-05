@@ -9,9 +9,9 @@ interface IconProps {
 export class Icon extends React.Component<IconProps, any> {
 
   render() {
-    let className = classNames('fa', `fa-${this.props.name}`, this.props.className);
+    let className = classNames('mdi', `mdi-${this.props.name}`, this.props.className);
 
-    return <i className={className} aria-hidden="true"></i>
+    return <i className={className}></i>
   }
 
 }
