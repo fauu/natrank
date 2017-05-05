@@ -10,7 +10,7 @@ export class DateUtils {
     return [fragments[0], fragments[1], fragments[2] + 1];
   }
 
-  static stringify(date: Date, padded: boolean = false): string {
+  static stringify(date: Date, padded: boolean = false, friendly: boolean = false): string {
     let [year, month, day] = DateUtils.fragment(date).map(f => f.toString());
 
     const pad = (n: string, width: number): string => {
@@ -23,7 +23,11 @@ export class DateUtils {
       day = pad(day, 2);
     }
 
-    return [year, month, day].join('-');
+    if (friendly) {
+      return [day, month, year].join('/');
+    } else {
+      return [year, month, day].join('-');
+    }
   }
 
   static parse(dateString: string): Date {

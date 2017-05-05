@@ -25,11 +25,13 @@ export class ResultsPage extends React.Component<ResultsPageProps, {}> {
 
     return (
       <div className="page page--results">
-        {matchPage && 
-         matchPage.content.map((match) => {
-           return <Result match={match} key={match.id} />;
-         })
-        }
+        <div className="result-list">
+          {matchPage && 
+           matchPage.content.map((match) => {
+             return <Result match={match} key={match.id} />;
+           })
+          }
+        </div>
       </div>
     );
   }

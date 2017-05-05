@@ -3,12 +3,115 @@
   justify-content: center;
 
   margin: 0 auto;
-  width: 600px;
+  width: 40em;
   flex-direction: column;
 }
 
-.result {
+.result-list {
   @include panel-shadow;
-  margin: 10px 0;
-  padding: 8px;
+  margin: 1em 0;
+  padding: 1em;
+  background: $color-panel-bg;
+}
+
+.result {
+  display: flex;
+  flex-direction: column;
+  padding: 0.8em;
+
+  &:hover {
+    background: $color-bg;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 0.5em;
+  }
+}
+
+.result__row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  &:not(:last-child) {
+    margin-bottom: 0.6em;
+  }
+}
+
+.result__team {
+  flex: 1 0 0;
+
+  &--left {
+    display: flex;
+    flex-direction: row-reverse;
+
+    .result__team-flag {
+      margin-left: 0.3em;
+    }
+  }
+
+  &--right {
+    text-align: left;
+
+    .result__team-flag {
+      margin-right: 0.3em;
+    }
+  }
+
+  &--winner {
+    @include font-bold;
+  }
+}
+
+.result__score,
+.result__score-extra {
+  flex: 0 0 3em;
+  text-align: center;
+}
+
+.result__ranking-info {
+  flex: 1 0 0;
+  font-size: 80%;
+
+  &--left {
+    text-align: right;
+  }
+}
+
+.result__rating-change {
+  margin-left: 0.25em;
+
+  &--positive {
+    color: $color-positive;
+
+    &:before() {
+      content: '+';
+    }
+  }
+
+  &--neutral {
+    color: $color-text-secondary;
+
+    &:before() {
+      content: '±';
+    }
+  }
+
+  &--negative {
+    color: $color-negative;
+  }
+}
+
+.result__detail {
+  flex: 1 0 0;
+  font-size: 80%;
+  color: $color-text-secondary;
+
+  &--venue {
+    text-align: center;
+  }
+
+  &--type {
+    text-align: right;
+  }
 }
