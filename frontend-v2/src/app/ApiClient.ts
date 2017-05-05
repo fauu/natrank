@@ -10,8 +10,8 @@ export class ApiClient {
     return this.fetchJson(`/rankings/${param}`);
   }
 
-  getMatchesJson(): Promise<{}> {
-    return this.fetchJson('/matches');
+  getMatchesJson(pageNo: number): Promise<{}> {
+    return this.fetchJson(`/matches?page=${pageNo}`);
   }
 
   private fetchJson(url: string): Promise<{}> {

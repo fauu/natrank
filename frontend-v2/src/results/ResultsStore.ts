@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, reaction, observable } from 'mobx';
 import { paths } from '../app/Config';
 import { RouterStore } from '../app/RouterStore';
 import { ApiClient } from '../app/ApiClient';
@@ -17,8 +17,8 @@ export class ResultsStore {
     this.apiClient = apiClient;
   }
 
-  loadMatches() {
-    const matchesJson = this.apiClient.getMatchesJson();
+  loadMatchPage(pageNo: number) {
+    const matchesJson = this.apiClient.getMatchesJson(pageNo);
     matchesJson.then(json => {
       this.handleMatchesLoad(json)
     });
@@ -29,5 +29,12 @@ export class ResultsStore {
     const matchesJson = json['content'];
     this.matchPage = Page.fromJson<Match>(json, Match.fromJson);
   }
+
+  handleMatchPageChange = reaction(
+    () => this.matchPage,
+    (matchPage) => {
+      // this.routerStore.push(`${paths.results}/page/${matchPage.no + 1}`);
+    }
+  );
   
 };

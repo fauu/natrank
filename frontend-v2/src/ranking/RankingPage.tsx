@@ -17,6 +17,7 @@ interface RankingPageProps {
 @inject('routerStore', 'rankingStore')
 export class RankingPage extends React.Component<RankingPageProps, {}> {
 
+  // TODO: componentDidMount?
   @action
   componentWillMount() {
     const rankingStore = this.props.rankingStore;
