@@ -5,7 +5,7 @@ import { Provider } from 'mobx-react';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { paths } from './app/Config';
 import { App } from './app/App';
-import { Api } from './app/Api';
+import { ApiClient } from './app/ApiClient';
 import { RouterStore } from './app/RouterStore';
 import { RankingStore } from './ranking/RankingStore';
 import { ResultsStore } from './results/ResultsStore';
@@ -17,9 +17,9 @@ import '../resources/styles/main.scss';
 useStrict(true);
 
 const routerStore = new RouterStore(browserHistory);
-const api = new Api();
-const rankingStore = new RankingStore(api, routerStore);
-const resultsStore = new ResultsStore(api, routerStore);
+const apiClient = new ApiClient();
+const rankingStore = new RankingStore(apiClient, routerStore);
+const resultsStore = new ResultsStore(apiClient, routerStore);
 const stores = { routerStore, rankingStore, resultsStore };
 
 ReactDOM.render(

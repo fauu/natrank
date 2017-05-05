@@ -1,8 +1,7 @@
 import { action, observable } from 'mobx';
 import { paths } from '../app/Config';
 import { RouterStore } from '../app/RouterStore';
-import { Api } from '../app/Api';
-// import { DateUtils } from '../common/DateUtils';
+import { ApiClient } from '../app/ApiClient';
 import { Page } from '../common/Page';
 import { Match } from './Match';
 
@@ -11,15 +10,15 @@ export class ResultsStore {
   @observable matchPage: Page<Match>;
 
   routerStore: RouterStore;
-  api: Api;
+  apiClient: ApiClient;
 
-  constructor(api: Api, routerStore: RouterStore) {
+  constructor(apiClient: ApiClient, routerStore: RouterStore) {
     this.routerStore = routerStore;
-    this.api = api;
+    this.apiClient = apiClient;
   }
 
   loadMatches() {
-    const matchesJson = this.api.getMatchesJson();
+    const matchesJson = this.apiClient.getMatchesJson();
     matchesJson.then(json => {
       this.handleMatchesLoad(json)
     });

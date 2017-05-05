@@ -35,7 +35,7 @@
         display: table-cell;
         cursor: pointer;
         padding: 5px 8px;
-        transition-duration: 0.2s;
+        transition-duration: $base-transition-duration;
       }
 
       &:hover {
@@ -87,7 +87,7 @@
       height: 25px;
   
       i {
-        transition-duration: 0.2s;
+        transition-duration: $base-transition-duration;
         font-size: 70%;
         cursor: pointer;
 

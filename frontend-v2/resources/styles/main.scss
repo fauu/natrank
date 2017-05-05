@@ -2,6 +2,7 @@
 @import 'vendor/font-awesome/font-awesome';
 @import 'fonts';
 @import 'colors';
+@import 'variables';
 @import 'mixins';
 @import 'common/spinner';
 @import 'ranking/ranking';
@@ -22,7 +23,7 @@ body {
 a {
   text-decoration: none;
   color: $color-primary;
-  transition-duration: 0.2s;
+  transition-duration: $base-transition-duration;
   transition-property: 'background-color, color';
 
   &:hover {

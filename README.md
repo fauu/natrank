@@ -68,14 +68,14 @@ The Frontend module is a single-page application that accesses the data provided
 ## Current version
 The application is currently in alpha stage.
 
-## Planned features
-* New frontend
-* Ranking algorithm refinements
-* Performance improvements
+## Planned work
+* Split backend into `core` `api` and `admin` modules
+* Ranking algorithm refinements (switch to Glicko-2?)
 * More of fun historical charts/graphs/listings etc.
 * Improved tooling for data importing and maintenance
 * Automatic match database and ranking updates
 * Regional rankings
+* Performance investigation and potential improvements
 * ...
 
 ## Licensing

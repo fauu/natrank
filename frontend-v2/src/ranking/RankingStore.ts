@@ -1,7 +1,7 @@
 import { action, reaction, observable } from 'mobx';
 import { paths } from '../app/Config';
 import { RouterStore } from '../app/RouterStore';
-import { Api } from '../app/Api';
+import { ApiClient } from '../app/ApiClient';
 import { DateUtils } from '../common/DateUtils';
 import { Ranking } from './Ranking';
 
@@ -12,18 +12,18 @@ export class RankingStore {
   @observable ranking: Ranking;
 
   routerStore: RouterStore;
-  api: Api;
+  apiClient: ApiClient;
 
-  constructor(api: Api, routerStore: RouterStore) {
+  constructor(apiClient: ApiClient, routerStore: RouterStore) {
     this.routerStore = routerStore;
-    this.api = api;
+    this.apiClient = apiClient;
   }
 
   @action
   loadRanking(date?: Date) {
     this.ranking = undefined;
 
-    const rankingJson = this.api.getRankingJson(date);
+    const rankingJson = this.apiClient.getRankingJson(date);
     rankingJson.then(json => {
       this.handleRankingLoad(json, date)
     });
