@@ -4,6 +4,7 @@ import { DateUtils } from '../common/DateUtils';
 import { StringUtils } from '../common/StringUtils';
 import { Match, MatchTeamInfo } from './Match';
 import { Link } from 'react-router';
+import { Icon } from '../common/Icon';
 import * as classNames from 'classnames';
 import { Flag } from '../common/Flag';
 
@@ -39,11 +40,11 @@ export class Result extends React.Component<ResultProps, {}> {
           <Team teamInfo={match.teamInfos[1]} />
         </div>
         <div className="result__row result__row--secondary">
-          <RankingInfo teamInfo={match.teamInfos[0]} />
+          <RankingChange teamInfo={match.teamInfos[0]} />
           <div className="result__score-extra">
-            {/* AET / PEN */}
+            {match.resultExtra}
           </div>
-          <RankingInfo teamInfo={match.teamInfos[1]} />
+          <RankingChange teamInfo={match.teamInfos[1]} />
         </div>
       </div>
     )
@@ -78,8 +79,8 @@ const Team = (props: { teamInfo: MatchTeamInfo }) => {
   )
 }
 
-const RankingInfo = (props: { teamInfo: MatchTeamInfo }) => {
-  let ratingChangeClassModifier = null;
+const RankingChange = (props: { teamInfo: MatchTeamInfo }) => {
+  let ratingChangeClassModifier = undefined;
   if (props.teamInfo.ratingChange > 0) {
     ratingChangeClassModifier = 'positive';
   } else if (props.teamInfo.ratingChange == 0) {
@@ -88,14 +89,30 @@ const RankingInfo = (props: { teamInfo: MatchTeamInfo }) => {
     ratingChangeClassModifier = 'negative';
   }
 
-  const rankingInfoClassNames = classNames({
-    'result__ranking-info': true,
-    'result__ranking-info--left': props.teamInfo.idx == 0,
-    'result__ranking-info--right': props.teamInfo.idx == 1,
+  let rankChangeClassModifier = undefined;
+  let rankChangeIcon = undefined;
+  if (props.teamInfo.rankChange > 0) {
+    rankChangeClassModifier = 'positive';
+    rankChangeIcon = 'arrow-top-right';
+  } else if (props.teamInfo.rankChange < 0) {
+    rankChangeClassModifier = 'negative';
+    rankChangeIcon = 'arrow-bottom-right';
+  } else {
+    rankChangeClassModifier = 'neutral';
+  }
+
+  const rankingChangeClassNames = classNames({
+    'result__ranking-change': true,
+    'result__ranking-change--left': props.teamInfo.idx == 0,
+    'result__ranking-change--right': props.teamInfo.idx == 1,
   });
 
   return (
-    <div className={rankingInfoClassNames}>
+    <div className={rankingChangeClassNames}>
+      {/*<span className={classNames('result__rank-change', `result__rank-change--${rankChangeClassModifier}`)}>
+        {rankChangeIcon ? <Icon name={rankChangeIcon} /> : '–'}
+        {(props.teamInfo.rankChange != null && props.teamInfo.rankChange != 0) && Math.abs(props.teamInfo.rankChange)}
+      </span>*/}
       <span className={classNames('result__rating-change', `result__rating-change--${ratingChangeClassModifier}`)}>
         {props.teamInfo.ratingChange}
       </span>

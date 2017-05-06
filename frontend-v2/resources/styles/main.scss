@@ -24,7 +24,7 @@ a {
   text-decoration: none;
   color: $color-primary;
   transition-duration: $base-transition-duration;
-  transition-property: 'background-color, color';
+  transition-property: background-color, color;
 
   &:hover {
     color: $color-secondary;
