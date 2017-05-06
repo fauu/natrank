@@ -23,10 +23,12 @@
 
   &:hover {
     background: $color-bg;
+    .result__ranking-info {
+      display: flex;
+    }
   }
 
   &:not(:last-child) {
-    margin-bottom: 0.9em;
   }
 }
 
@@ -45,10 +47,11 @@
 }
 
 .result__team {
+  @include font-medium;
+  display: flex;
   flex: 1 0 0;
 
   &--left {
-    display: flex;
     flex-direction: row-reverse;
 
     .result__team-flag {
@@ -65,7 +68,9 @@
   }
 
   &--winner {
-    @include font-bold;
+    .result__team-name {
+      border-bottom: 2px solid $color-secondary;
+    }
   }
 }
 
@@ -80,16 +85,39 @@
 }
 
 .result__ranking-info {
-  flex: 1 0 0;
+  flex: 0 0 0;
+  display: none;
   font-size: 80%;
 
   &--left {
-    text-align: right;
+  }
+
+  &--right {
+    flex-direction: row-reverse;
   }
 }
 
+.result__rating {
+  @include font-regular;
+  font-size: 80%;
+  background: $color-bg;
+  padding: 0.1em 0.2em;
+  align-self: flex-start;
+}
+
+.result__rank {
+  @include font-regular;
+  font-size: 80%;
+  background: $color-text-secondary;
+  padding: 0.1em 0.2em;
+  color: $color-panel-bg;
+  align-self: flex-start;
+}
+
 .result__rating-change {
-  margin-left: 0.25em;
+  // margin-left: 0.25em;
+  // padding: 0.1em 0.2em;
+  // background: $color-border;
 
   &--positive {
     color: $color-positive;

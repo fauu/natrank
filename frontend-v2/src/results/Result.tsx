@@ -61,10 +61,20 @@ const Team = (props: { teamInfo: MatchTeamInfo }) => {
   const teamLinkPath = `${paths.teams}/${StringUtils.urlfriendlify(props.teamInfo.name)}`;
 
   return (
-    <Link className={teamClassNames} to={teamLinkPath}>
-      <Flag code={props.teamInfo.flag} className="flag result__team-flag" />
-      {props.teamInfo.name}
-    </Link>
+    <div className={teamClassNames}>
+      <Link className={teamClassNames} to={teamLinkPath}>
+        <Flag code={props.teamInfo.flag} className="flag result__team-flag" />
+        <span className='result__team-name'>
+          {props.teamInfo.name}
+        </span>
+      </Link>
+      <span className="result__rating">
+        {props.teamInfo.rating}
+      </span>
+      <span className="result__rank">
+        {props.teamInfo.rank || '–'}
+      </span>
+    </div>
   )
 }
 
@@ -86,7 +96,6 @@ const RankingInfo = (props: { teamInfo: MatchTeamInfo }) => {
 
   return (
     <div className={rankingInfoClassNames}>
-      {props.teamInfo.rating}
       <span className={classNames('result__rating-change', `result__rating-change--${ratingChangeClassModifier}`)}>
         {props.teamInfo.ratingChange}
       </span>
