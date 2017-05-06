@@ -32,7 +32,7 @@ a {
 }
 
 .top-bar {
-  padding: 0 2em;
+  padding: 0 1em;
   height: $top-bar-height;
   background: linear-gradient(120deg, $color-primary 50%, $color-secondary 90%);
   color: $color-panel-bg;
@@ -47,7 +47,7 @@ a {
   font-weight: 600;
   font-size: 170%;
   letter-spacing: -1px;
-  margin-right: 1.2em;
+  margin-right: 0.75em;
   margin-bottom: 0.1em;
   user-select: none;
   cursor: default;

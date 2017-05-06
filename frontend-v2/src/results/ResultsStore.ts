@@ -8,6 +8,7 @@ import { Match } from './Match';
 export class ResultsStore {
 
   @observable matchPage: Page<Match>;
+  totalPages: number;
   @observable isMatchPageLoading: boolean;
 
   routerStore: RouterStore;
@@ -32,6 +33,10 @@ export class ResultsStore {
   handleMatchesLoad(json: {}, date?: Date) {
     const matchesJson = json['content'];
     this.matchPage = Page.fromJson<Match>(json, Match.fromJson);
+
+    if (!this.totalPages) {
+      this.totalPages = this.matchPage.totalPages;
+    }
 
     this.isMatchPageLoading = false;
   }

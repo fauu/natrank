@@ -70,7 +70,8 @@ const Team = (props: { teamInfo: MatchTeamInfo }) => {
         </span>
       </Link>
       <span className="result__rating">
-        {props.teamInfo.rating}
+        {props.teamInfo.rank > 0 ? props.teamInfo.rating : '–'	
+}
       </span>
       <span className="result__rank">
         {props.teamInfo.rank || '–'}
@@ -113,9 +114,11 @@ const RankingChange = (props: { teamInfo: MatchTeamInfo }) => {
         {rankChangeIcon ? <Icon name={rankChangeIcon} /> : '–'}
         {(props.teamInfo.rankChange != null && props.teamInfo.rankChange != 0) && Math.abs(props.teamInfo.rankChange)}
       </span>*/}
+      {props.teamInfo.rank > 0 &&
       <span className={classNames('result__rating-change', `result__rating-change--${ratingChangeClassModifier}`)}>
         {props.teamInfo.ratingChange}
       </span>
+      }
     </div>
   )
 }

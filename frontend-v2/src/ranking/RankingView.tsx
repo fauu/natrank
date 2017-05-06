@@ -8,14 +8,14 @@ import { RankingStore } from './RankingStore';
 import { RankingSection } from './RankingSection';
 import { RankingDatePickerSection } from './RankingDatePickerSection';
 
-interface RankingPageProps {
+interface RankingViewProps {
   routerStore?: RouterStore;
   rankingStore?: RankingStore;
   params: string[];
 }
 
 @inject('routerStore', 'rankingStore')
-export class RankingPage extends React.Component<RankingPageProps, {}> {
+export class RankingView extends React.Component<RankingViewProps, {}> {
 
   componentDidMount() {
     const rankingStore = this.props.rankingStore;
@@ -46,7 +46,7 @@ export class RankingPage extends React.Component<RankingPageProps, {}> {
     );
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     this.props.rankingStore.clear();
   }
 

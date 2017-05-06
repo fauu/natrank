@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Debounce } from 'react-throttle';
+import { debounce } from 'lodash';
 import * as NumericInput from 'react-numeric-input';
 import { DateUtils } from './DateUtils';
 import { MonthInput } from './MonthInput';
@@ -36,12 +36,12 @@ export class DatePicker extends React.Component<DatePickerProps, any> {
       min: 1,
       max: 31,
       value: this.selectedDate.getDate(),
-      onChange: this.handleChange(DatePickerField.Day)
+      onChange: debounce(this.handleChange(DatePickerField.Day), DatePicker.debounceMs)
     }
 
     const monthInputProps = {
       initialValue: this.selectedDate.getMonth() + 1,
-      onChange: this.handleChange(DatePickerField.Month)
+      onChange: debounce(this.handleChange(DatePickerField.Month), DatePicker.debounceMs)
     }
 
     const yearInputProps = {
@@ -49,24 +49,14 @@ export class DatePicker extends React.Component<DatePickerProps, any> {
       size: 4,
       min: this.props.minYear,
       value: this.selectedDate.getFullYear(),
-      onChange: this.handleChange(DatePickerField.Year)
+      onChange: debounce(this.handleChange(DatePickerField.Year), DatePicker.debounceMs)
     }
 
     return (
       <div className='ranking-date-picker'>
-
-        <Debounce time={DatePicker.debounceMs} handler="onChange">
-          <NumericInput {...dayInputProps} />
-        </Debounce>
-
-        <Debounce time={DatePicker.debounceMs} handler="onChange">
-          <MonthInput {...monthInputProps} />
-        </Debounce>
-
-        <Debounce time={DatePicker.debounceMs} handler="onChange">
-          <NumericInput {...yearInputProps} />
-        </Debounce>
-
+        <NumericInput {...dayInputProps} />
+        <MonthInput {...monthInputProps} />
+        <NumericInput {...yearInputProps} />
       </div>
     );
   };

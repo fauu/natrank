@@ -10,8 +10,8 @@ import { RouterStore } from './app/RouterStore';
 import { RankingStore } from './ranking/RankingStore';
 import { ResultsStore } from './results/ResultsStore';
 import { NotFoundPage } from './app/NotFoundPage';
-import { RankingPage } from './ranking/RankingPage';
-import { ResultsPage } from './results/ResultsPage';
+import { RankingView } from './ranking/RankingView';
+import { ResultsView } from './results/ResultsView';
 import '../resources/styles/main.scss';
 
 useStrict(true);
@@ -26,10 +26,12 @@ ReactDOM.render(
   <Provider {...stores}>
     <Router history={browserHistory}>
       <Route path='/' component={App}>
-        <Route path={paths.ranking} component={RankingPage}>
-          <Route path={'(:date)'} component={RankingPage} />
+        <Route path={paths.ranking} component={RankingView}>
+          <Route path={':date'} component={RankingView} />
         </Route>
-        <Route path={paths.results} component={ResultsPage} />
+        <Route path={paths.results} component={ResultsView}>
+          <Route path={'page/:pageNo'} component={ResultsView} />
+        </Route>
         <Route path='*' component={NotFoundPage} />
       </Route>
     </Router>
