@@ -19,7 +19,7 @@ export class MonthInput extends React.Component<MonthInputProps, any> {
   @observable value: number;
 
   @action
-  componentWillMount() {
+  componentDidMount() {
     this.value = this.props.initialValue;
   }
 

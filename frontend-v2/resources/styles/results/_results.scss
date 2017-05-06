@@ -19,14 +19,14 @@
 .result {
   display: flex;
   flex-direction: column;
-  padding: 0.8em;
+  padding: 0.6em;
 
   &:hover {
     background: $color-bg;
   }
 
   &:not(:last-child) {
-    margin-bottom: 0.5em;
+    margin-bottom: 0.9em;
   }
 }
 
@@ -35,8 +35,12 @@
   flex-direction: row;
   justify-content: center;
 
-  &:not(:last-child) {
+  &--details {
     margin-bottom: 0.6em;
+  }
+
+  &--main {
+    margin-bottom: 0.3em;
   }
 }
 
@@ -63,6 +67,10 @@
   &--winner {
     @include font-bold;
   }
+}
+
+.result__score {
+  @include font-medium;
 }
 
 .result__score,

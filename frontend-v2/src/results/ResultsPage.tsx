@@ -1,5 +1,7 @@
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
+import * as Spinner from 'react-spinner';
+import { Debounce } from 'react-throttle';
 import ReactPaginate = require('react-paginate');
 import { RouterStore } from '../app/RouterStore';
 import { ResultsStore } from './ResultsStore';
@@ -16,7 +18,7 @@ interface ResultsPageProps {
 @observer
 export class ResultsPage extends React.Component<ResultsPageProps, {}> {
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.resultsStore.loadMatchPage(0);
   }
 
@@ -25,12 +27,14 @@ export class ResultsPage extends React.Component<ResultsPageProps, {}> {
 
     return (
       <div className="page page--results">
+        {matchPage &&
         <div className="result-list">
-          {matchPage &&
+          <Debounce time={500} handler="onPageChange">
           <ReactPaginate 
               pageCount={matchPage.totalPages}
-              pageRangeDisplayed={5}
-              marginPagesDisplayed={2}
+              initialPage={matchPage.no}
+              pageRangeDisplayed={3}
+              marginPagesDisplayed={1}
               previousLabel={<Icon name="chevron-left" />}
               nextLabel={<Icon name="chevron-right" />}
               breakLabel={<a href="">...</a>}
@@ -39,19 +43,26 @@ export class ResultsPage extends React.Component<ResultsPageProps, {}> {
               disableInitialCallback={true}
               containerClassName={"pagination"}
               activeClassName={"active"} /> 
-          }
-          {matchPage && 
-           matchPage.content.map((match) => {
+          </Debounce>
+          {!this.props.resultsStore.isMatchPageLoading && matchPage.content.map((match) => {
              return <Result match={match} key={match.id} />;
            })
           }
+          {this.props.resultsStore.isMatchPageLoading && <Spinner />}
         </div>
+        }
+        {!matchPage &&
+          <Spinner />}
       </div>
     );
   }
 
   handlePageChange = (e: { selected: number }) => {
     this.props.resultsStore.loadMatchPage(e.selected);
+  }
+
+  componentDidUnmount() {
+    this.props.resultsStore.clear();
   }
 
 }

@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { paths } from '../app/Config';
 import { DateUtils } from '../common/DateUtils';
+import { StringUtils } from '../common/StringUtils';
 import { Match, MatchTeamInfo } from './Match';
 import { Link } from 'react-router';
 import * as classNames from 'classnames';
@@ -8,7 +10,6 @@ import { Flag } from '../common/Flag';
 interface ResultProps {
   match: Match;
 }
-
 
 export class Result extends React.Component<ResultProps, {}> {
 
@@ -19,7 +20,9 @@ export class Result extends React.Component<ResultProps, {}> {
       <div className="result">
         <div className="result__row result__row--details">
           <div className="result__detail result__detail--date">
-            {DateUtils.stringify(match.date, false, true)}
+            <Link to={`${paths.ranking}/${DateUtils.stringify(match.date, true, false)}`}>
+              {DateUtils.stringify(match.date, false, true)}
+            </Link>
           </div>
           <div className="result__detail result__detail--venue">
             {match.city}, {match.country}
@@ -55,14 +58,13 @@ const Team = (props: { teamInfo: MatchTeamInfo }) => {
     'result__team--right': props.teamInfo.idx == 1,
     'result__team--winner': props.teamInfo.isWinner
   });
+  const teamLinkPath = `${paths.teams}/${StringUtils.urlfriendlify(props.teamInfo.name)}`;
 
   return (
-    <div className={teamClassNames}>
+    <Link className={teamClassNames} to={teamLinkPath}>
       <Flag code={props.teamInfo.flag} className="flag result__team-flag" />
-      <Link to={"/teams/" + props.teamInfo.name.toLowerCase()}>
-        {props.teamInfo.name}
-      </Link>
-    </div>
+      {props.teamInfo.name}
+    </Link>
   )
 }
 

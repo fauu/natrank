@@ -35,7 +35,7 @@
       width: 40px;
     }
     &--rank-one-year-change {
-      width: 60px;
+      width: 45px;
       text-align: center;
     }
     &--team {
@@ -138,11 +138,11 @@
 }
 
 .new-ranking-entry-indicator {
-  font-size: 90%;
+  @include font-medium;
+  font-size: 80%;
   text-transform: uppercase;
-  color: $color-text-secondary;
+  color: $color-panel-bg;
   background: $color-secondary;
   padding: 3px 5px;
-  border-radius: 2px;
-  vertical-align: -2px;
+  vertical-align: 1px;
 }

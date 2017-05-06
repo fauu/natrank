@@ -1,4 +1,5 @@
 export const paths = {
   ranking: '/ranking',
-  results: '/results'
+  results: '/results',
+  teams: '/teams'
 }

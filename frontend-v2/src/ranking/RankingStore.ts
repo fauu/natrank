@@ -38,6 +38,11 @@ export class RankingStore {
     }
   }
 
+  @action
+  setSelectedDate(date: Date) {
+    this.selectedDate = date;
+  }
+
   handleSelectedDateChange = reaction(
     () => this.selectedDate,
     (date) => {
@@ -50,5 +55,12 @@ export class RankingStore {
       this.routerStore.push(`${paths.ranking}/${DateUtils.stringify(date)}`);
     }
   );
+
+  @action
+  clear() {
+    this.initialDate = undefined;
+    this.selectedDate = undefined;
+    this.ranking = undefined;
+  }
   
 };

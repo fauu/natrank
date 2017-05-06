@@ -1,12 +1,14 @@
+$page-button-size: 1.7em;
+
 .pagination {
   list-style-type: none; 
   text-align: center;
   padding: 0;
-  margin: 0 0 1em 0;
+  margin: 0 0 1.2em 0;
 
   > li {
-    height: 2em;
-    width: 2em;
+    height: $page-button-size;
+    width: $page-button-size;
     display: inline-block;
 
     &.active {
@@ -29,7 +31,7 @@
 
     > a {
       height: 100%;
-      line-height: 2em;
+      line-height: $page-button-size;
       display: block;
     }
 

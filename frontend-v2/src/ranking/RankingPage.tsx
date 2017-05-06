@@ -17,9 +17,7 @@ interface RankingPageProps {
 @inject('routerStore', 'rankingStore')
 export class RankingPage extends React.Component<RankingPageProps, {}> {
 
-  // TODO: componentDidMount?
-  @action
-  componentWillMount() {
+  componentDidMount() {
     const rankingStore = this.props.rankingStore;
 
     const date = this.props.params['date'];
@@ -31,7 +29,7 @@ export class RankingPage extends React.Component<RankingPageProps, {}> {
       const dateRegex = /^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$/;
 
       if (dateRegex.exec(date)) {
-        rankingStore.selectedDate = DateUtils.parse(date);
+        rankingStore.setSelectedDate(DateUtils.parse(date));
       } else {
         rankingStore.loadRanking();
         this.props.routerStore.push(paths.ranking)
@@ -46,6 +44,10 @@ export class RankingPage extends React.Component<RankingPageProps, {}> {
         <RankingSection />
       </div>
     );
+  }
+
+  componentDidUnmount() {
+    this.props.rankingStore.clear();
   }
 
 }

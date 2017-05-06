@@ -8,6 +8,7 @@ import { Match } from './Match';
 export class ResultsStore {
 
   @observable matchPage: Page<Match>;
+  @observable isMatchPageLoading: boolean;
 
   routerStore: RouterStore;
   apiClient: ApiClient;
@@ -17,7 +18,10 @@ export class ResultsStore {
     this.apiClient = apiClient;
   }
 
+  @action
   loadMatchPage(pageNo: number) {
+    this.isMatchPageLoading = true;
+
     const matchesJson = this.apiClient.getMatchesJson(pageNo);
     matchesJson.then(json => {
       this.handleMatchesLoad(json)
@@ -28,6 +32,8 @@ export class ResultsStore {
   handleMatchesLoad(json: {}, date?: Date) {
     const matchesJson = json['content'];
     this.matchPage = Page.fromJson<Match>(json, Match.fromJson);
+
+    this.isMatchPageLoading = false;
   }
 
   handleMatchPageChange = reaction(
@@ -36,5 +42,11 @@ export class ResultsStore {
       // this.routerStore.push(`${paths.results}/page/${matchPage.no + 1}`);
     }
   );
+
+  @action
+  clear() {
+    this.matchPage = undefined;
+    this.isMatchPageLoading = false;
+  }
   
 };
