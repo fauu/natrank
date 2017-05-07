@@ -1,7 +1,7 @@
 export class StringUtils {
 
-  static urlfriendlify(s: String) {
-    return s.replace(/[^a-z0-9]/gi, '-').toLowerCase();
+  public static urlfriendlify(s: string) {
+    return s.replace(/[^a-z0-9]/gi, "-").toLowerCase();
   }
 
 }

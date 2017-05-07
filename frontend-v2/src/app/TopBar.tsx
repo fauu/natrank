@@ -1,18 +1,18 @@
-import * as React from 'react';
-import { Navigation } from './Navigation';
+import * as React from "react";
+import { Navigation } from "./Navigation";
 
 export class TopBar extends React.Component<any, any> {
 
-  render() {
+  public render() {
     return (
       <nav className="top-bar">
         <span className="site-logo">
-          natrank  
+          natrank
         </span>
 
         <Navigation />
       </nav>
-    )
+    );
   }
 
 }

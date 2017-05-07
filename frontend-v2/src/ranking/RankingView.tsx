@@ -1,33 +1,38 @@
-import { action } from 'mobx';
-import { inject, observer } from 'mobx-react';
-import * as React from 'react';
-import { paths } from '../app/Config';
-import { DateUtils } from '../common/DateUtils';
-import { RouterStore } from '../app/RouterStore';
-import { RankingStore } from './RankingStore';
-import { RankingSection } from './RankingSection';
-import { RankingDatePickerSection } from './RankingDatePickerSection';
+import { action } from "mobx";
+import { inject, observer } from "mobx-react";
+import * as React from "react";
+import { paths } from "../app/Config";
+import { RouterStore } from "../app/RouterStore";
+import { DateUtils } from "../common/DateUtils";
+import { RankingDatePickerSection } from "./RankingDatePickerSection";
+import { RankingSection } from "./RankingSection";
+import { RankingStore } from "./RankingStore";
 
-interface RankingViewProps {
+interface IRankingViewProps {
   routerStore: RouterStore;
   rankingStore: RankingStore;
-  params: string[];
+  params: { date };
 }
 
-@inject('routerStore', 'rankingStore')
+@inject("routerStore", "rankingStore")
 @observer
-export class RankingView extends React.Component<RankingViewProps, {}> {
+export class RankingView extends React.Component<IRankingViewProps, {}> {
 
-  rankingStore: RankingStore;
-  routerStore: RouterStore;
+  public rankingStore: RankingStore;
+  public routerStore: RouterStore;
 
-  componentWillMount() {
+  public handleDateChange = action((newValue: Date) => {
+    this.rankingStore.loadRanking(newValue);
+    this.routerStore.push(`${paths.ranking}/${DateUtils.stringify(newValue)}`);
+  });
+
+  public componentWillMount() {
     this.rankingStore = this.props.rankingStore;
     this.routerStore = this.props.routerStore;
   }
 
-  componentDidMount() {
-    const pathDate = this.props.params['date'];
+  public componentDidMount() {
+    const pathDate = this.props.params.date;
 
     if (!pathDate) {
       this.rankingStore.loadRanking();
@@ -39,22 +44,18 @@ export class RankingView extends React.Component<RankingViewProps, {}> {
         this.handleDateChange(DateUtils.parse(pathDate));
       } else {
         this.rankingStore.loadRanking();
-        this.routerStore.push(paths.ranking)
+        this.routerStore.push(paths.ranking);
       }
     }
   }
 
-  handleDateChange = action((newValue: Date) => {
-    this.rankingStore.loadRanking(newValue);
-    this.routerStore.push(`${paths.ranking}/${DateUtils.stringify(newValue)}`);
-  })
-
-  render() {
+  public render() {
     return (
       <div className="page page--ranking">
         <RankingDatePickerSection
           initialDate={this.rankingStore.initialDate}
-          onDateChange={this.handleDateChange} />
+          onDateChange={this.handleDateChange}
+        />
         <RankingSection />
       </div>
     );

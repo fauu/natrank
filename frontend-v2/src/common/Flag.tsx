@@ -1,17 +1,17 @@
-import * as React from 'react';
+import * as React from "react";
 
-interface FlagProps {
+interface IFlagProps {
   code?: string;
   className?: string;
 }
 
-export class Flag extends React.Component<FlagProps, any> {
+export class Flag extends React.Component<IFlagProps, any> {
 
-  render() {
-    let params = {
+  public render() {
+    const params = {
+      className: this.props.className,
       src: require("../../resources/images/flags/" + this.props.code + ".png"),
-      className: this.props.className
-    }
+    };
 
     return <img {...params} />;
   }

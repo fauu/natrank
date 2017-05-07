@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { TopBar } from './TopBar';
+import * as React from "react";
+import { TopBar } from "./TopBar";
 
 export class App extends React.Component<any, any> {
 
-  render() {
+  public render() {
     return (
       <div className="main-container">
         <TopBar />
@@ -15,12 +15,12 @@ export class App extends React.Component<any, any> {
     );
   }
 
-  renderDevTool() {
-    if (process.env.NODE_ENV !== 'production') {
-      const DevTools = require('mobx-react-devtools').default;
+  private renderDevTool() {
+    if (process.env.NODE_ENV !== "production") {
+      const DevTools = require("mobx-react-devtools").default;
 
       return <DevTools />;
     }
-  };
+  }
 
-};
+}

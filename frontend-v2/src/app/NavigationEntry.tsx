@@ -1,25 +1,27 @@
-import * as React from 'react';
-import { Link } from 'react-router';
-import { Icon } from '../common/Icon';
+import * as React from "react";
+import { Link } from "react-router";
+import { Icon } from "../common/Icon";
 
-export interface NavigationEntryProps {
+export interface INavigationEntryProps {
   key: number;
   link: string;
   icon: string;
   text: string;
 }
 
-export class NavigationEntry extends React.Component<NavigationEntryProps, any> {
+export class NavigationEntry extends React.Component<INavigationEntryProps, any> {
 
-  render() {
+  public render() {
     return (
-      <Link to={this.props.link} 
-            className='main-navigation__link'
-            activeClassName='main-navigation__link--active'>
+      <Link
+        to={this.props.link}
+        className="main-navigation__link"
+        activeClassName="main-navigation__link--active"
+      >
         <Icon name={this.props.icon} />
         {this.props.text}
       </Link>
-    )
+    );
   }
 
 }

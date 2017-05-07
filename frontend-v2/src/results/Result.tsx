@@ -1,20 +1,20 @@
-import * as React from 'react';
-import { paths } from '../app/Config';
-import { DateUtils } from '../common/DateUtils';
-import { StringUtils } from '../common/StringUtils';
-import { Match, MatchTeamInfo } from './Match';
-import { Link } from 'react-router';
-import { Icon } from '../common/Icon';
-import * as classNames from 'classnames';
-import { Flag } from '../common/Flag';
+import * as classNames from "classnames";
+import * as React from "react";
+import { Link } from "react-router";
+import { paths } from "../app/Config";
+import { DateUtils } from "../common/DateUtils";
+import { Flag } from "../common/Flag";
+import { Icon } from "../common/Icon";
+import { StringUtils } from "../common/StringUtils";
+import { IMatchTeamInfo, Match} from "./Match";
 
-interface ResultProps {
+interface IResultProps {
   match: Match;
 }
 
-export class Result extends React.Component<ResultProps, {}> {
+export class Result extends React.Component<IResultProps, {}> {
 
-  render() {
+  public render() {
     const match = this.props.match;
 
     return (
@@ -40,24 +40,24 @@ export class Result extends React.Component<ResultProps, {}> {
           <Team teamInfo={match.teamInfos[1]} />
         </div>
         <div className="result__row result__row--secondary">
-          <RankingChange teamInfo={match.teamInfos[0]} />
+          {<RankingChange teamInfo={match.teamInfos[0]} />}
           <div className="result__score-extra">
             {match.resultExtra}
           </div>
-          <RankingChange teamInfo={match.teamInfos[1]} />
+          {<RankingChange teamInfo={match.teamInfos[1]} />}
         </div>
       </div>
-    )
+    );
   }
 
 }
 
-const Team = (props: { teamInfo: MatchTeamInfo }) => {
+const Team = (props: { teamInfo: IMatchTeamInfo }) => {
   const teamClassNames = classNames({
-    'result__team': true,
-    'result__team--left': props.teamInfo.idx == 0,
-    'result__team--right': props.teamInfo.idx == 1,
-    'result__team--winner': props.teamInfo.isWinner
+    "result__team": true,
+    "result__team--left": props.teamInfo.idx === 0,
+    "result__team--right": props.teamInfo.idx === 1,
+    "result__team--winner": props.teamInfo.isWinner,
   });
   const teamLinkPath = `${paths.teams}/${StringUtils.urlfriendlify(props.teamInfo.name)}`;
 
@@ -65,60 +65,62 @@ const Team = (props: { teamInfo: MatchTeamInfo }) => {
     <div className={teamClassNames}>
       <Link className={teamClassNames} to={teamLinkPath}>
         <Flag code={props.teamInfo.flag} className="flag result__team-flag" />
-        <span className='result__team-name'>
+        <span className="result__team-name">
           {props.teamInfo.name}
         </span>
       </Link>
       <span className="result__rating">
-        {props.teamInfo.rank > 0 ? props.teamInfo.rating : '–'	
-}
+        {props.teamInfo.rank > 0 ? props.teamInfo.rating : "–"}
       </span>
       <span className="result__rank">
-        {props.teamInfo.rank || '–'}
+        {props.teamInfo.rank || "–"}
       </span>
     </div>
-  )
-}
+  );
+};
 
-const RankingChange = (props: { teamInfo: MatchTeamInfo }) => {
-  let ratingChangeClassModifier = undefined;
+const RankingChange = (props: { teamInfo: IMatchTeamInfo }) => {
+  let ratingChangeClassModifier;
   if (props.teamInfo.ratingChange > 0) {
-    ratingChangeClassModifier = 'positive';
-  } else if (props.teamInfo.ratingChange == 0) {
-    ratingChangeClassModifier = 'neutral';
+    ratingChangeClassModifier = "positive";
+  } else if (props.teamInfo.ratingChange === 0) {
+    ratingChangeClassModifier = "neutral";
   } else {
-    ratingChangeClassModifier = 'negative';
+    ratingChangeClassModifier = "negative";
   }
 
-  let rankChangeClassModifier = undefined;
-  let rankChangeIcon = undefined;
+  let rankChangeClassModifier;
+  let rankChangeIcon;
   if (props.teamInfo.rankChange > 0) {
-    rankChangeClassModifier = 'positive';
-    rankChangeIcon = 'arrow-top-right';
+    rankChangeClassModifier = "positive";
+    rankChangeIcon = "arrow-top-right";
   } else if (props.teamInfo.rankChange < 0) {
-    rankChangeClassModifier = 'negative';
-    rankChangeIcon = 'arrow-bottom-right';
+    rankChangeClassModifier = "negative";
+    rankChangeIcon = "arrow-bottom-right";
   } else {
-    rankChangeClassModifier = 'neutral';
+    rankChangeClassModifier = "neutral";
   }
 
-  const rankingChangeClassNames = classNames({
-    'result__ranking-change': true,
-    'result__ranking-change--left': props.teamInfo.idx == 0,
-    'result__ranking-change--right': props.teamInfo.idx == 1,
+  const rankingChangeClassName = classNames({
+    "result__ranking-change": true,
+    "result__ranking-change--left": props.teamInfo.idx === 0,
+    "result__ranking-change--right": props.teamInfo.idx === 1,
   });
 
+  const ratingChangeClassName = classNames(
+    "result__rating-change",
+    `result__rating-change--${ratingChangeClassModifier}`,
+  );
+
+  const ratingChange = props.teamInfo.rank > 0 && (
+    <span className={ratingChangeClassName}>
+      {props.teamInfo.ratingChange}
+    </span>
+  );
+
   return (
-    <div className={rankingChangeClassNames}>
-      {/*<span className={classNames('result__rank-change', `result__rank-change--${rankChangeClassModifier}`)}>
-        {rankChangeIcon ? <Icon name={rankChangeIcon} /> : '–'}
-        {(props.teamInfo.rankChange != null && props.teamInfo.rankChange != 0) && Math.abs(props.teamInfo.rankChange)}
-      </span>*/}
-      {props.teamInfo.rank > 0 &&
-      <span className={classNames('result__rating-change', `result__rating-change--${ratingChangeClassModifier}`)}>
-        {props.teamInfo.ratingChange}
-      </span>
-      }
+    <div className={rankingChangeClassName}>
+      {ratingChange}
     </div>
-  )
-}
+  );
+};

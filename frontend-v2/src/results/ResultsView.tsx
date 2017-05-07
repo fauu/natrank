@@ -1,26 +1,26 @@
-import { debounce } from 'lodash';
-import { inject, observer } from 'mobx-react';
-import * as React from 'react';
-import { paths } from '../app/Config';
-import * as Spinner from 'react-spinner';
-import { RouterStore } from '../app/RouterStore';
-import { ResultsStore } from './ResultsStore';
-import { Result } from './Result';
-import { ResultsPagePicker } from './ResultsPagePicker';
+import { debounce } from "lodash";
+import { inject, observer } from "mobx-react";
+import * as React from "react";
+import * as Spinner from "react-spinner";
+import { paths } from "../app/Config";
+import { RouterStore } from "../app/RouterStore";
+import { Result } from "./Result";
+import { ResultsPagePicker } from "./ResultsPagePicker";
+import { ResultsStore } from "./ResultsStore";
 
-interface ResultsViewProps {
+interface IResultsViewProps {
   routerStore: RouterStore;
   resultsStore: ResultsStore;
-  params: string[];
+  params: { pageNo };
 }
 
-@inject('routerStore', 'resultsStore')
+@inject("routerStore", "resultsStore")
 @observer
-export class ResultsView extends React.Component<ResultsViewProps, {}> {
+export class ResultsView extends React.Component<IResultsViewProps, {}> {
 
-  componentWillMount() {
-    const pathPageNo = this.props.params['pageNo'];
-    
+  public componentWillMount() {
+    const pathPageNo = this.props.params.pageNo;
+
     if (pathPageNo && isNaN(pathPageNo)) {
       this.props.routerStore.push(paths.results);
     } else {
@@ -28,8 +28,8 @@ export class ResultsView extends React.Component<ResultsViewProps, {}> {
     }
   }
 
-  componentWillUpdate() {
-    const pathPageNo = this.props.params['pageNo'];
+  public componentWillUpdate() {
+    const pathPageNo = this.props.params.pageNo;
 
     if (pathPageNo && isNaN(pathPageNo)) {
       this.selectFirstPage();
@@ -47,52 +47,56 @@ export class ResultsView extends React.Component<ResultsViewProps, {}> {
     }
   }
 
-  selectFirstPage() {
+  public selectFirstPage() {
     this.props.routerStore.push(paths.results);
     this.props.resultsStore.loadMatchPage(0);
   }
 
-  render() {
+  public render() {
     const matchPage = this.props.resultsStore.matchPage;
     const isLoading = this.props.resultsStore.isMatchPageLoading;
 
+    const results = matchPage &&
+      matchPage.content.map((match) => (
+        <Result match={match} key={match.id} />
+      ));
+
+    const topPagePicker = matchPage && (
+      <ResultsPagePicker
+        onChange={debounce(this.handlePageChange, 500)}
+        className="results-page-picker results-page-picker--top"
+        pageNo={matchPage.no}
+        totalPages={matchPage.totalPages}
+      />
+    );
+
+    const bottomPagePicker = matchPage && (
+      <ResultsPagePicker
+        onChange={debounce(this.handlePageChange, 500)}
+        className="results-page-picker results-page-picker--bottom"
+        pageNo={matchPage.no}
+        totalPages={matchPage.totalPages}
+      />
+    );
+
+    const resultList = (
+      <div className="result-list">
+        {topPagePicker}
+        {isLoading ? <Spinner /> : results}
+        {!isLoading && bottomPagePicker}
+      </div>
+    );
+
     return (
       <div className="page page--results">
-        {matchPage ?
-          <div className="result-list">
-            <ResultsPagePicker 
-              onChange={this.debouncedHandlePageChange}
-              className="results-page-picker results-page-picker--top"
-              pageNo={matchPage.no}
-              totalPages={matchPage.totalPages} />
-            {!isLoading && 
-              matchPage.content.map((match) => {
-                return <Result match={match} key={match.id} />;
-              })
-            }
-            {isLoading && 
-              <Spinner />
-            }
-            {!isLoading && 
-              <ResultsPagePicker 
-                onChange={this.debouncedHandlePageChange}
-                className="results-page-picker results-page-picker--bottom"
-                pageNo={matchPage.no} 
-                totalPages={matchPage.totalPages} />
-            }
-          </div>
-        :
-          <Spinner />
-        }
+        {matchPage ? resultList : <Spinner />}
       </div>
     );
   }
 
-  handlePageChange = (e: { selected: number }) => {
+  public handlePageChange = (e: { selected: number }) => {
     this.props.resultsStore.loadMatchPage(e.selected);
     this.props.routerStore.push(`${paths.results}/page/${e.selected + 1}`);
   }
-
-  debouncedHandlePageChange = debounce(this.handlePageChange, 500);
 
 }

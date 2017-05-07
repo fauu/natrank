@@ -1,25 +1,63 @@
-import * as React from 'react';
-import * as classNames from 'classnames';
-import { Link } from 'react-router';
-import { Icon } from '../common/Icon';
-import { Flag } from '../common/Flag';
-import { RankingEntry } from './RankingEntry';
+import * as classNames from "classnames";
+import * as React from "react";
+import { Link } from "react-router";
+import { Flag } from "../common/Flag";
+import { Icon } from "../common/Icon";
+import { RankingEntry } from "./RankingEntry";
 
-interface RankingTableRowProps {
+interface IRankingTableRowProps {
   data?: RankingEntry;
   isAlternate: boolean;
   isFull: boolean;
 }
 
-export class RankingTableRow extends React.Component<RankingTableRowProps, any> {
+export class RankingTableRow extends React.Component<IRankingTableRowProps, any> {
 
-  render() {
+  public render() {
     const data = this.props.data;
 
     const rowClassName = classNames({
-      'ranking-row': true,
-      'ranking-row--alternate': this.props.isAlternate
+      "ranking-row": true,
+      "ranking-row--alternate": this.props.isAlternate,
     });
+
+    const cellsForExtraColumns = this.props.isFull ? [
+      (
+        <td className="ranking-row__cell ranking-row__cell--total" key={1}>
+          {data.matchesTotal}
+        </td>
+      ),
+      (
+        <td className="ranking-row__cell ranking-row__cell--wins" key={2}>
+          {data.wins}
+        </td>
+      ),
+      (
+        <td className="ranking-row__cell ranking-row__cell--draws" key={3}>
+          {data.draws}
+        </td>
+      ),
+      (
+        <td className="ranking-row__cell ranking-row__cell--losses" key={4}>
+          {data.losses}
+        </td>
+      ),
+      (
+        <td className="ranking-row__cell ranking-row__cell--goals-for" key={5}>
+          {data.goalsFor}
+        </td>
+      ),
+      (
+        <td className="ranking-row__cell ranking-row__cell--goals-against" key={6}>
+          {data.goalsAgainst}
+        </td>
+      ),
+      (
+        <td className="ranking-row__cell ranking-row__cell--goal-difference" key={7}>
+          <GoalDifference value={data.goalDifference} />
+        </td>
+      ),
+    ] : null;
 
     return (
       <tr className={rowClassName}>
@@ -38,33 +76,11 @@ export class RankingTableRow extends React.Component<RankingTableRowProps, any> 
           </Link>
         </td>
         <td className="ranking-row__cell ranking-row__cell--rating">
-          {data.rating > 0 ? data.rating : ''}
+          {data.rating > 0 ? data.rating : ""}
         </td>
-        { this.props.isFull && [
-          <td className="ranking-row__cell ranking-row__cell--total" key={1}>
-            {data.matchesTotal}
-          </td>,
-          <td className="ranking-row__cell ranking-row__cell--wins" key={2}>
-            {data.wins}
-          </td>,
-          <td className="ranking-row__cell ranking-row__cell--draws" key={3}>
-            {data.draws}
-          </td>,
-          <td className="ranking-row__cell ranking-row__cell--losses" key={4}>
-            {data.losses}
-          </td>,
-          <td className="ranking-row__cell ranking-row__cell--goals-for" key={5}>
-            {data.goalsFor}
-          </td>,
-          <td className="ranking-row__cell ranking-row__cell--goals-against" key={6}>
-            {data.goalsAgainst}
-          </td>,
-          <td className="ranking-row__cell ranking-row__cell--goal-difference" key={7}>
-            <GoalDifference value={data.goalDifference} />
-          </td>
-        ]}
+        {cellsForExtraColumns}
       </tr>
-    )
+    );
   }
 
 }
@@ -93,22 +109,22 @@ const RankChange = ({rank, rankChange}) => {
   } else {
     return null;
   }
-}
+};
 
 const GoalDifference = ({value}) => {
   const delta = value;
 
   const goalDifferenceClassName = classNames({
-    'goal-difference': true,
-    'goal-difference--positive': delta > 0,
-    'goal-difference--negative': delta < 0,
-    'goal-difference--neutral': delta == 0
-  })
-  const sign = (delta > 0) ? '+' : '';
+    "goal-difference": true,
+    "goal-difference--negative": delta < 0,
+    "goal-difference--neutral": delta === 0,
+    "goal-difference--positive": delta > 0,
+  });
+  const sign = (delta > 0) ? "+" : "";
 
   return (
     <span className={goalDifferenceClassName}>
       {sign}{delta}
     </span>
-  )
-}
+  );
+};

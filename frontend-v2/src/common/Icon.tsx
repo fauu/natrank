@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as classNames from 'classnames';
+import * as classNames from "classnames";
+import * as React from "react";
 
 interface IconProps {
   name?: string;
@@ -8,10 +8,10 @@ interface IconProps {
 
 export class Icon extends React.Component<IconProps, any> {
 
-  render() {
-    let className = classNames('mdi', `mdi-${this.props.name}`, this.props.className);
+  public render() {
+    const className = classNames("mdi", `mdi-${this.props.name}`, this.props.className);
 
-    return <i className={className}></i>
+    return <i className={className} />;
   }
 
 }

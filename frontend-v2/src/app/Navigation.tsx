@@ -1,31 +1,29 @@
-import { inject } from 'mobx-react';
-import * as React from 'react';
-import { paths } from './Config';
-import { RouterStore } from './RouterStore';
-import { NavigationEntry, NavigationEntryProps } from './NavigationEntry';
+import { inject } from "mobx-react";
+import * as React from "react";
+import { paths } from "./Config";
+import { INavigationEntryProps, NavigationEntry } from "./NavigationEntry";
+import { RouterStore } from "./RouterStore";
 
-interface NavigationProps {
+interface INavigationProps {
   routerStore?: RouterStore;
 }
 
-@inject('routerStore')
-export class Navigation extends React.Component<NavigationProps, {}> {
+@inject("routerStore")
+export class Navigation extends React.Component<INavigationProps, {}> {
 
-  navigationEntries: NavigationEntryProps[] = [
-    { key: 1, link: `${paths.ranking}`, icon: 'trophy-variant', text: 'Ranking' },
-    { key: 2, link: `${paths.results}`, icon: 'soccer', text: 'Results' }
+  private navigationEntryData: INavigationEntryProps[] = [
+    { key: 1, link: `${paths.ranking}`, icon: "trophy-variant", text: "Ranking" },
+    { key: 2, link: `${paths.results}`, icon: "soccer", text: "Results" },
   ];
 
-  render() {
+  public render() {
     const currentPathname = this.props.routerStore.location.pathname;
 
     return (
       <div className="main-navigation">
-        {this.navigationEntries.map(entry => {
-          return <NavigationEntry {...entry} />
-        })}
+        {this.navigationEntryData.map((entry) => <NavigationEntry {...entry} />)}
       </div>
-    )
+    );
   }
 
 }

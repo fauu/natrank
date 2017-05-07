@@ -1,75 +1,80 @@
-import { action, reaction, observable } from 'mobx';
-import { observer } from 'mobx-react';
-import { Icon } from './Icon';
-import * as React from 'react';
+import { action, observable, reaction } from "mobx";
+import { observer } from "mobx-react";
+import * as React from "react";
+import { Icon } from "./Icon";
 
-interface MonthInputProps {
-  initialValue: number,
-  onChange
+interface IMonthInputProps {
+  initialValue: number;
+  onChange;
 }
 
 @observer
-export class MonthInput extends React.Component<MonthInputProps, any> {
+export class MonthInput extends React.Component<IMonthInputProps, any> {
 
-  static readonly months: string[] = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July',
-                                       'August', 'September', 'October', 'November', 'December' ];
-  static readonly minMonth = 1;
-  static readonly maxMonth = MonthInput.months.length;
+  public static readonly months: string[] =
+    [ "January", "February", "March", "April", "May", "June", "July",
+      "August", "September", "October", "November", "December" ];
 
-  @observable value: number;
+  private static readonly minMonth = 1;
+  private static readonly maxMonth = MonthInput.months.length;
+
+  public handlePlusControlClick = action(() => {
+    if (this.value < MonthInput.maxMonth) {
+      this.value = this.value + 1;
+    }
+  });
+
+  public handleMinusControlClick = action(() => {
+    if (this.value > MonthInput.minMonth) {
+      this.value = this.value - 1;
+    }
+  });
+
+  public handleSelectChange = action((event: React.FormEvent<HTMLSelectElement>) => {
+    this.value = Number(event.currentTarget.value);
+  });
+
+  public handleValueChange = reaction(
+    () => this.value,
+    (value) => {
+      this.props.onChange(value);
+    },
+  );
+
+  @observable private value: number;
 
   @action
-  componentDidMount() {
+  public componentDidMount() {
     this.value = this.props.initialValue;
   }
 
-  render() {
+  public render() {
+    const optionTags =
+      MonthInput.months.map((monthName, idx) => (
+        <option value={idx + 1} key={idx}>
+          {monthName}
+        </option>
+      ));
+
     return (
       <span className="month-input">
-        <b className="month-input__control" onClick={this.handlePlusControlClick.bind(this)}>
+        <b className="month-input__control" onClick={this.handlePlusControlClick}>
           <Icon name="plus-box" />
         </b>
 
-        <select className="month-input__select"
-                value={this.value} onChange={this.handleSelectChange.bind(this)}>
-                
-          {MonthInput.months.map((monthName, idx) => {
-            return (<option value={idx + 1} key={idx}>{monthName}</option>);
-          })};
-
+        <select
+          className="month-input__select"
+          value={this.value}
+          onChange={this.handleSelectChange}
+        >
+          {optionTags}
         </select>
 
-        <b className="month-input__control" onClick={this.handleMinusControlClick.bind(this)}>
+        <b className="month-input__control" onClick={this.handleMinusControlClick}>
           <Icon name="minus-box" />
         </b>
       </span>
     );
   }
-
-  @action
-  handlePlusControlClick() {
-    if (this.value < MonthInput.maxMonth) {
-      this.value = this.value + 1;
-    }
-  }
-
-  @action
-  handleMinusControlClick() {
-    if (this.value > MonthInput.minMonth) {
-      this.value = this.value - 1;
-    }
-  }
-
-  @action
-  handleSelectChange(event) {
-    this.value = event.target.value;
-  };
-
-  handleValueChange = reaction(
-    () => this.value,
-    (value) => {
-      this.props.onChange(value);
-    }
-  );
 
 }

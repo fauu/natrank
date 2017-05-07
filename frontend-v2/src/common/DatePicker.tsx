@@ -1,67 +1,67 @@
-import * as React from 'react';
-import { debounce } from 'lodash';
-import * as NumericInput from 'react-numeric-input';
-import { DateUtils } from './DateUtils';
-import { MonthInput } from './MonthInput';
+import { debounce } from "lodash";
+import * as React from "react";
+import * as NumericInput from "react-numeric-input";
+import { DateUtils } from "./DateUtils";
+import { MonthInput } from "./MonthInput";
 
 enum DatePickerField {
   Day,
   Month,
-  Year 
+  Year ,
 }
 
-interface DatePickerProps {
+interface IDatePickerProps {
   value: Date;
   minYear: number;
   onChange;
 }
 
 // TODO: maxDate support
-export class DatePicker extends React.Component<DatePickerProps, any> {
+export class DatePicker extends React.Component<IDatePickerProps, {}> {
 
-  static readonly debounceMs = 500;
+  private static readonly debounceMs = 500;
 
-  selectedDate: Date;
-  initialChangeConsumed = false;
+  private selectedDate: Date;
+  private initialChangeConsumed = false;
 
-  componentWillMount() {
+  public componentWillMount() {
     this.selectedDate = this.props.value;
   }
 
-  render() {
+  public render() {
     const dayInputProps = {
-      style: false,
-      size: 2,
+      max: 31,
       maxLength: 2,
       min: 1,
-      max: 31,
+      onChange: debounce(this.handleChange(DatePickerField.Day), DatePicker.debounceMs),
+      size: 2,
+      style: false,
       value: this.selectedDate.getDate(),
-      onChange: debounce(this.handleChange(DatePickerField.Day), DatePicker.debounceMs)
-    }
+    };
 
     const monthInputProps = {
       initialValue: this.selectedDate.getMonth() + 1,
-      onChange: debounce(this.handleChange(DatePickerField.Month), DatePicker.debounceMs)
-    }
+      onChange: debounce(this.handleChange(DatePickerField.Month), DatePicker.debounceMs),
+    };
 
     const yearInputProps = {
-      style: false,
-      size: 4,
       min: this.props.minYear,
+      onChange: debounce(this.handleChange(DatePickerField.Year), DatePicker.debounceMs),
+      size: 4,
+      style: false,
       value: this.selectedDate.getFullYear(),
-      onChange: debounce(this.handleChange(DatePickerField.Year), DatePicker.debounceMs)
-    }
+    };
 
     return (
-      <div className='ranking-date-picker'>
+      <div className="ranking-date-picker">
         <NumericInput {...dayInputProps} />
         <MonthInput {...monthInputProps} />
         <NumericInput {...yearInputProps} />
       </div>
     );
-  };
+  }
 
-  handleChange = (field) => (newValue) => {
+  private handleChange = (field) => (newValue) => {
     if (!this.initialChangeConsumed) {
       this.initialChangeConsumed = true;
       return;

@@ -1,31 +1,31 @@
-import { action, observable } from 'mobx';
-import { RouterStore } from '../app/RouterStore';
-import { ApiClient } from '../app/ApiClient';
-import { Ranking } from './Ranking';
+import { action, observable } from "mobx";
+import { ApiClient } from "../app/ApiClient";
+import { RouterStore } from "../app/RouterStore";
+import { Ranking } from "./Ranking";
 
 export class RankingStore {
 
-  @observable initialDate: Date;
-  @observable ranking: Ranking;
+  @observable public initialDate: Date;
+  @observable public ranking: Ranking;
 
-  apiClient: ApiClient;
+  private apiClient: ApiClient;
 
   constructor(apiClient: ApiClient) {
     this.apiClient = apiClient;
   }
 
   @action
-  loadRanking(date?: Date) {
+  public loadRanking(date?: Date) {
     this.ranking = undefined;
 
     const rankingJson = this.apiClient.getRankingJson(date);
-    rankingJson.then(json => {
-      this.handleRankingLoad(json)
+    rankingJson.then((json) => {
+      this.handleRankingLoad(json);
     });
   }
 
   @action
-  handleRankingLoad(json: {}) {
+  public handleRankingLoad(json: {}) {
     this.ranking = Ranking.fromJson(json);
 
     if (!this.initialDate) {
@@ -33,4 +33,4 @@ export class RankingStore {
     }
   }
 
-};
+}
