@@ -1,21 +1,16 @@
-import { action, reaction, observable } from 'mobx';
-import { paths } from '../app/Config';
+import { action, observable } from 'mobx';
 import { RouterStore } from '../app/RouterStore';
 import { ApiClient } from '../app/ApiClient';
-import { DateUtils } from '../common/DateUtils';
 import { Ranking } from './Ranking';
 
 export class RankingStore {
 
   @observable initialDate: Date;
-  @observable selectedDate: Date;
   @observable ranking: Ranking;
 
-  routerStore: RouterStore;
   apiClient: ApiClient;
 
-  constructor(apiClient: ApiClient, routerStore: RouterStore) {
-    this.routerStore = routerStore;
+  constructor(apiClient: ApiClient) {
     this.apiClient = apiClient;
   }
 
@@ -25,12 +20,12 @@ export class RankingStore {
 
     const rankingJson = this.apiClient.getRankingJson(date);
     rankingJson.then(json => {
-      this.handleRankingLoad(json, date)
+      this.handleRankingLoad(json)
     });
   }
 
   @action
-  handleRankingLoad(json: {}, date?: Date) {
+  handleRankingLoad(json: {}) {
     this.ranking = Ranking.fromJson(json);
 
     if (!this.initialDate) {
@@ -38,29 +33,4 @@ export class RankingStore {
     }
   }
 
-  @action
-  setSelectedDate(date: Date) {
-    this.selectedDate = date;
-  }
-
-  handleSelectedDateChange = reaction(
-    () => this.selectedDate,
-    (date) => {
-      if (!this.initialDate) {
-        this.initialDate = date;
-      }
-
-      this.loadRanking(date);
-
-      this.routerStore.push(`${paths.ranking}/${DateUtils.stringify(date)}`);
-    }
-  );
-
-  @action
-  clear() {
-    this.initialDate = undefined;
-    this.selectedDate = undefined;
-    this.ranking = undefined;
-  }
-  
 };

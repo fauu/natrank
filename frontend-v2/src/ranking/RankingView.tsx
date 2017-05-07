@@ -9,45 +9,55 @@ import { RankingSection } from './RankingSection';
 import { RankingDatePickerSection } from './RankingDatePickerSection';
 
 interface RankingViewProps {
-  routerStore?: RouterStore;
-  rankingStore?: RankingStore;
+  routerStore: RouterStore;
+  rankingStore: RankingStore;
   params: string[];
 }
 
 @inject('routerStore', 'rankingStore')
+@observer
 export class RankingView extends React.Component<RankingViewProps, {}> {
 
+  rankingStore: RankingStore;
+  routerStore: RouterStore;
+
+  componentWillMount() {
+    this.rankingStore = this.props.rankingStore;
+    this.routerStore = this.props.routerStore;
+  }
+
   componentDidMount() {
-    const rankingStore = this.props.rankingStore;
+    const pathDate = this.props.params['date'];
 
-    const date = this.props.params['date'];
-
-    if (!date) {
-      rankingStore.loadRanking();
+    if (!pathDate) {
+      this.rankingStore.loadRanking();
     } else {
       // TODO: Better regex, better date validation across the whole app in general
       const dateRegex = /^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$/;
 
-      if (dateRegex.exec(date)) {
-        rankingStore.setSelectedDate(DateUtils.parse(date));
+      if (dateRegex.exec(pathDate)) {
+        this.handleDateChange(DateUtils.parse(pathDate));
       } else {
-        rankingStore.loadRanking();
-        this.props.routerStore.push(paths.ranking)
+        this.rankingStore.loadRanking();
+        this.routerStore.push(paths.ranking)
       }
     }
   }
-  
+
+  handleDateChange = action((newValue: Date) => {
+    this.rankingStore.loadRanking(newValue);
+    this.routerStore.push(`${paths.ranking}/${DateUtils.stringify(newValue)}`);
+  })
+
   render() {
     return (
       <div className="page page--ranking">
-        <RankingDatePickerSection />
+        <RankingDatePickerSection
+          initialDate={this.rankingStore.initialDate}
+          onDateChange={this.handleDateChange} />
         <RankingSection />
       </div>
     );
-  }
-
-  componentWillUnmount() {
-    this.props.rankingStore.clear();
   }
 
 }

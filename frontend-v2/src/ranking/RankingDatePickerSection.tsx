@@ -1,32 +1,22 @@
-import { action } from 'mobx';
-import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { RankingStore } from './RankingStore';
 import { DatePicker } from '../common/DatePicker'
 
 interface RankingDatePickerSectionProps {
-  rankingStore?: RankingStore;
+  initialDate: Date;
+  onDateChange;
 }
 
-@inject('rankingStore')
-@observer
 export class RankingDatePickerSection extends React.Component<RankingDatePickerSectionProps, {}> {
 
   render() {
-    const initialDate = this.props.rankingStore.initialDate;
-
     return ( 
-      initialDate
+      this.props.initialDate
       ? <DatePicker minYear={1873} // TODO: Get from the API
-                    value={new Date(initialDate)} 
-                    onChange={this.handleDateChange} />
+                    value={this.props.initialDate} 
+                    onChange={this.props.onDateChange} />
       : null
     )
-  }
-
-  @action
-  handleDateChange = (newValue: Date) => {
-    this.props.rankingStore.selectedDate = new Date(newValue);
   }
 
 }

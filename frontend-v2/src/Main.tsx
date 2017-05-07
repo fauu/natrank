@@ -18,8 +18,8 @@ useStrict(true);
 
 const routerStore = new RouterStore(browserHistory);
 const apiClient = new ApiClient();
-const rankingStore = new RankingStore(apiClient, routerStore);
-const resultsStore = new ResultsStore(apiClient, routerStore);
+const rankingStore = new RankingStore(apiClient);
+const resultsStore = new ResultsStore(apiClient);
 const stores = { routerStore, rankingStore, resultsStore };
 
 ReactDOM.render(

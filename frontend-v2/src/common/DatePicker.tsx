@@ -12,8 +12,8 @@ enum DatePickerField {
 
 interface DatePickerProps {
   value: Date;
-  minYear: number,
-  onChange
+  minYear: number;
+  onChange;
 }
 
 // TODO: maxDate support
