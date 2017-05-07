@@ -1,8 +1,8 @@
 import { inject, observer } from "mobx-react";
+import { RankingTable } from "ranking/components/RankingTable";
+import { RankingStore } from "ranking/RankingStore";
 import * as React from "react";
 import * as Spinner from "react-spinner";
-import { RankingStore } from "./RankingStore";
-import { RankingTable } from "./RankingTable";
 
 interface IRankingSectionProps {
   rankingStore?: RankingStore;

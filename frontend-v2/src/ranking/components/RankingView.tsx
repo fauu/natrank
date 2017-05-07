@@ -1,12 +1,12 @@
+import { paths } from "app/Config";
+import { RouterStore } from "app/RouterStore";
+import { DateUtils } from "common/DateUtils";
 import { action } from "mobx";
 import { inject, observer } from "mobx-react";
+import { RankingDatePickerSection } from "ranking/components/RankingDatePickerSection";
+import { RankingSection } from "ranking/components/RankingSection";
+import { RankingStore } from "ranking/RankingStore";
 import * as React from "react";
-import { paths } from "../app/Config";
-import { RouterStore } from "../app/RouterStore";
-import { DateUtils } from "../common/DateUtils";
-import { RankingDatePickerSection } from "./RankingDatePickerSection";
-import { RankingSection } from "./RankingSection";
-import { RankingStore } from "./RankingStore";
 
 interface IRankingViewProps {
   routerStore: RouterStore;

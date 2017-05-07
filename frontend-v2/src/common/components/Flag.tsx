@@ -10,7 +10,7 @@ export class Flag extends React.Component<IFlagProps, any> {
   public render() {
     const params = {
       className: this.props.className,
-      src: require("../../resources/images/flags/" + this.props.code + ".png"),
+      src: require("../../../resources/images/flags/" + this.props.code + ".png"),
     };
 
     return <img {...params} />;

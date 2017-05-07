@@ -1,6 +1,6 @@
+import { Icon } from "common/components/Icon";
 import * as React from "react";
 import ReactPaginate = require("react-paginate");
-import { Icon } from "../common/Icon";
 
 interface IResultsPagePickerProps {
   className: string;

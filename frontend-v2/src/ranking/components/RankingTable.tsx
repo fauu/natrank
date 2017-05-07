@@ -1,8 +1,8 @@
 import * as classNames from "classnames";
 import { inject, observer } from "mobx-react";
+import { RankingTableRow } from "ranking/components/RankingTableRow";
+import { Ranking } from "ranking/Ranking";
 import * as React from "react";
-import { Ranking } from "./Ranking";
-import { RankingTableRow } from "./RankingTableRow";
 
 interface IRankingTableProps {
   ranking: Ranking;

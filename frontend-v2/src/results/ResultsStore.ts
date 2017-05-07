@@ -1,7 +1,7 @@
+import { ApiClient } from "app/ApiClient";
+import { Page } from "common/Page";
 import { action, observable } from "mobx";
-import { ApiClient } from "../app/ApiClient";
-import { Page } from "../common/Page";
-import { Match } from "./Match";
+import { Match } from "results/Match";
 
 export class ResultsStore {
 

@@ -1,5 +1,5 @@
+import { Navigation } from "app/components/Navigation";
 import * as React from "react";
-import { Navigation } from "./Navigation";
 
 export class TopBar extends React.Component<any, any> {
 

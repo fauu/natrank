@@ -1,7 +1,7 @@
+import { Icon } from "common/components/Icon";
 import { action, observable, reaction } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
-import { Icon } from "./Icon";
 
 interface IMonthInputProps {
   initialValue: number;

@@ -1,8 +1,8 @@
+import { INavigationEntryProps, NavigationEntry } from "app/components/NavigationEntry";
+import { paths } from "app/Config";
+import { RouterStore } from "app/RouterStore";
 import { inject } from "mobx-react";
 import * as React from "react";
-import { paths } from "./Config";
-import { INavigationEntryProps, NavigationEntry } from "./NavigationEntry";
-import { RouterStore } from "./RouterStore";
 
 interface INavigationProps {
   routerStore?: RouterStore;

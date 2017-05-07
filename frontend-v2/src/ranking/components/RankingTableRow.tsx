@@ -1,9 +1,9 @@
 import * as classNames from "classnames";
+import { Flag } from "common/components/Flag";
+import { Icon } from "common/components/Icon";
+import { RankingEntry } from "ranking/RankingEntry";
 import * as React from "react";
 import { Link } from "react-router";
-import { Flag } from "../common/Flag";
-import { Icon } from "../common/Icon";
-import { RankingEntry } from "./RankingEntry";
 
 interface IRankingTableRowProps {
   data?: RankingEntry;

@@ -1,6 +1,6 @@
+import { Icon } from "common/components/Icon";
 import * as React from "react";
 import { Link } from "react-router";
-import { Icon } from "../common/Icon";
 
 export interface INavigationEntryProps {
   key: number;

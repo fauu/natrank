@@ -1,12 +1,12 @@
+import { paths } from "app/Config";
+import { RouterStore } from "app/RouterStore";
 import { debounce } from "lodash";
 import { inject, observer } from "mobx-react";
 import * as React from "react";
 import * as Spinner from "react-spinner";
-import { paths } from "../app/Config";
-import { RouterStore } from "../app/RouterStore";
-import { Result } from "./Result";
-import { ResultsPagePicker } from "./ResultsPagePicker";
-import { ResultsStore } from "./ResultsStore";
+import { Result } from "results/components/Result";
+import { ResultsPagePicker } from "results/components/ResultsPagePicker";
+import { ResultsStore } from "results/ResultsStore";
 
 interface IResultsViewProps {
   routerStore: RouterStore;

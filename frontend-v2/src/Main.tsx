@@ -1,18 +1,18 @@
+import { ApiClient } from "app/ApiClient";
+import { App } from "app/components/App";
+import { NotFoundPage } from "app/components/NotFoundPage";
+import { paths } from "app/Config";
+import { RouterStore } from "app/RouterStore";
 import { useStrict } from "mobx";
 import { Provider } from "mobx-react";
+import { RankingView } from "ranking/components/RankingView";
+import { RankingStore } from "ranking/RankingStore";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { browserHistory, IndexRoute, Route, Router } from "react-router";
+import { ResultsView } from "results/components/ResultsView";
+import { ResultsStore } from "results/ResultsStore";
 import "../resources/styles/main.scss";
-import { ApiClient } from "./app/ApiClient";
-import { App } from "./app/App";
-import { paths } from "./app/Config";
-import { NotFoundPage } from "./app/NotFoundPage";
-import { RouterStore } from "./app/RouterStore";
-import { RankingStore } from "./ranking/RankingStore";
-import { RankingView } from "./ranking/RankingView";
-import { ResultsStore } from "./results/ResultsStore";
-import { ResultsView } from "./results/ResultsView";
 
 useStrict(true);
 

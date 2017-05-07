@@ -1,7 +1,7 @@
+import { ApiClient } from "app/ApiClient";
+import { RouterStore } from "app/RouterStore";
 import { action, observable } from "mobx";
-import { ApiClient } from "../app/ApiClient";
-import { RouterStore } from "../app/RouterStore";
-import { Ranking } from "./Ranking";
+import { Ranking } from "ranking/Ranking";
 
 export class RankingStore {
 

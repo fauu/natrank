@@ -1,4 +1,4 @@
-import { DateUtils } from "../common/DateUtils";
+import { DateUtils } from "common/DateUtils";
 
 export interface IMatchTeamInfo {
 

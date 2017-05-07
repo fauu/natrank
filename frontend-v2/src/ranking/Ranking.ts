@@ -1,5 +1,5 @@
-import { DateUtils } from "../common/DateUtils";
-import { RankingEntry } from "./RankingEntry";
+import { DateUtils } from "common/DateUtils";
+import { RankingEntry } from "ranking/RankingEntry";
 
 export class Ranking {
 

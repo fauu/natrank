@@ -1,6 +1,6 @@
+import { DatePicker } from "common/components/DatePicker";
+import { RankingStore } from "ranking/RankingStore";
 import * as React from "react";
-import { DatePicker } from "../common/DatePicker";
-import { RankingStore } from "./RankingStore";
 
 interface IRankingDatePickerSectionProps {
   initialDate: Date;

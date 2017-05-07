@@ -1,12 +1,12 @@
+import { paths } from "app/Config";
 import * as classNames from "classnames";
+import { Flag } from "common/components/Flag";
+import { Icon } from "common/components/Icon";
+import { DateUtils } from "common/DateUtils";
+import { StringUtils } from "common/StringUtils";
 import * as React from "react";
 import { Link } from "react-router";
-import { paths } from "../app/Config";
-import { DateUtils } from "../common/DateUtils";
-import { Flag } from "../common/Flag";
-import { Icon } from "../common/Icon";
-import { StringUtils } from "../common/StringUtils";
-import { IMatchTeamInfo, Match} from "./Match";
+import { IMatchTeamInfo, Match } from "results/Match";
 
 interface IResultProps {
   match: Match;

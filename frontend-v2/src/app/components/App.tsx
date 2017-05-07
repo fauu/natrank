@@ -1,5 +1,5 @@
+import { TopBar } from "app/components/TopBar";
 import * as React from "react";
-import { TopBar } from "./TopBar";
 
 export class App extends React.Component<any, any> {
 
