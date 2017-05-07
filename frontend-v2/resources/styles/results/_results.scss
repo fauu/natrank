@@ -23,10 +23,36 @@
   }
 }
 
+.result-list-navigation {
+  display: flex; 
+  align-items: center;
+  justify-content: space-between;
+
+  &--top {
+    margin: 0 0 1.2em 0;
+  }
+
+  &--bottom {
+    margin: 1.2em 0 0 0;
+  }
+}
+
+.page-navigation-link {
+  cursor: pointer;
+  font-size: 80%;
+  color: $color-primary;
+  flex: 0 1 1;
+
+  &__icon {
+    margin-left: 0.1em;
+  }
+}
+
 .result {
   display: flex;
   flex-direction: column;
   padding: 0.6em;
+  transition-duration: $base-transition-duration;
 
   &:hover {
     background: $color-bg;

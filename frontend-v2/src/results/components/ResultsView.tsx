@@ -1,5 +1,6 @@
 import { paths } from "app/Config";
 import { RouterStore } from "app/RouterStore";
+import { Icon } from "common/components/Icon";
 import { debounce } from "lodash";
 import { inject, observer } from "mobx-react";
 import * as React from "react";
@@ -61,29 +62,41 @@ export class ResultsView extends React.Component<IResultsViewProps, {}> {
         <Result match={match} key={match.id} />
       ));
 
-    const topPagePicker = matchPage && (
-      <ResultsPagePicker
-        onChange={debounce(this.handlePageChange, 500)}
-        className="results-page-picker results-page-picker--top"
-        pageNo={matchPage.no}
-        totalPages={matchPage.totalPages}
-      />
+    const topNavigation = matchPage && (
+      <div className="result-list-navigation result-list-navigation--top">
+        <ResultsPagePicker
+          onChange={debounce(this.handlePageChange, 500)}
+          className="results-page-picker results-page-picker--top"
+          pageNo={matchPage.no}
+          totalPages={matchPage.totalPages}
+        />
+        <a className="page-navigation-link" onClick={this.handleGoToBottomClick}>
+          Go to bottom
+          <Icon name="chevron-down" className="page-navigation-link__icon" />
+        </a>
+      </div>
     );
 
-    const bottomPagePicker = matchPage && (
-      <ResultsPagePicker
-        onChange={debounce(this.handlePageChange, 500)}
-        className="results-page-picker results-page-picker--bottom"
-        pageNo={matchPage.no}
-        totalPages={matchPage.totalPages}
-      />
+    const bottomNavigation = matchPage && (
+      <div className="result-list-navigation result-list-navigation--bottom">
+        <ResultsPagePicker
+          onChange={debounce(this.handlePageChange, 500)}
+          className="results-page-picker results-page-picker--bottom"
+          pageNo={matchPage.no}
+          totalPages={matchPage.totalPages}
+        />
+        <a className="page-navigation-link" onClick={this.handleGoToTopClick}>
+          Go to top
+          <Icon name="chevron-up" className="page-navigation-link__icon" />
+        </a>
+      </div>
     );
 
     const resultList = (
       <div className="result-list">
-        {topPagePicker}
+        {topNavigation}
         {isLoading ? <Spinner /> : results}
-        {!isLoading && bottomPagePicker}
+        {!isLoading && bottomNavigation}
       </div>
     );
 
@@ -97,6 +110,14 @@ export class ResultsView extends React.Component<IResultsViewProps, {}> {
   public handlePageChange = (e: { selected: number }) => {
     this.props.resultsStore.loadMatchPage(e.selected);
     this.props.routerStore.push(`${paths.results}/page/${e.selected + 1}`);
+  }
+
+  private handleGoToBottomClick = () => {
+    window.scroll(0, document.body.scrollHeight);
+  }
+
+  private handleGoToTopClick = () => {
+    window.scroll(0, 0);
   }
 
 }
