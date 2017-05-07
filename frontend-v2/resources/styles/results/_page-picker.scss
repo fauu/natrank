@@ -32,6 +32,7 @@ $page-button-size: 1.7em;
           background: $color-border;
           cursor: pointer;
           color: $color-primary !important;
+          transition-duration: $base-transition-duration;
         }
       }
     }

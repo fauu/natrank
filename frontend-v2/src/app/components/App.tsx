@@ -1,12 +1,15 @@
 import { TopBar } from "app/components/TopBar";
 import * as React from "react";
+import Headroom from "react-headroom";
 
 export class App extends React.Component<any, any> {
 
   public render() {
     return (
       <div className="main-container">
-        <TopBar />
+        <Headroom>
+          <TopBar />
+        </Headroom>
 
         {this.props.children}
 

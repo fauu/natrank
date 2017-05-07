@@ -96,7 +96,7 @@
 
 .result__rank,
 .result__rating {
-  @include font-regular;
+  @include font-medium;
   font-size: 80%;
   padding: 2px 3px;
   align-self: flex-start;
@@ -104,6 +104,7 @@
 
 .result__rating {
   background: $color-border;
+  color: $color-text-secondary;
 }
 
 .result__rank {
@@ -112,33 +113,13 @@
 }
 
 
-// .result__rank-change {
-//   &--positive {
-//     color: $color-positive;
-//   }
-
-//   &--negative {
-//     color: $color-negative;
-//   }
-// }
-
 .result__ranking-change {
   flex: 1 0 0;
   display: flex;
   font-size: 80%;
 
-  // &--left {
-    // .result__rank-change {
-    //   margin-right: 0.5em;
-    // }
-  // }
-
   &--right {
     flex-direction: row-reverse;
-
-    // .result__rank-change {
-    //   margin-left: 0.5em;
-    // }
   }
 }
 
