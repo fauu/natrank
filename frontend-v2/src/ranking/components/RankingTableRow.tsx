@@ -13,7 +13,10 @@ interface IRankingTableRowProps {
 
 export class RankingTableRow extends React.Component<IRankingTableRowProps, any> {
 
+  private static cellClassName = (modifier) => `ranking-row__cell ranking-row__cell--${modifier}`;
+
   public render() {
+
     const data = this.props.data;
 
     const rowClassName = classNames({
@@ -21,39 +24,71 @@ export class RankingTableRow extends React.Component<IRankingTableRowProps, any>
       "ranking-row--alternate": this.props.isAlternate,
     });
 
+    let i = 0;
+
+    const cellsForBaseColumns = [
+      (
+        <td className={RankingTableRow.cellClassName("rank")} key={i++}>
+          {data.rank > 0 && data.rank}
+        </td>
+      ),
+      (
+        <td className={RankingTableRow.cellClassName("rank-one-year-change")} key={i++}>
+          <RankChange rank={data.rank} rankChange={data.rankOneYearChange} />
+        </td>
+      ),
+      (
+        <td className={RankingTableRow.cellClassName("team-flag")} key={i++}>
+          <Flag code={data.teamFlag} className="flag" />
+        </td>
+      ),
+      (
+        <td className={RankingTableRow.cellClassName("team-name")} key={i++}>
+          <Link to={`/teams/${data.teamName.toLowerCase()}`}>
+            {data.teamName}
+          </Link>
+        </td>
+      ),
+      (
+        <td className={RankingTableRow.cellClassName("rating")} key={i++}>
+          {data.rating > 0 ? data.rating : ""}
+        </td>
+      ),
+    ];
+
     const cellsForExtraColumns = this.props.isFull ? [
       (
-        <td className="ranking-row__cell ranking-row__cell--total" key={1}>
+        <td className={RankingTableRow.cellClassName("total")} key={i++}>
           {data.matchesTotal}
         </td>
       ),
       (
-        <td className="ranking-row__cell ranking-row__cell--wins" key={2}>
+        <td className={RankingTableRow.cellClassName("wins")} key={i++}>
           {data.wins}
         </td>
       ),
       (
-        <td className="ranking-row__cell ranking-row__cell--draws" key={3}>
+        <td className={RankingTableRow.cellClassName("draws")} key={i++}>
           {data.draws}
         </td>
       ),
       (
-        <td className="ranking-row__cell ranking-row__cell--losses" key={4}>
+        <td className={RankingTableRow.cellClassName("losses")} key={i++}>
           {data.losses}
         </td>
       ),
       (
-        <td className="ranking-row__cell ranking-row__cell--goals-for" key={5}>
+        <td className={RankingTableRow.cellClassName("goals-for")} key={i++}>
           {data.goalsFor}
         </td>
       ),
       (
-        <td className="ranking-row__cell ranking-row__cell--goals-against" key={6}>
+        <td className={RankingTableRow.cellClassName("goals-against")} key={i++}>
           {data.goalsAgainst}
         </td>
       ),
       (
-        <td className="ranking-row__cell ranking-row__cell--goal-difference" key={7}>
+        <td className={RankingTableRow.cellClassName("goal-difference")} key={i++}>
           <GoalDifference value={data.goalDifference} />
         </td>
       ),
@@ -61,23 +96,7 @@ export class RankingTableRow extends React.Component<IRankingTableRowProps, any>
 
     return (
       <tr className={rowClassName}>
-        <td className="ranking-row__cell ranking-row__cell--rank">
-          {data.rank > 0 && data.rank}
-        </td>
-        <td className="ranking-row__cell ranking-row__cell--rank-one-year-change">
-          <RankChange rank={data.rank} rankChange={data.rankOneYearChange} />
-        </td>
-        <td className="ranking-row__cell ranking-row__cell--team-flag">
-          <Flag code={data.teamFlag} className="flag" />
-        </td>
-        <td className="ranking-row__cell ranking-row__cell--team-name">
-          <Link to={`/teams/${data.teamName.toLowerCase()}`}>
-            {data.teamName}
-          </Link>
-        </td>
-        <td className="ranking-row__cell ranking-row__cell--rating">
-          {data.rating > 0 ? data.rating : ""}
-        </td>
+        {cellsForBaseColumns}
         {cellsForExtraColumns}
       </tr>
     );
