@@ -89,8 +89,10 @@ h2 {
 }
 
 .page {
-  padding: 1em 1.5em;
+  padding: 1em 0;
   display: flex;
+  position: absolute;
+  width: 100%;
 
   &--not-found {
     @include font-medium;

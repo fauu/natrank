@@ -49,6 +49,10 @@ export class RankingView extends React.Component<IRankingViewProps, {}> {
     }
   }
 
+  public componentWillUnmount() {
+    this.rankingStore.clear();
+  }
+
   public render() {
     return (
       <div className="page page--ranking">

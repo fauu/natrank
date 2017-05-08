@@ -18,7 +18,7 @@ export const ResultsPagePicker = (props: IResultsPagePickerProps) => (
     previousLabel={<Icon name="chevron-left" />}
     nextLabel={<Icon name="chevron-right" />}
     breakLabel={"…"}
-    breakClassName={"break-me"}
+    breakClassName={"results-page-picker__break"}
     onPageChange={props.onChange}
     disableInitialCallback={true}
     containerClassName={props.className}

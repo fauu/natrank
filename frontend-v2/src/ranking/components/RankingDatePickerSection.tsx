@@ -1,4 +1,5 @@
 import { DatePicker } from "common/components/DatePicker";
+import { FadeTransition } from "common/components/FadeTransition";
 import { RankingStore } from "ranking/RankingStore";
 import * as React from "react";
 
@@ -12,17 +13,21 @@ export class RankingDatePickerSection extends React.Component<IRankingDatePicker
   public render() {
     const initialDate = this.props.initialDate;
 
-    if (initialDate) {
-      return (
+    const datePicker = (
+      <div key="date-picker">
         <DatePicker
           minYear={1873} // TODO: Get from the API
           value={this.props.initialDate}
           onChange={this.props.onDateChange}
         />
-      );
-    }
+      </div>
+    );
 
-    return null;
+    return (
+      <FadeTransition>
+        {initialDate && datePicker}
+      </FadeTransition>
+    );
   }
 
 }

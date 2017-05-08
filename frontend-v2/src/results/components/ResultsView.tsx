@@ -1,12 +1,10 @@
 import { paths } from "app/Config";
 import { RouterStore } from "app/RouterStore";
-import { Icon } from "common/components/Icon";
-import { debounce } from "lodash";
+import { FadeTransition } from "common/components/FadeTransition.tsx";
 import { inject, observer } from "mobx-react";
 import * as React from "react";
-import * as Spinner from "react-spinner";
-import { Result } from "results/components/Result";
-import { ResultsPagePicker } from "results/components/ResultsPagePicker";
+import { ResultListNavigation } from "results/components/ResultListNavigation";
+import { ResultsSection } from "results/components/ResultsSection";
 import { ResultsStore } from "results/ResultsStore";
 
 interface IResultsViewProps {
@@ -19,13 +17,19 @@ interface IResultsViewProps {
 @observer
 export class ResultsView extends React.Component<IResultsViewProps, {}> {
 
+  private routerStore: RouterStore;
+  private resultsStore: ResultsStore;
+
   public componentWillMount() {
+    this.routerStore = this.props.routerStore;
+    this.resultsStore = this.props.resultsStore;
+
     const pathPageNo = this.props.params.pageNo;
 
     if (pathPageNo && isNaN(pathPageNo)) {
-      this.props.routerStore.push(paths.results);
+      this.routerStore.push(paths.results);
     } else {
-      this.props.resultsStore.loadMatchPage(pathPageNo - 1);
+      this.resultsStore.loadMatchPage(pathPageNo - 1);
     }
   }
 
@@ -37,7 +41,7 @@ export class ResultsView extends React.Component<IResultsViewProps, {}> {
       return;
     }
 
-    const matchPage = this.props.resultsStore.matchPage;
+    const matchPage = this.resultsStore.matchPage;
 
     if (matchPage) {
       const totalPages = matchPage.totalPages;
@@ -48,76 +52,42 @@ export class ResultsView extends React.Component<IResultsViewProps, {}> {
     }
   }
 
+  public componentWillUnmount() {
+    this.resultsStore.clear();
+  }
+
   public selectFirstPage() {
-    this.props.routerStore.push(paths.results);
-    this.props.resultsStore.loadMatchPage(0);
+    this.routerStore.push(paths.results);
+    this.resultsStore.loadMatchPage(0);
   }
 
   public render() {
-    const matchPage = this.props.resultsStore.matchPage;
-    const isLoading = this.props.resultsStore.isMatchPageLoading;
-
-    const results = matchPage &&
-      matchPage.content.map((match) => (
-        <Result match={match} key={match.id} />
-      ));
-
-    const topNavigation = matchPage && (
-      <div className="result-list-navigation result-list-navigation--top">
-        <ResultsPagePicker
-          onChange={debounce(this.handlePageChange, 500)}
-          className="results-page-picker results-page-picker--top"
-          pageNo={matchPage.no}
-          totalPages={matchPage.totalPages}
-        />
-        <a className="page-navigation-link" onClick={this.handleGoToBottomClick}>
-          Go to bottom
-          <Icon name="chevron-down" className="page-navigation-link__icon" />
-        </a>
-      </div>
-    );
-
-    const bottomNavigation = matchPage && (
-      <div className="result-list-navigation result-list-navigation--bottom">
-        <ResultsPagePicker
-          onChange={debounce(this.handlePageChange, 500)}
-          className="results-page-picker results-page-picker--bottom"
-          pageNo={matchPage.no}
-          totalPages={matchPage.totalPages}
-        />
-        <a className="page-navigation-link" onClick={this.handleGoToTopClick}>
-          Go to top
-          <Icon name="chevron-up" className="page-navigation-link__icon" />
-        </a>
-      </div>
-    );
+    const topNavigation =
+      <ResultListNavigation position="top" onPageChange={this.handlePageChange} />;
 
     const resultList = (
-      <div className="result-list">
-        {topNavigation}
-        {isLoading ? <Spinner /> : results}
-        {!isLoading && bottomNavigation}
+      <div className="result-list" key="result-list">
+        {this.resultsStore.completedInitialLoad && topNavigation}
+        <ResultsSection onPageChange={this.handlePageChange} />
       </div>
+    );
+
+    const content = (
+      <FadeTransition>
+        {this.resultsStore.completedInitialLoad && resultList}
+      </FadeTransition>
     );
 
     return (
       <div className="page page--results">
-        {matchPage ? resultList : <Spinner />}
+        {this.resultsStore.completedInitialLoad && content}
       </div>
     );
   }
 
   public handlePageChange = (e: { selected: number }) => {
-    this.props.resultsStore.loadMatchPage(e.selected);
-    this.props.routerStore.push(`${paths.results}/page/${e.selected + 1}`);
-  }
-
-  private handleGoToBottomClick = () => {
-    window.scroll(0, document.body.scrollHeight);
-  }
-
-  private handleGoToTopClick = () => {
-    window.scroll(0, 0);
+    this.resultsStore.loadMatchPage(e.selected);
+    this.routerStore.push(`${paths.results}/page/${e.selected + 1}`);
   }
 
 }

@@ -3,9 +3,6 @@
 .page--results {
   display: flex;
   justify-content: center;
-
-  margin: 0 auto;
-  width: 40em;
   flex-direction: column;
 }
 
@@ -13,6 +10,8 @@
   @include panel-shadow;
   padding: 1em;
   background: $color-panel-bg;
+  width: 40em;
+  margin: 0 auto;
 
   a {
     cursor: pointer;
@@ -41,7 +40,6 @@
   cursor: pointer;
   font-size: 80%;
   color: $color-primary;
-  flex: 0 1 1;
 
   &__icon {
     margin-left: 0.1em;

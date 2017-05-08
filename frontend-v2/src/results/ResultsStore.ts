@@ -7,6 +7,7 @@ export class ResultsStore {
 
   @observable public matchPage: Page<Match>;
   @observable public isMatchPageLoading: boolean;
+  @observable public completedInitialLoad: boolean = false;
 
   private apiClient: ApiClient;
 
@@ -28,6 +29,9 @@ export class ResultsStore {
   public handleMatchesLoad(json: any, date?: Date) {
     const matchesJson = json.content;
     this.matchPage = Page.fromJson<Match>(json, Match.fromJson);
+    if (!this.completedInitialLoad) {
+      this.completedInitialLoad = true;
+    }
 
     this.isMatchPageLoading = false;
   }
@@ -36,6 +40,7 @@ export class ResultsStore {
   public clear() {
     this.matchPage = undefined;
     this.isMatchPageLoading = false;
+    this.completedInitialLoad = false;
   }
 
 }

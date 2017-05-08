@@ -33,4 +33,10 @@ export class RankingStore {
     }
   }
 
+  @action
+  public clear() {
+    this.initialDate = undefined;
+    this.ranking = undefined;
+  }
+
 }
