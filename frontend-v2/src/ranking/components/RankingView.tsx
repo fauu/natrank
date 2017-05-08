@@ -1,6 +1,6 @@
 import { paths } from "app/Config";
 import { RouterStore } from "app/RouterStore";
-import { DateUtils } from "common/DateUtils";
+import { parseDate, stringifyDate } from "common/DateUtils";
 import { action } from "mobx";
 import { inject, observer } from "mobx-react";
 import { RankingDatePickerSection } from "ranking/components/RankingDatePickerSection";
@@ -23,7 +23,7 @@ export class RankingView extends React.Component<IRankingViewProps, {}> {
 
   public handleDateChange = action((newValue: Date) => {
     this.rankingStore.loadRanking(newValue);
-    this.routerStore.push(`${paths.ranking}/${DateUtils.stringify(newValue)}`);
+    this.routerStore.push(`${paths.ranking}/${stringifyDate(newValue)}`);
   });
 
   public componentWillMount() {
@@ -41,7 +41,7 @@ export class RankingView extends React.Component<IRankingViewProps, {}> {
       const dateRegex = /^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$/;
 
       if (dateRegex.exec(pathDate)) {
-        this.handleDateChange(DateUtils.parse(pathDate));
+        this.handleDateChange(parseDate(pathDate));
       } else {
         this.rankingStore.loadRanking();
         this.routerStore.push(paths.ranking);

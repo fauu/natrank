@@ -1,11 +1,11 @@
-import { DateUtils } from "common/DateUtils";
+import { stringifyDate } from "common/DateUtils";
 
 export class ApiClient {
 
   private static baseUrl = "http://localhost:8080";
 
   public getRankingJson(date?: Date): Promise<{}> {
-    const param = date ? DateUtils.stringify(date, true) : "latest";
+    const param = date ? stringifyDate(date, true) : "latest";
 
     return this.fetchJson(`/rankings/${param}`);
   }

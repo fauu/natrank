@@ -2,8 +2,8 @@ import { paths } from "app/Config";
 import * as classNames from "classnames";
 import { Flag } from "common/components/Flag";
 import { Icon } from "common/components/Icon";
-import { DateUtils } from "common/DateUtils";
-import { StringUtils } from "common/StringUtils";
+import { stringifyDate } from "common/DateUtils";
+import { urlfriendlifyString } from "common/StringUtils";
 import * as React from "react";
 import { Link } from "react-router";
 import { IMatchTeamInfo, Match } from "results/Match";
@@ -21,8 +21,8 @@ export class Result extends React.Component<IResultProps, {}> {
       <div className="result">
         <div className="result__row result__row--details">
           <div className="result__detail result__detail--date">
-            <Link to={`${paths.ranking}/${DateUtils.stringify(match.date, true, false)}`}>
-              {DateUtils.stringify(match.date, false, true)}
+            <Link to={`${paths.ranking}/${stringifyDate(match.date, true, false)}`}>
+              {stringifyDate(match.date, false, true)}
             </Link>
           </div>
           <div className="result__detail result__detail--venue">
@@ -59,7 +59,7 @@ const Team = (props: { teamInfo: IMatchTeamInfo }) => {
     "result__team--right": props.teamInfo.idx === 1,
     "result__team--winner": props.teamInfo.isWinner,
   });
-  const teamLinkPath = `${paths.teams}/${StringUtils.urlfriendlify(props.teamInfo.name)}`;
+  const teamLinkPath = `${paths.teams}/${urlfriendlifyString(props.teamInfo.name)}`;
 
   return (
     <div className={teamClassNames}>

@@ -1,4 +1,5 @@
 import { TopBar } from "app/components/TopBar";
+import { transitionsEnabled } from "app/Config";
 import { RouterStore } from "app/RouterStore";
 import { inject } from "mobx-react";
 import * as React from "react";
@@ -16,12 +17,7 @@ export class App extends React.Component<IAppProps, {}> {
     const baseRouteName =
       this.props.routerStore.location.pathname.split("/")[1];
 
-    return (
-      <div className="main-container">
-        <Headroom>
-          <TopBar />
-        </Headroom>
-
+    const content = transitionsEnabled ? (
         <RouteTransition
           pathname={baseRouteName}
           atEnter={{ opacity: 0 }}
@@ -30,6 +26,17 @@ export class App extends React.Component<IAppProps, {}> {
         >
           {this.props.children}
         </RouteTransition>
+    ) : (
+      <div>{this.props.children}</div>
+    );
+
+    return (
+      <div className="main-container">
+        <Headroom>
+          <TopBar />
+        </Headroom>
+
+        {content}
 
         {this.renderDevTool()}
       </div>

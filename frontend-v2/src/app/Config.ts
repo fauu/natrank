@@ -3,3 +3,5 @@ export const paths = {
   results: "/results",
   teams: "/teams",
 };
+
+export const transitionsEnabled = false;

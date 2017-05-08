@@ -1,4 +1,4 @@
-import { DateUtils } from "common/DateUtils";
+import { parseDate } from "common/DateUtils";
 
 export interface IMatchTeamInfo {
 
@@ -21,7 +21,7 @@ export class Match {
     const match = new Match();
 
     match.id = json.id;
-    match.date = DateUtils.parse(json.date);
+    match.date = parseDate(json.date);
     match.type = json.type;
     match.city = json.city;
     match.country = json.country;

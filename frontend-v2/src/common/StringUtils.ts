@@ -1,7 +1,3 @@
-export class StringUtils {
-
-  public static urlfriendlify(s: string) {
-    return s.replace(/[^a-z0-9]/gi, "-").toLowerCase();
-  }
-
-}
+export const urlfriendlifyString = (s: string) => (
+  s.replace(/[^a-z0-9]/gi, "-").toLowerCase()
+);
