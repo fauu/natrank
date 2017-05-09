@@ -6,7 +6,7 @@ import { Match } from "results/Match";
 export class ResultsStore {
 
   @observable public matchPage: Page<Match>;
-  @observable public isMatchPageLoading: boolean;
+  @observable public isMatchPageLoading: boolean = false;
   @observable public completedInitialLoad: boolean = false;
 
   private apiClient: ApiClient;

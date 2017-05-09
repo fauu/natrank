@@ -1,4 +1,5 @@
 import { ApiClient } from "app/ApiClient";
+import { AppStore } from "app/AppStore";
 import { App } from "app/components/App";
 import { NotFoundPage } from "app/components/NotFoundPage";
 import { paths } from "app/Config";
@@ -20,7 +21,8 @@ const routerStore = new RouterStore(browserHistory);
 const apiClient = new ApiClient();
 const rankingStore = new RankingStore(apiClient);
 const resultsStore = new ResultsStore(apiClient);
-const stores = { routerStore, rankingStore, resultsStore };
+const appStore = new AppStore(routerStore, rankingStore, resultsStore);
+const stores = { appStore, routerStore, rankingStore, resultsStore };
 
 ReactDOM.render(
   <Provider {...stores}>

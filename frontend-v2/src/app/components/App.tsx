@@ -18,14 +18,14 @@ export class App extends React.Component<IAppProps, {}> {
       this.props.routerStore.location.pathname.split("/")[1];
 
     const content = transitionsEnabled ? (
-        <RouteTransition
-          pathname={baseRouteName}
-          atEnter={{ opacity: 0 }}
-          atLeave={{ opacity: 0 }}
-          atActive={{ opacity: 1 }}
-        >
-          {this.props.children}
-        </RouteTransition>
+      <RouteTransition
+        pathname={baseRouteName}
+        atEnter={{ opacity: 0 }}
+        atLeave={{ opacity: 0 }}
+        atActive={{ opacity: 1 }}
+      >
+        {this.props.children}
+      </RouteTransition>
     ) : (
       <div>{this.props.children}</div>
     );
@@ -47,7 +47,7 @@ export class App extends React.Component<IAppProps, {}> {
     if (process.env.NODE_ENV !== "production") {
       const DevTools = require("mobx-react-devtools").default;
 
-      return <DevTools />;
+      return <DevTools position={{ bottom: 0, right: 10 }} />;
     }
   }
 

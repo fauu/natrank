@@ -1,5 +1,6 @@
 @import '~normalize-scss/sass/normalize/import-now';
 @import '~mdi/scss/materialdesignicons';
+@import '~spinkit/scss/spinners/7-three-bounce';
 @import 'fonts';
 @import 'colors';
 @import 'variables';
@@ -106,4 +107,16 @@ h2 {
 .flag {
   vertical-align: -3px;
   border: 1px solid rgba($color-text, 0.1);
+}
+
+.sk-three-bounce {
+  display: inline;
+  margin: 0 0 0 auto;
+  width: 30px;
+
+  .sk-child {
+    background-color: $color-panel-bg;
+    width: 10px;
+    height: 10px;
+  }
 }
