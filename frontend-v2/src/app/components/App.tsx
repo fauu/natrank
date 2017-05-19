@@ -1,34 +1,21 @@
 import { TopBar } from "app/components/TopBar";
 import { transitionsEnabled } from "app/Config";
-import { RouterStore } from "app/RouterStore";
-import { inject } from "mobx-react";
+import { ViewStore } from "app/ViewStore";
+import { inject, observer } from "mobx-react";
+import RankingView from "ranking/components/RankingView";
 import * as React from "react";
 import Headroom from "react-headroom";
 import { RouteTransition } from "react-router-transition";
 
-interface IAppProps {
-  routerStore: RouterStore;
-}
-
-@inject("routerStore")
-export class App extends React.Component<IAppProps, {}> {
+@inject("appStore")
+@observer
+export class App extends React.Component<{ appStore? }, void> {
 
   public render() {
-    const baseRouteName =
-      this.props.routerStore.location.pathname.split("/")[1];
-
-    const content = transitionsEnabled ? (
-      <RouteTransition
-        pathname={baseRouteName}
-        atEnter={{ opacity: 0 }}
-        atLeave={{ opacity: 0 }}
-        atActive={{ opacity: 1 }}
-      >
-        {this.props.children}
-      </RouteTransition>
-    ) : (
-      <div>{this.props.children}</div>
-    );
+    const content =
+      false
+      ? <h1>Loading...</h1>
+      : this.renderPage(this.props.appStore.viewStore);
 
     return (
       <div className="main-container">
@@ -38,12 +25,23 @@ export class App extends React.Component<IAppProps, {}> {
 
         {content}
 
-        {this.renderDevTool()}
+        {this.renderDevTools()}
       </div>
     );
   }
 
-  private renderDevTool() {
+  private renderPage(viewStore: ViewStore) {
+    switch (viewStore.view) {
+      case "ranking":
+        return <RankingView initialDate={viewStore.newestRankingDate} ranking={viewStore.selectedRanking} />;
+      case "ranking-historical":
+        return <RankingView initialDate={viewStore.latestRankingDate} ranking={viewStore.selectedRanking} />;
+      default:
+        return "404";
+    }
+  }
+
+  private renderDevTools() {
     if (process.env.NODE_ENV !== "production") {
       const DevTools = require("mobx-react-devtools").default;
 

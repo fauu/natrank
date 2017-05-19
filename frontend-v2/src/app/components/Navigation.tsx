@@ -1,11 +1,11 @@
 import { INavigationEntryProps, NavigationEntry } from "app/components/NavigationEntry";
 import { paths } from "app/Config";
-import { RouterStore } from "app/RouterStore";
+// import { RouterStore } from "app/RouterStore";
 import { inject } from "mobx-react";
 import * as React from "react";
 
 interface INavigationProps {
-  routerStore?: RouterStore;
+  // routerStore?: RouterStore;
 }
 
 @inject("routerStore")
@@ -17,7 +17,7 @@ export class Navigation extends React.Component<INavigationProps, {}> {
   ];
 
   public render() {
-    const currentPathname = this.props.routerStore.location.pathname;
+    // const currentPathname = this.props.routerStore.location.pathname;
 
     return (
       <div className="main-navigation">

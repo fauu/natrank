@@ -1,5 +1,5 @@
 import { paths } from "app/Config";
-import { RouterStore } from "app/RouterStore";
+// import { RouterStore } from "app/RouterStore";
 import { FadeTransition } from "common/components/FadeTransition.tsx";
 import { inject, observer } from "mobx-react";
 import * as React from "react";
@@ -8,7 +8,7 @@ import { ResultsSection } from "results/components/ResultsSection";
 import { ResultsStore } from "results/ResultsStore";
 
 interface IResultsViewProps {
-  routerStore: RouterStore;
+  // routerStore: RouterStore;
   resultsStore: ResultsStore;
   params: { pageNo };
 }
@@ -17,17 +17,17 @@ interface IResultsViewProps {
 @observer
 export class ResultsView extends React.Component<IResultsViewProps, {}> {
 
-  private routerStore: RouterStore;
+  // private routerStore: RouterStore;
   private resultsStore: ResultsStore;
 
   public componentWillMount() {
-    this.routerStore = this.props.routerStore;
+    // this.routerStore = this.props.routerStore;
     this.resultsStore = this.props.resultsStore;
 
     const pathPageNo = this.props.params.pageNo;
 
     if (pathPageNo && isNaN(pathPageNo)) {
-      this.routerStore.push(paths.results);
+      // this.routerStore.push(paths.results);
     } else {
       this.resultsStore.loadMatchPage(pathPageNo - 1);
     }
@@ -57,7 +57,7 @@ export class ResultsView extends React.Component<IResultsViewProps, {}> {
   }
 
   public selectFirstPage() {
-    this.routerStore.push(paths.results);
+    // this.routerStore.push(paths.results);
     this.resultsStore.loadMatchPage(0);
   }
 
@@ -87,7 +87,7 @@ export class ResultsView extends React.Component<IResultsViewProps, {}> {
 
   public handlePageChange = (e: { selected: number }) => {
     this.resultsStore.loadMatchPage(e.selected);
-    this.routerStore.push(`${paths.results}/page/${e.selected + 1}`);
+    // this.routerStore.push(`${paths.results}/page/${e.selected + 1}`);
   }
 
 }

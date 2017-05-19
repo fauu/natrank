@@ -1,14 +1,38 @@
 import { paths } from "app/Config";
-import { RouterStore } from "app/RouterStore";
+import { DatePicker } from "common/components/DatePicker";
 import { parseDate, stringifyDate } from "common/DateUtils";
 import { action } from "mobx";
 import { inject, observer } from "mobx-react";
 import { RankingDatePickerSection } from "ranking/components/RankingDatePickerSection";
-import { RankingSection } from "ranking/components/RankingSection";
+import { RankingTable } from "ranking/components/RankingTable";
 import { RankingStore } from "ranking/RankingStore";
 import * as React from "react";
 
-interface IRankingViewProps {
+function RankingView(props) {
+  const datePicker = this.props.initialDate && (
+    <DatePicker
+      minYear={1873} // TODO: Get from the API
+      value={this.props.initialDate}
+      onChange={this.props.appStore.viewStore.showHistoricalRankingView}
+    />
+  );
+
+  const rankingTable = this.props.ranking && (
+    <RankingTable ranking={this.props.ranking} />
+  );
+
+  return (
+    <div className="page page--ranking">
+      {datePicker}
+      {rankingTable}
+    </div>
+  );
+}
+
+// tslint:disable-next-line:align
+export default inject("appStore")(observer(RankingView));
+
+/*interface IRankingViewProps {
   routerStore: RouterStore;
   rankingStore: RankingStore;
   params: { date };
@@ -65,4 +89,4 @@ export class RankingView extends React.Component<IRankingViewProps, {}> {
     );
   }
 
-}
+}*/

@@ -1,33 +1,24 @@
+import { ApiClient } from "app/ApiClient";
 import { paths } from "app/Config";
-import { RouterStore } from "app/RouterStore";
+import { ViewStore } from "app/ViewStore";
 import { computed } from "mobx";
 import { RankingStore } from "ranking/RankingStore";
 import { ResultsStore } from "results/ResultsStore";
 
 export class AppStore {
 
-  private rankingStore: RankingStore;
-  private resultsStore: ResultsStore;
-  private routerStore: RouterStore;
+  public apiClient: ApiClient;
+  public rankingStore: RankingStore;
+  public viewStore: ViewStore;
 
-  @computed
-  public get isAnythingLoading(): boolean {
-    const baseRoutePath = "/" + this.routerStore.location.pathname.split("/")[1];
-
-    switch (baseRoutePath) {
-      case paths.ranking:
-        return this.rankingStore.ranking === undefined;
-      case paths.results:
-        return this.resultsStore.isMatchPageLoading;
-      default:
-        return false;
-    }
+  public get isLoading(): boolean {
+    return this.rankingStore.isLoading;
   }
 
-  public constructor(routerStore: RouterStore, rankingStore: RankingStore, resultsStore: ResultsStore) {
-    this.routerStore = routerStore;
-    this.rankingStore = rankingStore;
-    this.resultsStore = resultsStore;
+  public constructor() {
+    this.apiClient = new ApiClient();
+    this.rankingStore = new RankingStore(this);
+    this.viewStore = new ViewStore(this);
   }
 
 }

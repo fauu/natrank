@@ -18,9 +18,9 @@ export class TopBar extends React.Component<ITopBarProps, {}> {
           natrank
         </span>
 
-        <Navigation />
+        {/*<Navigation />*/}
 
-        {this.props.appStore.isAnythingLoading && <LoadingIndicator />}
+        {this.props.appStore.isLoading && <LoadingIndicator />}
       </nav>
     );
   }
