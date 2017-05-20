@@ -28,8 +28,19 @@ export const stringifyDate = (date: Date, padded: boolean = false, friendly: boo
   }
 };
 
-export const parseDate = (dateString: string): Date => {
-  const parts: number[] = dateString.split("-").map((part) => Number(part));
+export const parseDate = (dateString: string): Date | undefined => {
+  if (validateDate(dateString)) {
+    const parts: number[] = dateString.split("-").map((part) => Number(part));
 
-  return new Date(parts[0], parts[1] - 1, parts[2]);
+    return new Date(parts[0], parts[1] - 1, parts[2]);
+  }
+
+  return undefined;
+};
+
+export const validateDate = (dateString: string): boolean => {
+  // TODO: A better regex; better date validation across the whole app in general
+  const regex = /^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$/;
+
+  return regex.exec(dateString) !== null;
 };

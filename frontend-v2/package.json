@@ -17,6 +17,7 @@
     "awesome-typescript-loader": "^3.0.7",
     "classnames": "^2.2.5",
     "css-loader": "^0.26.1",
+    "director": "^1.2.8",
     "extract-text-webpack-plugin": "^2.0.0-rc.3",
     "file-loader": "^0.10.0",
     "html-loader": "^0.4.4",
@@ -42,13 +43,10 @@
     "sass-loader": "^6.0.3",
     "spinkit": "^1.2.5",
     "style-loader": "^0.13.1",
-    "typescript": "^2.2.1",
+    "typescript": "^2.4.0-dev.20170519",
     "url-loader": "^0.5.7",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1",
     "webpack-hot-middleware": "^2.17.0"
-  },
-  "dependencies": {
-    "director": "^1.2.8"
   }
 }

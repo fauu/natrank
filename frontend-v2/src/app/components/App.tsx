@@ -33,9 +33,7 @@ export class App extends React.Component<{ appStore? }, void> {
   private renderPage(viewStore: ViewStore) {
     switch (viewStore.view) {
       case "ranking":
-        return <RankingView initialDate={viewStore.newestRankingDate} ranking={viewStore.selectedRanking} />;
-      case "ranking-historical":
-        return <RankingView initialDate={viewStore.latestRankingDate} ranking={viewStore.selectedRanking} />;
+          return <RankingView />;
       default:
         return "404";
     }

@@ -1,3 +1,4 @@
+// tslint:disable:object-literal-key-quotes
 import { ApiClient } from "app/ApiClient";
 import { AppStore } from "app/AppStore";
 import { App } from "app/components/App";
@@ -26,8 +27,12 @@ ReactDOM.render(
 );
 
 new Router({
-  "/ranking": appStore.viewStore.showRankingView(),
-  "/ranking/:date": (date) => appStore.viewStore.showHistoricalRankingView(date),
+  "/ranking": {
+    "/:date": {
+      on: appStore.viewStore.showRanking,
+    },
+    on: appStore.viewStore.showRanking,
+  },
 }).configure({
   html5history: true,
 }).init();

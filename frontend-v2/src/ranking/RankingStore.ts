@@ -6,7 +6,7 @@ import { Ranking } from "ranking/Ranking";
 export class RankingStore {
 
   @observable
-  public isLoading;
+  public isLoading = true;
 
   @observable
   public ranking: Ranking;
@@ -21,16 +21,6 @@ export class RankingStore {
 
   public constructor(appStore: AppStore) {
     this.appStore = appStore;
-
-    this.getCurrentRanking();
-  }
-
-  public getHistoricalRanking(date?: Date) {
-    this.loadRanking(date);
-  }
-
-  public getCurrentRanking() {
-    this.loadRanking();
   }
 
   public loadRanking(date?: Date) {
