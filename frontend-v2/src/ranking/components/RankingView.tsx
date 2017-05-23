@@ -1,27 +1,21 @@
-import { AppStore } from "app/AppStore";
-import { paths } from "app/Config";
-import { DatePicker } from "common/components/DatePicker";
-import { parseDate, stringifyDate } from "common/DateUtils";
-import { action } from "mobx";
-import { inject, observer } from "mobx-react";
-import { RankingDatePickerSection } from "ranking/components/RankingDatePickerSection";
-import { RankingTable } from "ranking/components/RankingTable";
-import { RankingStore } from "ranking/RankingStore";
+import { observer } from "mobx-react";
 import * as React from "react";
 
+import { AppStore } from "app/AppStore";
+import { DatePicker } from "common/components/DatePicker";
+import { parseDate, stringifyDate } from "common/DateUtils";
+import { RankingTable } from "ranking/components/RankingTable";
+import { RankingStore } from "ranking/RankingStore";
+
 interface IRankingViewProps {
-  appStore?: AppStore;
+  readonly appStore: AppStore;
 }
 
 function RankingView({ appStore }: IRankingViewProps) {
-  const rankingStore = appStore.rankingStore;
+  const { rankingStore, viewStore } = appStore;
 
-  const datePicker = rankingStore.latestRankingDate && (
-    <DatePicker
-      minYear={1873}                                                                          // TODO: Get from the API
-      value={rankingStore.ranking.date}
-      onChange={appStore.viewStore.showRanking}
-    />
+  const datePicker = rankingStore.lastViewedRankingDate && (
+    <DatePicker viewStore={viewStore} />
   );
 
   const rankingTable = !rankingStore.isLoading && (
@@ -36,4 +30,5 @@ function RankingView({ appStore }: IRankingViewProps) {
   );
 }
 
-export default inject("appStore")(observer(RankingView));
+const rankingView = observer(RankingView);
+export { rankingView as RankingView };

@@ -1,110 +1,109 @@
 import * as classNames from "classnames";
+import * as React from "react";
+
 import { Flag } from "common/components/Flag";
 import { Icon } from "common/components/Icon";
 import { RankingEntry } from "ranking/RankingEntry";
-import * as React from "react";
-import { Link } from "react-router";
 
 interface IRankingTableRowProps {
-  data?: RankingEntry;
-  isAlternate: boolean;
-  isFull: boolean;
+  readonly data?: RankingEntry;
+  readonly isAlternate: boolean;
+  readonly isFull: boolean;
 }
 
-export class RankingTableRow extends React.Component<IRankingTableRowProps, any> {
+export function RankingTableRow({ data, isAlternate, isFull}: IRankingTableRowProps): JSX.Element {
+  const rowClassName: string = classNames({
+    "ranking-row": true,
+    "ranking-row--alternate": isAlternate,
+  });
 
-  private static cellClassName = (modifier) => `ranking-row__cell ranking-row__cell--${modifier}`;
+  let i = 0;
 
-  public render() {
+  const cellsForBaseColumns = [
+    (
+      <td className={cellClassName("rank")} key={i++}>
+        {data.rank > 0 && data.rank}
+      </td>
+    ),
+    (
+      <td className={cellClassName("rank-one-year-change")} key={i++}>
+        <RankChange rank={data.rank} rankChange={data.rankOneYearChange} />
+      </td>
+    ),
+    (
+      <td className={cellClassName("team-flag")} key={i++}>
+        <Flag code={data.teamFlag} className="flag" />
+      </td>
+    ),
+    (
+      <td className={cellClassName("team-name")} key={i++}>
+        <a href={`/teams/${data.teamName.toLowerCase()}`}>
+          {data.teamName}
+        </a>
+      </td>
+    ),
+    (
+      <td className={cellClassName("rating")} key={i++}>
+        {data.rating > 0 ? data.rating : ""}
+      </td>
+    ),
+  ];
 
-    const data = this.props.data;
+  const cellsForExtraColumns = isFull ? [
+    (
+      <td className={cellClassName("total")} key={i++}>
+        {data.matchesTotal}
+      </td>
+    ),
+    (
+      <td className={cellClassName("wins")} key={i++}>
+        {data.wins}
+      </td>
+    ),
+    (
+      <td className={cellClassName("draws")} key={i++}>
+        {data.draws}
+      </td>
+    ),
+    (
+      <td className={cellClassName("losses")} key={i++}>
+        {data.losses}
+      </td>
+    ),
+    (
+      <td className={cellClassName("goals-for")} key={i++}>
+        {data.goalsFor}
+      </td>
+    ),
+    (
+      <td className={cellClassName("goals-against")} key={i++}>
+        {data.goalsAgainst}
+      </td>
+    ),
+    (
+      <td className={cellClassName("goal-difference")} key={i++}>
+        <GoalDifference value={data.goalDifference} />
+      </td>
+    ),
+  ] : null;
 
-    const rowClassName = classNames({
-      "ranking-row": true,
-      "ranking-row--alternate": this.props.isAlternate,
-    });
-
-    let i = 0;
-
-    const cellsForBaseColumns = [
-      (
-        <td className={RankingTableRow.cellClassName("rank")} key={i++}>
-          {data.rank > 0 && data.rank}
-        </td>
-      ),
-      (
-        <td className={RankingTableRow.cellClassName("rank-one-year-change")} key={i++}>
-          <RankChange rank={data.rank} rankChange={data.rankOneYearChange} />
-        </td>
-      ),
-      (
-        <td className={RankingTableRow.cellClassName("team-flag")} key={i++}>
-          <Flag code={data.teamFlag} className="flag" />
-        </td>
-      ),
-      (
-        <td className={RankingTableRow.cellClassName("team-name")} key={i++}>
-          <Link to={`/teams/${data.teamName.toLowerCase()}`}>
-            {data.teamName}
-          </Link>
-        </td>
-      ),
-      (
-        <td className={RankingTableRow.cellClassName("rating")} key={i++}>
-          {data.rating > 0 ? data.rating : ""}
-        </td>
-      ),
-    ];
-
-    const cellsForExtraColumns = this.props.isFull ? [
-      (
-        <td className={RankingTableRow.cellClassName("total")} key={i++}>
-          {data.matchesTotal}
-        </td>
-      ),
-      (
-        <td className={RankingTableRow.cellClassName("wins")} key={i++}>
-          {data.wins}
-        </td>
-      ),
-      (
-        <td className={RankingTableRow.cellClassName("draws")} key={i++}>
-          {data.draws}
-        </td>
-      ),
-      (
-        <td className={RankingTableRow.cellClassName("losses")} key={i++}>
-          {data.losses}
-        </td>
-      ),
-      (
-        <td className={RankingTableRow.cellClassName("goals-for")} key={i++}>
-          {data.goalsFor}
-        </td>
-      ),
-      (
-        <td className={RankingTableRow.cellClassName("goals-against")} key={i++}>
-          {data.goalsAgainst}
-        </td>
-      ),
-      (
-        <td className={RankingTableRow.cellClassName("goal-difference")} key={i++}>
-          <GoalDifference value={data.goalDifference} />
-        </td>
-      ),
-    ] : null;
-
-    return (
-      <tr className={rowClassName}>
-        {cellsForBaseColumns}
-        {cellsForExtraColumns}
-      </tr>
-    );
-  }
+  return (
+    <tr className={rowClassName}>
+      {cellsForBaseColumns}
+      {cellsForExtraColumns}
+    </tr>
+  );
 
 }
 
-const RankChange = ({rank, rankChange}) => {
+const cellClassName = (modifier: string): string =>
+  `ranking-row__cell ranking-row__cell--${modifier}`;
+
+interface IRankChangeProps {
+  readonly rank: number;
+  readonly rankChange: number;
+}
+function RankChange({rank, rankChange}: IRankChangeProps): JSX.Element {
   const delta = rankChange;
 
   if (delta > 0) {
@@ -128,9 +127,12 @@ const RankChange = ({rank, rankChange}) => {
   } else {
     return null;
   }
-};
+}
 
-const GoalDifference = ({value}) => {
+interface IGoalDifferenceProps {
+  readonly value: number;
+}
+function GoalDifference({value}): JSX.Element {
   const delta = value;
 
   const goalDifferenceClassName = classNames({
@@ -146,4 +148,4 @@ const GoalDifference = ({value}) => {
       {sign}{delta}
     </span>
   );
-};
+}

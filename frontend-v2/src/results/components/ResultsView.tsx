@@ -1,6 +1,5 @@
 import { paths } from "app/Config";
 // import { RouterStore } from "app/RouterStore";
-import { FadeTransition } from "common/components/FadeTransition.tsx";
 import { inject, observer } from "mobx-react";
 import * as React from "react";
 import { ResultListNavigation } from "results/components/ResultListNavigation";
@@ -72,11 +71,7 @@ export class ResultsView extends React.Component<IResultsViewProps, {}> {
       </div>
     );
 
-    const content = (
-      <FadeTransition>
-        {this.resultsStore.completedInitialLoad && resultList}
-      </FadeTransition>
-    );
+    const content = this.resultsStore.completedInitialLoad && resultList;
 
     return (
       <div className="page page--results">

@@ -1,21 +1,24 @@
+import { AppStore } from "app/AppStore";
 import { TopBar } from "app/components/TopBar";
 import { transitionsEnabled } from "app/Config";
-import { ViewStore } from "app/ViewStore";
-import { inject, observer } from "mobx-react";
-import RankingView from "ranking/components/RankingView";
+import { observer } from "mobx-react";
+import { RankingView } from "ranking/components/RankingView";
 import * as React from "react";
 import Headroom from "react-headroom";
 import { RouteTransition } from "react-router-transition";
 
-@inject("appStore")
+interface IAppProps {
+  readonly appStore: AppStore;
+}
+
 @observer
-export class App extends React.Component<{ appStore? }, void> {
+export class App extends React.Component<IAppProps, void> {
 
   public render() {
     const content =
       false
       ? <h1>Loading...</h1>
-      : this.renderPage(this.props.appStore.viewStore);
+      : this.renderPage(this.props.appStore);
 
     return (
       <div className="main-container">
@@ -30,10 +33,10 @@ export class App extends React.Component<{ appStore? }, void> {
     );
   }
 
-  private renderPage(viewStore: ViewStore) {
-    switch (viewStore.view) {
+  private renderPage(appStore: AppStore) {
+    switch (appStore.viewStore.view) {
       case "ranking":
-          return <RankingView />;
+          return <RankingView appStore={appStore} />;
       default:
         return "404";
     }

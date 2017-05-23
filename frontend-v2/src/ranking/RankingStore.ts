@@ -1,6 +1,7 @@
 import { ApiClient } from "app/ApiClient";
-import { AppStore } from "app/AppStore";
 import { action, observable } from "mobx";
+
+import { AppStore } from "app/AppStore";
 import { Ranking } from "ranking/Ranking";
 
 export class RankingStore {
@@ -11,30 +12,34 @@ export class RankingStore {
   @observable
   public ranking: Ranking;
 
-  @observable
-  public newestRankingDate: Date;
+  // TODO: Get from the API
+  public newestRankingDate: Date = new Date(1950, 5, 24);
+  public oldestRankingDate: Date = new Date(1872, 10, 30);
 
   @observable
-  public latestRankingDate: Date;
+  public lastViewedRankingDate: Date;
 
-  private appStore: AppStore;
+  public constructor(private appStore: AppStore) { }
 
-  public constructor(appStore: AppStore) {
-    this.appStore = appStore;
-  }
-
-  public loadRanking(date?: Date) {
+  public loadRanking(date?: Date, dateCallback?: (date: Date) => void) {
+    console.log("load" + date);
     this.isLoading = true;
+
     const rankingJson = this.appStore.apiClient.getRankingJson(date);
-    rankingJson.then(action((json) => {
-      this.ranking = Ranking.fromJson(json);
-      if (!date) {
-        this.newestRankingDate = this.ranking.date;
-        this.latestRankingDate = this.newestRankingDate;
-      } else {
-        this.latestRankingDate = date;
-      }
-      this.isLoading = false;
+    rankingJson.then(
+      action((json) => {
+        this.ranking = Ranking.fromJson(json);
+
+        if (!date) {
+          this.lastViewedRankingDate = this.ranking.date;
+          if (dateCallback) {
+            dateCallback(this.ranking.date);
+          }
+        } else {
+          this.lastViewedRankingDate = date;
+        }
+
+        this.isLoading = false;
     }));
   }
 

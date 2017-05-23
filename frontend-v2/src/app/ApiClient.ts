@@ -2,7 +2,7 @@ import { stringifyDate } from "common/DateUtils";
 
 export class ApiClient {
 
-  private static baseUrl = "http://localhost:8080";
+  private static readonly baseUrl = "http://localhost:8080";
 
   public getRankingJson(date?: Date): Promise<{}> {
     const param = date ? stringifyDate(date, true) : "latest";

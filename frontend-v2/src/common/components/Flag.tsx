@@ -1,19 +1,15 @@
 import * as React from "react";
 
 interface IFlagProps {
-  code?: string;
-  className?: string;
+  readonly className?: string;
+  readonly code: string;
 }
 
-export class Flag extends React.Component<IFlagProps, any> {
-
-  public render() {
-    const params = {
-      className: this.props.className,
-      src: require("../../../resources/images/flags/" + this.props.code + ".png"),
+export function Flag({ className, code }: IFlagProps): JSX.Element {
+    const imgProps = {
+      className,
+      src: require(`../../../resources/images/flags/${code}.png`),
     };
 
-    return <img {...params} />;
-  }
-
+    return <img {...imgProps} />;
 }

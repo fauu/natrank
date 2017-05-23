@@ -44,3 +44,27 @@ export const validateDate = (dateString: string): boolean => {
 
   return regex.exec(dateString) !== null;
 };
+
+export const areDatesEqual = (date1: Date | undefined, date2: Date | undefined): boolean => {
+  return date1 && date2 && date1.getTime() === date2.getTime();
+};
+
+export enum DatePlacement {
+  Before,
+  Between,
+  After,
+}
+
+export const getDatePlacement = (date: Date, from: Date, to: Date): DatePlacement => {
+  if (date.getTime() < from.getTime()) {
+    return DatePlacement.Before;
+  } else if (date.getTime() > to.getTime()) {
+    return DatePlacement.After;
+  } else {
+    return DatePlacement.Between;
+  }
+};
+
+export const isDateBetween = (date: Date, from: Date, to: Date): boolean => {
+  return getDatePlacement(date, from, to) === DatePlacement.Between;
+};

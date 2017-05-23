@@ -1,4 +1,3 @@
-import { FadeTransition } from "common/components/FadeTransition.tsx";
 import { scrollToTop } from "common/WindowUtils";
 import { inject, observer } from "mobx-react";
 import * as React from "react";
@@ -41,9 +40,7 @@ export class ResultsSection extends React.Component<IResultsSectionProps, {}> {
     );
 
     return (
-      <FadeTransition>
-        {!isLoading && content}
-      </FadeTransition>
+        !isLoading && content
     );
   }
 

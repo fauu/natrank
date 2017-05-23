@@ -1,17 +1,11 @@
 import * as classNames from "classnames";
 import * as React from "react";
 
-interface IconProps {
-  name?: string;
-  className?: string;
+interface IIconProps {
+  readonly name?: string;
+  readonly className?: string;
 }
 
-export class Icon extends React.Component<IconProps, any> {
-
-  public render() {
-    const className = classNames("mdi", `mdi-${this.props.name}`, this.props.className);
-
-    return <i className={className} />;
-  }
-
+export function Icon({ name, className }: IIconProps) {
+  return <i className={classNames("mdi", `mdi-${name}`, className)} />;
 }

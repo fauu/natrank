@@ -1,11 +1,12 @@
-import { Icon } from "common/components/Icon";
 import { action, observable, reaction } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
 
+import { Icon } from "common/components/Icon";
+
 interface IMonthInputProps {
-  initialValue: number;
-  onChange;
+  readonly initialValue: number;
+  readonly onChange;
 }
 
 @observer
@@ -18,23 +19,23 @@ export class MonthInput extends React.Component<IMonthInputProps, any> {
   private static readonly minMonth = 1;
   private static readonly maxMonth = MonthInput.months.length;
 
-  public handlePlusControlClick = action(() => {
+  private handlePlusControlClick = action(() => {
     if (this.value < MonthInput.maxMonth) {
       this.value = this.value + 1;
     }
   });
 
-  public handleMinusControlClick = action(() => {
+  private handleMinusControlClick = action(() => {
     if (this.value > MonthInput.minMonth) {
       this.value = this.value - 1;
     }
   });
 
-  public handleSelectChange = action((event: React.FormEvent<HTMLSelectElement>) => {
+  private handleSelectChange = action((event: React.FormEvent<HTMLSelectElement>) => {
     this.value = Number(event.currentTarget.value);
   });
 
-  public handleValueChange = reaction(
+  private handleValueChange = reaction(
     () => this.value,
     (value) => {
       this.props.onChange(value);
