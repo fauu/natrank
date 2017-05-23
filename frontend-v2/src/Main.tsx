@@ -43,6 +43,12 @@ new Router({
     },
     on: viewStore.showRanking,
   },
+  "/results": {
+    "/page/:pageNo": {
+      on: viewStore.showResultsPage,
+    },
+    on: viewStore.showResultsPage,
+  },
 }).configure({
   html5history: true,
 }).init();

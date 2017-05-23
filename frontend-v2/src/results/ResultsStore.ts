@@ -1,46 +1,37 @@
-import { ApiClient } from "app/ApiClient";
-import { Page } from "common/Page";
 import { action, observable } from "mobx";
+
+import { AppStore } from "app/AppStore";
+import { Page } from "common/Page";
 import { Match } from "results/Match";
 
 export class ResultsStore {
 
-  @observable public matchPage: Page<Match>;
-  @observable public isMatchPageLoading: boolean = false;
+  @observable public isLoading: boolean = true;
   @observable public completedInitialLoad: boolean = false;
 
-  private apiClient: ApiClient;
+  @observable public matchPage: Page<Match>;
 
-  constructor(apiClient: ApiClient) {
-    this.apiClient = apiClient;
-  }
+  constructor(private appStore: AppStore) {}
 
   @action
   public loadMatchPage(pageNo: number) {
-    this.isMatchPageLoading = true;
+    this.isLoading = true;
 
-    const matchesJson = this.apiClient.getMatchesJson(pageNo);
+    const matchesJson = this.appStore.apiClient.getMatchesJson(pageNo);
     matchesJson.then((json) => {
       this.handleMatchesLoad(json);
     });
   }
 
   @action
-  public handleMatchesLoad(json: any, date?: Date) {
+  public handleMatchesLoad(json: any) {
     const matchesJson = json.content;
     this.matchPage = Page.fromJson<Match>(json, Match.fromJson);
     if (!this.completedInitialLoad) {
       this.completedInitialLoad = true;
     }
 
-    this.isMatchPageLoading = false;
-  }
-
-  @action
-  public clear() {
-    this.matchPage = undefined;
-    this.isMatchPageLoading = false;
-    this.completedInitialLoad = false;
+    this.isLoading = false;
   }
 
 }

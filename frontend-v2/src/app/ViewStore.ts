@@ -11,37 +11,66 @@ import {
 } from "common/DateUtils";
 import { Ranking } from "ranking/Ranking";
 
+export type View = "Ranking" | "Results";
+
 export class ViewStore {
 
-  @observable
-  public view = "ranking";
+  @observable public view: View = "Ranking";
 
-  @observable.ref
-  public selectedRankingDate: Date = undefined;
+  @observable public selectedRankingDate: Date;
+  @observable public selectedResultsPage: number;
 
   public constructor(private appStore: AppStore) {
     reaction(
       () => this.selectedRankingDate,
       (date) => this.handleSelectedDateChange(date),
     );
+    reaction(
+      () => this.selectedResultsPage,
+      (page) => this.handleSelectedResultsPageChange(page),
+    );
   }
 
   @computed
   public get isLoading(): boolean {
-    return this.appStore.isLoading;
+    switch (this.view) {
+      case "Ranking":
+        return this.appStore.rankingStore.isLoading;
+      case "Results":
+        return this.appStore.resultsStore.isLoading;
+    }
   }
 
   @computed
   public get currentUrl(): string {
     const newestRankingDate = this.appStore.rankingStore.newestRankingDate;
     switch (this.view) {
-      case "ranking":
+      case "Ranking":
         return (this.selectedRankingDate && !areDatesEqual(this.selectedRankingDate, newestRankingDate))
           ? `/ranking/${stringifyDate(this.selectedRankingDate)}`
           : `/ranking`;
+      case "Results":
+        return "/results";
       default:
         return "/404";
     }
+  }
+
+  @action.bound
+  public handleSelectedResultsPageChange(page: number) {
+    if (!page) {
+      this.selectedResultsPage = 0;
+      return;
+    }
+
+    this.showResultsPage(page);
+  }
+
+  @action.bound
+  public showResultsPage(pageNo?: number) {
+    this.view = "Results";
+
+    this.appStore.resultsStore.loadMatchPage(pageNo);
   }
 
   @action.bound
@@ -49,12 +78,17 @@ export class ViewStore {
     const oldestDate = this.appStore.rankingStore.oldestRankingDate;
     const newestDate = this.appStore.rankingStore.newestRankingDate;
 
-    const datePlacement = getDatePlacement(date, oldestDate, newestDate);
+    if (!date) {
+      this.selectedRankingDate = newestDate;
+      return;
+    }
 
+    const datePlacement = getDatePlacement(date, oldestDate, newestDate);
     switch (datePlacement) {
       case DatePlacement.Before:
         this.selectedRankingDate = oldestDate;
         break;
+
       case DatePlacement.Between:
         if (areDatesEqual(date, newestDate)) {
           this.appStore.rankingStore.loadRanking();
@@ -62,6 +96,7 @@ export class ViewStore {
           this.appStore.rankingStore.loadRanking(date);
         }
         break;
+
       case DatePlacement.After:
         this.selectedRankingDate = newestDate;
         break;
@@ -69,11 +104,13 @@ export class ViewStore {
   }
 
   @action.bound
-  public showRanking(date?: string) {
-    const dateObj = parseDate(date);
+  public showRanking(dateStr?: string) {
+    this.view = "Ranking";
 
-    if (dateObj) {
-      this.selectedRankingDate = dateObj;
+    const date = parseDate(dateStr);
+
+    if (date) {
+      this.selectedRankingDate = date;
     } else {
       const newestDate = this.appStore.rankingStore.newestRankingDate;
       // FIXME: A hack to force url cleanup

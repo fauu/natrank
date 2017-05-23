@@ -1,55 +1,49 @@
-import { paths } from "app/Config";
 import * as classNames from "classnames";
+import * as React from "react";
+import { Link } from "react-router";
+
 import { Flag } from "common/components/Flag";
 import { Icon } from "common/components/Icon";
 import { stringifyDate } from "common/DateUtils";
 import { urlfriendlifyString } from "common/StringUtils";
-import * as React from "react";
-import { Link } from "react-router";
 import { IMatchTeamInfo, Match } from "results/Match";
 
 interface IResultProps {
-  match: Match;
+  readonly match: Match;
 }
 
-export class Result extends React.Component<IResultProps, {}> {
-
-  public render() {
-    const match = this.props.match;
-
-    return (
-      <div className="result">
-        <div className="result__row result__row--details">
-          <div className="result__detail result__detail--date">
-            <Link to={`${paths.ranking}/${stringifyDate(match.date, true, false)}`}>
-              {stringifyDate(match.date, false, true)}
-            </Link>
-          </div>
-          <div className="result__detail result__detail--venue">
-            {match.city}, {match.country}
-          </div>
-          <div className="result__detail result__detail--type">
-            {match.type}
-          </div>
+export function Result({ match }: IResultProps) {
+  return (
+    <div className="result">
+      <div className="result__row result__row--details">
+        <div className="result__detail result__detail--date">
+          <Link to={`/ranking/${stringifyDate(match.date, true, false)}`}>
+            {stringifyDate(match.date, false, true)}
+          </Link>
         </div>
-        <div className="result__row result__row--main">
-          <Team teamInfo={match.teamInfos[0]} />
-          <div className="result__score">
-            {match.teamInfos[0].goalCount} : {match.teamInfos[1].goalCount}
-          </div>
-          <Team teamInfo={match.teamInfos[1]} />
+        <div className="result__detail result__detail--venue">
+          {match.city}, {match.country}
         </div>
-        <div className="result__row result__row--secondary">
-          {<RankingChange teamInfo={match.teamInfos[0]} />}
-          <div className="result__score-extra">
-            {match.resultExtra}
-          </div>
-          {<RankingChange teamInfo={match.teamInfos[1]} />}
+        <div className="result__detail result__detail--type">
+          {match.type}
         </div>
       </div>
-    );
-  }
-
+      <div className="result__row result__row--main">
+        <Team teamInfo={match.teamInfos[0]} />
+        <div className="result__score">
+          {match.teamInfos[0].goalCount} : {match.teamInfos[1].goalCount}
+        </div>
+        <Team teamInfo={match.teamInfos[1]} />
+      </div>
+      <div className="result__row result__row--secondary">
+        {<RankingChange teamInfo={match.teamInfos[0]} />}
+        <div className="result__score-extra">
+          {match.resultExtra}
+        </div>
+        {<RankingChange teamInfo={match.teamInfos[1]} />}
+      </div>
+    </div>
+  );
 }
 
 const Team = (props: { teamInfo: IMatchTeamInfo }) => {
@@ -59,7 +53,7 @@ const Team = (props: { teamInfo: IMatchTeamInfo }) => {
     "result__team--right": props.teamInfo.idx === 1,
     "result__team--winner": props.teamInfo.isWinner,
   });
-  const teamLinkPath = `${paths.teams}/${urlfriendlifyString(props.teamInfo.name)}`;
+  const teamLinkPath = `/teams/${urlfriendlifyString(props.teamInfo.name)}`;
 
   return (
     <div className={teamClassNames}>

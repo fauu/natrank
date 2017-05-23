@@ -42,11 +42,19 @@ export class MonthInput extends React.Component<IMonthInputProps, any> {
     },
   );
 
-  @observable private value: number;
+  @observable private value;
+
+  public componentWillMount() {
+    this.setValue(this.props.initialValue);
+  }
+
+  public componentWillReceiveProps(props: IMonthInputProps) {
+    this.setValue(props.initialValue);
+  }
 
   @action
-  public componentDidMount() {
-    this.value = this.props.initialValue;
+  public setValue(value: number) {
+    this.value = value;
   }
 
   public render() {

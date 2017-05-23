@@ -1,26 +1,28 @@
-import { AppStore } from "app/AppStore";
-import { Navigation } from "app/components/Navigation";
 import { inject, observer } from "mobx-react";
 import * as React from "react";
 
+import { AppStore } from "app/AppStore";
+import { Navigation } from "app/components/Navigation";
+
 interface ITopBarProps {
-  appStore?: AppStore;
+  appStore: AppStore;
 }
 
-@inject("appStore")
 @observer
 export class TopBar extends React.Component<ITopBarProps, {}> {
 
   public render() {
+    const isLoading = this.props.appStore.viewStore.isLoading;
+
     return (
       <nav className="top-bar">
         <span className="site-logo">
           natrank
         </span>
 
-        {/*<Navigation />*/}
+        <Navigation viewStore={this.props.appStore.viewStore} />
 
-        {this.props.appStore.isLoading && <LoadingIndicator />}
+        {isLoading && <LoadingIndicator />}
       </nav>
     );
   }

@@ -6,18 +6,15 @@ import { Ranking } from "ranking/Ranking";
 
 export class RankingStore {
 
-  @observable
-  public isLoading = true;
+  @observable public isLoading = true;
 
-  @observable
-  public ranking: Ranking;
+  @observable public ranking: Ranking;
 
   // TODO: Get from the API
   public newestRankingDate: Date = new Date(1950, 5, 24);
   public oldestRankingDate: Date = new Date(1872, 10, 30);
 
-  @observable
-  public lastViewedRankingDate: Date;
+  @observable public lastViewedRankingDate: Date;
 
   public constructor(private appStore: AppStore) { }
 

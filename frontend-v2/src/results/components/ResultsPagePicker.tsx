@@ -1,6 +1,7 @@
-import { Icon } from "common/components/Icon";
 import * as React from "react";
 import ReactPaginate = require("react-paginate");
+
+import { Icon } from "common/components/Icon";
 
 interface IResultsPagePickerProps {
   className: string;
@@ -9,19 +10,19 @@ interface IResultsPagePickerProps {
   onChange;
 }
 
-export const ResultsPagePicker = (props: IResultsPagePickerProps) => (
+export const ResultsPagePicker = ({ className, pageNo, totalPages, onChange }: IResultsPagePickerProps) => (
   <ReactPaginate
-    pageCount={props.totalPages}
-    forcePage={props.pageNo}
+    pageCount={totalPages}
+    forcePage={pageNo}
     pageRangeDisplayed={5}
     marginPagesDisplayed={1}
     previousLabel={<Icon name="chevron-left" />}
     nextLabel={<Icon name="chevron-right" />}
     breakLabel={"…"}
     breakClassName={"results-page-picker__break"}
-    onPageChange={props.onChange}
+    onPageChange={onChange}
     disableInitialCallback={true}
-    containerClassName={props.className}
+    containerClassName={className}
     activeClassName={"active"}
   />
 );

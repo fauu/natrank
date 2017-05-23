@@ -1,88 +1,66 @@
-import { paths } from "app/Config";
-// import { RouterStore } from "app/RouterStore";
 import { inject, observer } from "mobx-react";
 import * as React from "react";
+
+import { AppStore } from "app/AppStore";
+import { ViewStore } from "app/ViewStore";
+import { Result } from "results/components/Result";
 import { ResultListNavigation } from "results/components/ResultListNavigation";
-import { ResultsSection } from "results/components/ResultsSection";
 import { ResultsStore } from "results/ResultsStore";
 
 interface IResultsViewProps {
-  // routerStore: RouterStore;
-  resultsStore: ResultsStore;
-  params: { pageNo };
+  appStore: AppStore;
 }
 
-@inject("routerStore", "resultsStore")
 @observer
 export class ResultsView extends React.Component<IResultsViewProps, {}> {
 
-  // private routerStore: RouterStore;
+  private viewStore: ViewStore;
   private resultsStore: ResultsStore;
 
   public componentWillMount() {
-    // this.routerStore = this.props.routerStore;
-    this.resultsStore = this.props.resultsStore;
-
-    const pathPageNo = this.props.params.pageNo;
-
-    if (pathPageNo && isNaN(pathPageNo)) {
-      // this.routerStore.push(paths.results);
-    } else {
-      this.resultsStore.loadMatchPage(pathPageNo - 1);
-    }
-  }
-
-  public componentWillUpdate() {
-    const pathPageNo = this.props.params.pageNo;
-
-    if (pathPageNo && isNaN(pathPageNo)) {
-      this.selectFirstPage();
-      return;
-    }
-
-    const matchPage = this.resultsStore.matchPage;
-
-    if (matchPage) {
-      const totalPages = matchPage.totalPages;
-
-      if (pathPageNo < 1 || pathPageNo > totalPages) {
-        this.selectFirstPage();
-      }
-    }
-  }
-
-  public componentWillUnmount() {
-    this.resultsStore.clear();
-  }
-
-  public selectFirstPage() {
-    // this.routerStore.push(paths.results);
-    this.resultsStore.loadMatchPage(0);
+    this.viewStore = this.props.appStore.viewStore;
+    this.resultsStore = this.props.appStore.resultsStore;
   }
 
   public render() {
-    const topNavigation =
-      <ResultListNavigation position="top" onPageChange={this.handlePageChange} />;
+    const isLoading = this.resultsStore.isLoading;
 
-    const resultList = (
-      <div className="result-list" key="result-list">
-        {this.resultsStore.completedInitialLoad && topNavigation}
-        <ResultsSection onPageChange={this.handlePageChange} />
-      </div>
+    const matchPage = this.resultsStore.matchPage;
+
+    const results = !isLoading &&
+      matchPage.content.map((match) => (
+        <Result match={match} key={match.id} />
+      ));
+
+    const topNavigation = (
+      <ResultListNavigation
+        appStore={this.props.appStore}
+        position="top"
+        onPageChange={() => {return}}
+      />
     );
 
-    const content = this.resultsStore.completedInitialLoad && resultList;
+    const bottomNavigation = !isLoading && (
+      <ResultListNavigation
+        appStore={this.props.appStore}
+        position="bottom"
+        onPageChange={() => {return}}
+      />
+    );
+
+    const resultList = this.resultsStore.completedInitialLoad && (
+      <div className="result-list" key="result-list">
+        {topNavigation}
+        {results}
+        {bottomNavigation}
+      </div>
+    );
 
     return (
       <div className="page page--results">
-        {this.resultsStore.completedInitialLoad && content}
+        {resultList}
       </div>
     );
-  }
-
-  public handlePageChange = (e: { selected: number }) => {
-    this.resultsStore.loadMatchPage(e.selected);
-    // this.routerStore.push(`${paths.results}/page/${e.selected + 1}`);
   }
 
 }
