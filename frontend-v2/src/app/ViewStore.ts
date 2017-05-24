@@ -15,10 +15,19 @@ export type View = "Ranking" | "Results";
 
 export class ViewStore {
 
-  @observable public view: View = "Ranking";
+  @observable
+  public view: View = "Ranking";
 
-  @observable public selectedRankingDate: Date;
-  @observable public selectedResultsPage: number;
+  @observable
+  public selectedRankingDate: Date;
+  @observable
+  public selectedResultsPage: number;
+
+  @computed
+  public get totalResultsPages(): number | undefined {
+    const matchPage = this.appStore.resultsStore.matchPage;
+    return matchPage && matchPage.totalPages;
+  }
 
   public constructor(private appStore: AppStore) {
     reaction(
@@ -28,6 +37,10 @@ export class ViewStore {
     reaction(
       () => this.selectedResultsPage,
       (page) => this.handleSelectedResultsPageChange(page),
+    );
+    reaction(
+      () => this.totalResultsPages,
+      (totalPages) => this.handleTotalResultsPagesChange(totalPages),
     );
   }
 
@@ -48,9 +61,11 @@ export class ViewStore {
       case "Ranking":
         return (this.selectedRankingDate && !areDatesEqual(this.selectedRankingDate, newestRankingDate))
           ? `/ranking/${stringifyDate(this.selectedRankingDate)}`
-          : `/ranking`;
+          : "/ranking";
       case "Results":
-        return "/results";
+        return (this.selectedResultsPage !== 1)
+          ? `/results/page/${this.selectedResultsPage}`
+          : "/results";
       default:
         return "/404";
     }
@@ -58,19 +73,27 @@ export class ViewStore {
 
   @action.bound
   public handleSelectedResultsPageChange(page: number) {
-    if (!page) {
-      this.selectedResultsPage = 0;
+    if (page < 1 || page > this.totalResultsPages) {
+      this.selectedResultsPage = 1;
       return;
     }
 
-    this.showResultsPage(page);
+    this.appStore.resultsStore.loadMatchPage(page - 1);
   }
 
   @action.bound
-  public showResultsPage(pageNo?: number) {
+  public handleTotalResultsPagesChange(totalPages: number | undefined) {
+    if (this.selectedResultsPage > totalPages) {
+      this.selectedResultsPage = 1;
+    }
+  }
+
+  @action.bound
+  public showResultsPage(pageStr?: string) {
     this.view = "Results";
 
-    this.appStore.resultsStore.loadMatchPage(pageNo);
+    const page = Number(pageStr);
+    this.selectedResultsPage = (!isNaN(page) && page > 0) ? page : 1;
   }
 
   @action.bound

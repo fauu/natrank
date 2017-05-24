@@ -12,11 +12,10 @@ import { ResultsPagePicker } from "results/components/ResultsPagePicker";
 
 interface IResultListNavigationProps {
   appStore: AppStore;
-  onPageChange;
   position: string;
 }
 
-function ResultListNavigation({ appStore, onPageChange, position }: IResultListNavigationProps) {
+function ResultListNavigation({ appStore, position }: IResultListNavigationProps) {
   let classModifier;
   let goToLocationName;
   let goToIconName;
@@ -46,8 +45,8 @@ function ResultListNavigation({ appStore, onPageChange, position }: IResultListN
       <ResultsPagePicker
         onChange={debounce(handlePageChange(appStore.viewStore), 500)}
         className="results-page-picker"
-        pageNo={appStore.viewStore.selectedResultsPage}
-        totalPages={appStore.resultsStore.matchPage.totalPages}
+        pageNo={appStore.viewStore.selectedResultsPage - 1}
+        totalPages={appStore.viewStore.totalResultsPages}
       />
 
       <a className="page-navigation-link" onClick={onGoToClick}>
@@ -59,7 +58,7 @@ function ResultListNavigation({ appStore, onPageChange, position }: IResultListN
 }
 
 const handlePageChange = (viewStore: ViewStore) => action(({ selected }) => {
-  viewStore.selectedResultsPage = selected;
+  viewStore.selectedResultsPage = selected + 1;
 });
 
 const resultListNavigation = observer(ResultListNavigation);

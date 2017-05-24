@@ -42,7 +42,8 @@ export class MonthInput extends React.Component<IMonthInputProps, any> {
     },
   );
 
-  @observable private value;
+  @observable
+  private value;
 
   public componentWillMount() {
     this.setValue(this.props.initialValue);

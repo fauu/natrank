@@ -32,27 +32,11 @@ export class ResultsView extends React.Component<IResultsViewProps, {}> {
         <Result match={match} key={match.id} />
       ));
 
-    const topNavigation = (
-      <ResultListNavigation
-        appStore={this.props.appStore}
-        position="top"
-        onPageChange={() => {return}}
-      />
-    );
-
-    const bottomNavigation = !isLoading && (
-      <ResultListNavigation
-        appStore={this.props.appStore}
-        position="bottom"
-        onPageChange={() => {return}}
-      />
-    );
-
     const resultList = this.resultsStore.completedInitialLoad && (
       <div className="result-list" key="result-list">
-        {topNavigation}
+        <ResultListNavigation appStore={this.props.appStore} position="top" />
         {results}
-        {bottomNavigation}
+        {!isLoading && <ResultListNavigation appStore={this.props.appStore} position="bottom" />}
       </div>
     );
 

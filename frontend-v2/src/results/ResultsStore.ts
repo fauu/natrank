@@ -6,10 +6,13 @@ import { Match } from "results/Match";
 
 export class ResultsStore {
 
-  @observable public isLoading: boolean = true;
-  @observable public completedInitialLoad: boolean = false;
+  @observable
+  public isLoading: boolean = true;
+  @observable
+  public completedInitialLoad: boolean = false;
 
-  @observable public matchPage: Page<Match>;
+  @observable
+  public matchPage: Page<Match>;
 
   constructor(private appStore: AppStore) {}
 

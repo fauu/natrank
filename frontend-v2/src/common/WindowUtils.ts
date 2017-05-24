@@ -1,5 +1,3 @@
-// FIXME: Both should scroll at the same speed
-
 export const scrollToTop = () => {
   const top = window.pageYOffset - document.documentElement.clientTop;
 
@@ -12,8 +10,21 @@ export const scrollToTop = () => {
 export const scrollToBottom = () => {
   const bottom = window.pageYOffset + window.innerHeight;
 
-  if (bottom < document.body.scrollHeight) {
+  if (bottom < getDocumentSize()) {
     window.scrollTo(0, bottom + 500);
     setTimeout(scrollToBottom, 10);
   }
+};
+
+const getDocumentSize = () => {
+  const body = document.body;
+  const html = document.documentElement;
+
+  return Math.max(
+    body.scrollHeight,
+    body.offsetHeight,
+    html.clientHeight,
+    html.scrollHeight,
+    html.offsetHeight,
+  );
 };
