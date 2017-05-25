@@ -8,7 +8,7 @@ interface IRankingTableProps {
   readonly ranking: Ranking;
 }
 
-export function RankingTable({ ranking }: IRankingTableProps) {
+export function RankingTable({ ranking }: IRankingTableProps): JSX.Element {
   const visibleColumnData = ranking.isFull ? columnData : columnData.slice(0, 4);
 
   const headerCells =

@@ -6,6 +6,6 @@ interface IIconProps {
   readonly className?: string;
 }
 
-export function Icon({ name, className }: IIconProps) {
+export function Icon({ name, className }: IIconProps): JSX.Element {
   return <i className={classNames("mdi", `mdi-${name}`, className)} />;
 }

@@ -34,9 +34,9 @@ export class ResultsView extends React.Component<IResultsViewProps, {}> {
 
     const resultList = this.resultsStore.completedInitialLoad && (
       <div className="result-list" key="result-list">
-        <ResultListNavigation appStore={this.props.appStore} position="top" />
+        <ResultListNavigation viewStore={this.props.appStore.viewStore} position="top" />
         {results}
-        {!isLoading && <ResultListNavigation appStore={this.props.appStore} position="bottom" />}
+        {!isLoading && <ResultListNavigation viewStore={this.props.appStore.viewStore} position="bottom" />}
       </div>
     );
 

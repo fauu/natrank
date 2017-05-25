@@ -11,12 +11,12 @@ interface IResultProps {
   readonly match: Match;
 }
 
-export function Result({ match }: IResultProps) {
+export function Result({ match }: IResultProps): JSX.Element {
   return (
     <div className="result">
       <div className="result__row result__row--details">
         <div className="result__detail result__detail--date">
-          <a href={`/ranking/${stringifyDate(match.date, true, false)}`}>
+          <a href={`/ranking/${stringifyDate(match.date, false, false)}`}>
             {stringifyDate(match.date, false, true)}
           </a>
         </div>

@@ -47,6 +47,14 @@
   }
 }
 
+.results-year-filter {
+  position: absolute;
+
+  input {
+    width: 4em;
+  }
+}
+
 .result {
   display: flex;
   flex-direction: column;

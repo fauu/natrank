@@ -17,17 +17,17 @@ export class ResultsStore {
   constructor(private appStore: AppStore) {}
 
   @action
-  public loadMatchPage(pageNo: number) {
+  public loadMatchPage(pageNo: number, team?: string, year?: number) {
     this.isLoading = true;
 
-    const matchesJson = this.appStore.apiClient.getMatchesJson(pageNo);
-    matchesJson.then((json) => {
-      this.handleMatchesLoad(json);
+    const matchPageJson = this.appStore.apiClient.getMatchPageJson(pageNo, team, year);
+    matchPageJson.then((json) => {
+      this.handleMatchPagesLoad(json);
     });
   }
 
   @action
-  public handleMatchesLoad(json: any) {
+  public handleMatchPagesLoad(json: any) {
     const matchesJson = json.content;
     this.matchPage = Page.fromJson<Match>(json, Match.fromJson);
     if (!this.completedInitialLoad) {

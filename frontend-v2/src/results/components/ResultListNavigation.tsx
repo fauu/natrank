@@ -2,25 +2,29 @@ import { debounce } from "lodash";
 import { action } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
+import * as NumericInput from "react-numeric-input";
 
-import { AppStore } from "app/AppStore";
 import { ViewStore } from "app/ViewStore";
 import * as classNames from "classnames";
 import { Icon } from "common/components/Icon";
 import { scrollToBottom, scrollToTop } from "common/WindowUtils";
 import { ResultsPagePicker } from "results/components/ResultsPagePicker";
 
+type ResultListPosition = "top" | "bottom";
+
 interface IResultListNavigationProps {
-  appStore: AppStore;
-  position: string;
+  viewStore: ViewStore;
+  position: ResultListPosition;
 }
 
-function ResultListNavigation({ appStore, position }: IResultListNavigationProps) {
+const yearInputDebounceMs = 500;
+
+function ResultListNavigation({ viewStore, position }: IResultListNavigationProps): JSX.Element {
   let classModifier;
   let goToLocationName;
   let goToIconName;
   let onGoToClick;
-  switch (this.props.position) {
+  switch (position) {
     case "top":
       classModifier = "top";
       goToLocationName = "bottom";
@@ -40,13 +44,31 @@ function ResultListNavigation({ appStore, position }: IResultListNavigationProps
     `result-list-navigation--${classModifier}`,
   );
 
+  const yearInputProps = {
+  };
+
+  const yearFilter = position === "top" && (
+    <label className="results-year-filter">
+      Year:
+      <NumericInput
+        maxLength={4}
+        onChange={debounce(handleYearChange(viewStore), yearInputDebounceMs)}
+        size={4}
+        style={false}
+        value={viewStore.resultsParams.year}
+      />
+    </label>
+  );
+
   return (
     <div className={containerClassName}>
+      {yearFilter}
+
       <ResultsPagePicker
-        onChange={debounce(handlePageChange(appStore.viewStore), 500)}
+        onChange={debounce(handlePageChange(viewStore), 500)}
         className="results-page-picker"
-        pageNo={appStore.viewStore.selectedResultsPage - 1}
-        totalPages={appStore.viewStore.totalResultsPages}
+        pageNo={viewStore.resultsParams.page - 1}
+        totalPages={viewStore.totalResultsPages}
       />
 
       <a className="page-navigation-link" onClick={onGoToClick}>
@@ -58,7 +80,17 @@ function ResultListNavigation({ appStore, position }: IResultListNavigationProps
 }
 
 const handlePageChange = (viewStore: ViewStore) => action(({ selected }) => {
-  viewStore.selectedResultsPage = selected + 1;
+  viewStore.resultsParams.page = selected + 1;
+});
+
+const handleYearChange = (viewStore: ViewStore) => action((newValue: number) => {
+  // if (newValue > 1000) {
+  //   viewStore.resultsParams.page = 1;
+  //   viewStore.resultsParams.year = newValue;
+  // } else if (newValue === null) {
+  //   viewStore.resultsParams.page = 1;
+  //   viewStore.resultsParams.year = undefined;
+  // }
 });
 
 const resultListNavigation = observer(ResultListNavigation);

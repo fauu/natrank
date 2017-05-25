@@ -20,7 +20,7 @@ interface IRankingDatePickerProps {
 
 const debounceMs = 500;
 
-function RankingDatePicker({ viewStore }: IRankingDatePickerProps) {
+function RankingDatePicker({ viewStore }: IRankingDatePickerProps): JSX.Element {
   const date = viewStore.selectedRankingDate;
 
   const dayInputProps = {

@@ -22,12 +22,16 @@ function Navigation({ viewStore }: INavigationProps) {
       <NavigationEntry
         icon="soccer"
         text="Results"
-        onClick={viewStore.showResultsPage}
+        onClick={handleResultsClick(viewStore)}
         isActive={view === "Results"}
       />
     </div>
   );
 }
+
+const handleResultsClick = (viewStore: ViewStore) => () => {
+  viewStore.showResultsPage({});
+};
 
 const navigation = observer(Navigation);
 export { navigation as Navigation };

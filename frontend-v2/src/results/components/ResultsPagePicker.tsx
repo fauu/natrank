@@ -10,19 +10,21 @@ interface IResultsPagePickerProps {
   onChange;
 }
 
-export const ResultsPagePicker = ({ className, pageNo, totalPages, onChange }: IResultsPagePickerProps) => (
-  <ReactPaginate
-    pageCount={totalPages}
-    forcePage={pageNo}
-    pageRangeDisplayed={5}
-    marginPagesDisplayed={1}
-    previousLabel={<Icon name="chevron-left" />}
-    nextLabel={<Icon name="chevron-right" />}
-    breakLabel={"…"}
-    breakClassName={"results-page-picker__break"}
-    onPageChange={onChange}
-    disableInitialCallback={true}
-    containerClassName={className}
-    activeClassName={"active"}
-  />
-);
+export function ResultsPagePicker({ className, pageNo, totalPages, onChange }: IResultsPagePickerProps): JSX.Element {
+  return (
+    <ReactPaginate
+      pageCount={totalPages}
+      forcePage={pageNo}
+      pageRangeDisplayed={5}
+      marginPagesDisplayed={1}
+      previousLabel={<Icon name="chevron-left" />}
+      nextLabel={<Icon name="chevron-right" />}
+      breakLabel={"…"}
+      breakClassName={"results-page-picker__break"}
+      onPageChange={onChange}
+      disableInitialCallback={true}
+      containerClassName={className}
+      activeClassName={"active"}
+    />
+  );
+}

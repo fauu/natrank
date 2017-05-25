@@ -10,8 +10,15 @@ export class ApiClient {
     return this.fetchJson(`/rankings/${param}`);
   }
 
-  public getMatchesJson(pageNo: number): Promise<{}> {
-    return this.fetchJson(`/matches?page=${pageNo}`);
+  public getMatchPageJson(pageNo: number, team?: string, year?: number): Promise<{}> {
+    let modifier = "";
+    if (team) {
+      modifier = `/team/${team}`;
+    } else if (year) {
+      modifier = `/year/${year}`;
+    }
+
+    return this.fetchJson(`/matches${modifier}?page=${pageNo}`);
   }
 
   private fetchJson(url: string): Promise<{}> {

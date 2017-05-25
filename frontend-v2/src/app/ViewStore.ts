@@ -13,6 +13,18 @@ import { Ranking } from "ranking/Ranking";
 
 export type View = "Ranking" | "Results" | "NotFound";
 
+interface IResultsParams {
+  page: number;
+  team: string | undefined;
+  year: number | undefined;
+}
+
+interface IRawResultsParams {
+  pageStr?: string;
+  teamStr?: string;
+  yearStr?: string;
+}
+
 export class ViewStore {
 
   @observable
@@ -20,8 +32,13 @@ export class ViewStore {
 
   @observable
   public selectedRankingDate: Date;
+
   @observable
-  public selectedResultsPage: number;
+  public resultsParams: IResultsParams = {
+    page: -1,
+    team: undefined,
+    year: undefined,
+  };
 
   @computed
   public get totalResultsPages(): number | undefined {
@@ -34,9 +51,10 @@ export class ViewStore {
       () => this.selectedRankingDate,
       (date) => this.handleSelectedDateChange(date),
     );
+    // TODO: Do this better if possible
     reaction(
-      () => this.selectedResultsPage,
-      (page) => this.handleSelectedResultsPageChange(page),
+      () => ({ page: this.resultsParams.page, team: this.resultsParams.team, year: this.resultsParams.year }),
+      (params) => this.handleResultsParamsChange(params),
     );
     reaction(
       () => this.totalResultsPages,
@@ -51,6 +69,8 @@ export class ViewStore {
         return this.appStore.rankingStore.isLoading;
       case "Results":
         return this.appStore.resultsStore.isLoading;
+      default:
+        return false;
     }
   }
 
@@ -62,36 +82,48 @@ export class ViewStore {
         return (this.selectedRankingDate && !areDatesEqual(this.selectedRankingDate, newestRankingDate))
           ? `/ranking/${stringifyDate(this.selectedRankingDate)}`
           : "/ranking";
+
       case "Results":
-        return (this.selectedResultsPage !== 1)
-          ? `/results/page/${this.selectedResultsPage}`
-          : "/results";
+        const { page, team, year } = this.resultsParams;
+        let teamOrYearModifier = "";
+        if (team) {
+          teamOrYearModifier = `/${team}`;
+        } else if (year) {
+          teamOrYearModifier = `/year/${year}`;
+        }
+        const pageModifier = page !== 1 ? `/page/${page}` : "";
+        return `/results${teamOrYearModifier}${pageModifier}`;
     }
   }
 
   @action.bound
-  public handleSelectedResultsPageChange(page: number) {
+  public handleResultsParamsChange({ page, team, year }: IResultsParams) {
     if (page < 1 || page > this.totalResultsPages) {
-      this.selectedResultsPage = 1;
+      this.resultsParams.page = 1;
       return;
     }
 
-    this.appStore.resultsStore.loadMatchPage(page - 1);
+    this.appStore.resultsStore.loadMatchPage(page - 1, team, year);
   }
 
   @action.bound
   public handleTotalResultsPagesChange(totalPages: number | undefined) {
-    if (this.selectedResultsPage > totalPages) {
-      this.selectedResultsPage = 1;
+    if (this.resultsParams.page > totalPages) {
+      this.resultsParams.page = 1;
     }
   }
 
   @action.bound
-  public showResultsPage(pageStr?: string) {
+  public showResultsPage({ pageStr, teamStr, yearStr }: IRawResultsParams) {
     this.view = "Results";
 
     const page = Number(pageStr);
-    this.selectedResultsPage = (!isNaN(page) && page > 0) ? page : 1;
+    this.resultsParams.page = (!isNaN(page) && page > 0) ? page : 1;
+
+    this.resultsParams.team = teamStr;
+
+    const year = Number(yearStr);
+    this.resultsParams.year = !isNaN(year) ? year : undefined;
   }
 
   @action.bound

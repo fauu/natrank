@@ -11,7 +11,7 @@ interface IRankingViewProps {
   readonly appStore: AppStore;
 }
 
-function RankingView({ appStore }: IRankingViewProps) {
+function RankingView({ appStore }: IRankingViewProps): JSX.Element {
   const { rankingStore, viewStore } = appStore;
 
   const datePicker = rankingStore.lastViewedRankingDate && (

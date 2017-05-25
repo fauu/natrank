@@ -44,11 +44,24 @@ new Router({
     },
     on: viewStore.showRanking,
   },
+  // TODO: Simplify
   "/results": {
-    "/page/:pageNo": {
-      on: viewStore.showResultsPage,
+    "/(\[a-z\\-]+)": {
+      "/page/(\\d+)": {
+        on: (team, page) => viewStore.showResultsPage({ pageStr: page, teamStr: team }),
+      },
+      on: (team) => viewStore.showResultsPage({ teamStr: team }),
     },
-    on: viewStore.showResultsPage,
+    "/page/(\\d+)": {
+      on: (page) => viewStore.showResultsPage({ pageStr: page }),
+    },
+    "/year/(\\d{4})": {
+      "/page/(\\d+)": {
+        on: (year, page) => viewStore.showResultsPage({ pageStr: page, yearStr: year }),
+      },
+      on: (year) => viewStore.showResultsPage({ yearStr: year}),
+    },
+    on: () => viewStore.showResultsPage({}),
   },
 }).configure({
   html5history: true,
