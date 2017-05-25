@@ -37,6 +37,7 @@ ReactDOM.render(
 
 const viewStore = appStore.viewStore;
 new Router({
+  "/": viewStore.showRanking,
   "/ranking": {
     "/:date": {
       on: viewStore.showRanking,

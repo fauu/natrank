@@ -30,7 +30,7 @@ export class TopBar extends React.Component<ITopBarProps, {}> {
 }
 
 const LoadingIndicator = () => (
-  <div className="sk-three-bounce">
+  <div className="loading-indicator sk-three-bounce">
     <div className="sk-child sk-bounce1" />
     <div className="sk-child sk-bounce2" />
     <div className="sk-child sk-bounce3" />
