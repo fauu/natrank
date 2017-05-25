@@ -51,4 +51,6 @@ new Router({
   },
 }).configure({
   html5history: true,
+  notfound: viewStore.showNotFoundView,
+  strict: false,
 }).init();

@@ -1,0 +1,23 @@
+.view--not-found {
+  @include font-medium;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    align-self: center;
+    @include panel-shadow;
+  }
+}
+
+.not-found-header {
+  font-size: 999%;
+  color: $color-primary;
+  margin-bottom: -1rem;
+}
+
+.not-found-text {
+  color: lighten($color-text, 20%);
+  letter-spacing: 0.03em;
+}

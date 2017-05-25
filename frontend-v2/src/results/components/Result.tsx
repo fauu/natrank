@@ -1,6 +1,5 @@
 import * as classNames from "classnames";
 import * as React from "react";
-import { Link } from "react-router";
 
 import { Flag } from "common/components/Flag";
 import { Icon } from "common/components/Icon";
@@ -17,9 +16,9 @@ export function Result({ match }: IResultProps) {
     <div className="result">
       <div className="result__row result__row--details">
         <div className="result__detail result__detail--date">
-          <Link to={`/ranking/${stringifyDate(match.date, true, false)}`}>
+          <a href={`/ranking/${stringifyDate(match.date, true, false)}`}>
             {stringifyDate(match.date, false, true)}
-          </Link>
+          </a>
         </div>
         <div className="result__detail result__detail--venue">
           {match.city}, {match.country}
@@ -57,12 +56,12 @@ const Team = (props: { teamInfo: IMatchTeamInfo }) => {
 
   return (
     <div className={teamClassNames}>
-      <Link className={teamClassNames} to={teamLinkPath}>
+      <a className={teamClassNames} href={teamLinkPath}>
         <Flag code={props.teamInfo.flag} className="flag result__team-flag" />
         <span className="result__team-name">
           {props.teamInfo.name}
         </span>
-      </Link>
+      </a>
       <span className="result__rating">
         {props.teamInfo.rank > 0 ? props.teamInfo.rating : "–"}
       </span>

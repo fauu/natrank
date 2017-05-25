@@ -23,7 +23,7 @@ function RankingView({ appStore }: IRankingViewProps) {
   );
 
   return (
-    <div className="page page--ranking">
+    <div className="view view--ranking">
       {datePicker}
       {rankingTable}
     </div>

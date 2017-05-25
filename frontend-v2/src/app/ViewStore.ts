@@ -11,7 +11,7 @@ import {
 } from "common/DateUtils";
 import { Ranking } from "ranking/Ranking";
 
-export type View = "Ranking" | "Results";
+export type View = "Ranking" | "Results" | "NotFound";
 
 export class ViewStore {
 
@@ -66,8 +66,6 @@ export class ViewStore {
         return (this.selectedResultsPage !== 1)
           ? `/results/page/${this.selectedResultsPage}`
           : "/results";
-      default:
-        return "/404";
     }
   }
 
@@ -139,6 +137,11 @@ export class ViewStore {
       // FIXME: A hack to force url cleanup
       this.selectedRankingDate = new Date(newestDate.getTime() + 1);
     }
+  }
+
+  @action.bound
+  public showNotFoundView() {
+    this.view = "NotFound";
   }
 
 }

@@ -3,6 +3,7 @@ import * as React from "react";
 import Headroom from "react-headroom";
 
 import { AppStore } from "app/AppStore";
+import { NotFoundView } from "app/components/NotFoundView";
 import { TopBar } from "app/components/TopBar";
 import { View } from "app/ViewStore";
 import { RankingView } from "ranking/components/RankingView";
@@ -40,8 +41,8 @@ export class App extends React.Component<IAppProps, void> {
         return <RankingView appStore={appStore} />;
       case "Results":
         return <ResultsView appStore={appStore} />;
-      default:
-        return "404";
+      case "NotFound":
+        return <NotFoundView />;
     }
   }
 

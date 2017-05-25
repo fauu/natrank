@@ -17,10 +17,8 @@ module.exports = {
     vendor: [
       'react',
       'react-dom',
-      'react-router',
       'mobx',
       'mobx-react',
-      'mobx-react-router'
     ]
   },
   output: {

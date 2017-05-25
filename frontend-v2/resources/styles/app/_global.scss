@@ -2,6 +2,7 @@ body {
   font-family: 'Lato';
   background: $color-bg;
   color: $color-text;
+  letter-spacing: -0.01em;
 }
 
 ::selection {
@@ -19,19 +20,11 @@ a {
   }
 }
 
-.page {
+.view {
   padding: 1em 0;
   display: flex;
   position: absolute;
   width: 100%;
-
-  &--not-found {
-    @include font-medium;
-    padding-top: 2em;
-    justify-content: center;
-    font-size: 999%;
-    color: lighten($color-text, 60%);
-  }
 }
 
 .flag {

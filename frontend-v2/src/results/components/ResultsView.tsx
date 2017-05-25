@@ -41,7 +41,7 @@ export class ResultsView extends React.Component<IResultsViewProps, {}> {
     );
 
     return (
-      <div className="page page--results">
+      <div className="view view--results">
         {resultList}
       </div>
     );

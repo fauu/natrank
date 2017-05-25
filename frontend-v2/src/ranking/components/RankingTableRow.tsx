@@ -3,6 +3,7 @@ import * as React from "react";
 
 import { Flag } from "common/components/Flag";
 import { Icon } from "common/components/Icon";
+import { urlfriendlifyString } from "common/StringUtils";
 import { RankingEntry } from "ranking/RankingEntry";
 
 interface IRankingTableRowProps {
@@ -37,7 +38,7 @@ export function RankingTableRow({ data, isAlternate, isFull}: IRankingTableRowPr
     ),
     (
       <td className={cellClassName("team-name")} key={i++}>
-        <a href={`/teams/${data.teamName.toLowerCase()}`}>
+        <a href={`/teams/${urlfriendlifyString(data.teamName)}`}>
           {data.teamName}
         </a>
       </td>

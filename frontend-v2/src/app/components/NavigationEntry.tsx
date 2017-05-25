@@ -1,6 +1,5 @@
 import * as classNames from "classnames";
 import * as React from "react";
-import { Link } from "react-router";
 
 import { Icon } from "common/components/Icon";
 
@@ -18,7 +17,7 @@ export function NavigationEntry({ icon, text, onClick, isActive }: INavigationEn
   });
 
   return (
-    <a onClick={onClick} className={className}>
+    <a onClick={!isActive && onClick} className={className}>
       <Icon name={icon} />
       {text}
     </a>
