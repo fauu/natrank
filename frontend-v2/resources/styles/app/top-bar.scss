@@ -1,0 +1,76 @@
+$height: 3em;
+
+.top-bar {
+  padding: 0 1em;
+  height: $height;
+  background: linear-gradient(120deg, $color-primary 50%, $color-secondary 90%);
+  color: $color-panel-bg;
+  top: 0;
+  display: flex;
+  align-items: center;
+  @include panel-shadow;
+  user-select: none;
+  cursor: default;
+}
+
+.site-logo {
+  font-family: 'Montserrat';
+  font-weight: 600;
+  font-size: 170%;
+  letter-spacing: -1px;
+  margin-right: 0.75em;
+  margin-bottom: 0.1em;
+  user-select: none;
+  cursor: default;
+}
+
+h2 {
+  font-family: 'Montserrat';
+  font-weight: 600;
+  font-size: 180%;
+  margin-bottom: 2em;
+  text-align: center;
+}
+
+.main-navigation {
+  height: 100%;
+
+  &__link {
+    @include font-medium;
+    color: $color-panel-bg !important;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    line-height: $height;
+    padding: 0 1.1em;
+
+    &--active {
+      background-color: $color-panel-bg;
+      color: $color-primary !important;
+    }
+
+    &:not(&--active) {
+      cursor: pointer;
+    }
+
+    &:hover:not(&--active) {
+      background: rgba($color-bg, 0.35);
+    }
+  }
+
+  i {
+    margin-right: 0.5em;
+  }
+}
+
+.sk-three-bounce {
+  display: inline;
+  margin: 0 0 0 auto;
+  width: 30px;
+
+  .sk-child {
+    background-color: $color-panel-bg;
+    width: 10px;
+    height: 10px;
+  }
+}

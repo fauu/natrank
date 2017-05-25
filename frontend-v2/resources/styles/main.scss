@@ -1,122 +1,14 @@
-@import '~normalize-scss/sass/normalize/import-now';
 @import '~mdi/scss/materialdesignicons';
+@import '~normalize-scss/sass/normalize/import-now';
 @import '~spinkit/scss/spinners/7-three-bounce';
-@import 'fonts';
+
+@import 'animations';
 @import 'colors';
-@import 'variables';
+@import 'fonts';
 @import 'mixins';
-@import 'common/spinner';
+@import 'variables';
+
+@import 'app/global';
+@import 'app/top-bar';
 @import 'ranking/ranking';
 @import 'results/results';
-
-$top-bar-height: 3em;
-
-body {
-  font-family: 'Lato';
-  background: $color-bg;
-  color: $color-text;
-}
-
-::selection {
-  background: $color-secondary;
-}
-
-a {
-  text-decoration: none;
-  color: $color-primary;
-  transition-duration: $base-transition-duration;
-  transition-property: background-color, color;
-
-  &:hover {
-    color: $color-secondary;
-  }
-}
-
-.top-bar {
-  padding: 0 1em;
-  height: $top-bar-height;
-  background: linear-gradient(120deg, $color-primary 50%, $color-secondary 90%);
-  color: $color-panel-bg;
-  top: 0;
-  display: flex;
-  align-items: center;
-  @include panel-shadow;
-}
-
-.site-logo {
-  font-family: 'Montserrat';
-  font-weight: 600;
-  font-size: 170%;
-  letter-spacing: -1px;
-  margin-right: 0.75em;
-  margin-bottom: 0.1em;
-  user-select: none;
-  cursor: default;
-}
-
-h2 {
-  font-family: 'Montserrat';
-  font-weight: 600;
-  font-size: 180%;
-  margin-bottom: 2em;
-  text-align: center;
-}
-
-.main-navigation {
-  height: 100%;
-
-  &__link {
-    @include font-medium;
-    color: $color-panel-bg !important;
-    text-decoration: none;
-    text-align: center;
-    display: inline-block;
-    line-height: $top-bar-height;
-    padding: 0 1.1em;
-
-    &--active {
-      background-color: $color-panel-bg;
-      color: $color-primary !important;
-    }
-
-    &:hover:not(&--active) {
-      background: rgba($color-bg, 0.35);
-    }
-  }
-
-  i {
-    margin-right: 0.5em;
-  }
-}
-
-.page {
-  padding: 1em 0;
-  display: flex;
-  position: absolute;
-  width: 100%;
-
-  &--not-found {
-    @include font-medium;
-    padding-top: 2em;
-    justify-content: center;
-    font-size: 999%;
-    color: lighten($color-text, 60%);
-  }
-}
-
-.flag {
-  vertical-align: -3px;
-  border: 1px solid rgba($color-text, 0.1);
-}
-
-.sk-three-bounce {
-  display: inline;
-  margin: 0 0 0 auto;
-  width: 30px;
-
-  .sk-child {
-    background-color: $color-panel-bg;
-    width: 10px;
-    height: 10px;
-  }
-}

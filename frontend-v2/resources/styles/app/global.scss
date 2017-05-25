@@ -1,0 +1,40 @@
+body {
+  font-family: 'Lato';
+  background: $color-bg;
+  color: $color-text;
+}
+
+::selection {
+  background: $color-secondary;
+}
+
+a {
+  text-decoration: none;
+  color: $color-primary;
+  transition-duration: $base-transition-duration;
+  transition-property: background-color, color;
+
+  &:hover {
+    color: $color-secondary;
+  }
+}
+
+.page {
+  padding: 1em 0;
+  display: flex;
+  position: absolute;
+  width: 100%;
+
+  &--not-found {
+    @include font-medium;
+    padding-top: 2em;
+    justify-content: center;
+    font-size: 999%;
+    color: lighten($color-text, 60%);
+  }
+}
+
+.flag {
+  vertical-align: -3px;
+  border: 1px solid rgba($color-text, 0.1);
+}

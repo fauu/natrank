@@ -12,6 +12,7 @@
   background: $color-panel-bg;
   width: 40em;
   margin: 0 auto;
+  @include animation(fade-in-bottom);
 
   a {
     cursor: pointer;
@@ -23,7 +24,7 @@
 }
 
 .result-list-navigation {
-  display: flex; 
+  display: flex;
   align-items: center;
   justify-content: space-between;
 
@@ -51,6 +52,7 @@
   flex-direction: column;
   padding: 0.6em;
   transition-duration: $base-transition-duration;
+  @include animation(fade-in-bottom);
 
   &:hover {
     background: $color-bg;

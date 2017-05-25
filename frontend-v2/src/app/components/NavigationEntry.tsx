@@ -1,26 +1,26 @@
-import { Icon } from "common/components/Icon";
+import * as classNames from "classnames";
 import * as React from "react";
 import { Link } from "react-router";
 
+import { Icon } from "common/components/Icon";
+
 export interface INavigationEntryProps {
-  onClick: () => void;
   icon: string;
   text: string;
+  onClick: () => void;
+  isActive: boolean;
 }
 
-export class NavigationEntry extends React.Component<INavigationEntryProps, any> {
+export function NavigationEntry({ icon, text, onClick, isActive }: INavigationEntryProps) {
+  const className = classNames({
+    "main-navigation__link": true,
+    "main-navigation__link--active": isActive,
+  });
 
-  public render() {
-    return (
-      <a
-        onClick={this.props.onClick}
-        className="main-navigation__link"
-      >
-        {/*activeClassName="main-navigation__link--active"*/}
-        <Icon name={this.props.icon} />
-        {this.props.text}
-      </a>
-    );
-  }
-
+  return (
+    <a onClick={onClick} className={className}>
+      <Icon name={icon} />
+      {text}
+    </a>
+  );
 }
