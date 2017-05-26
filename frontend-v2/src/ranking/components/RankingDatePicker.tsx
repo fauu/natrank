@@ -4,9 +4,9 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import * as NumericInput from "react-numeric-input";
 
-import { ViewStore } from "app/ViewStore";
 import { MonthInput } from "common/components/MonthInput";
 import { areDatesEqual } from "common/DateUtils";
+import { RankingViewStore } from "ranking/RankingViewStore";
 
 enum DatePickerField {
   Day,
@@ -15,13 +15,13 @@ enum DatePickerField {
 }
 
 interface IRankingDatePickerProps {
-  readonly viewStore: ViewStore;
+  readonly viewStore: RankingViewStore;
 }
 
 const debounceMs = 500;
 
 function RankingDatePicker({ viewStore }: IRankingDatePickerProps): JSX.Element {
-  const date = viewStore.selectedRankingDate;
+  const date = viewStore.selectedDate;
 
   const dayInputProps = {
     max: 31,
@@ -54,8 +54,8 @@ function RankingDatePicker({ viewStore }: IRankingDatePickerProps): JSX.Element 
   );
 }
 
-const handleChange = (field, viewStore) => action((newValue) => {
-  const previousDate = viewStore.selectedRankingDate;
+const handleChange = (field: DatePickerField, viewStore: RankingViewStore) => action((newValue) => {
+  const previousDate = viewStore.selectedDate;
   const newDate = new Date(previousDate);
 
   switch (field) {
@@ -73,7 +73,7 @@ const handleChange = (field, viewStore) => action((newValue) => {
   }
 
   if (!areDatesEqual(newDate, previousDate)) {
-    viewStore.selectedRankingDate = newDate;
+    viewStore.selectedDate = newDate;
   }
 });
 

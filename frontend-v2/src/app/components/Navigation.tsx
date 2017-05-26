@@ -1,36 +1,36 @@
 import { observer } from "mobx-react";
 import * as React from "react";
 
+import { AppStore, View } from "app/AppStore";
 import { INavigationEntryProps, NavigationEntry } from "app/components/NavigationEntry";
-import { View, ViewStore } from "app/ViewStore";
 
 interface INavigationProps {
-  viewStore: ViewStore;
+  appStore: AppStore;
 }
 
-function Navigation({ viewStore }: INavigationProps) {
-  const view = viewStore.view;
+function Navigation({ appStore }: INavigationProps): JSX.Element {
+  const activeView = appStore.activeView;
 
   return (
     <div className="main-navigation">
       <NavigationEntry
         icon="trophy-variant"
         text="Ranking"
-        onClick={viewStore.showRanking}
-        isActive={view === "Ranking"}
+        onClick={handleEntryClick("Ranking", appStore)}
+        isActive={activeView === "Ranking"}
       />
       <NavigationEntry
         icon="soccer"
         text="Results"
-        onClick={handleResultsClick(viewStore)}
-        isActive={view === "Results"}
+        onClick={handleEntryClick("Results", appStore)}
+        isActive={activeView === "Results"}
       />
     </div>
   );
 }
 
-const handleResultsClick = (viewStore: ViewStore) => () => {
-  viewStore.showResultsPage({});
+const handleEntryClick = (view: View, appStore: AppStore) => () => {
+  appStore.showView(view);
 };
 
 const navigation = observer(Navigation);

@@ -4,16 +4,16 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import * as NumericInput from "react-numeric-input";
 
-import { ViewStore } from "app/ViewStore";
 import * as classNames from "classnames";
 import { Icon } from "common/components/Icon";
 import { scrollToBottom, scrollToTop } from "common/WindowUtils";
 import { ResultsPagePicker } from "results/components/ResultsPagePicker";
+import { ResultsViewStore } from "results/ResultsViewStore";
 
 type ResultListPosition = "top" | "bottom";
 
 interface IResultListNavigationProps {
-  viewStore: ViewStore;
+  viewStore: ResultsViewStore;
   position: ResultListPosition;
 }
 
@@ -55,21 +55,25 @@ function ResultListNavigation({ viewStore, position }: IResultListNavigationProp
         onChange={debounce(handleYearChange(viewStore), yearInputDebounceMs)}
         size={4}
         style={false}
-        value={viewStore.resultsParams.year}
+        value={viewStore.state.year}
       />
     </label>
+  );
+
+  const pagePicker = viewStore.totalResultsPages > 1 && (
+    <ResultsPagePicker
+      onChange={debounce(handlePageChange(viewStore), 500)}
+      className="results-page-picker"
+      pageNo={viewStore.state.page - 1}
+      totalPages={viewStore.totalResultsPages}
+    />
   );
 
   return (
     <div className={containerClassName}>
       {yearFilter}
 
-      <ResultsPagePicker
-        onChange={debounce(handlePageChange(viewStore), 500)}
-        className="results-page-picker"
-        pageNo={viewStore.resultsParams.page - 1}
-        totalPages={viewStore.totalResultsPages}
-      />
+      {pagePicker}
 
       <a className="page-navigation-link" onClick={onGoToClick}>
         Go to {goToLocationName}
@@ -79,11 +83,11 @@ function ResultListNavigation({ viewStore, position }: IResultListNavigationProp
   );
 }
 
-const handlePageChange = (viewStore: ViewStore) => action(({ selected }) => {
-  viewStore.resultsParams.page = selected + 1;
+const handlePageChange = (viewStore: ResultsViewStore) => action(({ selected }) => {
+  viewStore.state.page = selected + 1;
 });
 
-const handleYearChange = (viewStore: ViewStore) => action((newValue: number) => {
+const handleYearChange = (viewStore: ResultsViewStore) => action((newValue: number) => {
   // if (newValue > 1000) {
   //   viewStore.resultsParams.page = 1;
   //   viewStore.resultsParams.year = newValue;

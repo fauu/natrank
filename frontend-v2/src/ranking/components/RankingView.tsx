@@ -6,14 +6,14 @@ import { parseDate, stringifyDate } from "common/DateUtils";
 import { RankingDatePicker } from "ranking/components/RankingDatePicker";
 import { RankingTable } from "ranking/components/RankingTable";
 import { RankingStore } from "ranking/RankingStore";
+import { RankingViewStore } from "ranking/RankingViewStore";
 
 interface IRankingViewProps {
-  readonly appStore: AppStore;
+  readonly rankingStore: RankingStore;
+  readonly viewStore: RankingViewStore;
 }
 
-function RankingView({ appStore }: IRankingViewProps): JSX.Element {
-  const { rankingStore, viewStore } = appStore;
-
+function RankingView({ rankingStore, viewStore }: IRankingViewProps): JSX.Element {
   const datePicker = rankingStore.lastViewedRankingDate && (
     <RankingDatePicker viewStore={viewStore} />
   );

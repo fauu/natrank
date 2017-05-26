@@ -8,25 +8,20 @@ interface ITopBarProps {
   appStore: AppStore;
 }
 
-@observer
-export class TopBar extends React.Component<ITopBarProps, {}> {
+function TopBar({ appStore }: ITopBarProps): JSX.Element {
+  const isLoading = this.props.appStore.isLoading;
 
-  public render() {
-    const isLoading = this.props.appStore.viewStore.isLoading;
+  return (
+    <nav className="top-bar">
+      <span className="site-logo">
+        natrank
+      </span>
 
-    return (
-      <nav className="top-bar">
-        <span className="site-logo">
-          natrank
-        </span>
+      <Navigation appStore={appStore} />
 
-        <Navigation viewStore={this.props.appStore.viewStore} />
-
-        {isLoading && <LoadingIndicator />}
-      </nav>
-    );
-  }
-
+      {isLoading && <LoadingIndicator />}
+    </nav>
+  );
 }
 
 const LoadingIndicator = () => (
@@ -36,3 +31,6 @@ const LoadingIndicator = () => (
     <div className="sk-child sk-bounce3" />
   </div>
 );
+
+const topBar = observer(TopBar);
+export { topBar as TopBar };

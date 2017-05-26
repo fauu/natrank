@@ -1,7 +1,6 @@
-import { ApiClient } from "app/ApiClient";
 import { action, observable } from "mobx";
 
-import { AppStore } from "app/AppStore";
+import { ApiClient } from "app/ApiClient";
 import { Ranking } from "ranking/Ranking";
 
 export class RankingStore {
@@ -19,12 +18,12 @@ export class RankingStore {
   @observable
   public lastViewedRankingDate: Date;
 
-  public constructor(private appStore: AppStore) {}
+  public constructor(private apiClient: ApiClient) {}
 
   public loadRanking(date?: Date) {
     this.isLoading = true;
 
-    const rankingJson = this.appStore.apiClient.getRankingJson(date);
+    const rankingJson = this.apiClient.getRankingJson(date);
     rankingJson.then(
       action((json) => {
         this.ranking = Ranking.fromJson(json);

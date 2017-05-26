@@ -1,6 +1,6 @@
 import { action, observable } from "mobx";
 
-import { AppStore } from "app/AppStore";
+import { ApiClient } from "app/ApiClient";
 import { Page } from "common/Page";
 import { Match } from "results/Match";
 
@@ -14,13 +14,13 @@ export class ResultsStore {
   @observable
   public matchPage: Page<Match>;
 
-  constructor(private appStore: AppStore) {}
+  constructor(private apiClient: ApiClient) {}
 
   @action
   public loadMatchPage(pageNo: number, team?: string, year?: number) {
     this.isLoading = true;
 
-    const matchPageJson = this.appStore.apiClient.getMatchPageJson(pageNo, team, year);
+    const matchPageJson = this.apiClient.getMatchPageJson(pageNo, team, year);
     matchPageJson.then((json) => {
       this.handleMatchPagesLoad(json);
     });

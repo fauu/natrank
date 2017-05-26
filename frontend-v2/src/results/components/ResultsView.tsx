@@ -1,50 +1,45 @@
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import * as React from "react";
 
 import { AppStore } from "app/AppStore";
-import { ViewStore } from "app/ViewStore";
 import { Result } from "results/components/Result";
 import { ResultListNavigation } from "results/components/ResultListNavigation";
 import { ResultsStore } from "results/ResultsStore";
+import { ResultsViewStore } from "results/ResultsViewStore";
 
 interface IResultsViewProps {
-  appStore: AppStore;
+  readonly resultsStore: ResultsStore;
+  readonly viewStore: ResultsViewStore;
 }
 
-@observer
-export class ResultsView extends React.Component<IResultsViewProps, {}> {
+function ResultsView({ resultsStore, viewStore }: IResultsViewProps): JSX.Element {
+  const isLoading = resultsStore.isLoading;
+  const matchPage = resultsStore.matchPage;
 
-  private viewStore: ViewStore;
-  private resultsStore: ResultsStore;
+  const results = !isLoading &&
+    matchPage.content.map((match) => (
+      <Result match={match} key={match.id} />
+    ));
 
-  public componentWillMount() {
-    this.viewStore = this.props.appStore.viewStore;
-    this.resultsStore = this.props.appStore.resultsStore;
-  }
-
-  public render() {
-    const isLoading = this.resultsStore.isLoading;
-
-    const matchPage = this.resultsStore.matchPage;
-
-    const results = !isLoading &&
-      matchPage.content.map((match) => (
-        <Result match={match} key={match.id} />
-      ));
-
-    const resultList = this.resultsStore.completedInitialLoad && (
-      <div className="result-list" key="result-list">
-        <ResultListNavigation viewStore={this.props.appStore.viewStore} position="top" />
+  let content;
+  if (viewStore.totalResultsPages > 0) {
+    content = (
+      <div className="result-list">
+        <ResultListNavigation viewStore={viewStore} position="top" />
         {results}
-        {!isLoading && <ResultListNavigation viewStore={this.props.appStore.viewStore} position="bottom" />}
+        {!isLoading && <ResultListNavigation viewStore={viewStore} position="bottom" />}
       </div>
     );
-
-    return (
-      <div className="view view--results">
-        {resultList}
-      </div>
-    );
+  } else {
+    content = <div className="result-list">The result list for specified parameters is empty.</div>;
   }
 
+  return (
+    <div className="view view--results">
+      {resultsStore.completedInitialLoad && content}
+    </div>
+  );
 }
+
+const resultsView = observer(ResultsView);
+export { resultsView as ResultsView };

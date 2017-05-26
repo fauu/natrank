@@ -1,7 +1,6 @@
 // tslint:disable:object-literal-key-quotes
 import { Router } from "director/build/director";
 import { reaction, useStrict } from "mobx";
-import { Provider } from "mobx-react";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
@@ -20,7 +19,7 @@ useStrict(true);
 const appStore = new AppStore();
 
 reaction(
-  () => appStore.viewStore.currentUrl,
+  () => appStore.currentUrl,
   (path) => {
     if (window.location.pathname !== path) {
       window.history.pushState(null, null, path);
@@ -28,43 +27,40 @@ reaction(
   },
 );
 
-ReactDOM.render(
-  <Provider appStore={appStore}>
-    <App appStore={appStore} />
-  </Provider>,
-  document.getElementById("root"),
-);
-
-const viewStore = appStore.viewStore;
+// TODO: Simplify
 new Router({
-  "/": viewStore.showRanking,
+  "/": () => appStore.showView("Ranking"),
   "/ranking": {
-    "/:date": {
-      on: viewStore.showRanking,
+    "/(\\d{4}-(?:[1-9]|1[012])-(?:[1-9]|[12][0-9]|3[01]))$": {
+      on: (date) => appStore.showView("Ranking", { dateStr: date }),
     },
-    on: viewStore.showRanking,
+    on: () => appStore.showView("Ranking"),
   },
-  // TODO: Simplify
   "/results": {
     "/(\[a-z\\-]+)": {
       "/page/(\\d+)": {
-        on: (team, page) => viewStore.showResultsPage({ pageStr: page, teamStr: team }),
+        on: (team, page) => appStore.showView("Results", { pageStr: page, teamStr: team }),
       },
-      on: (team) => viewStore.showResultsPage({ teamStr: team }),
+      on: (team) => appStore.showView("Results", { teamStr: team }),
     },
     "/page/(\\d+)": {
-      on: (page) => viewStore.showResultsPage({ pageStr: page }),
+      on: (page) => appStore.showView("Results", { pageStr: page }),
     },
     "/year/(\\d{4})": {
       "/page/(\\d+)": {
-        on: (year, page) => viewStore.showResultsPage({ pageStr: page, yearStr: year }),
+        on: (year, page) => appStore.showView("Results", { pageStr: page, yearStr: year }),
       },
-      on: (year) => viewStore.showResultsPage({ yearStr: year}),
+      on: (year) => appStore.showView("Results", { yearStr: year }),
     },
-    on: () => viewStore.showResultsPage({}),
+    on: () => appStore.showView("Results"),
   },
 }).configure({
   html5history: true,
-  notfound: viewStore.showNotFoundView,
+  notfound: () => appStore.showView("NotFound"),
   strict: false,
 }).init();
+
+ReactDOM.render(
+  <App appStore={appStore} />,
+  document.getElementById("root"),
+);

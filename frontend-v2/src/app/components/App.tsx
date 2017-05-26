@@ -2,12 +2,13 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import Headroom from "react-headroom";
 
-import { AppStore } from "app/AppStore";
+import { AppStore, View } from "app/AppStore";
 import { NotFoundView } from "app/components/NotFoundView";
 import { TopBar } from "app/components/TopBar";
-import { View } from "app/ViewStore";
 import { RankingView } from "ranking/components/RankingView";
+import { RankingViewStore } from "ranking/RankingViewStore";
 import { ResultsView } from "results/components/ResultsView";
+import { ResultsViewStore } from "results/ResultsViewStore";
 
 interface IAppProps {
   readonly appStore: AppStore;
@@ -20,7 +21,7 @@ export class App extends React.Component<IAppProps, void> {
     const content =
       false
       ? <h1>Loading...</h1>
-      : this.renderPage(this.props.appStore.viewStore.view, this.props.appStore);
+      : this.renderPage(this.props.appStore.activeView, this.props.appStore);
 
     return (
       <div className="main-container">
@@ -38,9 +39,19 @@ export class App extends React.Component<IAppProps, void> {
   private renderPage(view: View, appStore: AppStore) {
     switch (view) {
       case "Ranking":
-        return <RankingView appStore={appStore} />;
+        return (
+          <RankingView
+            viewStore={appStore.viewStores[view] as RankingViewStore}
+            rankingStore={appStore.rankingStore}
+          />
+        );
       case "Results":
-        return <ResultsView appStore={appStore} />;
+        return (
+          <ResultsView
+            viewStore={appStore.viewStores[view] as ResultsViewStore}
+            resultsStore={appStore.resultsStore}
+          />
+        );
       case "NotFound":
         return <NotFoundView />;
     }
