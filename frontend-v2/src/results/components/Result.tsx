@@ -1,6 +1,7 @@
 import * as classNames from "classnames";
 import * as React from "react";
 
+import { _b } from "common/BemHelper";
 import { Flag } from "common/components/Flag";
 import { Icon } from "common/components/Icon";
 import { stringifyDate } from "common/DateUtils";
@@ -11,32 +12,34 @@ interface IResultProps {
   readonly match: Match;
 }
 
+const b = _b("result");
+
 export function Result({ match }: IResultProps): JSX.Element {
   return (
-    <div className="result">
-      <div className="result__row result__row--details">
-        <div className="result__detail result__detail--date">
+    <div className={b}>
+      <div className={b("row", { details: true })}>
+        <div className={b("detail", { date: true })}>
           <a href={`/ranking/${stringifyDate(match.date, false, false)}`}>
             {stringifyDate(match.date, false, true)}
           </a>
         </div>
-        <div className="result__detail result__detail--venue">
+        <div className={b("detail", { venue: true })}>
           {match.city}, {match.country}
         </div>
-        <div className="result__detail result__detail--type">
+        <div className={b("detail", { type: true })}>
           {match.type}
         </div>
       </div>
-      <div className="result__row result__row--main">
+      <div className={b("row", { main: true })}>
         <Team teamInfo={match.teamInfos[0]} />
-        <div className="result__score">
+        <div className={b("score")}>
           {match.teamInfos[0].goalCount} : {match.teamInfos[1].goalCount}
         </div>
         <Team teamInfo={match.teamInfos[1]} />
       </div>
-      <div className="result__row result__row--secondary">
+      <div className={b("row", { secondary: true })}>
         {<RankingChange teamInfo={match.teamInfos[0]} />}
-        <div className="result__score-extra">
+        <div className={b("score-extra")}>
           {match.resultExtra}
         </div>
         {<RankingChange teamInfo={match.teamInfos[1]} />}
@@ -45,69 +48,53 @@ export function Result({ match }: IResultProps): JSX.Element {
   );
 }
 
-const Team = (props: { teamInfo: IMatchTeamInfo }) => {
-  const teamClassNames = classNames({
-    "result__team": true,
-    "result__team--left": props.teamInfo.idx === 0,
-    "result__team--right": props.teamInfo.idx === 1,
-    "result__team--winner": props.teamInfo.isWinner,
+interface ITeamProps {
+  teamInfo: IMatchTeamInfo;
+}
+const Team = ({ teamInfo }: ITeamProps) => {
+  const teamClassNames = b("team", {
+    left: teamInfo.idx === 0,
+    right: teamInfo.idx === 1,
+    winner: teamInfo.isWinner,
   });
-  const teamLinkPath = `/teams/${urlfriendlifyString(props.teamInfo.name)}`;
+  const teamLinkPath = `/teams/${urlfriendlifyString(teamInfo.name)}`;
 
   return (
     <div className={teamClassNames}>
       <a className={teamClassNames} href={teamLinkPath}>
-        <Flag code={props.teamInfo.flag} className="flag result__team-flag" />
-        <span className="result__team-name">
-          {props.teamInfo.name}
+        <Flag code={teamInfo.flag} className={b("team-flag").mix("flag")} />
+        <span className={b("team-name")}>
+          {teamInfo.name}
         </span>
       </a>
-      <span className="result__rating">
-        {props.teamInfo.rank > 0 ? props.teamInfo.rating : "–"}
+      <span className={b("rating")}>
+        {teamInfo.rank > 0 ? teamInfo.rating : "–"}
       </span>
-      <span className="result__rank">
-        {props.teamInfo.rank || "–"}
+      <span className={b("rank")}>
+        {teamInfo.rank || "–"}
       </span>
     </div>
   );
 };
 
-const RankingChange = (props: { teamInfo: IMatchTeamInfo }) => {
-  let ratingChangeClassModifier;
-  if (props.teamInfo.ratingChange > 0) {
-    ratingChangeClassModifier = "positive";
-  } else if (props.teamInfo.ratingChange === 0) {
-    ratingChangeClassModifier = "neutral";
-  } else {
-    ratingChangeClassModifier = "negative";
-  }
-
-  let rankChangeClassModifier;
-  let rankChangeIcon;
-  if (props.teamInfo.rankChange > 0) {
-    rankChangeClassModifier = "positive";
-    rankChangeIcon = "arrow-top-right";
-  } else if (props.teamInfo.rankChange < 0) {
-    rankChangeClassModifier = "negative";
-    rankChangeIcon = "arrow-bottom-right";
-  } else {
-    rankChangeClassModifier = "neutral";
-  }
-
-  const rankingChangeClassName = classNames({
-    "result__ranking-change": true,
-    "result__ranking-change--left": props.teamInfo.idx === 0,
-    "result__ranking-change--right": props.teamInfo.idx === 1,
+interface IRankingChangeProps {
+  teamInfo: IMatchTeamInfo;
+}
+const RankingChange = ({ teamInfo }: IRankingChangeProps) => {
+  const rankingChangeClassName = b("ranking-change", {
+    left: teamInfo.idx === 0,
+    right: teamInfo.idx === 1,
   });
 
-  const ratingChangeClassName = classNames(
-    "result__rating-change",
-    `result__rating-change--${ratingChangeClassModifier}`,
-  );
+  const ratingChangeClassName = b("rating-change", {
+    negative: teamInfo.ratingChange < 0,
+    neutral: teamInfo.ratingChange === 0,
+    positive: teamInfo.ratingChange > 0,
+  });
 
-  const ratingChange = props.teamInfo.rank > 0 && (
+  const ratingChange = teamInfo.rank > 0 && (
     <span className={ratingChangeClassName}>
-      {props.teamInfo.ratingChange}
+      {teamInfo.ratingChange}
     </span>
   );
 
