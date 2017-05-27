@@ -16,3 +16,14 @@
   font: normal normal normal 1em/1 "Material Design Icons";
   content: mdi($name);
 }
+
+@mixin input {
+  font-family: 'Lato';
+  background: $color-panel-bg;
+  border: 1px solid $color-border;
+  color: $color-text;
+}
+
+@mixin focus-outline {
+  outline: 2px solid $color-primary;
+}

@@ -12,7 +12,7 @@ import { RankingStore } from "ranking/RankingStore";
 import { ResultsView } from "results/components/ResultsView";
 import { ResultsStore } from "results/ResultsStore";
 
-import "../resources/styles/main.scss";
+import "styles/main.scss";
 
 useStrict(true);
 

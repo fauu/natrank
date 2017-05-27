@@ -1,6 +1,5 @@
 import { action, computed, observable, reaction } from "mobx";
 
-import { IViewStore } from "app/IViewStore";
 import {
   areDatesEqual,
   DatePlacement,
@@ -8,6 +7,7 @@ import {
   parseDate,
   stringifyDate,
 } from "common/DateUtils";
+import { IViewStore } from "common/IViewStore";
 import { RankingStore } from "ranking/RankingStore";
 
 interface IRankingViewParams {

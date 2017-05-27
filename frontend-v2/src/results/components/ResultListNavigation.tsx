@@ -8,6 +8,7 @@ import { _b } from "common/BemHelper";
 import { Icon } from "common/components/Icon";
 import { scrollToBottom, scrollToTop } from "common/WindowUtils";
 import { ResultsPagePicker } from "results/components/ResultsPagePicker";
+import { ResultsYearFilter } from "results/components/ResultsYearFilter";
 import { ResultsViewStore } from "results/ResultsViewStore";
 
 type ResultListPosition = "top" | "bottom";
@@ -19,7 +20,7 @@ interface IResultListNavigationProps {
 
 const b = _b;
 
-const yearInputDebounceMs = 500;
+const yearFilterDebounceMs = 500;
 
 function ResultListNavigation({ viewStore, position }: IResultListNavigationProps): JSX.Element {
   let classModifier;
@@ -45,25 +46,19 @@ function ResultListNavigation({ viewStore, position }: IResultListNavigationProp
     [`${classModifier}`]: true,
   });
 
-  const yearFilter = position === "top" && (
-    <label className="results-year-filter">
-      Year:
-      <NumericInput
-        maxLength={4}
-        onChange={debounce(handleYearChange(viewStore), yearInputDebounceMs)}
-        size={4}
-        style={false}
-        value={viewStore.state.year}
-      />
-    </label>
-  );
-
   const pagePicker = viewStore.totalResultsPages > 1 && (
     <ResultsPagePicker
       onChange={debounce(handlePageChange(viewStore), 500)}
       className="results-page-picker"
       pageNo={viewStore.state.page - 1}
       totalPages={viewStore.totalResultsPages}
+    />
+  );
+
+  const yearFilter = (position === "top" && !viewStore.state.team) && (
+    <ResultsYearFilter
+      viewStore={viewStore}
+      onYearEntry={debounce(handleYearEntry(viewStore), yearFilterDebounceMs)}
     />
   );
 
@@ -81,18 +76,14 @@ function ResultListNavigation({ viewStore, position }: IResultListNavigationProp
   );
 }
 
-const handlePageChange = (viewStore: ResultsViewStore) => action(({ selected }) => {
-  viewStore.state.page = selected + 1;
+const handleYearEntry = (viewStore: ResultsViewStore) => action((year: number) => {
+  viewStore.state.page = 1;
+  viewStore.state.team = undefined;
+  viewStore.state.year = year;
 });
 
-const handleYearChange = (viewStore: ResultsViewStore) => action((newValue: number) => {
-  // if (newValue > 1000) {
-  //   viewStore.resultsParams.page = 1;
-  //   viewStore.resultsParams.year = newValue;
-  // } else if (newValue === null) {
-  //   viewStore.resultsParams.page = 1;
-  //   viewStore.resultsParams.year = undefined;
-  // }
+const handlePageChange = (viewStore: ResultsViewStore) => action(({ selected }) => {
+  viewStore.state.page = selected + 1;
 });
 
 const resultListNavigation = observer(ResultListNavigation);

@@ -2,8 +2,7 @@ import * as React from "react";
 
 export function NotFoundView() {
   const imgProps = {
-    // className,
-    src: require(`../../../resources/images/zalamany-zawodnik-fc-koeln.jpg`),
+    src: require(`images/zalamany-zawodnik-fc-koeln.jpg`),
   };
 
   return (

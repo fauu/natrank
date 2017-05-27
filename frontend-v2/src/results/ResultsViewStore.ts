@@ -1,6 +1,6 @@
 import { action, computed, observable, reaction } from "mobx";
 
-import { IViewStore } from "app/IViewStore";
+import { IViewStore } from "common/IViewStore";
 import { ResultsStore } from "results/ResultsStore";
 
 interface IResultsViewState {

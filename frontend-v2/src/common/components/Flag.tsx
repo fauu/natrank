@@ -8,7 +8,7 @@ interface IFlagProps {
 export function Flag({ className, code }: IFlagProps): JSX.Element {
     const imgProps = {
       className,
-      src: require(`../../../resources/images/flags/${code}.png`),
+      src: require(`images/flags/${code}.png`),
     };
 
     return <img {...imgProps} />;

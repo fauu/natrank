@@ -192,3 +192,39 @@
     text-align: right;
   }
 }
+
+.results-year-filter {
+  &__input-container {
+    display: inline-flex;
+    margin-left: 0.5em;
+    background: $color-panel-bg;
+    border: 1px solid $color-border;
+    height: 1.7em;
+    align-items: center;
+    width: 3.5em;
+    padding: 0.1em 0.4em;
+    justify-content: space-between;
+
+    &--focused {
+      @include focus-outline;
+    }
+  }
+
+  &__input {
+    @include input;
+    border: none;
+    background: transparent;
+    width: 2.4em !important;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__clear-button {
+    font-size: 80% !important;
+    color: $color-text-secondary;
+    cursor: pointer;
+    padding-top: 0.1em;
+  }
+}

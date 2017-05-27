@@ -2,7 +2,7 @@
 import { action, computed, observable } from "mobx";
 
 import { ApiClient } from "app/ApiClient";
-import { IViewStore } from "app/IViewStore";
+import { IViewStore } from "common/IViewStore";
 import { RankingStore } from "ranking/RankingStore";
 import { RankingViewStore } from "ranking/RankingViewStore";
 import { ResultsStore } from "results/ResultsStore";

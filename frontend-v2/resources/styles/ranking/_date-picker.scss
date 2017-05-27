@@ -1,11 +1,8 @@
 // FIXME: This ungodly mess
 
 @mixin datepicker-input {
+  @include input;
   @include font-medium;
-  font-family: 'Lato';
-  background: $color-panel-bg;
-  border: 1px solid $color-border;
-  color: $color-text;
   height: 1.8em;
 }
 
@@ -56,10 +53,6 @@
       border: none;
       @include datepicker-input;
       padding: 0 3px;
-
-      &:focus {
-        outline: none;
-      }
     }
     b:nth-child(3) {
       order: 3;

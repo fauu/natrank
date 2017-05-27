@@ -1,12 +1,10 @@
 var webpack = require('webpack');
 var path = require('path');
 
-// variables
 var isProduction = process.argv.indexOf('-p') >= 0;
 var sourcePath = path.join(__dirname, './src');
 var outPath = path.join(__dirname, './dist');
 
-// plugins
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -30,6 +28,10 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+    alias: {
+      images: path.resolve(__dirname, 'resources', 'images'),
+      styles: path.resolve(__dirname, 'resources', 'styles'),
+    },
     // Fix webpack's default behavior to not load packages with jsnext:main module
     // (jsnext:main directs not usually distributable es6 format, but es6 sources)
     mainFields: ['module', 'browser', 'main']
