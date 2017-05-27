@@ -27,6 +27,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 1.8em;
 
   &--top {
     margin: 0 0 1.2em 0;
@@ -41,6 +42,8 @@
   cursor: pointer;
   font-size: 80%;
   color: $color-primary;
+  position: relative;
+  right: 0;
 
   &__icon {
     margin-left: 0.1em;
@@ -48,8 +51,6 @@
 }
 
 .results-year-filter {
-  position: absolute;
-
   input {
     width: 4em;
   }
@@ -207,6 +208,10 @@
 
     &--focused {
       @include focus-outline;
+    }
+
+    &--invalid {
+      @include error-outline;
     }
   }
 

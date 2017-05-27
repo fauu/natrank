@@ -14,8 +14,9 @@ import { ResultsViewStore } from "results/ResultsViewStore";
 type ResultListPosition = "top" | "bottom";
 
 interface IResultListNavigationProps {
-  viewStore: ResultsViewStore;
-  position: ResultListPosition;
+  readonly viewStore: ResultsViewStore;
+  readonly position: ResultListPosition;
+  readonly showPageNavigationLink: boolean;
 }
 
 const b = _b;
@@ -62,16 +63,22 @@ function ResultListNavigation({ viewStore, position }: IResultListNavigationProp
     />
   );
 
+  const pageNavigationLink = this.props.showPageNavigationLink && (
+    <a className="page-navigation-link" onClick={onGoToClick}>
+      Go to {goToLocationName}
+      <Icon name={goToIconName} className={b("page-navigation-link")("icon")()} />
+    </a>
+  );
+
   return (
     <div className={containerClassName}>
       {yearFilter}
 
+      <div /> {/* "temporary" hack */}
+
       {pagePicker}
 
-      <a className="page-navigation-link" onClick={onGoToClick}>
-        Go to {goToLocationName}
-        <Icon name={goToIconName} className={b("page-navigation-link")("icon")()} />
-      </a>
+      {pageNavigationLink}
     </div>
   );
 }

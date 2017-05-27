@@ -21,22 +21,32 @@ function ResultsView({ resultsStore, viewStore }: IResultsViewProps): JSX.Elemen
       <Result match={match} key={match.id} />
     ));
 
-  let content;
+  const bottomNavigation = (!isLoading && results.length > 10) && (
+    <ResultListNavigation viewStore={viewStore} position="bottom" showPageNavigationLink={results.length > 10} />
+  );
+
+  let resultListContent;
   if (viewStore.totalResultsPages > 0) {
-    content = (
-      <div className="result-list">
-        <ResultListNavigation viewStore={viewStore} position="top" />
+    resultListContent = (
+      <div>
         {results}
-        {!isLoading && <ResultListNavigation viewStore={viewStore} position="bottom" />}
+        {bottomNavigation}
       </div>
     );
   } else {
-    content = <div className="result-list">The result list for specified parameters is empty.</div>;
+    resultListContent = <span>The result list for specified parameters is empty.</span>;
   }
+
+  const resultList = resultsStore.completedInitialLoad && (
+    <div className="result-list">
+      <ResultListNavigation viewStore={viewStore} position="top" showPageNavigationLink={results.length > 10} />
+      {resultListContent}
+    </div>
+  );
 
   return (
     <div className="view view--results">
-      {resultsStore.completedInitialLoad && content}
+      {resultList}
     </div>
   );
 }

@@ -25,6 +25,9 @@ export class ResultsYearFilter extends React.Component<IResultsYearFilterProps, 
   @observable
   private isFocused: boolean;
 
+  @observable
+  private isInvalid: boolean;
+
   private inputRef: HTMLInputElement;
 
   private handleClearButtonClick = action(() => {
@@ -33,6 +36,16 @@ export class ResultsYearFilter extends React.Component<IResultsYearFilterProps, 
 
   private handleInputChange = action((newValue: number | null) => {
     this.value = newValue || undefined;
+  });
+
+  private handleValueChange = action((newValue: number) => {
+    // TODO: Remove hardcoded value after fetching oldest result date from the API at app start is implemented
+    if (!newValue || newValue > 1872) {
+      this.props.onYearEntry(newValue);
+      this.isInvalid = false;
+    } else {
+      this.isInvalid = true;
+    }
   });
 
   private handleInputFocus = action(() => {
@@ -68,7 +81,7 @@ export class ResultsYearFilter extends React.Component<IResultsYearFilterProps, 
 
     return (
       <label className={b()}>
-        <div className={b("input-container", { focused: this.isFocused })}>
+        <div className={b("input-container", { focused: this.isFocused, invalid: this.isInvalid })}>
           <NumericInput
             maxLength={4}
             onChange={this.handleInputChange}
@@ -86,12 +99,6 @@ export class ResultsYearFilter extends React.Component<IResultsYearFilterProps, 
   private getInputRef = (ref) => {
     if (ref) {
       this.inputRef = ref.refs.input;
-    }
-  }
-
-  private handleValueChange = (newValue: number) => {
-    if (!newValue || newValue > 1000) {
-      this.props.onYearEntry(newValue);
     }
   }
 

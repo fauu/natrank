@@ -3,10 +3,10 @@ $page-button-size: 1.7em;
 .results-page-picker {
   margin: 0;
   padding: 0;
-  list-style-type: none; 
+  list-style-type: none;
   display: flex;
   color: $color-text-secondary;
-  position: relative;
+  position: absolute;
   left: 50%;
   transform: translateX(-50%);
 
