@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import * as NumericInput from "react-numeric-input";
 
-import * as classNames from "classnames";
+import { _b } from "common/BemHelper";
 import { Icon } from "common/components/Icon";
 import { scrollToBottom, scrollToTop } from "common/WindowUtils";
 import { ResultsPagePicker } from "results/components/ResultsPagePicker";
@@ -16,6 +16,8 @@ interface IResultListNavigationProps {
   viewStore: ResultsViewStore;
   position: ResultListPosition;
 }
+
+const b = _b;
 
 const yearInputDebounceMs = 500;
 
@@ -39,13 +41,9 @@ function ResultListNavigation({ viewStore, position }: IResultListNavigationProp
       break;
   }
 
-  const containerClassName = classNames(
-    "result-list-navigation",
-    `result-list-navigation--${classModifier}`,
-  );
-
-  const yearInputProps = {
-  };
+  const containerClassName = b("result-list-navigation")({
+    [`${classModifier}`]: true,
+  });
 
   const yearFilter = position === "top" && (
     <label className="results-year-filter">
@@ -77,7 +75,7 @@ function ResultListNavigation({ viewStore, position }: IResultListNavigationProp
 
       <a className="page-navigation-link" onClick={onGoToClick}>
         Go to {goToLocationName}
-        <Icon name={goToIconName} className="page-navigation-link__icon" />
+        <Icon name={goToIconName} className={b("page-navigation-link")("icon")()} />
       </a>
     </div>
   );

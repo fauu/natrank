@@ -1,6 +1,7 @@
 import * as classNames from "classnames";
 import * as React from "react";
 
+import { _b } from "common/BemHelper";
 import { Icon } from "common/components/Icon";
 
 export interface INavigationEntryProps {
@@ -10,14 +11,11 @@ export interface INavigationEntryProps {
   isActive: boolean;
 }
 
-export function NavigationEntry({ icon, text, onClick, isActive }: INavigationEntryProps) {
-  const className = classNames({
-    "main-navigation__link": true,
-    "main-navigation__link--active": isActive,
-  });
+const b = _b("main-navigation");
 
+export function NavigationEntry({ icon, text, onClick, isActive }: INavigationEntryProps) {
   return (
-    <a onClick={!isActive && onClick} className={className}>
+    <a onClick={!isActive && onClick} className={b("link", { active: isActive })}>
       <Icon name={icon} />
       {text}
     </a>

@@ -2,12 +2,15 @@ import { action, observable, reaction } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
 
+import { _b } from "common/BemHelper";
 import { Icon } from "common/components/Icon";
 
 interface IMonthInputProps {
   readonly initialValue: number;
   readonly onChange;
 }
+
+const b = _b("month-input");
 
 @observer
 export class MonthInput extends React.Component<IMonthInputProps, any> {
@@ -67,20 +70,20 @@ export class MonthInput extends React.Component<IMonthInputProps, any> {
       ));
 
     return (
-      <span className="month-input">
-        <b className="month-input__control" onClick={this.handlePlusControlClick}>
+      <span className={b}>
+        <b className={b("control")} onClick={this.handlePlusControlClick}>
           <Icon name="plus-box" />
         </b>
 
         <select
-          className="month-input__select"
+          className={b("select")}
           value={this.value}
           onChange={this.handleSelectChange}
         >
           {optionTags}
         </select>
 
-        <b className="month-input__control" onClick={this.handleMinusControlClick}>
+        <b className={b("control")} onClick={this.handleMinusControlClick}>
           <Icon name="minus-box" />
         </b>
       </span>

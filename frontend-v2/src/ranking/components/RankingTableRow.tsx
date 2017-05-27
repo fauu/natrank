@@ -1,6 +1,6 @@
-import * as classNames from "classnames";
 import * as React from "react";
 
+import { _b } from "common/BemHelper";
 import { Flag } from "common/components/Flag";
 import { Icon } from "common/components/Icon";
 import { urlfriendlifyString } from "common/StringUtils";
@@ -12,11 +12,10 @@ interface IRankingTableRowProps {
   readonly isFull: boolean;
 }
 
-export function RankingTableRow({ data, isAlternate, isFull}: IRankingTableRowProps): JSX.Element {
-  const rowClassName: string = classNames({
-    "ranking-row": true,
-    "ranking-row--alternate": isAlternate,
-  });
+export function RankingTableRow({ data, isAlternate, isFull }: IRankingTableRowProps): JSX.Element {
+  const b = _b("ranking-row");
+
+  const cellClassName = (modifier: string): string => b("cell")({ [`${modifier}`]: true });
 
   let i = 0;
 
@@ -89,7 +88,7 @@ export function RankingTableRow({ data, isAlternate, isFull}: IRankingTableRowPr
   ] : null;
 
   return (
-    <tr className={rowClassName}>
+    <tr className={b({ alternate: isAlternate })}>
       {cellsForBaseColumns}
       {cellsForExtraColumns}
     </tr>
@@ -97,25 +96,24 @@ export function RankingTableRow({ data, isAlternate, isFull}: IRankingTableRowPr
 
 }
 
-const cellClassName = (modifier: string): string =>
-  `ranking-row__cell ranking-row__cell--${modifier}`;
-
 interface IRankChangeProps {
   readonly rank: number;
   readonly rankChange: number;
 }
-function RankChange({rank, rankChange}: IRankChangeProps): JSX.Element {
+function RankChange({ rank, rankChange }: IRankChangeProps): JSX.Element {
   const delta = rankChange;
+
+  const b = _b("rank-change");
 
   if (delta > 0) {
     return (
-      <span className="rank-change rank-change--positive">
+      <span className={b({ positive: true })}>
         <Icon name="arrow-top-right"/> {delta}
       </span>
     );
   } else if (delta < 0) {
     return (
-      <span className="rank-change rank-change--negative">
+      <span className={b({ negative: true })}>
         <Icon name="arrow-bottom-right"/> {Math.abs(delta)}
       </span>
     );
@@ -136,11 +134,10 @@ interface IGoalDifferenceProps {
 function GoalDifference({value}): JSX.Element {
   const delta = value;
 
-  const goalDifferenceClassName = classNames({
-    "goal-difference": true,
-    "goal-difference--negative": delta < 0,
-    "goal-difference--neutral": delta === 0,
-    "goal-difference--positive": delta > 0,
+  const goalDifferenceClassName = _b("goal-difference")({
+    negative: delta < 0,
+    neutral: delta === 0,
+    positive: delta > 0,
   });
   const sign = (delta > 0) ? "+" : "";
 

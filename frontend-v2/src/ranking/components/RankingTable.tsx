@@ -1,6 +1,6 @@
-import * as classNames from "classnames";
 import * as React from "react";
 
+import { _b } from "common/BemHelper";
 import { RankingTableRow } from "ranking/components/RankingTableRow";
 import { Ranking } from "ranking/Ranking";
 
@@ -8,12 +8,18 @@ interface IRankingTableProps {
   readonly ranking: Ranking;
 }
 
+const b = _b;
+
 export function RankingTable({ ranking }: IRankingTableProps): JSX.Element {
   const visibleColumnData = ranking.isFull ? columnData : columnData.slice(0, 4);
 
   const headerCells =
     visibleColumnData.map((column, idx) => (
-      <th className={thClassPrefix + column.classModifier} {...column.props} key={idx}>
+      <th
+        key={idx}
+        className={b("ranking-header")("cell", { [`${column.classModifier}`]: true })}
+        {...column.props}
+      >
         {column.label}
       </th>
     ));
@@ -29,7 +35,7 @@ export function RankingTable({ ranking }: IRankingTableProps): JSX.Element {
     ));
 
   return (
-    <table className={classNames("ranking", { "ranking--full": ranking.isFull })}>
+    <table className={b("ranking")({ full: ranking.isFull })}>
       <thead>
         <tr className="ranking-header">
           {headerCells}
@@ -55,5 +61,3 @@ const columnData = [
   { label: "GA",     classModifier: "goals-against",        props: { }            },
   { label: "GD",     classModifier: "goal-difference",      props: { }            },
 ];
-
-const thClassPrefix = "ranking-header__cell ranking-header__cell--";
