@@ -54,6 +54,7 @@ new Router({
     },
     on: () => appStore.showView("Results"),
   },
+  "/teams/(\[a-z\\-]+)": (team) => appStore.showView("Team"),
 }).configure({
   html5history: true,
   notfound: () => appStore.showView("NotFound"),

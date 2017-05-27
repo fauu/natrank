@@ -40,7 +40,7 @@ export class ResultsYearFilter extends React.Component<IResultsYearFilterProps, 
 
   private handleValueChange = action((newValue: number) => {
     // TODO: Remove hardcoded value after fetching oldest result date from the API at app start is implemented
-    if (!newValue || newValue > 1872) {
+    if (!newValue || newValue >= 1872) {
       this.props.onYearEntry(newValue);
       this.isInvalid = false;
     } else {

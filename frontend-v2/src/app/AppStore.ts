@@ -7,8 +7,9 @@ import { RankingStore } from "ranking/RankingStore";
 import { RankingViewStore } from "ranking/RankingViewStore";
 import { ResultsStore } from "results/ResultsStore";
 import { ResultsViewStore } from "results/ResultsViewStore";
+import { TeamViewStore } from "team/TeamViewStore";
 
-export type View = "Ranking" | "Results" | "NotFound";
+export type View = "Ranking" | "Results" | "Team" | "NotFound";
 
 export type ViewStoreContainer = {
   [view in View]: IViewStore | undefined;
@@ -35,6 +36,7 @@ export class AppStore {
       "NotFound": undefined,
       "Ranking": new RankingViewStore(this.rankingStore),
       "Results": new ResultsViewStore(this.resultsStore),
+      "Team": new TeamViewStore(),
     };
   }
 
