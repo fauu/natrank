@@ -29,8 +29,8 @@ module.exports = {
     extensions: ['.js', '.ts', '.tsx'],
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     alias: {
-      images: path.resolve(__dirname, 'resources', 'images'),
-      styles: path.resolve(__dirname, 'resources', 'styles'),
+      images: path.resolve(__dirname, 'res', 'images'),
+      styles: path.resolve(__dirname, 'res', 'styles'),
     },
     // Fix webpack's default behavior to not load packages with jsnext:main module
     // (jsnext:main directs not usually distributable es6 format, but es6 sources)
