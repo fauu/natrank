@@ -4,6 +4,16 @@ export class ApiClient {
 
   private static readonly baseUrl = "http://localhost:8080";
 
+  private fetch;
+
+  public constructor() {
+    if (typeof window === "undefined") {
+      this.fetch = require("node-fetch");
+    } else {
+      this.fetch = window.fetch.bind(window);
+    }
+  }
+
   public getRankingJson(date?: Date): Promise<{}> {
     const param = date ? stringifyDate(date, true) : "latest";
 
@@ -25,7 +35,7 @@ export class ApiClient {
     const fullUrl = ApiClient.baseUrl + url;
     const options: RequestInit = { mode: "cors" };
 
-    return fetch(fullUrl, options).then((response) => {
+    return this.fetch(fullUrl, options).then((response) => {
       return response.json().then((json) => {
         return response.ok ? json : Promise.reject(json);
       });

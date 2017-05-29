@@ -16,7 +16,7 @@ import "styles/main.scss";
 
 useStrict(true);
 
-const appStore = new AppStore();
+const appStore = new AppStore(JSON.parse((window as any).__INITIAL_STATE__));
 
 reaction(
   () => appStore.currentUrl,
@@ -55,6 +55,7 @@ new Router({
     on: () => appStore.showView("Results"),
   },
   "/teams/(\[a-z\\-]+)": (team) => appStore.showView("Team"),
+  "/test": () => console.log(JSON.stringify(appStore)),
 }).configure({
   html5history: true,
   notfound: () => appStore.showView("NotFound"),

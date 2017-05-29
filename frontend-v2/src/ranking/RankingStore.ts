@@ -18,8 +18,14 @@ export class RankingStore {
   @observable
   public lastViewedRankingDate: Date;
 
-  public constructor(private apiClient: ApiClient) {}
+  public constructor(private apiClient: ApiClient, initialState?: any) {
+    if (initialState) {
+      this.isLoading = initialState.isLoading;
+      this.ranking = initialState.ranking;
+    }
+  }
 
+  @action
   public loadRanking(date?: Date) {
     this.isLoading = true;
 
@@ -31,6 +37,14 @@ export class RankingStore {
 
         this.isLoading = false;
     }));
+  }
+
+  @action
+  public async loadRankingAsync(date?: Date) {
+    const rankingJson = await this.apiClient.getRankingJson(date);
+    this.ranking = Ranking.fromJson(rankingJson);
+    this.lastViewedRankingDate = date ? date : this.ranking.date;
+    this.isLoading = false;
   }
 
 }

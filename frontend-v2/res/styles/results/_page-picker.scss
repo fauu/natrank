@@ -27,7 +27,8 @@ $page-button-size: 1.7em;
     &:not(.active):not(.disabled) {
       > a {
         &:hover {
-          background: $color-border;
+          background: rgba($color-primary, 0.075);
+          // background: $color-border;
           cursor: pointer;
           color: $color-primary !important;
         }

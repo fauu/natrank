@@ -64,7 +64,7 @@
   @include animation(fade-in-bottom);
 
   &:hover {
-    background: $color-bg;
+    background: rgba($color-primary, 0.075);
   }
 
   &:not(:last-child) {

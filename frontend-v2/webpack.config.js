@@ -3,7 +3,7 @@ var path = require('path');
 
 var isProduction = process.argv.indexOf('-p') >= 0;
 var sourcePath = path.join(__dirname, './src');
-var outPath = path.join(__dirname, './dist');
+var outPath = path.join(__dirname, './server/public');
 
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -17,6 +17,7 @@ module.exports = {
       'react-dom',
       'mobx',
       'mobx-react',
+      'babel-polyfill',
     ]
   },
   output: {
@@ -41,11 +42,8 @@ module.exports = {
       {
         test: /\.tsx?$/,
         use: isProduction
-          ? 'awesome-typescript-loader?module=es6'
-          : [
-            'react-hot-loader',
-            'awesome-typescript-loader'
-          ]
+          ? ['babel-loader?cacheDirectory', 'awesome-typescript-loader?useCache=true']
+          : [ 'react-hot-loader', 'awesome-typescript-loader' ]
       },
       {
         test: /\.scss$/,

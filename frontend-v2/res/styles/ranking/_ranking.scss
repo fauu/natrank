@@ -76,11 +76,15 @@
 
 .ranking-row {
   font-size: 80%;
+  box-sizing: content-box;
 
-  &:hover {
-    background: $color-bg;
-    transition-duration: $base-transition-duration;
+  &--alternate {
+    background: rgba($color-primary, 0.075);
   }
+
+  // &:hover {
+  //   transition-duration: $base-transition-duration;
+  // }
 
   &__cell {
     height: 33px;

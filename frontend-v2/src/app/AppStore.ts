@@ -26,10 +26,15 @@ export class AppStore {
   @observable
   public activeView: View = "Ranking";
 
-  public constructor() {
+  public constructor(initialState?: any) {
     this.apiClient = new ApiClient();
 
-    this.rankingStore = new RankingStore(this.apiClient);
+    if (initialState) {
+      this.rankingStore = new RankingStore(this.apiClient, initialState.rankingStore);
+    } else {
+      this.rankingStore = new RankingStore(this.apiClient);
+    }
+
     this.resultsStore = new ResultsStore(this.apiClient);
 
     this.viewStores = {
