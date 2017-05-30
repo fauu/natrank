@@ -17,22 +17,17 @@ export class ResultsStore {
   constructor(private apiClient: ApiClient) {}
 
   @action
-  public loadMatchPage(pageNo: number, team?: string, year?: number) {
+  public async loadMatchPage(pageNo: number, team?: string, year?: number) {
     this.isLoading = true;
 
-    const matchPageJson = this.apiClient.getMatchPageJson(pageNo, team, year);
-    matchPageJson.then((json) => {
-      this.handleMatchPagesLoad(json);
-    });
+    const matchPageJson = await this.apiClient.getMatchPageJson(pageNo, team, year);
+    this.handleMatchPageLoad(matchPageJson);
   }
 
   @action
-  public handleMatchPagesLoad(json: any) {
-    const matchesJson = json.content;
+  private handleMatchPageLoad(json: {}) {
     this.matchPage = Page.fromJson<Match>(json, Match.fromJson);
-    if (!this.completedInitialLoad) {
-      this.completedInitialLoad = true;
-    }
+    this.completedInitialLoad = true;
 
     this.isLoading = false;
   }

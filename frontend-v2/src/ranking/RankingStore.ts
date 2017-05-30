@@ -20,17 +20,19 @@ export class RankingStore {
 
   public constructor(private apiClient: ApiClient) {}
 
-  public loadRanking(date?: Date) {
+  public async loadRanking(date?: Date) {
     this.isLoading = true;
 
-    const rankingJson = this.apiClient.getRankingJson(date);
-    rankingJson.then(
-      action((json) => {
-        this.ranking = Ranking.fromJson(json);
-        this.lastViewedRankingDate = date ? date : this.ranking.date;
+    const rankingJson = await this.apiClient.getRankingJson(date);
+    this.handleRankingLoad(rankingJson, date);
+  }
 
-        this.isLoading = false;
-    }));
+  @action
+  private handleRankingLoad(json: {}, date?: Date) {
+    this.ranking = Ranking.fromJson(json);
+    this.lastViewedRankingDate = date ? date : this.ranking.date;
+
+    this.isLoading = false;
   }
 
 }

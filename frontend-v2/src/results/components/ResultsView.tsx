@@ -4,7 +4,7 @@ import * as React from "react";
 import { AppStore } from "app/AppStore";
 import { Result } from "results/components/Result";
 import { ResultList } from "results/components/ResultList";
-import { ResultListNavigation } from "results/components/ResultListNavigation";
+import { ResultListNavigation, ResultListNavigationPosition } from "results/components/ResultListNavigation";
 import { ResultsStore } from "results/ResultsStore";
 import { ResultsViewStore } from "results/ResultsViewStore";
 
@@ -23,23 +23,19 @@ function ResultsView({ resultsStore, viewStore }: IResultsViewProps): JSX.Elemen
     const totalPages = resultsStore.matchPage.totalPages;
     const isListShort = results.length <= 10;
 
-    const topNavigation =
-      <ResultListNavigation viewStore={viewStore} position="top" goToLinkVisible={!isListShort} />;
-    const bottomNavigation =
-      <ResultListNavigation viewStore={viewStore} position="bottom" goToLinkVisible={!isListShort} />;
+    const navigation = (position: ResultListNavigationPosition) => (
+      <ResultListNavigation viewStore={viewStore} position={position} goToLinkVisible={!isListShort} />
+    );
 
-    let resultListOrEmptyMessage;
-    if (totalPages > 0) {
-      resultListOrEmptyMessage = <ResultList results={results} />;
-    } else {
-      resultListOrEmptyMessage = <span>The result list for specified criteria is empty.</span>;
-    }
+    const resultListOrEmptyMessage = totalPages > 0
+      ? <ResultList results={results} />
+      : <span>The result list for specified criteria is empty.</span>;
 
     content = (
       <div className="result-list-panel">
-        {topNavigation}
+        {navigation("top")}
         {resultListOrEmptyMessage}
-        {(totalPages > 0 && !isListShort) && bottomNavigation}
+        {(totalPages > 0 && !isListShort) && navigation("bottom")}
       </div>
     );
   }
