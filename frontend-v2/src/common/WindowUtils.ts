@@ -1,4 +1,9 @@
-export const scrollToTop = () => {
+export const scrollToTop = (smooth: boolean = false) => {
+  if (!smooth) {
+    window.scrollTo(0, 0);
+    return;
+  }
+
   const top = window.pageYOffset - document.documentElement.clientTop;
 
   if (top > 0) {

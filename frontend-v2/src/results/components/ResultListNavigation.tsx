@@ -11,19 +11,19 @@ import { ResultsPagePicker } from "results/components/ResultsPagePicker";
 import { ResultsYearFilter } from "results/components/ResultsYearFilter";
 import { ResultsViewStore } from "results/ResultsViewStore";
 
-type ResultListPosition = "top" | "bottom";
+export type ResultListNavigationPosition = "top" | "bottom";
 
 interface IResultListNavigationProps {
   readonly viewStore: ResultsViewStore;
-  readonly position: ResultListPosition;
-  readonly showPageNavigationLink: boolean;
+  readonly position: ResultListNavigationPosition;
+  readonly goToLinkVisible: boolean;
 }
 
 const b = _b;
 
 const yearFilterDebounceMs = 500;
 
-function ResultListNavigation({ viewStore, position }: IResultListNavigationProps): JSX.Element {
+function ResultListNavigation({ viewStore, position, goToLinkVisible }: IResultListNavigationProps): JSX.Element {
   let classModifier;
   let goToLocationName;
   let goToIconName;
@@ -47,7 +47,7 @@ function ResultListNavigation({ viewStore, position }: IResultListNavigationProp
     [`${classModifier}`]: true,
   });
 
-  const pagePicker = viewStore.totalResultsPages > 1 && (
+  const pagePicker = (
     <ResultsPagePicker
       onChange={debounce(handlePageChange(viewStore), 500)}
       className="results-page-picker"
@@ -56,29 +56,29 @@ function ResultListNavigation({ viewStore, position }: IResultListNavigationProp
     />
   );
 
-  const yearFilter = (position === "top" && !viewStore.state.team) && (
+  const yearFilter = (
     <ResultsYearFilter
       viewStore={viewStore}
       onYearEntry={debounce(handleYearEntry(viewStore), yearFilterDebounceMs)}
     />
   );
 
-  const pageNavigationLink = this.props.showPageNavigationLink && (
+  const goToLink = (
     <a className="page-navigation-link" onClick={onGoToClick}>
       Go to {goToLocationName}
       <Icon name={goToIconName} className={b("page-navigation-link")("icon")()} />
     </a>
   );
 
-  return (
+  const yearFilterVisible = (position === "top" && !viewStore.state.team);
+  const pagePickerVisible = viewStore.totalResultsPages > 1;
+  const componentVisible = yearFilterVisible || pagePickerVisible || goToLinkVisible;
+  return componentVisible && (
     <div className={containerClassName}>
-      {yearFilter}
-
+      {yearFilterVisible && yearFilter}
       <div /> {/* "temporary" hack */}
-
-      {pagePicker}
-
-      {pageNavigationLink}
+      {pagePickerVisible && pagePicker}
+      {goToLinkVisible && goToLink}
     </div>
   );
 }
@@ -91,6 +91,7 @@ const handleYearEntry = (viewStore: ResultsViewStore) => action((year: number) =
 
 const handlePageChange = (viewStore: ResultsViewStore) => action(({ selected }) => {
   viewStore.state.page = selected + 1;
+  scrollToTop(false);
 });
 
 const resultListNavigation = observer(ResultListNavigation);
