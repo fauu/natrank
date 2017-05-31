@@ -7,6 +7,7 @@ import { RankingStore } from "ranking/RankingStore";
 import { RankingViewStore } from "ranking/RankingViewStore";
 import { ResultsStore } from "results/ResultsStore";
 import { ResultsViewStore } from "results/ResultsViewStore";
+import { TeamStore } from "team/TeamStore";
 import { TeamViewStore } from "team/TeamViewStore";
 
 export type View = "Ranking" | "Results" | "Team" | "NotFound";
@@ -21,6 +22,7 @@ export class AppStore {
 
   public rankingStore: RankingStore;
   public resultsStore: ResultsStore;
+  public teamStore: TeamStore;
   public viewStores: ViewStoreContainer;
 
   @observable
@@ -31,12 +33,13 @@ export class AppStore {
 
     this.rankingStore = new RankingStore(this.apiClient);
     this.resultsStore = new ResultsStore(this.apiClient);
+    this.teamStore = new TeamStore(this.apiClient);
 
     this.viewStores = {
       "NotFound": undefined,
       "Ranking": new RankingViewStore(this.rankingStore),
       "Results": new ResultsViewStore(this.resultsStore),
-      "Team": new TeamViewStore(),
+      "Team": new TeamViewStore(this.teamStore),
     };
   }
 

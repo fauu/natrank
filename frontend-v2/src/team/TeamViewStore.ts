@@ -1,24 +1,32 @@
 import { action, computed, observable, reaction } from "mobx";
 
 import { IViewStore } from "common/IViewStore";
+import { urlfriendlifyString } from "common/StringUtils";
+import { TeamStore } from "team/TeamStore";
+
+interface ITeamViewParams {
+  teamStr?: string;
+}
 
 export class TeamViewStore implements IViewStore {
 
-  public constructor() {}
+  constructor(private teamStore: TeamStore) {}
 
   @computed
   public get isLoading(): boolean {
-    return false;
+    return this.teamStore.isLoading;
   }
 
   @computed
   public get currentUrl(): string {
-    return "/teams/team-name";
+    const team = this.teamStore.team;
+
+    return team ? `/teams/${urlfriendlifyString(this.teamStore.team.name)}` : "/teams";
   }
 
   @action
-  public showView() {
-    ;
+  public showView({ teamStr }: ITeamViewParams) {
+    this.teamStore.loadTeam(teamStr);
   }
 
 }

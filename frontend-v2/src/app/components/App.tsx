@@ -10,6 +10,7 @@ import { RankingViewStore } from "ranking/RankingViewStore";
 import { ResultsView } from "results/components/ResultsView";
 import { ResultsViewStore } from "results/ResultsViewStore";
 import { TeamView } from "team/components/TeamView";
+import { TeamViewStore } from "team/TeamViewStore";
 
 interface IAppProps {
   readonly appStore: AppStore;
@@ -55,7 +56,10 @@ export class App extends React.Component<IAppProps, void> {
         );
       case "Team":
         return (
-          <TeamView />
+          <TeamView
+            viewStore={appStore.viewStores[view] as TeamViewStore}
+            teamStore={appStore.teamStore}
+          />
         );
       case "NotFound":
         return <NotFoundView />;

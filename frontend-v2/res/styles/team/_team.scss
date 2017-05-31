@@ -1,0 +1,103 @@
+.view--team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team-header {
+  font-size: 250%;
+  margin-bottom: 1rem;
+  display: flex;
+
+  &__flag {
+    @extend .flag;
+    height: 1em;
+    margin-right: 0.5rem;
+  }
+}
+
+.team-stats {
+  @include panel-shadow;
+  padding: 1em;
+  background: $color-panel-bg;
+  width: 20em;
+  // margin: 0 auto;
+  @include animation(fade-in-bottom);
+
+  &__header {
+    font-weight: bold;
+    font-size: 115%;
+    margin-bottom: 1rem;
+  }
+
+  &__matches-played {
+    text-align: center;
+  }
+
+  &__results-breakdown {
+    display: flex;
+    margin-top: 0.5rem;
+
+    &--goals {
+      font-size: 80%;
+    }
+  }
+
+  &__results-breakdown-category {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 0;
+    align-items: center;
+
+    &:not(:last-child) {
+      border-right: 1px solid $color-border;
+    }
+  }
+
+  &__results-breakdown-amount {
+    display: flex;
+  }
+
+  &__results-breakdown-label {
+    color: $color-text-secondary;
+    font-size: 80%;
+  }
+
+  &__results-breakdown-percentage {
+    color: $color-text-secondary;
+    display: flex;
+    margin-left: 0.3em;
+  }
+
+  .records {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+
+    th, td {
+      border: 1px solid $color-border;
+      font-weight: normal;
+      padding: 0.3em;
+    }
+
+    th:first-child, td:first-child {
+      border-left: none;
+    }
+
+    th:last-child, td:last-child {
+      border-right: none;
+    }
+
+    th {
+      border-top: none;
+    }
+
+    tr:last-child > td {
+      border-bottom: none;
+    }
+
+    td:not(:first-child) {
+      text-align: center;
+    }
+  }
+}
