@@ -20,6 +20,7 @@ function ResultsView({ resultsStore, viewStore }: IResultsViewProps): JSX.Elemen
   if (completedInitialLoad) {
     const matchPage = resultsStore.matchPage;
     const results = resultsStore.matchPage.content;
+    const povTeamId = resultsStore.povTeam.id;
     const totalPages = resultsStore.matchPage.totalPages;
     const isListShort = results.length <= 10;
 
@@ -28,7 +29,7 @@ function ResultsView({ resultsStore, viewStore }: IResultsViewProps): JSX.Elemen
     );
 
     const resultListOrEmptyMessage = totalPages > 0
-      ? <ResultList results={results} />
+      ? <ResultList results={results} povTeamId={povTeamId} />
       : <span>The result list for specified criteria is empty.</span>;
 
     content = (

@@ -1,23 +1,33 @@
 import { parseDate } from "common/DateUtils";
 
-export interface IMatchTeamInfo {
+export type TeamResult = "Win" | "Draw" | "Loss";
 
+export interface IMatchTeamInfo {
   idx: number;
   id: number;
   name: string;
   flag: string;
   goalCount: number;
-  isWinner: boolean;
+  teamResult: TeamResult;
   rank: number;
   rankChange: number;
   rating: number;
   ratingChange: number;
-
 }
+
+const getTeamResult = (teamId: number, winnerId: number): TeamResult => {
+  if (winnerId === teamId) {
+    return "Win";
+  } else if (winnerId) {
+    return "Loss";
+  } else {
+    return "Draw";
+  }
+};
 
 export class Match {
 
-  public static fromJson(json) {
+  public static fromJson(json): Match {
     const match = new Match();
 
     match.id = json.id;
@@ -35,24 +45,24 @@ export class Match {
       goalCount: json.team1Goals,
       id: json.team1.id,
       idx: 0,
-      isWinner: match.winnerId === json.team1.id,
       name: json.team1.name,
       rank: json.team1Rank,
       rankChange: json.team1RankChange,
       rating: json.team1Rating,
       ratingChange: json.team1RatingChange,
+      teamResult: getTeamResult(json.team1.id, match.winnerId),
     },
     {
       flag: json.team2.flag,
       goalCount: json.team2Goals,
       id: json.team2.id,
       idx: 1,
-      isWinner: match.winnerId === json.team2.id,
       name: json.team2.name,
       rank: json.team2Rank,
       rankChange: json.team2RankChange,
       rating: json.team2Rating,
       ratingChange: json.team2RatingChange,
+      teamResult: getTeamResult(json.team2.id, match.winnerId),
     }];
 
     return match;

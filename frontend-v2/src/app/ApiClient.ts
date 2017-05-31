@@ -10,10 +10,14 @@ export class ApiClient {
     return this.fetchJson(`/rankings/${param}`);
   }
 
-  public async getMatchPageJson(pageNo: number, team?: string, year?: number): Promise<{}> {
+  public async getMatchPageJson(no: number, team?: string, year?: number): Promise<{}> {
     const modifier = team ? `/team/${team}` : (year ? `/year/${year}` : "");
 
-    return this.fetchJson(`/matches${modifier}?page=${pageNo}`);
+    return this.fetchJson(`/matches${modifier}?page=${no}`);
+  }
+
+  public async getTeamJson(name: string) {
+    return this.fetchJson(`/teams/${name}`);
   }
 
   private async fetchJson(url: string): Promise<{}> {

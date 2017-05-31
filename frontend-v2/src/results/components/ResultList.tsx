@@ -1,16 +1,20 @@
 import * as React from "react";
 
+import { _b } from "common/BemHelper";
 import { Result } from "results/components/Result";
 import { Match } from "results/Match";
 
 interface IResultListProps {
   readonly results: Match[];
+  readonly povTeamId?: number;
 }
 
-export function ResultList({ results }: IResultListProps): JSX.Element {
+const b = _b("result-list");
+
+export function ResultList({ results, povTeamId }: IResultListProps): JSX.Element {
   return (
-    <div className="result-list">
-      {results.map((match) => ( <Result match={match} key={match.id} /> ))}
+    <div className={b({ "for-team": povTeamId !== undefined })}>
+      {results.map((match) => ( <Result match={match} povTeamId={povTeamId} key={match.id} /> ))}
     </div>
   );
 }

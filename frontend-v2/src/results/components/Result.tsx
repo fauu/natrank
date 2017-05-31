@@ -1,3 +1,4 @@
+// tslint:disable:object-literal-sort-keys
 import * as React from "react";
 
 import { _b } from "common/BemHelper";
@@ -5,17 +6,31 @@ import { Flag } from "common/components/Flag";
 import { Icon } from "common/components/Icon";
 import { stringifyDate } from "common/DateUtils";
 import { urlfriendlifyString } from "common/StringUtils";
-import { IMatchTeamInfo, Match } from "results/Match";
+import { IMatchTeamInfo, Match, TeamResult } from "results/Match";
 
 interface IResultProps {
   readonly match: Match;
+  readonly povTeamId?: number;
 }
 
 const b = _b("result");
 
-export function Result({ match }: IResultProps): JSX.Element {
+export function Result({ match, povTeamId }: IResultProps): JSX.Element {
+  let povTeamResult: TeamResult;
+  if (match.teamInfos[0].id === povTeamId) {
+    povTeamResult = match.teamInfos[0].teamResult;
+  } else if (match.teamInfos[1].id === povTeamId) {
+    povTeamResult = match.teamInfos[1].teamResult;
+  }
+
+  const classNames = b({
+    "pov-team-won": povTeamResult === "Win",
+    "pov-team-drawn": povTeamResult === "Draw",
+    "pov-team-lost": povTeamResult === "Loss",
+  });
+
   return (
-    <div className={b}>
+    <div className={classNames}>
       <div className={b("row", { details: true })}>
         <div className={b("detail", { date: true })}>
           <a href={`/ranking/${stringifyDate(match.date, false, false)}`}>
@@ -48,13 +63,13 @@ export function Result({ match }: IResultProps): JSX.Element {
 }
 
 interface ITeamProps {
-  teamInfo: IMatchTeamInfo;
+  readonly teamInfo: IMatchTeamInfo;
 }
 const Team = ({ teamInfo }: ITeamProps) => {
   const teamClassNames = b("team", {
     left: teamInfo.idx === 0,
     right: teamInfo.idx === 1,
-    winner: teamInfo.isWinner,
+    winner: teamInfo.teamResult === "Win",
   });
   const teamLinkPath = `/teams/${urlfriendlifyString(teamInfo.name)}`;
 

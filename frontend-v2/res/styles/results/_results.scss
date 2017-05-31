@@ -68,7 +68,17 @@
   }
 
   &:not(:last-child) {
-    margin-bottom: 0.3em;
+    margin-bottom: 0.2em;
+  }
+
+  &--pov-team-won {
+    border-left: 2px solid $color-positive;
+  }
+  &--pov-team-drawn {
+    border-left: 2px solid $color-border;
+  }
+  &--pov-team-lost {
+    border-left: 2px solid $color-negative;
   }
 }
 
@@ -159,8 +169,10 @@
 }
 
 .result__rating-change {
+
+  color: $color-text-secondary;
   &--positive {
-    color: $color-positive;
+    // color: $color-positive;
 
     &:before {
       content: '+';
@@ -168,7 +180,7 @@
   }
 
   &--neutral {
-    color: $color-text-secondary;
+    // color: $color-text-secondary;
 
     &:before {
       content: '±';
@@ -176,7 +188,7 @@
   }
 
   &--negative {
-    color: $color-negative;
+    // color: $color-negative;
   }
 }
 
