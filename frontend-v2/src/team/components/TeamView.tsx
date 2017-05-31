@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { Flag } from "common/components/Flag";
+import { observer } from "mobx-react";
 import { TeamStats } from "team/components/TeamStats";
 import { TeamStore } from "team/TeamStore";
 import { TeamViewStore } from "team/TeamViewStore";
@@ -10,7 +11,7 @@ interface ITeamViewProps {
   viewStore: TeamViewStore;
 }
 
-export function TeamView({ teamStore, viewStore }: ITeamViewProps): JSX.Element {
+function TeamView({ teamStore, viewStore }: ITeamViewProps): JSX.Element {
   const isLoading = viewStore.isLoading;
   const team = teamStore.team;
 
@@ -24,3 +25,6 @@ export function TeamView({ teamStore, viewStore }: ITeamViewProps): JSX.Element 
     </div>
   );
 }
+
+const teamView = observer(TeamView);
+export { teamView as TeamView };

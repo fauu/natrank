@@ -1,8 +1,6 @@
-$height: 3em;
-
 .top-bar {
   padding: 0 1em;
-  height: $height;
+  height: $top-bar-height;
   background: linear-gradient(120deg, $color-primary 50%, $color-secondary 90%);
   color: $color-panel-bg;
   top: 0;
@@ -41,7 +39,7 @@ h2 {
     text-decoration: none;
     text-align: center;
     display: inline-block;
-    line-height: $height;
+    line-height: $top-bar-height;
     padding: 0 1.1em;
 
     &--active {

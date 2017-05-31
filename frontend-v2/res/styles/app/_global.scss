@@ -35,3 +35,40 @@ a {
 input:focus, select:focus {
   @include focus-outline;
 }
+
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.ReactModal {
+  &__Body--open {
+    overflow: hidden;
+  }
+
+  &__Overlay {
+    background: rgba(0, 0, 0, 0.75) !important;
+    @include animation(fade-in);
+    animation-duration: 0.2s !important;
+  }
+
+  &__Content {
+    display: inline-block !important;
+    position: fixed !important;
+    top: 50% !important;
+    bottom: auto !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translate(-50%, -50%);
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 1em !important;
+    background: $color-panel-bg !important;
+    @include animation(fade-in);
+    animation-delay: 0.2s;
+    @include panel-shadow;
+
+    > div {
+      display: inline-block;
+    }
+  }
+}

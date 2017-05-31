@@ -19,9 +19,10 @@ export class TeamViewStore implements IViewStore {
 
   @computed
   public get currentUrl(): string {
-    const team = this.teamStore.team;
+    // const team = this.teamStore.team;
 
-    return team ? `/teams/${urlfriendlifyString(this.teamStore.team.name)}` : "/teams";
+    // return team ? `/teams/${urlfriendlifyString(this.teamStore.team.name)}` : "/teams";
+    return "";
   }
 
   @action

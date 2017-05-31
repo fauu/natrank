@@ -1,6 +1,7 @@
 import { observer } from "mobx-react";
 import * as React from "react";
 import Headroom from "react-headroom";
+import * as Modal from "react-modal";
 
 import { AppStore, View } from "app/AppStore";
 import { NotFoundView } from "app/components/NotFoundView";

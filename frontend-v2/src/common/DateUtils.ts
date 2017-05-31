@@ -68,3 +68,9 @@ export const getDatePlacement = (date: Date, from: Date, to: Date): DatePlacemen
 export const isDateBetween = (date: Date, from: Date, to: Date): boolean => {
   return getDatePlacement(date, from, to) === DatePlacement.Between;
 };
+
+const milisecondsInDay = 1000 * 60 * 60 * 24;
+
+export const getNumDaysBetween = (from: Date, to: Date): number => {
+  return Math.round((to.getTime() - from.getTime()) / milisecondsInDay);
+};

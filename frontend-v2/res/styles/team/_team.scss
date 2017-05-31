@@ -20,7 +20,7 @@ $section-margin: 1.5rem;
 
 .team-stats {
   @include panel-shadow;
-  padding: 1em;
+  padding: 0.8em 1em;
   background: $color-panel-bg;
   width: 20em;
   // margin: 0 auto;
@@ -116,12 +116,12 @@ $section-margin: 1.5rem;
     font-weight: bold;
     text-align: center;
     color: $color-panel-bg;
-    margin-left: 0.3em;
+    margin-left: 2px;
     border-radius: 2px;
     font-size: 1em;
 
-    $maxSize: 1.3em;
-    $sizeStep: 0.15em;
+    $maxSize: 18px;
+    $sizeStep: 2px;
     @for $i from 0 through 4 {
       $idx: 5 - $i;
       &:nth-child(#{$idx}) {
@@ -150,7 +150,7 @@ $section-margin: 1.5rem;
     th, td {
       border: 1px solid $color-border;
       font-weight: normal;
-      padding: 0.3em;
+      padding: 0.4em;
     }
 
     th {
@@ -176,6 +176,10 @@ $section-margin: 1.5rem;
 
     td:not(:first-child) {
       text-align: center;
+    }
+
+    a {
+      cursor: pointer;
     }
   }
 }
