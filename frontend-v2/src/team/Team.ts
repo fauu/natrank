@@ -1,6 +1,8 @@
 // tslint:disable:object-literal-sort-keys
 import { round } from "lodash";
 
+import { TeamResult } from "results/Match";
+
 export interface ITeamStats {
   matchesTotal: number;
   matchesHomePercentage: number;
@@ -10,6 +12,7 @@ export interface ITeamStats {
   losses: number;
   goalsFor: number;
   goalsAgainst: number;
+  form: TeamResult[] | undefined;
 }
 
 export class Team {
@@ -31,6 +34,7 @@ export class Team {
       losses: latestRankingEntry.losses,
       goalsFor: latestRankingEntry.goalsFor,
       goalsAgainst: latestRankingEntry.goalsAgainst,
+      form: undefined,
     };
 
     return team;
@@ -40,5 +44,20 @@ export class Team {
   public name: string;
   public code: string;
   public stats: ITeamStats;
+
+  public setForm(rawForm: number[]) {
+    this.stats.form = rawForm.map((e) => this.parseFormEntry(e));
+  }
+
+  private parseFormEntry(e: number): TeamResult {
+    switch (e) {
+      case 1:
+        return "Win";
+      case 0:
+        return "Draw";
+      case -1:
+        return "Loss";
+    }
+  }
 
 }

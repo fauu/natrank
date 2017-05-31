@@ -1,3 +1,5 @@
+$section-margin: 1.5rem;
+
 .view--team {
   display: flex;
   flex-direction: column;
@@ -32,6 +34,11 @@
 
   &__matches-played {
     text-align: center;
+  }
+
+  &__matches-played-label {
+    color: $color-text-secondary;
+    font-size: 90%;
   }
 
   &__results-breakdown {
@@ -69,15 +76,90 @@
     margin-left: 0.3em;
   }
 
-  .records {
+  &__goals-breakdown {
+    margin-top: $section-margin;
+  }
+
+  &__goals-breakdown-category {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__goals-breakdown-label {
+    color: $color-text-secondary;
+    font-size: 90%;
+    margin-right: 0.3em;
+  }
+
+  &__goals-breakdown-amount {
+  }
+
+  &__form {
+    margin-top: $section-margin;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__form-label {
+    color: $color-text-secondary;
+    font-size: 90%;
+  }
+
+  &__form-value {
+    display: flex;
+    align-items: center;
+  }
+
+  &__form-value-entry {
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
+    color: $color-panel-bg;
+    margin-left: 0.3em;
+    border-radius: 2px;
+    font-size: 1em;
+
+    $maxSize: 1.3em;
+    $sizeStep: 0.15em;
+    @for $i from 0 through 4 {
+      $idx: 5 - $i;
+      &:nth-child(#{$idx}) {
+        $size: $maxSize - ($i * $sizeStep);
+        width: $size;
+        height: $size;
+      }
+    }
+
+    &--win {
+      background: $color-positive;
+    }
+    &--draw {
+      background: $color-neutral;
+    }
+    &--loss {
+      background: $color-negative;
+    }
+  }
+
+  &__records {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 1rem;
+    margin-top: $section-margin;
 
     th, td {
       border: 1px solid $color-border;
       font-weight: normal;
       padding: 0.3em;
+    }
+
+    th {
+      border-top: none;
+    }
+
+    th, td:first-child {
+      font-size: 90%;
+      color: $color-text-secondary;
     }
 
     th:first-child, td:first-child {
@@ -86,10 +168,6 @@
 
     th:last-child, td:last-child {
       border-right: none;
-    }
-
-    th {
-      border-top: none;
     }
 
     tr:last-child > td {

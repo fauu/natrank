@@ -16,11 +16,15 @@ export class ApiClient {
     return this.fetchJson(`/matches${modifier}?page=${no}`);
   }
 
-  public async getTeamJson(name: string) {
+  public async getTeamJson(name: string): Promise<{}> {
     return this.fetchJson(`/teams/${name}`);
   }
 
-  private async fetchJson(url: string): Promise<{}> {
+  public async getTeamForm(name: string): Promise<number[]> {
+    return this.fetchJson(`/matches/form/team/${name}`) as Promise<number[]>;
+  }
+
+  private async fetchJson(url: string): Promise<{} | any[]> {
     const fullUrl = ApiClient.baseUrl + url;
     const options: RequestInit = { mode: "cors" };
 

@@ -17,13 +17,20 @@ export class TeamStore {
   public async loadTeam(name: string) {
     this.isLoading = true;
 
-    const json = await this.apiClient.getTeamJson(name);
-    this.handleTeamLoad(json);
+    const calls: Array<Promise<{} | number[]>> = [
+      this.apiClient.getTeamJson(name),
+      this.apiClient.getTeamForm(name),
+    ];
+
+    const [teamJson, teamForm] = await Promise.all(calls);
+
+    this.handleTeamLoad(teamJson, teamForm as number[]);
   }
 
   @action
-  private handleTeamLoad(json: {}) {
+  private handleTeamLoad(json: {}, form: number[]) {
     this.team = Team.fromJson(json);
+    this.team.setForm(form);
 
     this.isLoading = false;
   }
