@@ -66,10 +66,16 @@ export class Team {
 
     const records: Map<TeamRecordTypeName, ITeamRecord> = new Map();
     for (const type of Team.recordTypes) {
+      const recordJson = json[type.jsonName];
+      if (!recordJson) {
+        continue;
+      }
+
       const value = json[type.jsonName].value;
       const periods = json[type.jsonName].periods.map((p) => TimePeriod.fromJson(p));
+      console.log(periods);
 
-      records[type.name] = { type, value, periods, numDaysHeld: -1 };
+      records.set(type.name, { type, value, periods, numDaysHeld: -1 });
     }
 
     const latestRankingEntry = json.latestRankingEntry;

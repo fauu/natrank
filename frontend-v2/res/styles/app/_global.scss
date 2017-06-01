@@ -66,9 +66,19 @@ input:focus, select:focus {
     @include animation(fade-in);
     animation-delay: 0.2s;
     @include panel-shadow;
-
-    > div {
-      display: inline-block;
-    }
   }
+}
+
+.modal-close-instruction {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: $color-text-secondary;
+  font-size: 90%;
+}
+
+.modal-header {
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+  font-size: 115%;
+  text-align: center;
 }

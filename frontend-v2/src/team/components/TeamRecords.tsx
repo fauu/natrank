@@ -34,42 +34,28 @@ export class TeamRecords extends React.Component<ITeamRecordsProps, void> {
         <tbody>
           <tr>
             <td>Rank</td>
-            <TeamRecord
-              idx={0}
-              record={records["HighestRank"]}
-              isDetailsModalOpen={this.detailModalsOpenState[0]}
-              onDetailsModalOpenRequest={this.handleDetailsModalOpenRequest}
-              onDetailsModalCloseRequest={this.handleDetailsModalCloseRequest}
-            />
-            <TeamRecord
-              idx={1}
-              record={records["LowestRank"]}
-              isDetailsModalOpen={this.detailModalsOpenState[1]}
-              onDetailsModalOpenRequest={this.handleDetailsModalOpenRequest}
-              onDetailsModalCloseRequest={this.handleDetailsModalCloseRequest}
-            />
+            {this.renderTeamRecord(0, records.get("HighestRank"))}
+            {this.renderTeamRecord(1, records.get("LowestRank"))}
           </tr>
           <tr>
             <td>Rating</td>
-            <TeamRecord
-              idx={2}
-              record={records["HighestRating"]}
-              isDetailsModalOpen={this.detailModalsOpenState[2]}
-              onDetailsModalOpenRequest={this.handleDetailsModalOpenRequest}
-              onDetailsModalCloseRequest={this.handleDetailsModalCloseRequest}
-            />
-            <TeamRecord
-              idx={3}
-              record={records["LowestRating"]}
-              isDetailsModalOpen={this.detailModalsOpenState[3]}
-              onDetailsModalOpenRequest={this.handleDetailsModalOpenRequest}
-              onDetailsModalCloseRequest={this.handleDetailsModalCloseRequest}
-            />
+            {this.renderTeamRecord(2, records.get("HighestRating"))}
+            {this.renderTeamRecord(3, records.get("LowestRating"))}
           </tr>
         </tbody>
       </table>
     );
   }
+
+  private renderTeamRecord = (idx: number, record: ITeamRecord): JSX.Element => (
+    <TeamRecord
+      idx={idx}
+      record={record}
+      isDetailsModalOpen={this.detailModalsOpenState[idx]}
+      onDetailsModalOpenRequest={this.handleDetailsModalOpenRequest}
+      onDetailsModalCloseRequest={this.handleDetailsModalCloseRequest}
+    />
+  )
 
   private handleDetailsModalOpenRequest = (idx: number) => action(() => {
     this.detailModalsOpenState[idx] = true;
@@ -77,7 +63,7 @@ export class TeamRecords extends React.Component<ITeamRecordsProps, void> {
 
   @action.bound
   private handleDetailsModalCloseRequest() {
-   this.detailModalsOpenState.map((e, i) => this.detailModalsOpenState[i] = false);
+    this.detailModalsOpenState.map((e, i) => this.detailModalsOpenState[i] = false);
   }
 
 }

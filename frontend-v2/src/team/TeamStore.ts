@@ -34,11 +34,14 @@ export class TeamStore {
   private handleTeamLoad(json: {}, form: number[]) {
     this.team = Team.fromJson(json);
     this.team.setForm(form);
-    for (const type of Team.recordTypes) {
-      const record: ITeamRecord = this.team.stats.records[type.name];
-      record.numDaysHeld = sum(record.periods.map((p) =>
-        getNumDaysBetween(p.start, p.end || this.globalStore.newestRankingDate),
-      ));
+
+    if (this.team.stats.records.size > 0) {
+      for (const type of Team.recordTypes) {
+        const record: ITeamRecord = this.team.stats.records.get(type.name);
+        record.numDaysHeld = sum(record.periods.map((p) =>
+          getNumDaysBetween(p.start, p.end || this.globalStore.newestRankingDate),
+        ));
+      }
     }
 
     this.isLoading = false;

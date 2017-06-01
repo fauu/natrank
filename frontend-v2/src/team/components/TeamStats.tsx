@@ -46,6 +46,11 @@ export function TeamStats({ stats }: ITeamStatsProps): JSX.Element {
         </div>
       </div>
 
+      <div className={b("form")}>
+        <div className={b("form-label")}>Form:</div>
+        <div className={b("form-value")}>{formValueEntries}</div>
+      </div>
+
       <div className={b("goals-breakdown")}>
         <div className={b("goals-breakdown-category")}>
           <div className={b("goals-breakdown-label")}>Goals scored:</div>
@@ -57,12 +62,7 @@ export function TeamStats({ stats }: ITeamStatsProps): JSX.Element {
         </div>
       </div>
 
-      <div className={b("form")}>
-        <div className={b("form-label")}>Form:</div>
-        <div className={b("form-value")}>{formValueEntries}</div>
-      </div>
-
-      <TeamRecords records={stats.records} />
+      {stats.records.size > 0 && <TeamRecords records={stats.records} />}
     </div>
   );
 }

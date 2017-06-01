@@ -8,7 +8,7 @@ $section-margin: 1.5rem;
 
 .team-header {
   font-size: 250%;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
   display: flex;
 
   &__flag {
@@ -123,8 +123,8 @@ $section-margin: 1.5rem;
     $maxSize: 18px;
     $sizeStep: 2px;
     @for $i from 0 through 4 {
-      $idx: 5 - $i;
-      &:nth-child(#{$idx}) {
+      $idx: $i + 1;
+      &:nth-last-child(#{$idx}) {
         $size: $maxSize - ($i * $sizeStep);
         width: $size;
         height: $size;
@@ -181,5 +181,18 @@ $section-margin: 1.5rem;
     a {
       cursor: pointer;
     }
+  }
+}
+
+.team-record-details-modal {
+  &__value, &__length {
+    font-weight: bold;
+  }
+
+  &__period-list {
+    list-style-type: none;
+    text-align: center;
+    margin: 0.4rem 0 0 0;
+    padding: 0;
   }
 }
