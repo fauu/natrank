@@ -1,14 +1,14 @@
-// tslint:disable:object-literal-sort-keys
+// tslint:disable:object-literal-sort-keys no-string-literal
 import * as React from "react";
 
 import { _b } from "common/BemHelper";
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 import { TeamRecord } from "team/components/TeamRecord";
-import { ITeamRecord, TeamRecords as Records } from "team/Team";
+import { ITeamRecord, TeamRecordTypeName } from "team/Team";
 
 interface ITeamRecordsProps {
-  readonly records: Records;
+  readonly records: Map<TeamRecordTypeName, ITeamRecord>;
 }
 
 const b = _b("team-stats");
@@ -17,7 +17,7 @@ const b = _b("team-stats");
 export class TeamRecords extends React.Component<ITeamRecordsProps, void> {
 
   @observable
-  private detailModalsState: boolean[] = [false, false, false, false];
+  private detailModalsOpenState: boolean[] = [false, false, false, false];
 
   public render() {
     const records = this.props.records;
@@ -36,15 +36,15 @@ export class TeamRecords extends React.Component<ITeamRecordsProps, void> {
             <td>Rank</td>
             <TeamRecord
               idx={0}
-              record={records.HighestRank}
-              isDetailsModalOpen={this.detailModalsState[0]}
+              record={records["HighestRank"]}
+              isDetailsModalOpen={this.detailModalsOpenState[0]}
               onDetailsModalOpenRequest={this.handleDetailsModalOpenRequest}
               onDetailsModalCloseRequest={this.handleDetailsModalCloseRequest}
             />
             <TeamRecord
               idx={1}
-              record={records.LowestRank}
-              isDetailsModalOpen={this.detailModalsState[1]}
+              record={records["LowestRank"]}
+              isDetailsModalOpen={this.detailModalsOpenState[1]}
               onDetailsModalOpenRequest={this.handleDetailsModalOpenRequest}
               onDetailsModalCloseRequest={this.handleDetailsModalCloseRequest}
             />
@@ -53,15 +53,15 @@ export class TeamRecords extends React.Component<ITeamRecordsProps, void> {
             <td>Rating</td>
             <TeamRecord
               idx={2}
-              record={records.HighestRating}
-              isDetailsModalOpen={this.detailModalsState[2]}
+              record={records["HighestRating"]}
+              isDetailsModalOpen={this.detailModalsOpenState[2]}
               onDetailsModalOpenRequest={this.handleDetailsModalOpenRequest}
               onDetailsModalCloseRequest={this.handleDetailsModalCloseRequest}
             />
             <TeamRecord
               idx={3}
-              record={records.LowestRating}
-              isDetailsModalOpen={this.detailModalsState[3]}
+              record={records["LowestRating"]}
+              isDetailsModalOpen={this.detailModalsOpenState[3]}
               onDetailsModalOpenRequest={this.handleDetailsModalOpenRequest}
               onDetailsModalCloseRequest={this.handleDetailsModalCloseRequest}
             />
@@ -72,12 +72,12 @@ export class TeamRecords extends React.Component<ITeamRecordsProps, void> {
   }
 
   private handleDetailsModalOpenRequest = (idx: number) => action(() => {
-    this.detailModalsState[idx] = true;
+    this.detailModalsOpenState[idx] = true;
   })
 
   @action.bound
   private handleDetailsModalCloseRequest() {
-   this.detailModalsState.map((e, i) => this.detailModalsState[i] = false);
+   this.detailModalsOpenState.map((e, i) => this.detailModalsOpenState[i] = false);
   }
 
 }

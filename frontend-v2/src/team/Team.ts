@@ -4,17 +4,20 @@ import { round, sum } from "lodash";
 import { TimePeriod } from "common/TimePeriod";
 import { TeamResult } from "results/Match";
 
-export type TeamRecordType = "HighestRank" | "LowestRank" | "HighestRating" | "LowestRating";
+export type TeamRecordTypeName = "HighestRank" | "LowestRank" | "HighestRating" | "LowestRating";
+
+export interface ITeamRecordType {
+  name: "HighestRank" | "LowestRank" | "HighestRating" | "LowestRating";
+  jsonName: string;
+  friendlyName: string;
+}
 
 export interface ITeamRecord {
+  type: ITeamRecordType;
   value: number;
   periods: TimePeriod[];
   numDaysHeld: number;
 }
-
-export type TeamRecords = {
-    [recordType in TeamRecordType]: ITeamRecord;
-};
 
 export interface ITeamStats {
   matchesTotal: number;
@@ -26,10 +29,33 @@ export interface ITeamStats {
   goalsFor: number;
   goalsAgainst: number;
   form: TeamResult[] | undefined;
-  records: TeamRecords;
+  records: Map<TeamRecordTypeName, ITeamRecord>;
 }
 
 export class Team {
+
+  public static readonly recordTypes: ITeamRecordType[] = [
+    {
+        name: "HighestRank",
+        jsonName: "highestRank",
+        friendlyName: "Highest rank",
+    },
+    {
+        name: "LowestRank",
+        jsonName: "lowestRank",
+        friendlyName: "Lowest rank",
+    },
+    {
+        name: "HighestRating",
+        jsonName: "highestRating",
+        friendlyName: "Highest rating",
+    },
+    {
+        name: "LowestRating",
+        jsonName: "lowestRating",
+        friendlyName: "Lowest rating",
+    },
+  ];
 
   public static fromJson(json): Team {
     const team = new Team();
@@ -38,35 +64,14 @@ export class Team {
     team.name = json.currentCountry.name;
     team.code = json.currentCountry.code;
 
-    // TODO: DRY
-    const records: TeamRecords = {
-      HighestRank: {
-        value: json.highestRank.value,
-        periods: json.highestRank.periods.map((p) => TimePeriod.fromJson(p)),
-        numDaysHeld: -1,
-      },
-      LowestRank: {
-        value: json.lowestRank.value,
-        periods: json.lowestRank.periods.map((p) => TimePeriod.fromJson(p)),
-        numDaysHeld: -1,
-      },
-      HighestRating: {
-        value: json.highestRating.value,
-        periods: json.highestRating.periods.map((p) => TimePeriod.fromJson(p)),
-        numDaysHeld: -1,
-      },
-      LowestRating: {
-        value: json.lowestRating.value,
-        periods: json.lowestRating.periods.map((p) => TimePeriod.fromJson(p)),
-        numDaysHeld: -1,
-      },
-    };
-    const totalLengthInDays = (periods: TimePeriod[]) => sum(periods.map((p) => p.lengthInDays));
-    records.HighestRank.numDaysHeld = totalLengthInDays(records.HighestRank.periods);
-    records.LowestRank.numDaysHeld = totalLengthInDays(records.LowestRank.periods);
-    records.HighestRating.numDaysHeld = totalLengthInDays(records.HighestRating.periods);
-    records.LowestRating.numDaysHeld = totalLengthInDays(records.LowestRating.periods);
+    const records: Map<TeamRecordTypeName, ITeamRecord> = new Map();
+    for (const type of Team.recordTypes) {
+      const value = json[type.jsonName].value;
+      const periods = json[type.jsonName].periods.map((p) => TimePeriod.fromJson(p));
+      const numDaysHeld = sum(periods.map((p) => p.lengthInDays));
 
+      records[type.name] = { type, value, periods, numDaysHeld };
+    }
 
     const latestRankingEntry = json.latestRankingEntry;
     team.stats = {
