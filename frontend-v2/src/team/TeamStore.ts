@@ -1,7 +1,10 @@
+import { sum } from "lodash";
 import { action, observable } from "mobx";
 
 import { ApiClient } from "app/ApiClient";
-import { Team } from "team/Team";
+import { GlobalStore } from "app/GlobalStore";
+import { getNumDaysBetween } from "common/DateUtils";
+import { ITeamRecord, Team } from "team/Team";
 
 export class TeamStore {
 
@@ -11,7 +14,7 @@ export class TeamStore {
   @observable
   public team: Team;
 
-  constructor(private apiClient: ApiClient) {}
+  constructor(private apiClient: ApiClient, private globalStore: GlobalStore) {}
 
   @action
   public async loadTeam(name: string) {
@@ -31,6 +34,12 @@ export class TeamStore {
   private handleTeamLoad(json: {}, form: number[]) {
     this.team = Team.fromJson(json);
     this.team.setForm(form);
+    for (const type of Team.recordTypes) {
+      const record: ITeamRecord = this.team.stats.records[type.name];
+      record.numDaysHeld = sum(record.periods.map((p) =>
+        getNumDaysBetween(p.start, p.end || this.globalStore.newestRankingDate),
+      ));
+    }
 
     this.isLoading = false;
   }

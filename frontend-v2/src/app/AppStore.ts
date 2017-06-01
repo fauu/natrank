@@ -2,6 +2,7 @@
 import { action, computed, observable } from "mobx";
 
 import { ApiClient } from "app/ApiClient";
+import { GlobalStore } from "app/GlobalStore";
 import { IViewStore } from "common/IViewStore";
 import { RankingStore } from "ranking/RankingStore";
 import { RankingViewStore } from "ranking/RankingViewStore";
@@ -20,6 +21,7 @@ export class AppStore {
 
   public apiClient: ApiClient;
 
+  public globalStore: GlobalStore;
   public rankingStore: RankingStore;
   public resultsStore: ResultsStore;
   public teamStore: TeamStore;
@@ -31,13 +33,14 @@ export class AppStore {
   public constructor() {
     this.apiClient = new ApiClient();
 
+    this.globalStore = new GlobalStore();
     this.rankingStore = new RankingStore(this.apiClient);
     this.resultsStore = new ResultsStore(this.apiClient);
-    this.teamStore = new TeamStore(this.apiClient);
+    this.teamStore = new TeamStore(this.apiClient, this.globalStore);
 
     this.viewStores = {
       "NotFound": undefined,
-      "Ranking": new RankingViewStore(this.rankingStore),
+      "Ranking": new RankingViewStore(this.globalStore, this.rankingStore),
       "Results": new ResultsViewStore(this.resultsStore),
       "Team": new TeamViewStore(this.teamStore),
     };

@@ -1,5 +1,6 @@
 import { action, computed, observable, reaction } from "mobx";
 
+import { GlobalStore } from "app/GlobalStore";
 import {
   areDatesEqual,
   DatePlacement,
@@ -19,7 +20,7 @@ export class RankingViewStore implements IViewStore {
   @observable
   public selectedDate: Date;
 
-  public constructor(private rankingStore: RankingStore) {
+  public constructor(private globalStore: GlobalStore, private rankingStore: RankingStore) {
     reaction(
       () => this.selectedDate,
       (date) => this.handleSelectedDateChange(date),
@@ -33,7 +34,7 @@ export class RankingViewStore implements IViewStore {
 
   @computed
   public get currentUrl(): string {
-    const newestRankingDate = this.rankingStore.newestRankingDate;
+    const newestRankingDate = this.globalStore.newestRankingDate;
 
     return (this.selectedDate && !areDatesEqual(this.selectedDate, newestRankingDate))
       ? `/ranking/${stringifyDate(this.selectedDate)}`
@@ -41,12 +42,12 @@ export class RankingViewStore implements IViewStore {
   }
 
   public showView({ dateStr }: IRankingViewParams) {
-    this.selectedDate = parseDate(dateStr) || this.rankingStore.newestRankingDate;
+    this.selectedDate = parseDate(dateStr) || this.globalStore.newestRankingDate;
   }
 
   public handleSelectedDateChange(date: Date) {
-    const oldestDate = this.rankingStore.oldestRankingDate;
-    const newestDate = this.rankingStore.newestRankingDate;
+    const oldestDate = this.globalStore.oldestRankingDate;
+    const newestDate = this.globalStore.newestRankingDate;
 
     if (!date) {
       this.selectedDate = newestDate;

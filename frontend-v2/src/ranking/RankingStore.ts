@@ -11,10 +11,6 @@ export class RankingStore {
   @observable
   public ranking: Ranking;
 
-  // TODO: Get from the API
-  public newestRankingDate: Date = new Date(1950, 5, 24);
-  public oldestRankingDate: Date = new Date(1872, 10, 30);
-
   @observable
   public lastViewedRankingDate: Date;
 

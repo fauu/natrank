@@ -16,8 +16,4 @@ export class TimePeriod {
   public start: Date | undefined;
   public end: Date | undefined;
 
-  public get lengthInDays() {
-    return getNumDaysBetween(this.start, this.end || new Date());
-  }
-
 }

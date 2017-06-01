@@ -1,5 +1,5 @@
 // tslint:disable:object-literal-sort-keys
-import { round, sum } from "lodash";
+import { round } from "lodash";
 
 import { TimePeriod } from "common/TimePeriod";
 import { TeamResult } from "results/Match";
@@ -68,9 +68,8 @@ export class Team {
     for (const type of Team.recordTypes) {
       const value = json[type.jsonName].value;
       const periods = json[type.jsonName].periods.map((p) => TimePeriod.fromJson(p));
-      const numDaysHeld = sum(periods.map((p) => p.lengthInDays));
 
-      records[type.name] = { type, value, periods, numDaysHeld };
+      records[type.name] = { type, value, periods, numDaysHeld: -1 };
     }
 
     const latestRankingEntry = json.latestRankingEntry;
