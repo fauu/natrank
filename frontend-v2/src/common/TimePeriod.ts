@@ -2,7 +2,7 @@ import { getNumDaysBetween } from "common/DateUtils";
 
 export class TimePeriod {
 
-  public static fromJson(json): TimePeriod {
+  public static fromJson(json: ITimePeriodJson): TimePeriod {
     const timePeriod = new TimePeriod();
 
     timePeriod.id = json.id;
@@ -16,4 +16,10 @@ export class TimePeriod {
   public start: Date | undefined;
   public end: Date | undefined;
 
+}
+
+export interface ITimePeriodJson {
+  id: number;
+  fromDate: string;
+  toDate: string;
 }

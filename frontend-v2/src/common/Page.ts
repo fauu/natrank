@@ -1,6 +1,6 @@
 export class Page<T> {
 
-  public static fromJson<T>(json, elementDeserializer: (({}) => T)) {
+  public static fromJson<J, T>(json: IPageJson<J>, elementDeserializer: (({}) => T)) {
     const page = new Page<T>();
 
     page.no = json.number;
@@ -29,8 +29,8 @@ export interface IPageSortJson {
   descending: boolean;
 }
 
-export interface IPageJson<T> {
-  content: T[];
+export interface IPageJson<J> {
+  content: J[];
   last: boolean;
   totalPages: number;
   totalElements: number;

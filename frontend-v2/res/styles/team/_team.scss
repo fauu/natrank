@@ -1,9 +1,20 @@
+$panel-margin: 10px;
 $section-margin: 1.5rem;
 
 .view--team {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.team-view-row {
+  width: 680px;
+  display: flex;
+  align-items: stretch;
+
+  &:not(:last-child) {
+    margin-bottom: $panel-margin;
+  }
 }
 
 .team-header {
@@ -19,18 +30,19 @@ $section-margin: 1.5rem;
 }
 
 .team-stats {
-  @include panel-shadow;
-  padding: 0.8em 1em;
-  background: $color-panel-bg;
-  width: 20em;
-  // margin: 0 auto;
-  @include animation(fade-in-bottom);
+  @include panel;
+  flex: 0 0 230px;
+  margin-left: $panel-margin;
   line-height: 1.3em;
+  animation-delay: 0.15s;
+  display: flex;
+  flex-direction: column;
 
-  &__header {
-    font-weight: bold;
-    font-size: 115%;
-    margin-bottom: 1rem;
+  &__content {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 0;
+    justify-content: space-between;
   }
 
   &__matches-played {
@@ -78,7 +90,6 @@ $section-margin: 1.5rem;
   }
 
   &__goals-breakdown {
-    margin-top: $section-margin;
   }
 
   &__goals-breakdown-category {
@@ -96,7 +107,6 @@ $section-margin: 1.5rem;
   }
 
   &__form {
-    margin-top: $section-margin;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -213,4 +223,27 @@ $section-margin: 1.5rem;
     padding: 0;
     line-height: 1.4em;
   }
+}
+
+.team-ranking-excerpt {
+  @include panel;
+  flex: 1 0 0;
+
+  .ranking {
+    font-size: 90%;
+    width: 100% !important;
+    box-shadow: none !important;
+
+    .ranking-header {
+      background: $color-panel-bg !important;
+      color: $color-text-secondary;
+      border-bottom: 1px solid $color-border !important;
+    }
+  }
+}
+
+.team-ranking-history {
+  @include panel;
+  width: 100%;
+  animation-delay: 0.3s;
 }

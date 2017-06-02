@@ -2,9 +2,10 @@ import { v4 as uuid } from "uuid";
 
 export class RankingEntry {
 
-  public static fromJson(json) {
+  public static fromJson(json: IRankingEntryJson) {
     const rankingEntry = new RankingEntry();
 
+    rankingEntry.teamId = json.team.id;
     rankingEntry.teamName = json.team.name;
     rankingEntry.teamFlag = json.team.flag;
     rankingEntry.rank = json.rank;
@@ -22,18 +23,19 @@ export class RankingEntry {
   }
 
   public id: string = uuid();
+  public teamId: number;
   public teamName: string;
   public teamFlag: string;
   public rank: number;
   public rankOneYearChange: number;
   public rating: number;
-  public matchesTotal: number;
-  public wins: number;
-  public draws: number;
-  public losses: number;
-  public goalsFor: number;
-  public goalsAgainst: number;
-  public goalDifference: number;
+  public matchesTotal?: number;
+  public wins?: number;
+  public draws?: number;
+  public losses?: number;
+  public goalsFor?: number;
+  public goalsAgainst?: number;
+  public goalDifference?: number;
 
 }
 
@@ -44,19 +46,19 @@ export interface IRankingEntryTeamJson {
 }
 
 export interface IRankingEntryJson {
-  id: number;
+  id?: number;
   rank: number;
   rankOneYearChange?: number;
   rating: number;
-  matchesTotal: number;
-  matchesHome: number;
-  matchesAway: number;
-  matchesOnNeutralGround: number;
-  wins: number;
-  losses: number;
-  draws: number;
-  goalsFor: number;
-  goalsAgainst: number;
-  goalDifference: number;
+  matchesTotal?: number;
+  matchesHome?: number;
+  matchesAway?: number;
+  matchesOnNeutralGround?: number;
+  wins?: number;
+  losses?: number;
+  draws?: number;
+  goalsFor?: number;
+  goalsAgainst?: number;
+  goalDifference?: number;
   team?: IRankingEntryTeamJson;
 }

@@ -1,49 +1,50 @@
 import * as React from "react";
 import * as ReactHighcharts from "react-highcharts";
 
+import { _b } from "common/BemHelper";
 import { TeamRankingHistoryEntry } from "team/Team";
 
 interface ITeamRankingHistoryProps {
   readonly rankHistory: TeamRankingHistoryEntry[];
-  readonly ratingHistory: TeamRankingHistoryEntry[];
+  readonly ratingHistory?: TeamRankingHistoryEntry[];
 }
 
-export function TeamRankingHistory({ rankHistory, ratingHistory }: ITeamRankingHistoryProps): JSX.Element {
+const b = _b("team-ranking-history");
+
+export function TeamRankingHistory({ rankHistory }: ITeamRankingHistoryProps): JSX.Element {
   const chartOptions: Highcharts.Options = {
     title: null,
-    colors: ["#1877AC", "#C33F80"],
+    colors: ["#C33F80"],
     credits: {
       enabled: false,
     },
     chart: {
-      spacingBottom: 10,
-      spacingLeft: 27,
-      spacingRight: 37,
+      // spacingBottom: 10,
+      // spacingLeft: 27,
+      // spacingRight: 37,
       style: {
         fontFamily: "Lato",
-        fontSize: "12px",
+        fontSize: "15px",
       },
       zoomType: "x",
       backgroundColor: "transparent",
     },
     tooltip: {
       xDateFormat: "%m/%d/%Y",
-      useHTML: true,
       backgroundColor: "rgba(0, 0, 0, 0.87)",
       borderWidth: 0,
-      borderRadius: 8,
+      borderRadius: 2,
       shadow: false,
       style: {
         color: "#FCFCFC",
       },
     },
     legend: {
-      margin: 3
+      enabled: false,
     },
     xAxis: {
       title: {
         text: "Year",
-        offset: 32
       },
       type: "datetime",
       labels: {
@@ -55,34 +56,13 @@ export function TeamRankingHistory({ rankHistory, ratingHistory }: ITeamRankingH
       {
         title: {
           text: "Rank",
-          offset: 40
         },
         labels: {
           x: -4,
-          y: 3
+          y: 4
         },
         alternateGridColor: "#FDFDFD",
         reversed: true,
-      },
-      {
-        title: {
-          text: "Rating",
-          offset: 25
-        },
-        labels: {
-          x: 3,
-          y: 3,
-          formatter: function () {
-            if (this.value !== 0) {
-              return this.value;
-            } else {
-              return null;
-            }
-          }
-        },
-        opposite: true,
-        allowDecimals: false,
-        floor: 1
       }
     ],
     series: [
@@ -93,17 +73,17 @@ export function TeamRankingHistory({ rankHistory, ratingHistory }: ITeamRankingH
         zIndex: 2,
         // step: true,
         data: rankHistory
-      },
-      {
-        yAxis: 1,
-        name: "Rating",
-        type: "spline",
-        data: ratingHistory
       }
     ]
   };
 
   return (
-    <ReactHighcharts config={chartOptions} isPureConfig={true} />
+    <div className={b}>
+      <div className={b("header")}>
+        Ranking history
+      </div>
+
+      <ReactHighcharts config={chartOptions} isPureConfig={true} />
+    </div>
   );
 }

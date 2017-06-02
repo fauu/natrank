@@ -10,9 +10,10 @@ interface IRankingTableRowProps {
   readonly data?: RankingEntry;
   readonly isAlternate: boolean;
   readonly isFull: boolean;
+  readonly isHighlighted: boolean;
 }
 
-export function RankingTableRow({ data, isAlternate, isFull }: IRankingTableRowProps): JSX.Element {
+export function RankingTableRow({ data, isAlternate, isFull, isHighlighted }: IRankingTableRowProps): JSX.Element {
   const b = _b("ranking-row");
 
   const cellClassName = (modifier: string): string => b("cell")({ [`${modifier}`]: true });
@@ -88,7 +89,7 @@ export function RankingTableRow({ data, isAlternate, isFull }: IRankingTableRowP
   ] : null;
 
   return (
-    <tr className={b({ alternate: isAlternate })}>
+    <tr className={b({ alternate: isAlternate, highlighted: isHighlighted })}>
       {cellsForBaseColumns}
       {cellsForExtraColumns}
     </tr>

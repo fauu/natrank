@@ -4,21 +4,22 @@ import { action, observable } from "mobx";
 import { ApiClient } from "app/ApiClient";
 import { GlobalStore } from "app/GlobalStore";
 import { getNumDaysBetween } from "common/DateUtils";
-import { ITeamJson, ITeamRecord, Team, TeamFormData, TeamRankHistoryData, TeamRatingHistoryData } from "team/Team";
+import { IRankingJson, Ranking } from "ranking/Ranking";
+import { ITeamJson, ITeamRecord, Team, TeamFormJson, TeamRankHistoryJson, TeamRatingHistoryJson } from "team/Team";
 
 type TeamData = [
   ITeamJson,
-  TeamFormData,
-  TeamRankHistoryData,
-  TeamRatingHistoryData
+  TeamFormJson,
+  TeamRankHistoryJson,
+  IRankingJson
 ];
 
 // TODO: Do this better
 type PromisedTeamData = [
   Promise<ITeamJson>,
-  Promise<TeamFormData>,
-  Promise<TeamRankHistoryData>,
-  Promise<TeamRatingHistoryData>
+  Promise<TeamFormJson>,
+  Promise<TeamRankHistoryJson>,
+  Promise<IRankingJson>
 ];
 
 export class TeamStore {
@@ -29,34 +30,32 @@ export class TeamStore {
   @observable
   public team: Team;
 
+  @observable
+  public rankingExcerpt?: Ranking;
+
   constructor(private apiClient: ApiClient, private globalStore: GlobalStore) {}
 
   @action
-  public async loadTeam(name: string) {
+  public async fetchData(teamName: string) {
     this.isLoading = true;
 
     const dataFetchCalls: PromisedTeamData = [
-      this.apiClient.getTeamJson(name),
-      this.apiClient.getTeamFormData(name),
-      this.apiClient.getTeamRankHistoryData(name),
-      this.apiClient.getTeamRatingHistoryData(name),
+      this.apiClient.fetchTeamJson(teamName),
+      this.apiClient.fetchTeamFormJson(teamName),
+      this.apiClient.fetchTeamRankHistoryJson(teamName),
+      this.apiClient.fetchRankingJson({ teamName }),
     ];
 
     const data = await Promise.all(dataFetchCalls);
 
-    this.handleTeamLoad(data);
+    this.handleFetchedData(data);
   }
 
   @action
-  private handleTeamLoad([json, formData, rankHistoryData, ratingHistoryData]: TeamData) {
-    this.team = Team.fromJson(json);
-    this.team.setForm(formData);
-    this.team.setRankHistory(rankHistoryData);
-    this.team.setRatingHistory(ratingHistoryData);
-
-    console.log(this.team.rankHistory);
-    console.log(this.team.ratingHistory);
-
+  private handleFetchedData([teamJson, formJson, rankHistoryJson, rankingExcerptJson]: TeamData) {
+    this.team = Team.fromJson(teamJson);
+    this.team.setForm(formJson);
+    this.team.setRankHistory(rankHistoryJson);
     if (this.team.stats.records.size > 0) {
       for (const type of Team.recordTypes) {
         const record: ITeamRecord = this.team.stats.records.get(type.name);
@@ -65,6 +64,8 @@ export class TeamStore {
         ));
       }
     }
+
+    this.rankingExcerpt = rankingExcerptJson && Ranking.fromJson(rankingExcerptJson);
 
     this.isLoading = false;
   }

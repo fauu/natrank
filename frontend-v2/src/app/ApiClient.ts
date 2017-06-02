@@ -2,38 +2,49 @@ import { stringifyDate } from "common/DateUtils";
 import { IPageJson } from "common/Page";
 import { IRankingJson } from "ranking/Ranking";
 import { IMatchJson } from "results/Match";
-import { ITeamJson, TeamFormData, TeamRankHistoryData, TeamRatingHistoryData } from "team/Team";
+import { ITeamJson, TeamFormJson, TeamRankHistoryJson, TeamRatingHistoryJson } from "team/Team";
 
 export class ApiClient {
 
   private static readonly baseUrl = "http://localhost:8080";
 
-  public async getRankingJson(date?: Date): Promise<IRankingJson> {
-    const param = date ? stringifyDate(date, true) : "latest";
+  public async fetchRankingJson({ date, teamName }: { date?: Date, teamName?: string }): Promise<IRankingJson> {
+    let param;
+    if (date) {
+      param = stringifyDate(date, { padded: true });
+    } else if (teamName) {
+      param = `excerpt/${teamName}`;
+    } else {
+      param = "latest";
+    }
 
     return this.fetchJson(`/rankings/${param}`);
   }
 
-  public async getMatchPageJson(no: number, team?: string, year?: number): Promise<IPageJson<IMatchJson>> {
-    const modifier = team ? `/team/${team}` : (year ? `/year/${year}` : "");
+  public async fetchMatchPageJson({ pageNo, teamName, year }: {
+    pageNo: number,
+    teamName?: string,
+    year?: number,
+  }): Promise<IPageJson<IMatchJson>> {
+    const modifier = teamName ? `/team/${teamName}` : (year ? `/year/${year}` : "");
 
-    return this.fetchJson(`/matches${modifier}?page=${no}`);
+    return this.fetchJson(`/matches${modifier}?page=${pageNo}`);
   }
 
-  public async getTeamJson(name: string): Promise<ITeamJson> {
-    return this.fetchJson(`/teams/${name}`);
+  public async fetchTeamJson(teamName: string): Promise<ITeamJson> {
+    return this.fetchJson(`/teams/${teamName}`);
   }
 
-  public async getTeamFormData(name: string): Promise<TeamFormData> {
-    return this.fetchJson(`/matches/form/team/${name}`);
+  public async fetchTeamFormJson(teamName: string): Promise<TeamFormJson> {
+    return this.fetchJson(`/matches/form/team/${teamName}`);
   }
 
-  public async getTeamRankHistoryData(name: string): Promise<TeamRankHistoryData> {
-    return this.fetchJson(`/teams/${name}/ranks`);
+  public async fetchTeamRankHistoryJson(teamName: string): Promise<TeamRankHistoryJson> {
+    return this.fetchJson(`/teams/${teamName}/ranks`);
   }
 
-  public async getTeamRatingHistoryData(name: string): Promise<TeamRatingHistoryData> {
-    return this.fetchJson(`/teams/${name}/ratings`);
+  public async fetchTeamRatingHistoryData(teamName: string): Promise<TeamRatingHistoryJson> {
+    return this.fetchJson(`/teams/${teamName}/ratings`);
   }
 
   private async fetchJson(url: string): Promise<any> {

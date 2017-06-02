@@ -27,7 +27,7 @@ export class TeamViewStore implements IViewStore {
 
   @action
   public showView({ teamStr }: ITeamViewParams) {
-    this.teamStore.loadTeam(teamStr);
+    this.teamStore.fetchData(teamStr);
   }
 
 }

@@ -1,5 +1,7 @@
 @import 'date-picker';
 
+$ranking-compact-width: 400px;
+
 .view--ranking {
   align-items: center;
   flex-direction: column;
@@ -7,7 +9,7 @@
 
 .ranking {
   @include panel-shadow;
-  width: 400px;
+  width: $ranking-compact-width;
   margin: 0 auto;
   border-collapse: collapse;
   background: $color-panel-bg;
@@ -82,6 +84,12 @@
     transition-duration: $base-transition-duration;
   }
 
+  &--alternate {}
+
+  &--highlighted {
+    background: $color-highlight;
+  }
+
   &__cell {
     height: 33px;
 
@@ -92,6 +100,7 @@
     &--team-flag {
       padding: 0 5px 0 0;
       text-align: right;
+      width: 30px;
     }
 
     &--team-name {

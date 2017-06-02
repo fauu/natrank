@@ -6,11 +6,13 @@ import { Ranking } from "ranking/Ranking";
 
 interface IRankingTableProps {
   readonly ranking: Ranking;
+  readonly isExcerpt?: boolean;
+  readonly highlightedTeamId?: number;
 }
 
 const b = _b;
 
-export function RankingTable({ ranking }: IRankingTableProps): JSX.Element {
+export function RankingTable({ ranking, isExcerpt, highlightedTeamId }: IRankingTableProps): JSX.Element {
   const visibleColumnData = ranking.isFull ? columnData : columnData.slice(0, 4);
 
   const headerCells =
@@ -30,12 +32,13 @@ export function RankingTable({ ranking }: IRankingTableProps): JSX.Element {
         data={entry}
         isAlternate={idx % 2 !== 0}
         isFull={ranking.isFull}
+        isHighlighted={entry.teamId === highlightedTeamId}
         key={entry.id}
       />
     ));
 
   return (
-    <table className={b("ranking")({ full: ranking.isFull })}>
+    <table className={b("ranking")({ full: ranking.isFull, excerpt: isExcerpt })}>
       <thead>
         <tr className="ranking-header">
           {headerCells}

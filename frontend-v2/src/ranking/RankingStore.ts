@@ -16,15 +16,15 @@ export class RankingStore {
 
   public constructor(private apiClient: ApiClient) {}
 
-  public async loadRanking(date?: Date) {
+  public async fetchData(date?: Date) {
     this.isLoading = true;
 
-    const rankingJson = await this.apiClient.getRankingJson(date);
-    this.handleRankingLoad(rankingJson, date);
+    const rankingJson = await this.apiClient.fetchRankingJson({ date });
+    this.handleFetchedData(rankingJson, date);
   }
 
   @action
-  private handleRankingLoad(json: IRankingJson, date?: Date) {
+  private handleFetchedData(json: IRankingJson, date?: Date) {
     this.ranking = Ranking.fromJson(json);
     this.lastViewedRankingDate = date ? date : this.ranking.date;
 

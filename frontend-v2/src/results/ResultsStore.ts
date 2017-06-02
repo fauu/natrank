@@ -4,7 +4,7 @@ import { action, observable } from "mobx";
 import { ApiClient } from "app/ApiClient";
 import { IPageJson, Page } from "common/Page";
 import { IMatchJson, Match } from "results/Match";
-import { Team } from "team/Team";
+import { ITeamJson, Team } from "team/Team";
 
 export class ResultsStore {
 
@@ -21,22 +21,22 @@ export class ResultsStore {
   constructor(private apiClient: ApiClient) {}
 
   @action
-  public async loadMatchPage(pageNo: number, team?: string, year?: number) {
+  public async fetchData(pageNo: number, team?: string, year?: number) {
     this.isLoading = true;
 
     const calls: [Promise<IPageJson<IMatchJson>>, Promise<any>] = [
-      this.apiClient.getMatchPageJson(pageNo, team, year),
-      team && this.apiClient.getTeamJson(team),
+      this.apiClient.fetchMatchPageJson({ pageNo, teamName: team, year }),
+      team && this.apiClient.fetchTeamJson(team),
     ];
 
     const [matchPageJson, teamJson] = await Promise.all(calls);
 
-    this.handleMatchPageLoad(matchPageJson, teamJson);
+    this.handleFetchedData(matchPageJson, teamJson);
   }
 
   @action
-  private handleMatchPageLoad(matchPageJson: IPageJson<IMatchJson>, teamJson?: {}) {
-    this.matchPage = Page.fromJson<Match>(matchPageJson, Match.fromJson);
+  private handleFetchedData(matchPageJson: IPageJson<IMatchJson>, teamJson?: ITeamJson) {
+    this.matchPage = Page.fromJson<IMatchJson, Match>(matchPageJson, Match.fromJson);
     this.povTeam = !isEmpty(teamJson) && Team.fromJson(teamJson);
 
     this.completedInitialLoad = true;

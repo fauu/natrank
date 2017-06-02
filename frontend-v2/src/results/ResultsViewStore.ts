@@ -74,7 +74,7 @@ export class ResultsViewStore implements IViewStore {
       return;
     }
 
-    this.resultsStore.loadMatchPage(page - 1, team, year);
+    this.resultsStore.fetchData(page - 1, team, year);
   }
 
   @action

@@ -33,8 +33,8 @@ export function Result({ match, povTeamId }: IResultProps): JSX.Element {
     <div className={classNames}>
       <div className={b("row", { details: true })}>
         <div className={b("detail", { date: true })}>
-          <a href={`/ranking/${stringifyDate(match.date, false, false)}`}>
-            {stringifyDate(match.date, false, true)}
+          <a href={`/ranking/${stringifyDate(match.date, { padded: false, friendly: false })}`}>
+            {stringifyDate(match.date, { padded: false, friendly: true })}
           </a>
         </div>
         <div className={b("detail", { venue: true })}>

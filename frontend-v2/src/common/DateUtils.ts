@@ -1,7 +1,10 @@
 export const fragmentDate = (date: Date): [number, number, number] =>
   [date.getFullYear(), date.getMonth() + 1, date.getDate()];
 
-export const stringifyDate = (date: Date, padded: boolean = false, friendly: boolean = false): string => {
+export const stringifyDate = (
+  date: Date,
+  { padded = false, friendly = false }: { padded?: boolean, friendly?: boolean } = {},
+): string => {
   let [year, month, day] = fragmentDate(date).map((f) => f.toString());
 
   const pad = (n: string, width: number): string => {

@@ -1,7 +1,7 @@
 // tslint:disable:object-literal-sort-keys
 import { round } from "lodash";
 
-import { TimePeriod } from "common/TimePeriod";
+import { ITimePeriodJson, TimePeriod } from "common/TimePeriod";
 import { IRankingEntryJson } from "ranking/RankingEntry";
 import { TeamResult } from "results/Match";
 
@@ -60,7 +60,7 @@ export class Team {
     },
   ];
 
-  public static fromJson(json): Team {
+  public static fromJson(json: ITeamJson): Team {
     const team = new Team();
 
     team.id = json.id;
@@ -104,19 +104,19 @@ export class Team {
   public rankHistory: TeamRankingHistoryEntry[];
   public ratingHistory: TeamRankingHistoryEntry[];
 
-  public setForm(data: TeamFormData) {
+  public setForm(data: TeamFormJson) {
     this.stats.form = data.map((e) => this.parseFormEntry(e));
   }
 
-  public setRankHistory(data: TeamRankHistoryData) {
+  public setRankHistory(data: TeamRankHistoryJson) {
     this.rankHistory = this.rankingHistoryFromData(data);
   }
 
-  public setRatingHistory(data: TeamRatingHistoryData) {
+  public setRatingHistory(data: TeamRatingHistoryJson) {
     this.ratingHistory = this.rankingHistoryFromData(data);
   }
 
-  private rankingHistoryFromData(data: TeamRankingHistoryData): TeamRankingHistoryEntry[] {
+  private rankingHistoryFromData(data: TeamRankingHistoryJson): TeamRankingHistoryEntry[] {
     return data.map((e) => [Date.parse(e.date), e.value] as TeamRankingHistoryEntry);
   }
 
@@ -140,12 +140,6 @@ export interface ITeamRecordJson {
   periods: ITimePeriodJson[];
 }
 
-export interface ITimePeriodJson {
-  id: number;
-  fromDate: string;
-  toDate: string;
-}
-
 export interface ITeamCurrentCountryJson {
   id: number;
   name: string;
@@ -162,13 +156,13 @@ export interface ITeamJson {
   currentCountry: ITeamCurrentCountryJson;
 }
 
-export type TeamFormData = number[];
+export type TeamFormJson = number[];
 
-type TeamRankingHistoryData = ITeamRankingHistoryDataEntry[];
-export type TeamRankHistoryData = TeamRankingHistoryData;
-export type TeamRatingHistoryData = TeamRankingHistoryData;
+type TeamRankingHistoryJson = ITeamRankingHistoryJsonEntry[];
+export type TeamRankHistoryJson = TeamRankingHistoryJson;
+export type TeamRatingHistoryJson = TeamRankingHistoryJson;
 
-export interface ITeamRankingHistoryDataEntry {
+export interface ITeamRankingHistoryJsonEntry {
   id: number;
   date: string;
   value: number;

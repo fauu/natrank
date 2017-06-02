@@ -62,9 +62,9 @@ export class RankingViewStore implements IViewStore {
 
       case DatePlacement.Between:
         if (areDatesEqual(date, newestDate)) {
-          this.rankingStore.loadRanking();
+          this.rankingStore.fetchData();
         } else {
-          this.rankingStore.loadRanking(date);
+          this.rankingStore.fetchData(date);
         }
         break;
 

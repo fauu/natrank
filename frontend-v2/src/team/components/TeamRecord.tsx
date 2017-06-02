@@ -53,11 +53,14 @@ interface ITimePeriodProps {
   readonly period: TimePeriod;
 }
 function RankingTimePeriod({ period }: ITimePeriodProps) {
-  const startLabel = stringifyDate(period.start, true, true);
-  const startRankingPath = stringifyDate(period.start, false, false);
+  const labelStringifyOptions = { padded: true, friendly: true };
+  const pathStringifyOptions = { padded: false, friendly: false };
 
-  const endLabel = period.end ? stringifyDate(period.end, true, true) : "now";
-  const endRankingPath = period.end ? stringifyDate(period.end, false, false) : "";
+  const startLabel = stringifyDate(period.start, labelStringifyOptions);
+  const startRankingPath = stringifyDate(period.start, pathStringifyOptions);
+
+  const endLabel = period.end ? stringifyDate(period.end, labelStringifyOptions) : "now";
+  const endRankingPath = period.end ? stringifyDate(period.end, pathStringifyOptions) : "";
 
   return (
     <span>

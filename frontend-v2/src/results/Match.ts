@@ -25,7 +25,7 @@ const getTeamResult = (teamId: number, winnerId: number): TeamResult => {
 
 export class Match {
 
-  public static fromJson(json): Match {
+  public static fromJson(json: IMatchJson): Match {
     const match = new Match();
 
     match.id = json.id;
