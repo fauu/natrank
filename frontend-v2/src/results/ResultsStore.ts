@@ -16,7 +16,7 @@ export class ResultsStore {
   @observable
   public matchPage: Page<Match>;
   @observable
-  public povTeam: Team | undefined;
+  public povTeam?: Team;
 
   constructor(private apiClient: ApiClient) {}
 

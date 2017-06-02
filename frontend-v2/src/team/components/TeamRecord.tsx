@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Modal from "react-modal";
 
 import { _b } from "common/BemHelper";
-import { stringifyDate } from "common/DateUtils";
+import { parseDate, daysInYear, getApproximateNumYearsForNumDays, stringifyDate, fragmentDate } from "common/DateUtils";
 import { TimePeriod } from "common/TimePeriod";
 import { ITeamRecord } from "team/Team";
 
@@ -19,6 +19,11 @@ const b = _b("team-record-details-modal");
 export function TeamRecord(props: ITeamRecordProps) {
   const record = props.record;
 
+  const numDaysHeld = record.numDaysHeld;
+  const [recordLength, recordLengthUnit] = numDaysHeld > (2 * daysInYear)
+    ? [getApproximateNumYearsForNumDays(record.numDaysHeld), "years"]
+    : [numDaysHeld, "days"];
+
   return (
     <td>
       <a role="button" onClick={props.onDetailsModalOpenRequest(props.idx)}>{record.value}</a>
@@ -33,7 +38,7 @@ export function TeamRecord(props: ITeamRecordProps) {
         <div className={b("intro")}>
           {record.type.friendlyName} of <span className={b("value")}>{record.value} </span>
           held for
-          <span className={b("length")}> {record.numDaysHeld} </span> days:
+          <span className={b("length")}> {recordLength} </span> {recordLengthUnit}:
         </div>
         <ul className={b("period-list")}>
           {record.periods.map((p, idx) => <li key={idx}><RankingTimePeriod period={p} /></li>)}
@@ -48,10 +53,10 @@ interface ITimePeriodProps {
   readonly period: TimePeriod;
 }
 function RankingTimePeriod({ period }: ITimePeriodProps) {
-  const startLabel = stringifyDate(period.start, false, true);
+  const startLabel = stringifyDate(period.start, true, true);
   const startRankingPath = stringifyDate(period.start, false, false);
 
-  const endLabel = period.end ? stringifyDate(period.end, false, true) : "now";
+  const endLabel = period.end ? stringifyDate(period.end, true, true) : "now";
   const endRankingPath = period.end ? stringifyDate(period.end, false, false) : "";
 
   return (

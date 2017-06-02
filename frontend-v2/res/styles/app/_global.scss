@@ -46,6 +46,8 @@ input:focus, select:focus {
   }
 
   &__Overlay {
+    z-index: 2;
+    backdrop-filter: blur(5px);
     background: rgba(0, 0, 0, 0.75) !important;
     @include animation(fade-in);
     animation-duration: 0.2s !important;

@@ -1,12 +1,5 @@
-export const fragmentDate = (date: Date): [number, number, number] => {
-  const fragments = date.toISOString()
-                        .substring(0, 10)
-                        .split("-")
-                        .map((f) => Number(f));
-
-  // We lose a day during the conversion to ISO string for some reason
-  return [fragments[0], fragments[1], fragments[2] + 1];
-};
+export const fragmentDate = (date: Date): [number, number, number] =>
+  [date.getFullYear(), date.getMonth() + 1, date.getDate()];
 
 export const stringifyDate = (date: Date, padded: boolean = false, friendly: boolean = false): string => {
   let [year, month, day] = fragmentDate(date).map((f) => f.toString());
@@ -45,7 +38,7 @@ export const validateDate = (dateString: string): boolean => {
   return regex.exec(dateString) !== null;
 };
 
-export const areDatesEqual = (date1: Date | undefined, date2: Date | undefined): boolean => {
+export const areDatesEqual = (date1?: Date, date2?: Date): boolean => {
   return date1 && date2 && date1.getTime() === date2.getTime();
 };
 
@@ -73,4 +66,10 @@ const milisecondsInDay = 1000 * 60 * 60 * 24;
 
 export const getNumDaysBetween = (from: Date, to: Date): number => {
   return Math.round((to.getTime() - from.getTime()) / milisecondsInDay);
+};
+
+export const daysInYear = 365.242199;
+
+export const getApproximateNumYearsForNumDays = (numDays: number) => {
+  return +(Math.round(Number((numDays / daysInYear).toString() + "e+2")) + "e-2");
 };

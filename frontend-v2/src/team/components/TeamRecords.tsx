@@ -27,19 +27,19 @@ export class TeamRecords extends React.Component<ITeamRecordsProps, void> {
         <thead>
           <tr>
             <th />
-            <th>Highest</th>
-            <th>Lowest</th>
+            <th>Rank</th>
+            <th>Rating</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Rank</td>
+            <td>Highest</td>
             {this.renderTeamRecord(0, records.get("HighestRank"))}
-            {this.renderTeamRecord(1, records.get("LowestRank"))}
+            {this.renderTeamRecord(1, records.get("HighestRating"))}
           </tr>
           <tr>
-            <td>Rating</td>
-            {this.renderTeamRecord(2, records.get("HighestRating"))}
+            <td>Lowest</td>
+            {this.renderTeamRecord(2, records.get("LowestRank"))}
             {this.renderTeamRecord(3, records.get("LowestRating"))}
           </tr>
         </tbody>

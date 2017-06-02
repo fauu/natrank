@@ -14,7 +14,7 @@ function TopBar({ appStore }: ITopBarProps): JSX.Element {
   return (
     <nav className="top-bar">
       <span className="site-logo">
-        natrank
+        :^)
       </span>
 
       <Navigation appStore={appStore} />

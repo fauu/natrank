@@ -25,6 +25,7 @@ $section-margin: 1.5rem;
   width: 20em;
   // margin: 0 auto;
   @include animation(fade-in-bottom);
+  line-height: 1.3em;
 
   &__header {
     font-weight: bold;
@@ -128,17 +129,28 @@ $section-margin: 1.5rem;
         $size: $maxSize - ($i * $sizeStep);
         width: $size;
         height: $size;
+        line-height: $size;
+        font-size: $size - 5px;
       }
     }
 
     &--win {
       background: $color-positive;
+      &:after {
+        content: "W";
+      }
     }
     &--draw {
       background: $color-neutral;
+      &:after {
+        content: "D";
+      }
     }
     &--loss {
       background: $color-negative;
+      &:after {
+        content: "L";
+      }
     }
   }
 
@@ -170,12 +182,17 @@ $section-margin: 1.5rem;
       border-right: none;
     }
 
+    th, tbody > tr:first-child > td {
+       border-top: none !important;
+    }
+
     tr:last-child > td {
       border-bottom: none;
     }
 
     td:not(:first-child) {
       text-align: center;
+      width: 33%;
     }
 
     a {
@@ -194,5 +211,6 @@ $section-margin: 1.5rem;
     text-align: center;
     margin: 0.4rem 0 0 0;
     padding: 0;
+    line-height: 1.4em;
   }
 }
