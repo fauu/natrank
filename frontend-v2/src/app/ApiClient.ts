@@ -2,7 +2,7 @@ import { stringifyDate } from "common/DateUtils";
 import { IPageJson } from "common/Page";
 import { IRankingJson } from "ranking/Ranking";
 import { IMatchJson } from "results/Match";
-import { ITeamJson, TeamFormData } from "team/Team";
+import { ITeamJson, TeamFormData, TeamRankHistoryData, TeamRatingHistoryData } from "team/Team";
 
 export class ApiClient {
 
@@ -24,8 +24,16 @@ export class ApiClient {
     return this.fetchJson(`/teams/${name}`);
   }
 
-  public async getTeamForm(name: string): Promise<TeamFormData> {
+  public async getTeamFormData(name: string): Promise<TeamFormData> {
     return this.fetchJson(`/matches/form/team/${name}`);
+  }
+
+  public async getTeamRankHistoryData(name: string): Promise<TeamRankHistoryData> {
+    return this.fetchJson(`/teams/${name}/ranks`);
+  }
+
+  public async getTeamRatingHistoryData(name: string): Promise<TeamRatingHistoryData> {
+    return this.fetchJson(`/teams/${name}/ratings`);
   }
 
   private async fetchJson(url: string): Promise<any> {

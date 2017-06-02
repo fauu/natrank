@@ -1,4 +1,4 @@
-import { getNumDaysBetween, parseDate } from "common/DateUtils";
+import { getNumDaysBetween } from "common/DateUtils";
 
 export class TimePeriod {
 
@@ -6,8 +6,8 @@ export class TimePeriod {
     const timePeriod = new TimePeriod();
 
     timePeriod.id = json.id;
-    timePeriod.start = parseDate(json.fromDate);
-    timePeriod.end = parseDate(json.toDate);
+    timePeriod.start = new Date(json.fromDate);
+    timePeriod.end = new Date(json.toDate);
 
     return timePeriod;
   }

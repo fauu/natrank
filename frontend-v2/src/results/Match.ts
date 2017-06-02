@@ -1,5 +1,3 @@
-import { parseDate } from "common/DateUtils";
-
 export type TeamResult = "Win" | "Draw" | "Loss";
 
 export interface IMatchTeamInfo {
@@ -31,7 +29,7 @@ export class Match {
     const match = new Match();
 
     match.id = json.id;
-    match.date = parseDate(json.date);
+    match.date = new Date(json.date);
     match.type = json.type;
     match.city = json.city;
     match.country = json.country;

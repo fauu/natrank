@@ -33,6 +33,8 @@ export interface ITeamStats {
   records: Map<TeamRecordTypeName, ITeamRecord>;
 }
 
+export type TeamRankingHistoryEntry = [number, number];
+
 export class Team {
 
   public static readonly recordTypes: ITeamRecordType[] = [
@@ -99,9 +101,23 @@ export class Team {
   public name: string;
   public code: string;
   public stats: ITeamStats;
+  public rankHistory: TeamRankingHistoryEntry[];
+  public ratingHistory: TeamRankingHistoryEntry[];
 
-  public setForm(rawForm: number[]) {
-    this.stats.form = rawForm.map((e) => this.parseFormEntry(e));
+  public setForm(data: TeamFormData) {
+    this.stats.form = data.map((e) => this.parseFormEntry(e));
+  }
+
+  public setRankHistory(data: TeamRankHistoryData) {
+    this.rankHistory = this.rankingHistoryFromData(data);
+  }
+
+  public setRatingHistory(data: TeamRatingHistoryData) {
+    this.ratingHistory = this.rankingHistoryFromData(data);
+  }
+
+  private rankingHistoryFromData(data: TeamRankingHistoryData): TeamRankingHistoryEntry[] {
+    return data.map((e) => [Date.parse(e.date), e.value] as TeamRankingHistoryEntry);
   }
 
   private parseFormEntry(e: number): TeamResult {
@@ -147,3 +163,13 @@ export interface ITeamJson {
 }
 
 export type TeamFormData = number[];
+
+type TeamRankingHistoryData = ITeamRankingHistoryDataEntry[];
+export type TeamRankHistoryData = TeamRankingHistoryData;
+export type TeamRatingHistoryData = TeamRankingHistoryData;
+
+export interface ITeamRankingHistoryDataEntry {
+  id: number;
+  date: string;
+  value: number;
+}

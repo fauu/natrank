@@ -42,8 +42,11 @@
     "webpack-hot-middleware": "^2.17.0"
   },
   "dependencies": {
+    "@types/highcharts": "^4.2.55",
     "@types/react-modal": "^1.6.6",
     "bem-cn": "^2.1.3",
+    "highcharts": "^5.0.12",
+    "react-highcharts": "^12.0.0",
     "react-modal": "^1.7.7"
   }
 }

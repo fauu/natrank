@@ -4,7 +4,22 @@ import { action, observable } from "mobx";
 import { ApiClient } from "app/ApiClient";
 import { GlobalStore } from "app/GlobalStore";
 import { getNumDaysBetween } from "common/DateUtils";
-import { ITeamJson, ITeamRecord, Team, TeamFormData } from "team/Team";
+import { ITeamJson, ITeamRecord, Team, TeamFormData, TeamRankHistoryData, TeamRatingHistoryData } from "team/Team";
+
+type TeamData = [
+  ITeamJson,
+  TeamFormData,
+  TeamRankHistoryData,
+  TeamRatingHistoryData
+];
+
+// TODO: Do this better
+type PromisedTeamData = [
+  Promise<ITeamJson>,
+  Promise<TeamFormData>,
+  Promise<TeamRankHistoryData>,
+  Promise<TeamRatingHistoryData>
+];
 
 export class TeamStore {
 
@@ -20,20 +35,27 @@ export class TeamStore {
   public async loadTeam(name: string) {
     this.isLoading = true;
 
-    const calls: [Promise<ITeamJson>, Promise<TeamFormData>] = [
+    const dataFetchCalls: PromisedTeamData = [
       this.apiClient.getTeamJson(name),
-      this.apiClient.getTeamForm(name),
+      this.apiClient.getTeamFormData(name),
+      this.apiClient.getTeamRankHistoryData(name),
+      this.apiClient.getTeamRatingHistoryData(name),
     ];
 
-    const [teamJson, teamForm] = await Promise.all(calls);
+    const data = await Promise.all(dataFetchCalls);
 
-    this.handleTeamLoad(teamJson, teamForm);
+    this.handleTeamLoad(data);
   }
 
   @action
-  private handleTeamLoad(json: ITeamJson, form: TeamFormData) {
+  private handleTeamLoad([json, formData, rankHistoryData, ratingHistoryData]: TeamData) {
     this.team = Team.fromJson(json);
-    this.team.setForm(form);
+    this.team.setForm(formData);
+    this.team.setRankHistory(rankHistoryData);
+    this.team.setRatingHistory(ratingHistoryData);
+
+    console.log(this.team.rankHistory);
+    console.log(this.team.ratingHistory);
 
     if (this.team.stats.records.size > 0) {
       for (const type of Team.recordTypes) {

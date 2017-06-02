@@ -21,11 +21,10 @@ export const stringifyDate = (date: Date, padded: boolean = false, friendly: boo
   }
 };
 
-export const parseDate = (dateString: string): Date | undefined => {
-  if (validateDate(dateString)) {
-    const parts: number[] = dateString.split("-").map((part) => Number(part));
-
-    return new Date(parts[0], parts[1] - 1, parts[2]);
+export const parseMaybeDate = (dateString: string): Date | undefined => {
+  const timestamp = Date.parse(dateString);
+  if (!isNaN(timestamp)) {
+    return new Date(timestamp);
   }
 
   return undefined;

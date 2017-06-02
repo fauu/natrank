@@ -1,4 +1,3 @@
-import { parseDate } from "common/DateUtils";
 import { IRankingEntryJson, RankingEntry } from "ranking/RankingEntry";
 
 export class Ranking {
@@ -6,7 +5,7 @@ export class Ranking {
   public static fromJson(json: IRankingJson): Ranking {
     const ranking = new Ranking();
 
-    ranking.date = parseDate(json.date);
+    ranking.date = new Date(json.date);
     ranking.entries = [];
     for (const jsonEntry of json.entries) {
       const entry = RankingEntry.fromJson(jsonEntry);

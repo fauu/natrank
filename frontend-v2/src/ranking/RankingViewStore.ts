@@ -5,7 +5,7 @@ import {
   areDatesEqual,
   DatePlacement,
   getDatePlacement,
-  parseDate,
+  parseMaybeDate,
   stringifyDate,
 } from "common/DateUtils";
 import { IViewStore } from "common/IViewStore";
@@ -42,7 +42,7 @@ export class RankingViewStore implements IViewStore {
   }
 
   public showView({ dateStr }: IRankingViewParams) {
-    this.selectedDate = parseDate(dateStr) || this.globalStore.newestRankingDate;
+    this.selectedDate = parseMaybeDate(dateStr) || this.globalStore.newestRankingDate;
   }
 
   public handleSelectedDateChange(date: Date) {
