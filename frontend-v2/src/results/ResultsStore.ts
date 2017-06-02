@@ -2,8 +2,8 @@ import { isEmpty } from "lodash";
 import { action, observable } from "mobx";
 
 import { ApiClient } from "app/ApiClient";
-import { Page } from "common/Page";
-import { Match } from "results/Match";
+import { IPageJson, Page } from "common/Page";
+import { IMatchJson, Match } from "results/Match";
 import { Team } from "team/Team";
 
 export class ResultsStore {
@@ -24,10 +24,10 @@ export class ResultsStore {
   public async loadMatchPage(pageNo: number, team?: string, year?: number) {
     this.isLoading = true;
 
-    const calls: Array<Promise<{}>> = [this.apiClient.getMatchPageJson(pageNo, team, year)];
-    if (team) {
-      calls.push(this.apiClient.getTeamJson(team));
-    }
+    const calls: [Promise<IPageJson<IMatchJson>>, Promise<any>] = [
+      this.apiClient.getMatchPageJson(pageNo, team, year),
+      team && this.apiClient.getTeamJson(team),
+    ];
 
     const [matchPageJson, teamJson] = await Promise.all(calls);
 
@@ -35,7 +35,7 @@ export class ResultsStore {
   }
 
   @action
-  private handleMatchPageLoad(matchPageJson: {}, teamJson?: {}) {
+  private handleMatchPageLoad(matchPageJson: IPageJson<IMatchJson>, teamJson?: {}) {
     this.matchPage = Page.fromJson<Match>(matchPageJson, Match.fromJson);
     this.povTeam = !isEmpty(teamJson) && Team.fromJson(teamJson);
 

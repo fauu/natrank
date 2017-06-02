@@ -1,9 +1,9 @@
 import { parseDate } from "common/DateUtils";
-import { RankingEntry } from "ranking/RankingEntry";
+import { IRankingEntryJson, RankingEntry } from "ranking/RankingEntry";
 
 export class Ranking {
 
-  public static fromJson(json): Ranking {
+  public static fromJson(json: IRankingJson): Ranking {
     const ranking = new Ranking();
 
     ranking.date = parseDate(json.date);
@@ -22,4 +22,11 @@ export class Ranking {
   public entries: RankingEntry[];
   public isFull: boolean;
 
+}
+
+export interface IRankingJson {
+  id: number;
+  date: string;
+  fullVariantAvailable?: boolean;
+  entries: IRankingEntryJson[];
 }

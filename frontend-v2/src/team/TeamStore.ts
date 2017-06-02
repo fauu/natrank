@@ -4,7 +4,7 @@ import { action, observable } from "mobx";
 import { ApiClient } from "app/ApiClient";
 import { GlobalStore } from "app/GlobalStore";
 import { getNumDaysBetween } from "common/DateUtils";
-import { ITeamRecord, Team } from "team/Team";
+import { ITeamJson, ITeamRecord, Team, TeamFormData } from "team/Team";
 
 export class TeamStore {
 
@@ -20,18 +20,18 @@ export class TeamStore {
   public async loadTeam(name: string) {
     this.isLoading = true;
 
-    const calls: Array<Promise<{} | number[]>> = [
+    const calls: [Promise<ITeamJson>, Promise<TeamFormData>] = [
       this.apiClient.getTeamJson(name),
       this.apiClient.getTeamForm(name),
     ];
 
     const [teamJson, teamForm] = await Promise.all(calls);
 
-    this.handleTeamLoad(teamJson, teamForm as number[]);
+    this.handleTeamLoad(teamJson, teamForm);
   }
 
   @action
-  private handleTeamLoad(json: {}, form: number[]) {
+  private handleTeamLoad(json: ITeamJson, form: TeamFormData) {
     this.team = Team.fromJson(json);
     this.team.setForm(form);
 

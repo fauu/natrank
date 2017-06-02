@@ -2,6 +2,7 @@
 import { round } from "lodash";
 
 import { TimePeriod } from "common/TimePeriod";
+import { IRankingEntryJson } from "ranking/RankingEntry";
 import { TeamResult } from "results/Match";
 
 export type TeamRecordTypeName = "HighestRank" | "LowestRank" | "HighestRating" | "LowestRating";
@@ -73,7 +74,6 @@ export class Team {
 
       const value = json[type.jsonName].value;
       const periods = json[type.jsonName].periods.map((p) => TimePeriod.fromJson(p));
-      console.log(periods);
 
       records.set(type.name, { type, value, periods, numDaysHeld: -1 });
     }
@@ -116,3 +116,34 @@ export class Team {
   }
 
 }
+
+export interface ITeamRecordJson {
+  id: number;
+  type: string;
+  value: number;
+  periods: ITimePeriodJson[];
+}
+
+export interface ITimePeriodJson {
+  id: number;
+  fromDate: string;
+  toDate: string;
+}
+
+export interface ITeamCurrentCountryJson {
+  id: number;
+  name: string;
+  code: string;
+}
+
+export interface ITeamJson {
+  id: number;
+  highestRank: ITeamRecordJson;
+  lowestRank: ITeamRecordJson;
+  highestRating: ITeamRecordJson;
+  lowestRating: ITeamRecordJson;
+  latestRankingEntry: IRankingEntryJson;
+  currentCountry: ITeamCurrentCountryJson;
+}
+
+export type TeamFormData = number[];

@@ -19,3 +19,25 @@ export class Page<T> {
   public content: T[];
 
 }
+
+export interface IPageSortJson {
+  direction: string;
+  property: string;
+  ignoreCase: boolean;
+  nullHandling: string;
+  ascending: boolean;
+  descending: boolean;
+}
+
+export interface IPageJson<T> {
+  content: T[];
+  last: boolean;
+  totalPages: number;
+  totalElements: number;
+  first: boolean;
+  numberOfElements: number;
+  sort: IPageSortJson[];
+  size: number;
+  number: number;
+}
+

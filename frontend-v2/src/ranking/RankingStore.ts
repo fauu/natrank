@@ -1,7 +1,7 @@
 import { action, observable } from "mobx";
 
 import { ApiClient } from "app/ApiClient";
-import { Ranking } from "ranking/Ranking";
+import { IRankingJson, Ranking } from "ranking/Ranking";
 
 export class RankingStore {
 
@@ -24,7 +24,7 @@ export class RankingStore {
   }
 
   @action
-  private handleRankingLoad(json: {}, date?: Date) {
+  private handleRankingLoad(json: IRankingJson, date?: Date) {
     this.ranking = Ranking.fromJson(json);
     this.lastViewedRankingDate = date ? date : this.ranking.date;
 
