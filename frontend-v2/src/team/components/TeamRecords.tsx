@@ -1,10 +1,10 @@
 import * as React from "react";
 
-import { _b } from "utils/BemHelper";
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 import { TeamRecord } from "team/components/TeamRecord";
 import { ITeamRecord, TeamRecordTypeName } from "team/Team";
+import { _b } from "utils/BemHelper";
 
 interface ITeamRecordsProps {
   readonly records: Map<TeamRecordTypeName, ITeamRecord>;

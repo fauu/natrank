@@ -1,6 +1,8 @@
 import { action, computed, observable, reaction } from "mobx";
 
 import { GlobalStore } from "app/GlobalStore";
+import { IViewStore } from "common/IViewStore";
+import { RankingStore } from "ranking/RankingStore";
 import {
   areDatesEqual,
   DatePlacement,
@@ -8,8 +10,6 @@ import {
   parseMaybeDate,
   stringifyDate,
 } from "utils/DateUtils";
-import { IViewStore } from "common/IViewStore";
-import { RankingStore } from "ranking/RankingStore";
 
 interface IRankingViewParams {
   dateStr?: string;
@@ -17,7 +17,7 @@ interface IRankingViewParams {
 
 export class RankingViewStore implements IViewStore {
 
-  @observable
+  @observable.ref
   public selectedDate: Date;
 
   public constructor(private globalStore: GlobalStore, private rankingStore: RankingStore) {

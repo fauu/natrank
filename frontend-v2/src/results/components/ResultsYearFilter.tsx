@@ -2,10 +2,10 @@ import { action, observable, reaction } from "mobx";
 import * as React from "react";
 import * as NumericInput from "react-numeric-input";
 
-import { _b } from "utils/BemHelper";
 import { Icon } from "common/components/Icon";
 import { observer } from "mobx-react";
 import { ResultsViewStore } from "results/ResultsViewStore";
+import { _b } from "utils/BemHelper";
 
 interface IResultsYearFilterProps {
   readonly viewStore: ResultsViewStore;

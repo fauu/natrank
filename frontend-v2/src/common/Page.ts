@@ -40,4 +40,3 @@ export interface IPageJson<J> {
   size: number;
   number: number;
 }
-

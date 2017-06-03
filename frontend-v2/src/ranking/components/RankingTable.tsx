@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import { _b } from "utils/BemHelper";
-import { RankingTableRow } from "ranking/components/RankingTableRow";
 import { Ranking } from "ranking/Ranking";
+import { RankingTableRow } from "ranking/components/RankingTableRow";
+import { _b } from "utils/BemHelper";
 
 interface IRankingTableProps {
   readonly ranking: Ranking;

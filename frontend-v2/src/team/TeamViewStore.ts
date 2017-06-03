@@ -1,8 +1,8 @@
 import { action, computed, observable, reaction } from "mobx";
 
 import { IViewStore } from "common/IViewStore";
-import { urlfriendlifyString } from "utils/StringUtils";
 import { TeamStore } from "team/TeamStore";
+import { urlfriendlifyString } from "utils/StringUtils";
 
 interface ITeamViewParams {
   teamStr?: string;

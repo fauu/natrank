@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import { _b } from "utils/BemHelper";
 import { TeamRecords } from "team/components/TeamRecords";
 import { ITeamStats } from "team/Team";
+import { _b } from "utils/BemHelper";
 
 interface ITeamStatsProps {
   stats: ITeamStats;

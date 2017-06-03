@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { Flag } from "common/components/Flag";
 import { observer } from "mobx-react";
+import { TeamNotableMatches } from "team/components/TeamNotableMatches";
 import { TeamRankingExcerpt } from "team/components/TeamRankingExcerpt";
 import { TeamRankingHistory } from "team/components/TeamRankingHistory";
 import { TeamStats } from "team/components/TeamStats";
@@ -30,6 +31,9 @@ function TeamView({ teamStore, viewStore }: ITeamViewProps): JSX.Element {
       </div>
       <div className="team-view-row">
         {rankingExcerpt && <TeamRankingHistory rankHistory={team.rankHistory} records={team.records} />}
+      </div>
+      <div className="team-view-row">
+        <TeamNotableMatches notableMatchGroups={teamStore.notableMatches} />
       </div>
     </div>
   );

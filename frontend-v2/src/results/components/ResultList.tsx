@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import { _b } from "utils/BemHelper";
-import { Result } from "results/components/Result";
 import { Match } from "results/Match";
+import { Result } from "results/components/Result";
+import { _b } from "utils/BemHelper";
 
 interface IResultListProps {
   readonly results: Match[];

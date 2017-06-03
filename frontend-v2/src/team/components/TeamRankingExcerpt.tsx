@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import { _b } from "utils/BemHelper";
-import { RankingTable } from "ranking/components/RankingTable";
 import { Ranking } from "ranking/Ranking";
+import { RankingTable } from "ranking/components/RankingTable";
+import { _b } from "utils/BemHelper";
 
 interface ITeamRankingExcerptProps {
   readonly teamId: number;
@@ -11,7 +11,7 @@ interface ITeamRankingExcerptProps {
 
 const b = _b("team-ranking-excerpt");
 
-export function TeamRankingExcerpt({ rankingExcerpt, teamId }: ITeamRankingExcerptProps) {
+export function TeamRankingExcerpt({ rankingExcerpt, teamId }: ITeamRankingExcerptProps): JSX.Element {
   return (
     <div className={b}>
       <div className={b("header")}>

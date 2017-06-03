@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as ReactHighcharts from "react-highcharts";
 
-import { _b } from "utils/BemHelper";
 import { TeamRecords } from "team/components/TeamRecords";
 import { ITeamRecord, TeamRankingHistoryEntry, TeamRecordTypeName } from "team/Team";
+import { _b } from "utils/BemHelper";
 
 interface ITeamRankingHistoryProps {
   readonly rankHistory: TeamRankingHistoryEntry[];

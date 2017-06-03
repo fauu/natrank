@@ -1,10 +1,10 @@
 import * as React from "react";
 
-import { _b } from "utils/BemHelper";
 import { Flag } from "common/components/Flag";
 import { Icon } from "common/components/Icon";
-import { urlfriendlifyString } from "utils/StringUtils";
 import { RankingEntry } from "ranking/RankingEntry";
+import { _b } from "utils/BemHelper";
+import { urlfriendlifyString } from "utils/StringUtils";
 
 interface IRankingTableRowProps {
   readonly data?: RankingEntry;

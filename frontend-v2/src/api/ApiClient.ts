@@ -1,4 +1,5 @@
 import { IMatchJson } from "api/schema/IMatchJson";
+import { INotableMatchesJson } from "api/schema/INotableMatchesJson";
 import { IRankingJson } from "api/schema/IRankingJson";
 import { ITeamJson } from "api/schema/ITeamJson";
 import { TeamFormJson } from "api/schema/TeamFormJson";
@@ -45,8 +46,12 @@ export class ApiClient {
     return this.fetchJson(`/teams/${teamName}/ranks`);
   }
 
-  public async fetchTeamRatingHistoryData(teamName: string): Promise<TeamRatingHistoryJson> {
+  public async fetchTeamRatingHistoryJson(teamName: string): Promise<TeamRatingHistoryJson> {
     return this.fetchJson(`/teams/${teamName}/ratings`);
+  }
+
+  public async fetchTeamNotableMatches(teamName: string): Promise<INotableMatchesJson> {
+    return this.fetchJson(`/matches/notable/team/${teamName}`);
   }
 
   private async fetchJson(url: string): Promise<any> {

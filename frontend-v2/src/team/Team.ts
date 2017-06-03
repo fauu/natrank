@@ -2,9 +2,9 @@ import { round } from "lodash";
 
 import { ITeamJson } from "api/schema/ITeamJson";
 import { TeamFormJson } from "api/schema/TeamFormJson";
-import { TeamRankHistoryJson, TeamRatingHistoryJson, TeamRankingHistoryJson } from "api/schema/TeamRankingHistoryJson";
-import { TimePeriod } from "common/TimePeriod";
+import { TeamRankHistoryJson, TeamRankingHistoryJson, TeamRatingHistoryJson } from "api/schema/TeamRankingHistoryJson";
 import { TeamResult } from "results/Match";
+import { TimePeriod } from "common/TimePeriod";
 
 export type TeamRecordTypeName = "HighestRank" | "LowestRank" | "HighestRating" | "LowestRating";
 

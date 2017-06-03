@@ -9,10 +9,10 @@ export class RankingStore {
   @observable
   public isLoading = true;
 
-  @observable
+  @observable.ref
   public ranking: Ranking;
 
-  @observable
+  @observable.ref
   public lastViewedRankingDate: Date;
 
   public constructor(private apiClient: ApiClient) {}

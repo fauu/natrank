@@ -4,20 +4,22 @@ import { action, observable } from "mobx";
 import { ApiClient } from "api/ApiClient";
 import { IMatchJson } from "api/schema/IMatchJson";
 import { ITeamJson } from "api/schema/ITeamJson";
-import { IPageJson, Page } from "common/Page";
 import { Match } from "results/Match";
+import { IPageJson, Page } from "common/Page";
 import { Team } from "team/Team";
 
 export class ResultsStore {
 
   @observable
   public isLoading: boolean = true;
+
   @observable
   public completedInitialLoad: boolean = false;
 
-  @observable
+  @observable.ref
   public matchPage: Page<Match>;
-  @observable
+
+  @observable.ref
   public povTeam?: Team;
 
   constructor(private apiClient: ApiClient) {}
