@@ -1,5 +1,7 @@
 import { v4 as uuid } from "uuid";
 
+import { IRankingEntryJson } from "api/schema/IRankingEntryJson";
+
 export class RankingEntry {
 
   public static fromJson(json: IRankingEntryJson) {
@@ -37,28 +39,4 @@ export class RankingEntry {
   public goalsAgainst?: number;
   public goalDifference?: number;
 
-}
-
-export interface IRankingEntryTeamJson {
-  id: number;
-  name: string;
-  flag: string;
-}
-
-export interface IRankingEntryJson {
-  id?: number;
-  rank: number;
-  rankOneYearChange?: number;
-  rating: number;
-  matchesTotal?: number;
-  matchesHome?: number;
-  matchesAway?: number;
-  matchesOnNeutralGround?: number;
-  wins?: number;
-  losses?: number;
-  draws?: number;
-  goalsFor?: number;
-  goalsAgainst?: number;
-  goalDifference?: number;
-  team?: IRankingEntryTeamJson;
 }

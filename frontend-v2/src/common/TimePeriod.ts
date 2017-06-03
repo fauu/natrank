@@ -1,4 +1,5 @@
-import { getNumDaysBetween } from "common/DateUtils";
+import { ITimePeriodJson } from "api/schema/ITimePeriodJson";
+import { getNumDaysBetween } from "utils/DateUtils";
 
 export class TimePeriod {
 
@@ -16,10 +17,4 @@ export class TimePeriod {
   public start: Date | undefined;
   public end: Date | undefined;
 
-}
-
-export interface ITimePeriodJson {
-  id: number;
-  fromDate: string;
-  toDate: string;
 }

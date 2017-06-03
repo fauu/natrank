@@ -1,7 +1,8 @@
 import { action, observable } from "mobx";
 
-import { ApiClient } from "app/ApiClient";
-import { IRankingJson, Ranking } from "ranking/Ranking";
+import { ApiClient } from "api/ApiClient";
+import { IRankingJson } from "api/schema/IRankingJson";
+import { Ranking } from "ranking/Ranking";
 
 export class RankingStore {
 

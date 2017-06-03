@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { _b } from "common/BemHelper";
+import { _b } from "utils/BemHelper";
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 import { TeamRecord } from "team/components/TeamRecord";

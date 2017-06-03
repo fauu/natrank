@@ -7,7 +7,7 @@ import {
   getDatePlacement,
   parseMaybeDate,
   stringifyDate,
-} from "common/DateUtils";
+} from "utils/DateUtils";
 import { IViewStore } from "common/IViewStore";
 import { RankingStore } from "ranking/RankingStore";
 

@@ -1,8 +1,7 @@
-// tslint:disable:object-literal-sort-keys
 import * as React from "react";
 import * as ReactHighcharts from "react-highcharts";
 
-import { _b } from "common/BemHelper";
+import { _b } from "utils/BemHelper";
 import { TeamRecords } from "team/components/TeamRecords";
 import { ITeamRecord, TeamRankingHistoryEntry, TeamRecordTypeName } from "team/Team";
 

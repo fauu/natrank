@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { _b } from "common/BemHelper";
+import { _b } from "utils/BemHelper";
 import { RankingTableRow } from "ranking/components/RankingTableRow";
 import { Ranking } from "ranking/Ranking";
 

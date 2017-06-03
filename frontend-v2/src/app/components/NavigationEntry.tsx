@@ -1,7 +1,7 @@
 import * as classNames from "classnames";
 import * as React from "react";
 
-import { _b } from "common/BemHelper";
+import { _b } from "utils/BemHelper";
 import { Icon } from "common/components/Icon";
 
 export interface INavigationEntryProps {

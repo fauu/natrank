@@ -1,8 +1,10 @@
-import { stringifyDate } from "common/DateUtils";
+import { IMatchJson } from "api/schema/IMatchJson";
+import { IRankingJson } from "api/schema/IRankingJson";
+import { ITeamJson } from "api/schema/ITeamJson";
+import { TeamFormJson } from "api/schema/TeamFormJson";
+import { TeamRankHistoryJson, TeamRatingHistoryJson } from "api/schema/TeamRankingHistoryJson";
 import { IPageJson } from "common/Page";
-import { IRankingJson } from "ranking/Ranking";
-import { IMatchJson } from "results/Match";
-import { ITeamJson, TeamFormJson, TeamRankHistoryJson, TeamRatingHistoryJson } from "team/Team";
+import { stringifyDate } from "utils/DateUtils";
 
 export class ApiClient {
 

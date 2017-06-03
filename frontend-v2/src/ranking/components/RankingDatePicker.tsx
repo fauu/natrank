@@ -5,7 +5,7 @@ import * as React from "react";
 import * as NumericInput from "react-numeric-input";
 
 import { MonthInput } from "common/components/MonthInput";
-import { areDatesEqual } from "common/DateUtils";
+import { areDatesEqual } from "utils/DateUtils";
 import { RankingViewStore } from "ranking/RankingViewStore";
 
 enum DatePickerField {

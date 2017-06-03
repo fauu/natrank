@@ -1,8 +1,8 @@
 import * as React from "react";
 import * as Modal from "react-modal";
 
-import { _b } from "common/BemHelper";
-import { daysInYear, fragmentDate, getApproximateNumYearsForNumDays, stringifyDate } from "common/DateUtils";
+import { _b } from "utils/BemHelper";
+import { daysInYear, fragmentDate, getApproximateNumYearsForNumDays, stringifyDate } from "utils/DateUtils";
 import { TimePeriod } from "common/TimePeriod";
 import { ITeamRecord } from "team/Team";
 

@@ -1,4 +1,3 @@
-// tslint:disable:object-literal-key-quotes
 import { Router } from "director/build/director";
 import { reaction, useStrict } from "mobx";
 import * as React from "react";

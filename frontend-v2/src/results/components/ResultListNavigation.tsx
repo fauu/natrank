@@ -4,9 +4,9 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import * as NumericInput from "react-numeric-input";
 
-import { _b } from "common/BemHelper";
+import { _b } from "utils/BemHelper";
 import { Icon } from "common/components/Icon";
-import { scrollToBottom, scrollToTop } from "common/WindowUtils";
+import { scrollToBottom, scrollToTop } from "utils/WindowUtils";
 import { ResultsPagePicker } from "results/components/ResultsPagePicker";
 import { ResultsYearFilter } from "results/components/ResultsYearFilter";
 import { ResultsViewStore } from "results/ResultsViewStore";

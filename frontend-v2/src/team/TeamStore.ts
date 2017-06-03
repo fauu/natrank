@@ -1,11 +1,15 @@
 import { sum } from "lodash";
 import { action, observable } from "mobx";
 
-import { ApiClient } from "app/ApiClient";
+import { ApiClient } from "api/ApiClient";
+import { IRankingJson } from "api/schema/IRankingJson";
+import { ITeamJson } from "api/schema/ITeamJson";
+import { TeamFormJson } from "api/schema/TeamFormJson";
+import { TeamRankHistoryJson } from "api/schema/TeamRankingHistoryJson";
 import { GlobalStore } from "app/GlobalStore";
-import { getNumDaysBetween } from "common/DateUtils";
-import { IRankingJson, Ranking } from "ranking/Ranking";
-import { ITeamJson, ITeamRecord, Team, TeamFormJson, TeamRankHistoryJson, TeamRatingHistoryJson } from "team/Team";
+import { Ranking } from "ranking/Ranking";
+import { ITeamRecord, Team } from "team/Team";
+import { getNumDaysBetween } from "utils/DateUtils";
 
 type TeamData = [
   ITeamJson,

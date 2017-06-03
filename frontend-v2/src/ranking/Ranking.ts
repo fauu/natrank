@@ -1,4 +1,5 @@
-import { IRankingEntryJson, RankingEntry } from "ranking/RankingEntry";
+import { IRankingJson } from "api/schema/IRankingJson";
+import { RankingEntry } from "ranking/RankingEntry";
 
 export class Ranking {
 
@@ -21,11 +22,4 @@ export class Ranking {
   public entries: RankingEntry[];
   public isFull: boolean;
 
-}
-
-export interface IRankingJson {
-  id: number;
-  date: string;
-  fullVariantAvailable?: boolean;
-  entries: IRankingEntryJson[];
 }

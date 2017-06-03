@@ -1,10 +1,12 @@
 import { isEmpty } from "lodash";
 import { action, observable } from "mobx";
 
-import { ApiClient } from "app/ApiClient";
+import { ApiClient } from "api/ApiClient";
+import { IMatchJson } from "api/schema/IMatchJson";
+import { ITeamJson } from "api/schema/ITeamJson";
 import { IPageJson, Page } from "common/Page";
-import { IMatchJson, Match } from "results/Match";
-import { ITeamJson, Team } from "team/Team";
+import { Match } from "results/Match";
+import { Team } from "team/Team";
 
 export class ResultsStore {
 

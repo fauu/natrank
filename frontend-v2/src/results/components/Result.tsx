@@ -1,11 +1,10 @@
-// tslint:disable:object-literal-sort-keys
 import * as React from "react";
 
-import { _b } from "common/BemHelper";
+import { _b } from "utils/BemHelper";
 import { Flag } from "common/components/Flag";
 import { Icon } from "common/components/Icon";
-import { stringifyDate } from "common/DateUtils";
-import { urlfriendlifyString } from "common/StringUtils";
+import { stringifyDate } from "utils/DateUtils";
+import { urlfriendlifyString } from "utils/StringUtils";
 import { IMatchTeamInfo, Match, TeamResult } from "results/Match";
 
 interface IResultProps {

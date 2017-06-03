@@ -1,8 +1,9 @@
-// tslint:disable:object-literal-sort-keys
 import { round } from "lodash";
 
-import { ITimePeriodJson, TimePeriod } from "common/TimePeriod";
-import { IRankingEntryJson } from "ranking/RankingEntry";
+import { ITeamJson } from "api/schema/ITeamJson";
+import { TeamFormJson } from "api/schema/TeamFormJson";
+import { TeamRankHistoryJson, TeamRatingHistoryJson, TeamRankingHistoryJson } from "api/schema/TeamRankingHistoryJson";
+import { TimePeriod } from "common/TimePeriod";
 import { TeamResult } from "results/Match";
 
 export type TeamRecordTypeName = "HighestRank" | "LowestRank" | "HighestRating" | "LowestRating";
@@ -131,39 +132,4 @@ export class Team {
     }
   }
 
-}
-
-export interface ITeamRecordJson {
-  id: number;
-  type: string;
-  value: number;
-  periods: ITimePeriodJson[];
-}
-
-export interface ITeamCurrentCountryJson {
-  id: number;
-  name: string;
-  code: string;
-}
-
-export interface ITeamJson {
-  id: number;
-  highestRank: ITeamRecordJson;
-  lowestRank: ITeamRecordJson;
-  highestRating: ITeamRecordJson;
-  lowestRating: ITeamRecordJson;
-  latestRankingEntry: IRankingEntryJson;
-  currentCountry: ITeamCurrentCountryJson;
-}
-
-export type TeamFormJson = number[];
-
-type TeamRankingHistoryJson = ITeamRankingHistoryJsonEntry[];
-export type TeamRankHistoryJson = TeamRankingHistoryJson;
-export type TeamRatingHistoryJson = TeamRankingHistoryJson;
-
-export interface ITeamRankingHistoryJsonEntry {
-  id: number;
-  date: string;
-  value: number;
 }
