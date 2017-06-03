@@ -2,11 +2,12 @@
 @import '~normalize-scss/sass/normalize/import-now';
 @import '~spinkit/scss/spinners/7-three-bounce';
 
-@import 'animations';
 @import 'colors';
 @import 'fonts';
-@import 'mixins';
+@import 'animations';
 @import 'variables';
+@import 'mixins';
+@import 'functions';
 
 @import 'app/app';
 @import 'ranking/ranking';

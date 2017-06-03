@@ -17,14 +17,16 @@ $panel-margin: 10px;
 }
 
 .team-header {
-  font-size: 250%;
-  margin-bottom: 0.8rem;
+  font-size: 260%;
+  margin: 0 auto;
   display: flex;
+  align-items: center;
+  padding-bottom: 0.15em;
 
   &__flag {
     @extend .flag;
     height: 1em;
-    margin-right: 0.5rem;
+    margin-right: 0.8rem;
   }
 }
 
@@ -197,13 +199,21 @@ $panel-margin: 10px;
 
   &__criterion {
     display: flex;
-    justify-content: space-around;
-    padding-top: $padding;
   }
 
   &__record {
     display: flex;
+    flex: 1 0 0;
     align-items: center;
+    justify-content: center;
+    padding: $padding 0;
+
+    &:first-child {
+      background: rgba(lighten($color-positive, 30%), 0.1);
+    }
+    &:last-child {
+      background: rgba(lighten($color-negative, 30%), 0.1);
+    }
 
     a {
       cursor: pointer;
@@ -240,6 +250,10 @@ $panel-margin: 10px;
     width: 100% !important;
     box-shadow: none !important;
 
+    .ranking-row__cell {
+      height: 30px !important;
+    }
+
     .ranking-header {
       background: $color-panel-bg !important;
       color: $color-text-secondary;
@@ -252,4 +266,50 @@ $panel-margin: 10px;
   @include panel;
   width: 100%;
   animation-delay: 0.3s;
+}
+
+.team-notable-matches {
+  @include panel;
+  width: 100%;
+  animation-delay: 0.45s;
+
+  &__top-group {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  &__see-all-link {
+    display: flex;
+    margin-left: auto;
+  }
+
+  &__see-all-link-icon {
+    position: relative;
+    bottom: -2px;
+    margin-left: 0.1em;
+    margin-right: -5px;
+    font-size: 115%;
+  }
+
+  &__category {
+    padding: 0.5rem 0;
+
+    &:nth-child(2) {
+      padding-top: 0;
+    }
+    &:last-child {
+      padding-bottom: 0;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  &__category-header {
+    margin-bottom: 0.4rem;
+    text-align: center;
+    color: $color-text-secondary;
+    font-weight: bold;
+  }
 }

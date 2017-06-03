@@ -21,9 +21,11 @@ function TeamView({ teamStore, viewStore }: ITeamViewProps): JSX.Element {
 
   return !isLoading && (
     <div className="view view--team">
-      <div className="team-header">
-        <Flag code={team.code} large={true} className="team-header__flag" />
-        <span className="team-header__name">{team.name}</span>
+      <div className="team-view-row">
+        <div className="team-header">
+          <Flag code={team.code} large={true} className="team-header__flag" />
+          <span className="team-header__name">{team.name}</span>
+        </div>
       </div>
       <div className="team-view-row">
         {rankingExcerpt && <TeamRankingExcerpt teamId={team.id} rankingExcerpt={teamStore.rankingExcerpt} />}
@@ -33,7 +35,7 @@ function TeamView({ teamStore, viewStore }: ITeamViewProps): JSX.Element {
         {rankingExcerpt && <TeamRankingHistory rankHistory={team.rankHistory} records={team.records} />}
       </div>
       <div className="team-view-row">
-        <TeamNotableMatches notableMatchGroups={teamStore.notableMatches} />
+        <TeamNotableMatches team={team} notableMatchGroups={teamStore.notableMatches} />
       </div>
     </div>
   );

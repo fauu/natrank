@@ -1,4 +1,3 @@
-import * as classNames from "classnames";
 import * as React from "react";
 
 interface IIconProps {
@@ -7,5 +6,5 @@ interface IIconProps {
 }
 
 export function Icon({ name, className }: IIconProps): JSX.Element {
-  return <i className={classNames("mdi", `mdi-${name}`, className)} />;
+  return <i className={`mdi mdi-${name} ${className}`} />;
 }

@@ -1,18 +1,42 @@
 import * as React from "react";
 
-import { Match } from "results/Match";
+import { Icon } from "common/components/Icon";
 import { ResultList } from "results/components/ResultList";
+import { Match } from "results/Match";
 import { ITeamNotableMatchCategory } from "team/ITeamNotableMatchCategory";
 import { ITeamNotableMatchGroup } from "team/ITeamNotableMatchGroup";
+import { Team } from "team/Team";
+import { _b } from "utils/BemHelper";
+import { urlfriendlifyString } from "utils/StringUtils";
 
 interface ITeamNotableMatchesProps {
-  notableMatchGroups: ITeamNotableMatchGroup[];
+  readonly team: Team;
+  readonly notableMatchGroups: ITeamNotableMatchGroup[];
 }
 
-export function TeamNotableMatches({ notableMatchGroups }: ITeamNotableMatchesProps): JSX.Element {
+const b = _b("team-notable-matches");
+
+export function TeamNotableMatches({ team, notableMatchGroups }: ITeamNotableMatchesProps): JSX.Element {
+  const matchGroups = notableMatchGroups.map((group) =>
+    <MatchesForCategory category={group.category} matches={group.matches} povTeamId={team.id} />
+  );
+
   return (
-    <div className="panel">
-      {notableMatchGroups.map((group) => <MatchesForCategory category={group.category} matches={group.matches} />)}
+    <div className={b}>
+      <div className={b("top-group")}>
+        <div className={b("header")}>
+          Notable matches
+        </div>
+
+        <div className={b("see-all-link")}>
+          <a href={`/results/${urlfriendlifyString(team.name)}`}>
+            See all matches
+            <Icon className={b("see-all-link-icon")} name="chevron-right" />
+          </a>
+        </div>
+      </div>
+
+      {matchGroups}
     </div>
   );
 }
@@ -20,12 +44,13 @@ export function TeamNotableMatches({ notableMatchGroups }: ITeamNotableMatchesPr
 interface IMatchesForCategoryProps {
   readonly category: ITeamNotableMatchCategory;
   readonly matches: Match[];
+  readonly povTeamId: number;
 }
-const MatchesForCategory = ({ category, matches }: IMatchesForCategoryProps) => (
-  <div className="category">
-    <div className="header">
+const MatchesForCategory = ({ category, matches, povTeamId }: IMatchesForCategoryProps) => (
+  <div className={b("category")}>
+    <div className={b("category-header")}>
       {category.name}
     </div>
-    <ResultList results={matches} />
+    <ResultList results={matches} povTeamId={povTeamId} />
   </div>
 );
