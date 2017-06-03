@@ -30,7 +30,6 @@ export interface ITeamStats {
   goalsFor: number;
   goalsAgainst: number;
   form: TeamResult[] | undefined;
-  records: Map<TeamRecordTypeName, ITeamRecord>;
 }
 
 export type TeamRankingHistoryEntry = [number, number];
@@ -67,6 +66,19 @@ export class Team {
     team.name = json.currentCountry.name;
     team.code = json.currentCountry.code;
 
+    const latestRankingEntry = json.latestRankingEntry;
+    team.stats = {
+      matchesTotal: latestRankingEntry.matchesTotal,
+      matchesHomePercentage: round((latestRankingEntry.matchesHome / latestRankingEntry.matchesTotal) * 100, 0),
+      wins: latestRankingEntry.wins,
+      winPercentage: round((latestRankingEntry.wins / latestRankingEntry.matchesTotal) * 100, 0),
+      draws: latestRankingEntry.draws,
+      losses: latestRankingEntry.losses,
+      goalsFor: latestRankingEntry.goalsFor,
+      goalsAgainst: latestRankingEntry.goalsAgainst,
+      form: undefined,
+    };
+
     const records: Map<TeamRecordTypeName, ITeamRecord> = new Map();
     for (const type of Team.recordTypes) {
       const recordJson = json[type.jsonName];
@@ -79,20 +91,7 @@ export class Team {
 
       records.set(type.name, { type, value, periods, numDaysHeld: -1 });
     }
-
-    const latestRankingEntry = json.latestRankingEntry;
-    team.stats = {
-      matchesTotal: latestRankingEntry.matchesTotal,
-      matchesHomePercentage: round((latestRankingEntry.matchesHome / latestRankingEntry.matchesTotal) * 100, 0),
-      wins: latestRankingEntry.wins,
-      winPercentage: round((latestRankingEntry.wins / latestRankingEntry.matchesTotal) * 100, 0),
-      draws: latestRankingEntry.draws,
-      losses: latestRankingEntry.losses,
-      goalsFor: latestRankingEntry.goalsFor,
-      goalsAgainst: latestRankingEntry.goalsAgainst,
-      form: undefined,
-      records,
-    };
+    team.records = records;
 
     return team;
   }
@@ -101,6 +100,7 @@ export class Team {
   public name: string;
   public code: string;
   public stats: ITeamStats;
+  public records: Map<TeamRecordTypeName, ITeamRecord>;
   public rankHistory: TeamRankingHistoryEntry[];
   public ratingHistory: TeamRankingHistoryEntry[];
 

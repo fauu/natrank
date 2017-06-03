@@ -24,9 +24,14 @@ export function TeamRecord(props: ITeamRecordProps) {
     ? [getApproximateNumYearsForNumDays(record.numDaysHeld), "years"]
     : [numDaysHeld, "days"];
 
+  let genericTypeName = record.type.friendlyName;
+  genericTypeName = genericTypeName.substr(0, genericTypeName.indexOf(" "));
+
   return (
-    <td>
+    <span className="team-records__record">
+      <span className="team-records__record-label">{genericTypeName}:</span>
       <a role="button" onClick={props.onDetailsModalOpenRequest(props.idx)}>{record.value}</a>
+
       <Modal
         isOpen={props.isDetailsModalOpen}
         contentLabel="Team highest rank records details"
@@ -45,7 +50,7 @@ export function TeamRecord(props: ITeamRecordProps) {
         </ul>
         <div className="modal-close-instruction">(click outside to dismiss)</div>
       </Modal>
-    </td>
+    </span>
   );
 }
 

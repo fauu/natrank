@@ -7,7 +7,7 @@ export class TimePeriod {
 
     timePeriod.id = json.id;
     timePeriod.start = new Date(json.fromDate);
-    timePeriod.end = new Date(json.toDate);
+    timePeriod.end = json.toDate && new Date(json.toDate);
 
     return timePeriod;
   }

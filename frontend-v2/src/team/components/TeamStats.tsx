@@ -65,8 +65,6 @@ export function TeamStats({ stats }: ITeamStatsProps): JSX.Element {
           </div>
         </div>
       </div>
-
-      {/*{stats.records.size > 0 && <TeamRecords records={stats.records} />}*/}
     </div>
   );
 }

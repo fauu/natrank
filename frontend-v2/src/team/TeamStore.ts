@@ -56,9 +56,9 @@ export class TeamStore {
     this.team = Team.fromJson(teamJson);
     this.team.setForm(formJson);
     this.team.setRankHistory(rankHistoryJson);
-    if (this.team.stats.records.size > 0) {
+    if (this.team.records.size > 0) {
       for (const type of Team.recordTypes) {
-        const record: ITeamRecord = this.team.stats.records.get(type.name);
+        const record: ITeamRecord = this.team.records.get(type.name);
         record.numDaysHeld = sum(record.periods.map((p) =>
           getNumDaysBetween(p.start, p.end || this.globalStore.newestRankingDate),
         ));

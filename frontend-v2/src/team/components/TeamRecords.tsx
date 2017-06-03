@@ -1,4 +1,3 @@
-// tslint:disable:object-literal-sort-keys no-string-literal
 import * as React from "react";
 
 import { _b } from "common/BemHelper";
@@ -11,7 +10,7 @@ interface ITeamRecordsProps {
   readonly records: Map<TeamRecordTypeName, ITeamRecord>;
 }
 
-const b = _b("team-stats");
+const b = _b("team-records");
 
 @observer
 export class TeamRecords extends React.Component<ITeamRecordsProps, void> {
@@ -23,27 +22,22 @@ export class TeamRecords extends React.Component<ITeamRecordsProps, void> {
     const records = this.props.records;
 
     return (
-      <table className={b("records")}>
-        <thead>
-          <tr>
-            <th />
-            <th>Rank</th>
-            <th>Rating</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Highest</td>
+      <div className={b}>
+        <div className={b("row")}>
+          <div className={b("criterion-label")}>Rank</div>
+          <div className={b("criterion-label")}>Rating</div>
+        </div>
+        <div className={b("row")}>
+          <div className={b("criterion")}>
             {this.renderTeamRecord(0, records.get("HighestRank"))}
-            {this.renderTeamRecord(1, records.get("HighestRating"))}
-          </tr>
-          <tr>
-            <td>Lowest</td>
-            {this.renderTeamRecord(2, records.get("LowestRank"))}
+            {this.renderTeamRecord(1, records.get("LowestRank"))}
+          </div>
+          <div className={b("criterion")}>
+            {this.renderTeamRecord(2, records.get("HighestRating"))}
             {this.renderTeamRecord(3, records.get("LowestRating"))}
-          </tr>
-        </tbody>
-      </table>
+          </div>
+        </div>
+      </div>
     );
   }
 

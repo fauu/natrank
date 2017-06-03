@@ -43,4 +43,17 @@
     font-size: 115%;
     margin-bottom: 1rem;
   }
+
+  &__sub-header {
+    font-weight: bold;
+    flex: 1 0 0;
+    text-align: center;
+    margin: 0.5rem 0;
+  }
+
+  &__section {
+    &:not(:first-child) {
+      margin-top: 0.7rem;
+    }
+  }
 }

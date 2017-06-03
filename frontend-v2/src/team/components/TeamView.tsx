@@ -29,7 +29,7 @@ function TeamView({ teamStore, viewStore }: ITeamViewProps): JSX.Element {
         <TeamStats stats={team.stats} />
       </div>
       <div className="team-view-row">
-        {rankingExcerpt && <TeamRankingHistory rankHistory={team.rankHistory} />}
+        {rankingExcerpt && <TeamRankingHistory rankHistory={team.rankHistory} records={team.records} />}
       </div>
     </div>
   );

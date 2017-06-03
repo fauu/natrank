@@ -1,5 +1,4 @@
 $panel-margin: 10px;
-$section-margin: 1.5rem;
 
 .view--team {
   display: flex;
@@ -163,51 +162,58 @@ $section-margin: 1.5rem;
       }
     }
   }
+}
 
-  &__records {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: $section-margin;
+.team-records {
+  display: flex;
+  flex-direction: column;
 
-    th, td {
-      border: 1px solid $color-border;
-      font-weight: normal;
-      padding: 0.4em;
+  &__row {
+    display: flex;
+
+    &:first-child {
+      border-bottom: 1px solid $color-border;
+
     }
+  }
 
-    th {
-      border-top: none;
-    }
+  &__criterion, &__criterion-label {
+    display: flex;
+    flex: 1 0 0;
+    justify-content: center;
 
-    th, td:first-child {
-      font-size: 90%;
-      color: $color-text-secondary;
+    &:first-child {
+      border-right: 1px solid $color-border;
     }
+  }
 
-    th:first-child, td:first-child {
-      border-left: none;
-    }
+  $padding: 0.3em;
 
-    th:last-child, td:last-child {
-      border-right: none;
-    }
+  &__criterion-label {
+    padding-bottom: $padding;
+    color: $color-text-secondary;
+    font-weight: bold;
+  }
 
-    th, tbody > tr:first-child > td {
-       border-top: none !important;
-    }
+  &__criterion {
+    display: flex;
+    justify-content: space-around;
+    padding-top: $padding;
+  }
 
-    tr:last-child > td {
-      border-bottom: none;
-    }
-
-    td:not(:first-child) {
-      text-align: center;
-      width: 33%;
-    }
+  &__record {
+    display: flex;
+    align-items: center;
 
     a {
       cursor: pointer;
     }
+  }
+
+  &__record-label {
+    font-size: 80%;
+    color: $color-text-secondary;
+    margin-right: 6px;
   }
 }
 
