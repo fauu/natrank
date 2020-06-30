@@ -1,4 +1,5 @@
-@import '~mdi/scss/materialdesignicons';
+$mdi-font-path: '~@mdi/font/fonts';
+@import '~@mdi/font/scss/materialdesignicons';
 @import '~normalize-scss/sass/normalize/import-now';
 @import '~spinkit/scss/spinners/7-three-bounce';
 
