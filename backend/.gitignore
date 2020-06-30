@@ -1,4 +1,2 @@
-.idea
-natrank-backend.iml
 target/
 *data-access.properties
