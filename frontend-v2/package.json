@@ -2,7 +2,7 @@
   "name": "natrank-frontend-v2",
   "main": "index.js",
   "scripts": {
-    "start": "node --max_old_space_size=256 ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --history-api-fallback --inline --progress --colors --port 9001"
+    "start": "webpack-dev-server --hot --history-api-fallback --inline --progress --colors --port 9001"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.64",
@@ -23,7 +23,7 @@
     "mobx": "^3.1.0",
     "mobx-react": "^4.1.0",
     "mobx-react-devtools": "^4.2.11",
-    "node-sass": "^4.5.2",
+    "node-sass": "^4.9.0",
     "normalize-scss": "^6.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
@@ -36,7 +36,7 @@
     "style-loader": "^0.13.1",
     "typescript": "^2.4.0-dev.20170519",
     "url-loader": "^0.5.7",
-    "webpack": "^2.2.1",
+    "webpack": "^3.0.0",
     "webpack-dev-server": "^2.4.1",
     "webpack-hot-middleware": "^2.17.0"
   },
@@ -45,6 +45,7 @@
     "@types/react-modal": "^1.6.6",
     "bem-cn": "^2.1.3",
     "highcharts": "^5.0.12",
+    "prettier": "^1.4.1",
     "react-highcharts": "^12.0.0",
     "react-modal": "^1.7.7"
   }

@@ -1,5 +1,5 @@
 import * as React from "react";
-import ReactPaginate = require("react-paginate");
+import * as ReactPaginate from "react-paginate";
 
 import { Icon } from "common/components/Icon";
 
