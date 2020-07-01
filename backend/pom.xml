@@ -24,8 +24,6 @@
         <jackson.version>2.8.11</jackson.version>
         <java-time-jsptags.version>1.1.3</java-time-jsptags.version>
         <mysql-connector.version>8.0.20</mysql-connector.version>
-
-        <docker.image.prefix>fauu</docker.image.prefix>
     </properties>
 
     <dependencies>
@@ -103,14 +101,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>1.5.3.RELEASE</version>
-            </plugin>
-            <plugin>
-              <groupId>com.spotify</groupId>
-              <artifactId>dockerfile-maven-plugin</artifactId>
-              <version>1.4.9</version>
-              <configuration>
-                <repository>${docker.image.prefix}/${project.artifactId}</repository>
-              </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
