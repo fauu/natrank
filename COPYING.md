@@ -23,4 +23,4 @@ Exceptions
 ----------
 Files | Author(s) | Licensing
 ----- | --------- | ---------
-`natrank-frontend/img/flags` | Wikipedia contributors | Public domain
+`{frontend,frontend-old}/img/flags` | Wikipedia contributors | Public domain
