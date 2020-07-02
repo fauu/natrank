@@ -5,7 +5,7 @@
 The project has been retired in its alpha stage.
 
 ## What is it?
-Natrank is a national football team ranking web application which uses modified version of [Elo rating system](http://en.wikipedia.org/wiki/Elo_rating_system). The goal of the project is to create software which will power a yet-to-be-named website serving the same purpose as [World Football Elo Ratings](http://eloratings.net/), but with more data to explore and much improved user experience.
+Natrank was a national football team ranking web application using a modified version of the [Elo rating system](http://en.wikipedia.org/wiki/Elo_rating_system). The goal of the project has been to create software which would power a website serving the same purpose as [World Football Elo Ratings](http://eloratings.net/), but with more data to explore and much improved user experience.
 
 ## Screenshots
 * [Match results](/screenshots/match-results.png?raw=true)
