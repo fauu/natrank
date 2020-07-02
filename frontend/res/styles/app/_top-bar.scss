@@ -12,14 +12,18 @@
 }
 
 .site-logo {
+  color: $color-panel-bg;
   font-family: 'Montserrat';
-  font-weight: 600;
-  font-size: 170%;
+  font-weight: 400;
+  font-size: 160%;
   letter-spacing: -1px;
   margin-right: 0.75em;
   margin-bottom: 0.1em;
   user-select: none;
-  cursor: default;
+
+  &:hover {
+    color: $color-panel-bg;
+  }
 }
 
 h2 {

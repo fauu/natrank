@@ -276,11 +276,17 @@ $panel-margin: 10px;
   &__top-group {
     display: flex;
     align-items: flex-start;
+    justify-content: space-between;
   }
 
   &__see-all-link {
     display: flex;
-    margin-left: auto;
+
+    /* hack */
+    & > a {
+      width: 130px;
+      margin-right: -10px;
+    }
   }
 
   &__see-all-link-icon {

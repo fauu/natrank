@@ -13,9 +13,9 @@ function TopBar({ appStore }: ITopBarProps): JSX.Element {
 
   return (
     <nav className="top-bar">
-      <span className="site-logo">
-        :^)
-      </span>
+      <a className="site-logo" href="/">
+        natrank
+      </a>
 
       <Navigation appStore={appStore} />
 
