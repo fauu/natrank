@@ -1,6 +1,8 @@
-natrank-frontend.iml
-/bower_components
-/node_modules
-/temp
-/dist
-deploy.sh
+.vscode
+.DS_STORE
+node_modules
+.module-cache
+*.log*
+build
+dist/
+.awcache/
