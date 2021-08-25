@@ -17,17 +17,15 @@ Natrank was a national football team ranking web application using a modified ve
 * [Admin panel](/screenshots/admin-panel.png?raw=true)
 
 ## Modules
-### Backend module (incl. Admin module)
+### Backend
 Provides access to match and ranking data through REST-like endpoints. The Admin module makes it possible for the administrator to, among other tasks, import match data using a web interface.
 
 Some of the technologies and tools used: Java 8, Spring Boot, Spring Web MVC, Jackson, Spring Security, MySQL, Hibernate 5, Spring Data JPA, JSP, JSTL, Bootstrap 3, Maven.
 
-### Frontend module
-The Frontend module is a single-page application that accesses the data provided by the backend module via AJAX requests and presents a web interface for the user to browse the data.
+### Frontend
+A single-page application that accesses the data provided by the backend module via AJAX requests and presents a web interface for the user to browse the data.
 
-Some of the technologies and tools used: TypeScript, React, MobX, Sass, yarn, webpack, Highcharts.
-
-In the old iteration ([frontend-old](/frontend-old/)): JavaScript (ES5), AngularJS, Less, Bootstrap 3, Bower, npm, Grunt, Yeoman, generator-cg-angular, Highcharts.
+Some of the technologies and tools used: TypeScript, React, MobX, Sass, yarn, webpack, Highcharts.  In the old iteration ([frontend-old](/frontend-old/)): JavaScript (ES5), AngularJS, Less, Bootstrap 3, Bower, npm, Grunt, Yeoman, generator-cg-angular, Highcharts.
 
 ## Running
 ### Backend
