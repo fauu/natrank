@@ -1,17 +1,19 @@
 # natrank
 
+![screenshot](screenshots/hero.png)
+
 ## Project status
 
 The project has been retired in its alpha stage.
 
 ## What is it?
-Natrank was a national football team ranking web application using a modified version of the [Elo rating system](http://en.wikipedia.org/wiki/Elo_rating_system). The goal of the project has been to create software which would power a website serving the same purpose as [World Football Elo Ratings](http://eloratings.net/), but with more data to explore and much improved user experience.
+Natrank was a national football team ranking web application using a modified version of the [Elo rating system](http://en.wikipedia.org/wiki/Elo_rating_system). The goal of the project was to create software which would power a website serving the same purpose as [World Football Elo Ratings](http://eloratings.net/), but with more data to explore and much improved user experience.
 
 ## Screenshots
-* [Match results](/screenshots/match-results.png?raw=true)
 * [Full world ranking](/screenshots/full-world-ranking.png?raw=true)
-* [Abridged ranking for an arbitrary date](/screenshots/abridged-ranking.png?raw=true)
 * [Team profile](/screenshots/team-profile.png?raw=true)
+* [Abridged ranking for an arbitrary date](/screenshots/abridged-ranking.png?raw=true)
+* [Match results](/screenshots/match-results.png?raw=true)
 * [Admin panel](/screenshots/admin-panel.png?raw=true)
 
 ## Modules
@@ -27,7 +29,7 @@ Some of the technologies and tools used: TypeScript, React, MobX, Sass, yarn, we
 
 In the old iteration ([frontend-old](/frontend-old/)): JavaScript (ES5), AngularJS, Less, Bootstrap 3, Bower, npm, Grunt, Yeoman, generator-cg-angular, Highcharts.
 
-## Running instructions
+## Running
 ### Backend
 The database Docker container is so set up that the database is prepopulated with match data up to the 1950 World Cup.
 #### a) Run both the database and the server within Docker containers
@@ -48,7 +50,7 @@ The database Docker container is so set up that the database is prepopulated wit
 1. `cd natrank/frontend`
 2. `yarn && yarn start`
 
-## Planned work
+## Unfinished tasks
 * Split backend into `core` `api` and `admin` modules
 * Ranking algorithm refinements (switch to Glicko-2?)
 * More of fun historical charts/graphs/listings etc.
